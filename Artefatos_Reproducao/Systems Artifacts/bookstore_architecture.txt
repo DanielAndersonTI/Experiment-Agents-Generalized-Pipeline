@@ -1,0 +1,29 @@
+Microservices Book Demo - Architecture
+
+- Product Service
+  - Responsibilities: Manages catalog of products available for purchase.
+  - Communicates with: Cart Service, Order Service.
+
+- Cart Service
+  - Responsibilities: Handles shopping cart operations for users.
+  - Communicates with: Product Service, Order Service.
+
+- Order Service
+  - Responsibilities: Creates and manages customer orders.
+  - Communicates with: Cart Service, Payment Service, Delivery Service.
+
+- Payment Service
+  - Responsibilities: Processes payments for completed orders.
+  - Communicates with: Order Service.
+
+- Delivery Service
+  - Responsibilities: Schedules and tracks delivery of orders.
+  - Communicates with: Order Service.
+
+- Customer Service
+  - Responsibilities: Manages customer registration, login, and profiles.
+  - Communicates with: Auth Service, Order Service.
+
+- Auth Service
+  - Responsibilities: Handles authentication using JWT tokens.
+  - Communicates with: Customer Service.

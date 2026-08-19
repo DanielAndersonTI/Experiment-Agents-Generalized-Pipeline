@@ -1,0 +1,62 @@
+digraph PetClinicGenerated {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontsize=14];
+
+  // Services (8)
+  "Client Service";
+  "Pet Service";
+  "Visit Service";
+  "Vet Service";
+  "Discovery Service\n(Eureka)";
+  "Config Service";
+  "API Gateway";
+  "Admin Server";
+
+  // Client Service connections (2)
+  "Client Service" -> "Pet Service";
+  "Client Service" -> "Visit Service";
+
+  // Pet Service connections (2)
+  "Pet Service" -> "Client Service";
+  "Pet Service" -> "Visit Service";
+
+  // Visit Service connections (2)
+  "Visit Service" -> "Pet Service";
+  "Visit Service" -> "Client Service";
+
+  // Vet Service connections (0)
+  // (nenhuma comunicação listada)
+
+  // Discovery Service connections (7)
+  "Discovery Service\n(Eureka)" -> "Client Service";
+  "Discovery Service\n(Eureka)" -> "Pet Service";
+  "Discovery Service\n(Eureka)" -> "Visit Service";
+  "Discovery Service\n(Eureka)" -> "Vet Service";
+  "Discovery Service\n(Eureka)" -> "Config Service";
+  "Discovery Service\n(Eureka)" -> "API Gateway";
+  "Discovery Service\n(Eureka)" -> "Admin Server";
+
+  // Config Service connections (7)
+  "Config Service" -> "Client Service";
+  "Config Service" -> "Pet Service";
+  "Config Service" -> "Visit Service";
+  "Config Service" -> "Vet Service";
+  "Config Service" -> "API Gateway";
+  "Config Service" -> "Discovery Service\n(Eureka)";
+  "Config Service" -> "Admin Server";
+
+  // API Gateway connections (4)
+  "API Gateway" -> "Client Service";
+  "API Gateway" -> "Pet Service";
+  "API Gateway" -> "Visit Service";
+  "API Gateway" -> "Vet Service";
+
+  // Admin Server connections (7)
+  "Admin Server" -> "Client Service";
+  "Admin Server" -> "Pet Service";
+  "Admin Server" -> "Visit Service";
+  "Admin Server" -> "Vet Service";
+  "Admin Server" -> "Discovery Service\n(Eureka)";
+  "Admin Server" -> "Config Service";
+  "Admin Server" -> "API Gateway";
+}

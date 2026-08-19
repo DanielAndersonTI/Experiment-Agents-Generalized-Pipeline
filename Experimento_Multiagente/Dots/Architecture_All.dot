@@ -1,0 +1,213 @@
+digraph CombinedArchitectures {
+    rankdir=TB;
+    newrank=true;
+    compound=true;
+    label="Microservice Architectures Comparison\n";
+    fontsize=22;
+    fontname="Arial";
+    labelloc=t;
+    nodesep=0.6;
+    ranksep=0.7;
+    splines=polyline;
+    pad=0.5;
+
+    // =============================================
+    // BOOKSTORE SYSTEM
+    // =============================================
+    subgraph cluster_bookstore {
+        graph [label="Bookstore System", style="rounded,dashed", color=black, penwidth=2, fontsize=16, fontname="Arial"];
+        rankdir=LR;
+
+        subgraph cluster_bookstore_ref {
+            graph [label="Reference Architecture", style="rounded,dashed", color=blue, penwidth=2, fontsize=12, fontname="Arial"];
+            node [shape=box, style="rounded", fontname="Arial", fontsize=10, color=blue, penwidth=2, width=1.7, height=0.55, fixedsize=true];
+            authR1 [label="Auth Service (R)"];
+            custR1 [label="Customer Service (R)"];
+            prodR1 [label="Product Service (R)"];
+            cartR1 [label="Cart Service (R)"];
+            orderR1 [label="Order Service (R)"];
+            payR1 [label="Payment Service (R)"];
+            delR1 [label="Delivery Service (R)"];
+
+            authR1 -> custR1;
+            custR1 -> orderR1;
+            custR1 -> cartR1;
+            prodR1 -> cartR1;
+            prodR1 -> orderR1;
+            cartR1 -> orderR1;
+            orderR1 -> payR1;
+            orderR1 -> delR1;
+        }
+
+        subgraph cluster_bookstore_gen {
+            graph [label="Generated Architecture", style="rounded,dashed", color=green, penwidth=2, fontsize=12, fontname="Arial"];
+            node [shape=box, style="rounded", fontname="Arial", fontsize=10, color=green, penwidth=2, width=1.7, height=0.55, fixedsize=true];
+            authB1 [label="Auth Service (B)"];
+            custB1 [label="Customer Service (B)"];
+            prodB1 [label="Product Service (B)"];
+            cartB1 [label="Cart Service (B)"];
+            orderB1 [label="Order Service (B)"];
+            payB1 [label="Payment Service (B)"];
+            delB1 [label="Delivery Service (B)"];
+
+            authB1 -> custB1;
+            custB1 -> authB1;
+            custB1 -> orderB1;
+            custB1 -> cartB1;
+            prodB1 -> cartB1;
+            prodB1 -> orderB1;
+            cartB1 -> prodB1;
+            cartB1 -> orderB1;
+            cartB1 -> custB1;
+            orderB1 -> cartB1;
+            orderB1 -> payB1;
+            orderB1 -> delB1;
+            orderB1 -> custB1;
+            orderB1 -> prodB1;
+            payB1 -> orderB1;
+            delB1 -> orderB1;
+        }
+
+        // Alinhamento horizontal
+        {rank=same; authR1; authB1}
+        {rank=same; custR1; custB1}
+        {rank=same; prodR1; prodB1}
+        {rank=same; cartR1; cartB1}
+        {rank=same; orderR1; orderB1}
+        {rank=same; payR1; payB1}
+        {rank=same; delR1; delB1}
+
+        // Nó invisível extra para igualar altura com PetClinic
+        bspacer [label="", style=invis, width=1.7, height=0.55, fixedsize=true];
+        {rank=same; delR1; delB1; bspacer}
+
+        authR1 -> authB1 [style=invis, minlen=4];
+        custR1 -> custB1 [style=invis, minlen=4];
+        prodR1 -> prodB1 [style=invis, minlen=4];
+        cartR1 -> cartB1 [style=invis, minlen=4];
+        orderR1 -> orderB1 [style=invis, minlen=4];
+        payR1 -> payB1 [style=invis, minlen=4];
+        delR1 -> delB1 [style=invis, minlen=4];
+    }
+
+    // =============================================
+    // PETCLINIC SYSTEM
+    // =============================================
+    subgraph cluster_petclinic {
+        graph [label="PetClinic System", style="rounded,dashed", color=black, penwidth=2, fontsize=16, fontname="Arial"];
+        rankdir=LR;
+
+        subgraph cluster_petclinic_ref {
+            graph [label="Reference Architecture", style="rounded,dashed", color=blue, penwidth=2, fontsize=12, fontname="Arial"];
+            node [shape=box, style="rounded", fontname="Arial", fontsize=10, color=blue, penwidth=2, width=1.7, height=0.55, fixedsize=true];
+            apiR2 [label="API Gateway (R)"];
+            cfgR2 [label="Config Server (R)"];
+            discR2 [label="Discovery Server (R)"];
+            custR2 [label="Customers Service (R)"];
+            vetR2 [label="Vets Service (R)"];
+            visR2 [label="Visits Service (R)"];
+            admR2 [label="Admin Server (R)"];
+
+            apiR2 -> custR2;
+            apiR2 -> vetR2;
+            apiR2 -> visR2;
+            cfgR2 -> apiR2;
+            cfgR2 -> custR2;
+            cfgR2 -> vetR2;
+            cfgR2 -> visR2;
+            cfgR2 -> admR2;
+            cfgR2 -> discR2;
+            discR2 -> apiR2;
+            discR2 -> custR2;
+            discR2 -> vetR2;
+            discR2 -> visR2;
+            discR2 -> admR2;
+            discR2 -> cfgR2;
+            custR2 -> visR2;
+            visR2 -> custR2;
+            vetR2 -> apiR2;
+            admR2 -> apiR2;
+            admR2 -> cfgR2;
+            admR2 -> discR2;
+            admR2 -> custR2;
+            admR2 -> vetR2;
+            admR2 -> visR2;
+        }
+
+        subgraph cluster_petclinic_gen {
+            graph [label="Generated Architecture", style="rounded,dashed", color=green, penwidth=2, fontsize=12, fontname="Arial"];
+            node [shape=box, style="rounded", fontname="Arial", fontsize=10, color=green, penwidth=2, width=1.7, height=0.55, fixedsize=true];
+            clientB2 [label="Client Service (B)"];
+            petB2 [label="Pet Service (B)"];
+            visitB2 [label="Visit Service (B)"];
+            vetB2 [label="Vet Service (B)"];
+            discB2 [label="Discovery Service\n(Eureka) (B)"];
+            cfgB2 [label="Config Service (B)"];
+            gwB2 [label="API Gateway (B)"];
+            admB2 [label="Admin Server (B)"];
+
+            clientB2 -> petB2;
+            clientB2 -> visitB2;
+            petB2 -> clientB2;
+            petB2 -> visitB2;
+            visitB2 -> petB2;
+            visitB2 -> clientB2;
+            discB2 -> clientB2;
+            discB2 -> petB2;
+            discB2 -> visitB2;
+            discB2 -> vetB2;
+            discB2 -> cfgB2;
+            discB2 -> gwB2;
+            discB2 -> admB2;
+            cfgB2 -> clientB2;
+            cfgB2 -> petB2;
+            cfgB2 -> visitB2;
+            cfgB2 -> vetB2;
+            cfgB2 -> gwB2;
+            cfgB2 -> discB2;
+            cfgB2 -> admB2;
+            gwB2 -> clientB2;
+            gwB2 -> petB2;
+            gwB2 -> visitB2;
+            gwB2 -> vetB2;
+            gwB2 -> discB2;
+            admB2 -> clientB2;
+            admB2 -> petB2;
+            admB2 -> visitB2;
+            admB2 -> vetB2;
+            admB2 -> discB2;
+            admB2 -> cfgB2;
+            admB2 -> gwB2;
+        }
+
+        // Alinhamento horizontal
+        {rank=same; apiR2; gwB2}
+        {rank=same; cfgR2; cfgB2}
+        {rank=same; discR2; discB2}
+        {rank=same; custR2; clientB2}
+        {rank=same; vetR2; vetB2}
+        {rank=same; visR2; visitB2}
+        {rank=same; admR2; admB2}
+        petB2 [group=pet];   // mantém abaixo
+
+        apiR2 -> gwB2 [style=invis, minlen=4];
+        cfgR2 -> cfgB2 [style=invis, minlen=4];
+        discR2 -> discB2 [style=invis, minlen=4];
+        custR2 -> clientB2 [style=invis, minlen=4];
+        vetR2 -> vetB2 [style=invis, minlen=4];
+        visR2 -> visitB2 [style=invis, minlen=4];
+        admR2 -> admB2 [style=invis, minlen=4];
+    }
+
+    // =============================================
+    // LEGEND
+    // =============================================
+    subgraph cluster_legend {
+        graph [label="Legend", style="rounded,dashed", color=black, penwidth=1, fontsize=12, fontname="Arial"];
+        node [shape=box, style="rounded", fontname="Arial", fontsize=10];
+        rankdir=LR;
+        legendR [label="(R) Reference Architecture", color=blue, penwidth=2];
+        legendB [label="(B) Generated Architecture", color=green, penwidth=2];
+        legendR -> legendB [style=invis];
+    }
+}

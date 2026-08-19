@@ -1,0 +1,29 @@
+Spring PetClinic Microservices - Architecture
+
+- API Gateway
+  - Responsibilities: Routes external client requests to appropriate services.
+  - Communicates with: Customers Service, Vets Service, Visits Service.
+
+- Config Server
+  - Responsibilities: Provides centralized configuration for all services.
+  - Communicates with: All services.
+
+- Discovery Server
+  - Responsibilities: Enables service discovery via Eureka.
+  - Communicates with: All services.
+
+- Customers Service
+  - Responsibilities: Manages client and pet data.
+  - Communicates with: Visits Service, API Gateway.
+
+- Vets Service
+  - Responsibilities: Manages vet information and specialties.
+  - Communicates with: API Gateway.
+
+- Visits Service
+  - Responsibilities: Handles scheduling and listing of pet visits.
+  - Communicates with: Customers Service, API Gateway.
+
+- Admin Server
+  - Responsibilities: Provides dashboard for monitoring all services.
+  - Communicates with: All services.

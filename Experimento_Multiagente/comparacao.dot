@@ -1,0 +1,85 @@
+digraph Comparison {
+
+    graph [
+        bgcolor="white",
+        fontname="Arial",
+        pad="0.3"
+    ];
+
+    node [
+        shape=plain,
+        fontname="Arial"
+    ];
+
+    comparison [
+        label=<
+            <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="10">
+
+                <TR>
+                    <TD COLSPAN="6" BGCOLOR="#D9EAF7">
+                        <FONT POINT-SIZE="18"><B>Comparação dos Resultados — Artigo vs. Pipeline Multiagente</B></FONT>
+                    </TD>
+                </TR>
+
+                <TR BGCOLOR="#EDEDED">
+                    <TD><B>Fonte / Sistema</B></TD>
+                    <TD><B>Configuração</B></TD>
+                    <TD><B>RQ1 — Serviços F1</B></TD>
+                    <TD><B>RQ2 — Interações Precision</B></TD>
+                    <TD><B>RQ2 — Interações Recall</B></TD>
+                    <TD><B>RQ2 — Interações F1</B></TD>
+                </TR>
+
+                <!-- ARTIGO -->
+                <TR>
+                    <TD><B>Artigo — PetClinic</B></TD>
+                    <TD>Few-Shot / OpenAI o3</TD>
+                    <TD><B>0.93</B></TD>
+                    <TD>0.72*</TD>
+                    <TD>0.95*</TD>
+                    <TD><B>0.80</B></TD>
+                </TR>
+
+                <TR>
+                    <TD><B>Artigo — Bookstore</B></TD>
+                    <TD>Few-Shot / OpenAI o3</TD>
+                    <TD><B>1.00</B></TD>
+                    <TD>—</TD>
+                    <TD>—</TD>
+                    <TD><B>0.86</B></TD>
+                </TR>
+
+                <!-- NOSSO MELHOR PETCLINIC -->
+                <TR BGCOLOR="#E8F5E9">
+                    <TD><B>Nosso — PetClinic</B></TD>
+                    <TD>Agente B / Gemini Flash / exemplos generalizáveis</TD>
+                    <TD><B>1.0000</B></TD>
+                    <TD><B>1.0000</B></TD>
+                    <TD><B>0.9474</B></TD>
+                    <TD><B>0.9730</B></TD>
+                </TR>
+
+                <!-- NOSSO MELHOR BOOKSTORE -->
+                <TR BGCOLOR="#E8F5E9">
+                    <TD><B>Nosso — Bookstore</B></TD>
+                    <TD>Agente A / DDD conservador</TD>
+                    <TD><B>1.0000</B></TD>
+                    <TD><B>1.0000</B></TD>
+                    <TD><B>0.8750</B></TD>
+                    <TD><B>0.9333</B></TD>
+                </TR>
+
+                <!-- AGREGRADOS DO ARTIGO -->
+                <TR BGCOLOR="#FFF2CC">
+                    <TD><B>Artigo — Agregado</B></TD>
+                    <TD>Few-Shot / OpenAI o3</TD>
+                    <TD><B>0.97</B></TD>
+                    <TD><B>0.72</B></TD>
+                    <TD><B>0.95</B></TD>
+                    <TD><B>0.82</B></TD>
+                </TR>
+
+            </TABLE>
+        >
+    ];
+}

@@ -1,0 +1,9 @@
+Microservice,Responsibilities,Communicates With
+Client Service,Add clients;Update clients;Delete clients;View client details,Pet Service;Visit Service
+Pet Service,Add pets;Update pets;Delete pets;Link pets to owners,Client Service;Visit Service
+Visit Service,Register pet visits;View visit history,Pet Service;Client Service
+Vet Service,Add veterinarians;Update veterinarians;Delete veterinarians;View vet specialties,
+Discovery Service (Eureka),Register services;Provide service discovery,Client Service;Pet Service;Visit Service;Vet Service;Config Service;API Gateway;Admin Server
+Config Service,Store centralized configurations;Serve configurations to services,Client Service;Pet Service;Visit Service;Vet Service;API Gateway;Discovery Service;Admin Server
+API Gateway,Route client requests;Handle cross-cutting concerns;Forward requests to backend services,Client Service;Pet Service;Visit Service;Vet Service;Discovery Service
+Admin Server,Monitor services;Provide administration dashboard,Client Service;Pet Service;Visit Service;Vet Service;Discovery Service;Config Service;API Gateway

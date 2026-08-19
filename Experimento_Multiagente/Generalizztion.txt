@@ -1,0 +1,185 @@
+python main_fewshot.py --all
+ python main_fewshot.py --system petclinic
+ python main_fewshot.py --system 
+
+
+
+Alterações feitas nos agentes para a generalização:
+
+Agente 1 — Software Architect: foram removidas referências implícitas a domínios e serviços específicos; o Few-Shot passou a ser tratado apenas como referência de formato, granularidade e estilo; nomes e capacidades devem ser derivados exclusivamente dos requisitos. Espera-se: gerar uma decomposição DDD/bounded contexts coerente com qualquer sistema, sem copiar serviços ou conceitos do exemplo.
+
+Agente 2 — Communication Specialist: foram removidos exemplos e regras específicas de Bookstore/PetClinic (Cart, Order, Customer, Visit Service etc.); a identificação de interações passou a ser baseada em dependências de dados, ações e workflows genericamente justificáveis pelos requisitos. Espera-se: manter a decomposição de negócio e identificar de forma mais abrangente as comunicações justificadas, sem inventar relações.
+
+Agente 3 — Architecture Validator: foi preservada a assimetria original, com A como proposta principal e de maior confiança; foram generalizadas as regras que mencionavam infraestrutura ou características específicas de PetClinic/Bookstore, e reforçado que o Few-Shot não deve fornecer conhecimento de domínio. Espera-se: usar A como base, complementar com B quando houver suporte nos requisitos e produzir uma consolidação coerente para qualquer sistema.
+
+Agente 4 — Domain-Driven Refiner: foram retirados exemplos específicos de serviços e infraestrutura; a função continua sendo conservadora, removendo somente comunicações sem suporte nos requisitos. Também foi explicitado que não pode criar, renomear, dividir ou mesclar serviços. Espera-se: preservar a arquitetura gerada e apenas eliminar comunicações injustificadas pelo sistema analisado.
+
+Em conjunto: o pipeline mantém os elementos considerados fundamentais — Few-Shot, especialização dos agentes, DDD, análise textual dos requisitos e temperatura 0 — mas foi substituido conhecimento específico de PetClinic/Bookstore por regras e princípios aplicáveis a diferentes domínios.
+
+1º Teste Generalizado
+
+Na primeira versão generalizada, foram substituídas as referências específicas de PetClinic/Bookstore nos quatro agentes por regras e princípios aplicáveis a diferentes sistemas, mantendo Few-Shot, DDD, especialização dos agentes, assimetria em favor da Arquitetura A e temperatura 0. Em um primeiro run com Bookstore, o pipeline manteve F1 = 1.00 para serviços em A, B e Consolidada, indicando que a identificação das capacidades de negócio permaneceu robusta mesmo sem Few-Shot específico; porém, houve perda nas interações, com F1 = 0.8571 em A e Consolidada e 0.7692 em B, contra 1.00 na versão anterior. Esse resultado inicial sugere que o desempenho em serviços é fortemente generalizável, enquanto a identificação de interações parece ter dependido parcialmente de conhecimento ou heurísticas específicas dos sistemas anteriores, constituindo um primeiro indício de possível overfitting no RQ2.
+
+Alteração na Consolidada do Agente 3
+
+Na segunda alteração experimental, foi modificado somente o Agente 3 (Architecture Validator), mantendo intactas as bases do pipeline generalizado e a assimetria em favor da Arquitetura A. A mudança foi feita na consolidação: A continua sendo a proposta principal e de maior confiança, mas o Agente 3 agora deve avaliar também as interações válidas presentes em B que não aparecem em A e incorporá-las quando forem justificadas pelos requisitos e envolverem serviços já existentes na arquitetura consolidada. Assim, a Consolidação deixa de simplesmente reproduzir A e passa a buscar o conjunto mais completo de serviços e interações sustentados pelos requisitos, permitindo que seu resultado seja igual ou superior à melhor proposta refinada, especialmente para RQ2 (interações), sem introduzir conhecimento específico de PetClinic ou Bookstore.
+
+Resultado desta alteração: Na segunda alteração experimental, foi modificada exclusivamente a estratégia de consolidação do Agente 3, mantendo os demais componentes do pipeline generalizado inalterados. O resultado no Bookstore manteve F1 = 1.00 para serviços em A, B e Consolidada, enquanto nas interações a Proposta A apresentou F1 = 0.8571 (Precision = 1.00; Recall = 0.75), a Proposta B F1 = 0.8889 (Precision = 0.80; Recall = 1.00) e a Arquitetura Consolidada F1 = 0.9412 (Precision = 0.8889; Recall = 1.00). A mudança permitiu que o Agente 3 incorporasse interações válidas presentes em B sem perder a base de A, reduzindo os falsos positivos de B de 2 para 1 e eliminando os falsos negativos; assim, a Consolidada superou ambas as propostas individuais e apresentou melhora significativa em RQ2, preservando o desempenho perfeito em RQ1.
+
+Registro — Generalização do pipeline
+
+Os agentes foram generalizados para diferentes domínios, substituindo referências específicas de PetClinic e Bookstore por princípios gerais de DDD, bounded contexts, dependências funcionais e análise baseada em requisitos. O Few-Shot foi mantido, mas passou a funcionar como referência estrutural e não como fonte de conhecimento do domínio. O Agente 3 permaneceu assimétrico, dando maior confiança à Proposta A, enquanto o Agente 4 foi mantido como filtro conservador baseado nos requisitos.
+
+Registro — Baseline atual
+
+A generalização preservou um desempenho elevado na identificação de serviços: PetClinic atingiu F1=0.9333 na Proposta A e na Consolidada, enquanto Bookstore atingiu F1=1.0000 nas três propostas. Nas interações, o desempenho mostrou-se mais sensível: PetClinic alcançou F1=0.8372 com A/C, enquanto Bookstore alcançou F1=0.8571 com A/C. Isso confirma que RQ1 está relativamente estabilizado e RQ2 constitui o principal gargalo do pipeline.
+
+Registro — Problema identificado no Agente 2
+
+Os resultados mostraram que o Agente 2 é menos estável e menos assertivo que o Agente 1, especialmente em PetClinic, onde chegou a F1=0.5455 em serviços e 0.0000 em interações. No Bookstore, seu comportamento é significativamente melhor. A hipótese atual é que a diferença decorre principalmente da forma como o Agente 2 reconstrói a arquitetura e tenta maximizar cobertura, tornando-se mais suscetível a omissões e inferências inadequadas em sistemas com requisitos de negócio e infraestrutura misturados.
+
+Registro — Próxima alteração experimental
+
+A próxima alteração será exclusivamente no Agente 2, introduzindo uma estratégia de inferência mais conservadora e estruturada. Cada possível interação deverá ser analisada quanto à dependência de dados, dependência de ação, participação no fluxo, necessidade real da comunicação e evidência textual ou forte dependência funcional. O objetivo é aproximar a assertividade do Agente 2 à do Agente 1, mantendo sua função complementar e sem introduzir conhecimento específico dos sistemas de teste.
+
+Nova alteração no Agente 2 e no Main
+
+Foi realizada uma alteração estrutural no Agente 2 e no main_fewshot.py: o Agente 2 deixou de reconstruir autonomamente a arquitetura e passou a receber a Proposta A como arquitetura fixa, atuando exclusivamente como especialista na identificação e complemento das interações entre os serviços já definidos pelo Agente 1, utilizando critérios conservadores de dependência de dados, ação, fluxo, necessidade e evidência nos requisitos; no main, a saída de A passou a ser explicitamente fornecida a B por meio da variável architecture, mantendo o Agente 4 como filtro baseado nos requisitos e o Agente 3 como consolidador. Além disso, a saída final do terminal foi reorganizada para apresentar separadamente os resultados de Serviços (RQ1) e Interações (RQ2), com Precision, Recall e F1-Score para A, B e Consolidada, seguidos pelos melhores resultados por sistema, enquanto os arquivos individuais de métricas e propostas continuam sendo salvos normalmente.
+
+Resultados desta ultima mudança:
+A alteração produziu um comportamento muito mais estável e simétrico: o Agente 2 passou a reproduzir exatamente os mesmos resultados de A em ambos os sistemas, tanto em serviços quanto em interações. Em PetClinic, todos atingiram 0.8750 de Precision, 1.0000 de Recall e 0.9333 de F1 em serviços, e 0.6923 / 0.9474 / 0.8000 em interações; em Bookstore, todos atingiram 1.0000 / 1.0000 / 1.0000 em serviços e 0.8571 / 0.7500 / 0.8000 em interações. Isso mostra que B deixou de degradar os resultados, mas também evidencia o principal efeito colateral da mudança: B tornou-se essencialmente redundante, pois está apenas reproduzindo a arquitetura e as interações de A em vez de fornecer uma segunda evidência independente.
+
+O melhor resultado que observamos veio desta estrutura:
+
+A independente → Agente 4 filtra A → B independente → Agente 4 filtra B → Agente 3 consolida, com B ainda tendo autonomia para produzir uma arquitetura diferente e complementar A.
+
+Registro 1 — Baseline e configuração do pipeline
+
+Durante os experimentos de 17/08/2026, foi consolidado como baseline o pipeline Agente 1 → Agente 4 → Agente 2 → Agente 4 → Agente 3 → avaliação, utilizando gemini/gemini-flash-latest, temperature=0.0 e max_tokens=4096. O Agente 1 permaneceu como arquiteto principal baseado em DDD e bounded contexts; o Agente 2 permaneceu independente, recebendo apenas o Few-Shot e os requisitos e funcionando como proposta complementar, com maior atenção às comunicações; o Agente 4 atua como filtro conservador de cada proposta, sem adicionar elementos; e o Agente 3 consolida A e B, tendo A como referência principal. Foi verificado que passar a arquitetura A diretamente ao Agente 2 altera a natureza experimental da proposta e não deve ser utilizado no baseline.
+
+Registro 2 — Alterações testadas e descartadas
+
+Foram testadas estratégias para tornar o Agente 2 mais conservador e mais semelhante ao Agente 1, incluindo critérios estruturados de evidência, necessidade, dependência de dados, dependência de ação e dependência de workflow, além da tentativa de fazer B analisar diretamente a arquitetura A. Essas mudanças não produziram melhora consistente e, em alguns experimentos, reduziram a capacidade complementar do Agente 2, especialmente em interações. Também foi observado que mudanças excessivas no pipeline fizeram os resultados se afastarem do baseline, exigindo restauração da configuração anterior. A principal aprendizagem é que não se deve alterar simultaneamente a independência, o papel e o critério de inferência do Agente 2; estratégias excessivamente conservadoras podem reduzir justamente a capacidade de B recuperar relações omitidas por A. Portanto, essas variantes devem ser consideradas tentativas descartadas, e não novos baselines.
+
+Registro 3 — Resultados e conhecimento para reprodução
+
+O melhor estado observado no dia apresentou PetClinic RQ1 F1 = 0,9333, PetClinic RQ2 F1 = 0,8372, Bookstore RQ1 F1 = 1,0000 e, no melhor experimento de interação do Bookstore, Consolidada RQ2 F1 = 0,9412. No último teste de restauração, o baseline voltou a apresentar PetClinic RQ1 = 0,9333 e RQ2 = 0,8372, Bookstore RQ1 = 1,0000 e RQ2 = 0,9333 para A, enquanto a Consolidada ficou em 0,8750. Isso confirma que o pipeline baseline é forte, mas existe variabilidade entre execuções e a consolidação nem sempre supera a melhor proposta isolada. Para evitar repetição de experimentos improdutivos, o conhecimento atual deve ser preservado como regra: não alterar novamente A ou A4 sem evidência; não tornar B excessivamente conservador; não fornecer A como entrada de B; manter A e B independentes; e, nas próximas alterações, modificar apenas um componente por vez, começando pelo Agente 3, que é o ponto mais promissor para impedir degradação durante a consolidação.
+
+O que falta para atingir 100% sem overfitting?
+
+Para chegar a 100% em novos sistemas sem overfitting, o principal desafio não parece ser criar regras mais específicas, mas reduzir a incerteza na inferência das interações. Os serviços já são recuperados com altíssima qualidade; o erro residual está principalmente em decidir quando uma relação entre dois serviços é realmente necessária. Isso exige uma forma generalizável de validar dependências, não uma lista de relações esperadas. Além disso, 100% provavelmente não deve ser o objetivo metodológico: o objetivo mais defensável é obter desempenho muito alto e estável em sistemas não vistos.
+
+Precisa de requisitos melhores?
+
+Sim, até certo ponto. Requisitos mais claros, completos e consistentes reduzem a ambiguidade e naturalmente melhoram a geração, mas não resolvem tudo. O próprio artigo mostra que mesmo com requisitos cuidadosamente curados o problema das interações permanece. Portanto, requisitos melhores são uma condição importante para atingir o potencial do pipeline, mas o ganho adicional precisa vir do raciocínio/validação arquitetural dos agentes.
+
+Qual é o mínimo de conhecimento do sistema que o pipeline exige hoje?
+
+Hoje, o mínimo real é um conjunto de requisitos textuais e, para a avaliação, um mapa de normalização dos nomes. O pipeline não precisa conhecer previamente os serviços esperados, as interações corretas ou a arquitetura do sistema para gerar a solução. Isso já é uma vantagem importante, porque mantém o método requirement-driven.
+
+Qual seria o mínimo ideal para justificar o empenho?
+
+O cenário ideal seria exigir somente requisitos funcionais textuais bem estruturados, sem código-fonte, sem arquitetura de referência e sem regras específicas do domínio. Opcionalmente, poderia existir apenas um pequeno contexto textual do domínio quando os requisitos forem ambíguos. Se conseguirmos manter desempenho próximo ao atual nesse cenário em vários sistemas inéditos, aí a proposta ganha uma justificativa forte: um pipeline reutilizável que transforma requisitos em uma arquitetura inicial de microsserviços com pouca intervenção humana.
+
+Por que alguém usaria nosso pipeline em vez de simplesmente chamar uma LLM?
+
+Esse é provavelmente o maior argumento de valor do trabalho. Uma chamada direta a uma LLM gera uma resposta; o seu pipeline transforma a tarefa em um processo com papéis especializados, validação e consolidação. Na prática, isso pode oferecer maior controle, rastreabilidade, possibilidade de detectar e corrigir erros, comportamento mais reproduzível e uma arquitetura final baseada em múltiplas análises em vez de depender do julgamento de uma única geração. Portanto, a proposta não precisa ser “LLM melhor que LLM”; ela pode ser “processo arquitetural mais confiável e reutilizável do que uma geração direta”.
+
+Sim. O prompt é um dos principais fatores que pode aumentar ou diminuir a precisão, porque ele define como o LLM interpreta a tarefa, quais evidências deve considerar, quanto deve generalizar e quão conservador deve ser. Um prompt bem projetado pode reduzir falsos positivos sem sacrificar recall; um prompt excessivamente conservador pode eliminar relações verdadeiras, enquanto um prompt excessivamente abrangente pode gerar muitas relações plausíveis, mas erradas. No seu experimento, isso é especialmente relevante para interações: a diferença entre ~0,80 e ~0,94 de F1 pode depender bastante de como o agente é instruído a distinguir uma dependência realmente necessária de uma relação apenas conceitualmente plausível. O desafio é melhorar o prompt de forma genérica, sem colocar nele conhecimento específico de PetClinic ou Bookstore.
+
+Sobre substituir uma RAG
+
+A ideia faz sentido como protótipo de “memória arquitetural” antes da implementação da RAG. A biblioteca de exemplos no prompt funciona como um conjunto fixo de conhecimento geral sobre padrões de dependência. Posteriormente, a RAG poderia substituir essa biblioteca estática por recuperação dinâmica de exemplos relevantes, sem mudar necessariamente o raciocínio do agente.
+
+A diferença para overfitting é importante:
+
+Prompt anterior: poderia ser considerado mais vulnerável a overfitting porque, à medida que observávamos PetClinic e Bookstore, fomos introduzindo conhecimento e regras cada vez mais alinhados ao comportamento desses benchmarks. Isso aumenta o desempenho nos casos conhecidos, mas pode não transferir para sistemas novos.
+
+Novo prompt: os exemplos são deliberadamente independentes dos benchmarks e ensinam relações abstratas como “serviço A precisa de dados pertencentes a B”, “não inferir relações transitivas”, “não criar uma malha completa”, “não confundir vocabulário compartilhado com dependência”, etc. O agente recebe regras de raciocínio, não respostas para os sistemas avaliados. Portanto, não considero essa biblioteca de exemplos overfitting, desde que você mantenha uma regra rígida: não acrescentar posteriormente exemplos derivados dos erros específicos de PetClinic ou Bookstore.
+
+E existe uma vantagem experimental interessante: você pode mais tarde substituir INTERACTION_EXAMPLES por uma RAG de exemplos externos, sem alterar o objetivo do agente. Isso permite comparar claramente:
+
+Prompt básico → Prompt com biblioteca geral → Prompt + RAG
+
+e medir se o conhecimento arquitetural recuperado realmente melhora a generalização.
+
+Ter um few-shot com uma boa biblioteca de exemplos é fundamental, com o cuidado de nao entregar detalhes daqueles sistema em si, mas possuir situações semelhantes para ser aplicado em diversas situações. Trabalho que poderia ser de uma RAG. Confirmamos que para um melhor desempelnho, precisamos de bons exemplos e muitos. Isto se demonstrou verdade para o agente 2. Isso mostra que, para o agente 2, conseguimos trocar “conhecimento do sistema” por “conhecimento sobre como raciocinar sobre interações”.
+
+Portanto, para A, o que precisamos fazer é diferente: não precisamos de 90 exemplos de arquiteturas possíveis. Precisamos identificar quais eram os atalhos específicos que faziam A acertar os benchmarks e substituí-los por princípios gerais equivalentes. Por exemplo, se o A acertava porque reconhecia determinados tipos de fronteira — “capacidade de negócio distinta”, “ownership”, “lifecycle”, “bounded context”, “regra de negócio independente”, “não separar CRUD”, “não criar serviço para atributo”, “não transformar infraestrutura em domínio” — então podemos ensinar esses padrões como casos positivos e negativos, sem dizer qual serviço existe no PetClinic ou Bookstore.
+
+Do pipeline inicial para a versão atual, **não temos mais**:
+
+* **Regra literal baseada no benchmark:** instruções específicas sobre PetClinic/Bookstore ou seus serviços esperados.
+* **Conhecimento da arquitetura correta dos sistemas avaliados** inserido direta ou indiretamente nos prompts.
+* **Liberdade arquitetural ampla** para o agente criar serviços apenas porque uma decomposição DDD seria plausível.
+* **Few-shot contendo uma decomposição do próprio sistema-alvo**; agora o exemplo é tratado apenas como referência de formato.
+* **Orientação genérica fraca sobre precisão**; agora há uma política explícita para excluir serviços e interações sem evidência suficiente.
+* **Menos restrições contra over-segmentation:** agora CRUD, entidades, atributos, telas, atores e convenções técnicas não justificam, sozinhos, novos serviços.
+* **Menos controle sobre infraestrutura:** agora gateway, discovery, config, admin, monitoring etc. só entram quando exigidos pelos requisitos.
+
+ainda está deixando algumas interações verdadeiras de fora.
+
+
+Sim — considerando os dois sistemas, o melhor resultado comprovado de hoje foi:
+
+Sistema	Melhor agente	Serviços F1	Interações Precision	Interações Recall	Interações F1
+PetClinic	B	1,0000	1,0000	0,9474	0,9730
+Bookstore	A / Consolidada	1,0000	1,0000	0,8750	0,9333
+Configuração que devemos registrar como estado de melhor desempenho
+
+Modelo: gemini/gemini-flash-latest
+Temperature: 0.0
+Max tokens: 4096
+
+Agente A
+
+Prompt DDD/generalizado sem a biblioteca de 90 exemplos.
+memory=False.
+Decomposição baseada em capacidades de negócio e bounded contexts.
+Política conservadora para serviços.
+Sem conhecimento específico da arquitetura dos benchmarks.
+
+Agente B
+
+Independente de A; não recebe A como arquitetura para corrigir.
+Recebe diretamente os requisitos.
+Especializado em recuperação de interações.
+Utiliza a biblioteca extensa de exemplos generalizáveis de interação.
+Exemplos não contêm PetClinic ou Bookstore como arquitetura-alvo.
+Precision priorizada sobre criatividade.
+Regras explícitas contra relações especulativas, mesh, transitividade e infraestrutura não justificada.
+memory=False.
+
+Agente 4
+
+Refinamento conservador.
+Não cria serviços.
+Não cria interações.
+Pode remover apenas comunicações sem sustentação.
+
+Agente 3
+
+Consolidação assimétrica.
+A como proposta principal.
+B como fonte complementar.
+Não devemos usar o desempenho da consolidada para substituir os resultados individuais de A/B na análise científica.
+Rodadas que conhecemos exatamente
+
+PetClinic — melhor B: resultado com F1 0,9730 nas interações, ocorrido antes do run das 23:29:19. O timestamp exato não está nos relatórios que você colou.
+
+Bookstore — melhor resultado confirmado nos relatórios fornecidos: 17/08/2026 23:32:57, com A/Consolidada:
+
+Services:
+Precision = 1.0000
+Recall    = 1.0000
+F1        = 1.0000
+
+
+Interactions:
+Precision = 1.0000
+Recall    = 0.8750
+F1        = 0.9333
+
+Portanto, para o registro da pesquisa, eu chamaria esse estado de:
+
+Best observed generalized configuration — 17/08/2026: A mantém decomposição DDD conservadora e B opera independentemente como especialista em interações, utilizando exemplos generalizáveis; Gemini Flash com temperatura 0.0. O melhor resultado observado foi PetClinic B com F1=0.9730 em interações e Bookstore A/Consolidada com F1=0.9333, ambos sem fornecer a arquitetura ground truth dos sistemas aos agentes.

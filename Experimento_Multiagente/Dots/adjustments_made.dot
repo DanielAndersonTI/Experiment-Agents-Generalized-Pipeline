@@ -1,0 +1,73 @@
+digraph AdjustmentsMade {
+    graph [
+        rankdir=TB,
+        bgcolor="white",
+        margin="0.05",
+        pad="0.08",
+        nodesep="0.18",
+        ranksep="0.22",
+        splines=ortho
+    ];
+
+    node [shape=plain, fontname="Arial", fontsize=9];
+    edge [color="#888888", penwidth=1.2, arrowsize=0.7];
+
+    title [label=<
+        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
+            <TR><TD><FONT POINT-SIZE="18"><B>Pipeline Adjustments</B></FONT></TD></TR>
+            <TR><TD><FONT POINT-SIZE="10">Main changes introduced during the experimental evolution</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    a3 [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+            <TR><TD BGCOLOR="#D9EAF7"><FONT POINT-SIZE="12"><B>1. Asymmetric Consolidation — Agent 3</B></FONT></TD></TR>
+            <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">
+                • Agent 1 used as the main architectural base<BR/>
+                • Agent 2 contributions added only when requirements justified them<BR/>
+                • Inconsistent services and interactions filtered
+            </FONT></TD></TR>
+            <TR><TD BGCOLOR="#EEF5FB"><FONT POINT-SIZE="9"><B>Effect:</B> Metrics increased significantly, surpassing the original study.</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    a2 [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+            <TR><TD BGCOLOR="#E2F0D9"><FONT POINT-SIZE="12"><B>2. Role Redesign — Agent 2</B></FONT></TD></TR>
+            <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">
+                Agent 2 stopped acting as an alternative architect<BR/>
+                and became a specialist in service interactions.<BR/><BR/>
+                <B>Agent 1:</B> DDD-based architecture &nbsp; <B>Agent 2:</B> interaction identification &nbsp; <B>Agent 3:</B> consolidation
+            </FONT></TD></TR>
+            <TR><TD BGCOLOR="#F0F7EC"><FONT POINT-SIZE="9"><B>Effect:</B> Increased interaction Recall while preserving architectural precision.</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    t3 [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+            <TR><TD BGCOLOR="#FFF2CC"><FONT POINT-SIZE="12"><B>3. Temperature 0.0 — Agent 3</B></FONT></TD></TR>
+            <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">
+                Reduced hallucinations during architecture consolidation<BR/>
+                and increased result reliability.
+            </FONT></TD></TR>
+            <TR><TD BGCOLOR="#FFF8DF"><FONT POINT-SIZE="9"><B>Limitation:</B> Occasional failures remained because other agents were still variable.</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    t0 [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7">
+            <TR><TD BGCOLOR="#FCE4D6"><FONT POINT-SIZE="12"><B>4. Temperature 0.0 — All Agents</B></FONT></TD></TR>
+            <TR><TD ALIGN="LEFT"><FONT POINT-SIZE="9">Temperature 0.0 adopted across the entire pipeline.</FONT></TD></TR>
+            <TR><TD BGCOLOR="#FBEDE5"><FONT POINT-SIZE="9"><B>Effect:</B> Deterministic, stable, and reproducible executions.</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    final [label=<
+        <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="8">
+            <TR><TD BGCOLOR="#D9EAD3"><FONT POINT-SIZE="12"><B>Experimental Outcome</B></FONT></TD></TR>
+            <TR><TD><FONT POINT-SIZE="10">Best results, previously observed only occasionally,<BR/>became consistent and reproducible across executions.</FONT></TD></TR>
+        </TABLE>
+    >];
+
+    title -> a3 -> a2 -> t3 -> t0 -> final;
+}

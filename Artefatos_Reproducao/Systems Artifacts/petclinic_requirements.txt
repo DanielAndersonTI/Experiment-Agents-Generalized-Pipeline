@@ -1,0 +1,29 @@
+Spring PetClinic Microservices - Requirements
+
+1. Manage Clients:
+   - Add, update, and delete client information.
+   - View detailed information about existing clients.
+
+2. Manage Pets:
+   - Add, update, and delete pet information.
+   - Link pets to their respective owners.
+
+3. Manage Visits:
+   - Register new visits for pets.
+   - View visit history for a specific pet.
+
+4. Manage Veterinarians:
+   - Add, update, and delete vet information.
+   - View specialties for each veterinarian.
+
+5. Service Discovery:
+   - Register and locate services using Eureka.
+
+6. Centralized Configuration:
+   - Manage service configurations through a Config Server.
+
+7. API Gateway:
+   - Route client requests to appropriate backend services.
+
+8. Monitoring and Administration:
+   - Monitor services and applications using Admin Server.

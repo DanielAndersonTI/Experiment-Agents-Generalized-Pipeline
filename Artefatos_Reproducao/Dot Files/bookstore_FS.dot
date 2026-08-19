@@ -1,0 +1,44 @@
+digraph BookStoreFS {
+  rankdir=TB;
+  node [shape=box, style=rounded, fontsize=10];
+	
+	//Services (7)
+	"Product Service"
+	"Cart Service"    
+    "Order Service"    
+    "Payment Service"    
+    "Delivery Service"
+    "Customer Service" 
+    "Auth Service"   
+    
+	// Product Service connections (2)
+    "Product Service" -> "Cart Service"
+	"Product Service" -> "Order Service"
+	
+	// Cart Service connections (3)
+	"Cart Service" -> "Product Service"
+	"Cart Service" -> "Order Service"
+    "Cart Service" -> "Customer Service"
+
+	
+	// Order Service connections (5)
+	"Order Service" -> "Cart Service"
+	"Order Service" -> "Payment Service"
+	"Order Service" -> "Delivery Service"
+    "Order Service" -> "Customer Service"
+	"Order Service" -> "Product Service"
+
+    // Payment Service connections (1)
+	"Payment Service" -> "Order Service"
+	
+    // Delivery Service connections (1)
+	"Delivery Service" -> "Order Service"
+	
+	// Customer Service connections (3)
+	"Customer Service" -> "Cart Service"
+	"Customer Service" -> "Order Service"
+	"Customer Service" -> "Auth Service"
+
+    // Auth Service connections (1)
+	"Auth Service" -> "Customer Service"	
+}

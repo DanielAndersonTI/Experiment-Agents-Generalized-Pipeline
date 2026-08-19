@@ -1,0 +1,63 @@
+# ==============================
+# Ambiente virtual
+# ==============================
+venv/
+venv_exp/
+.env/
+
+# ==============================
+# Variáveis de ambiente sensíveis
+# ==============================
+.env
+# NOTA: .env.example NÃO deve ser adicionado aqui para que sirva de modelo no repositório
+
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ==============================
+# Jupyter / Notebooks
+# ==============================
+.ipynb_checkpoints/
+
+# ==============================
+# Resultados de experimentos
+# ==============================
+result/
+results/
+
+# ==============================
+# IDE / Editor
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==============================
+# Sistema operacional
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Logs e temporários
+# ==============================
+*.log
+*.tmp
+*.temp
+
+# ==============================
+# Arquivos grandes / binários
+# ==============================
+*.zip
+*.tar.gz
+*.rar

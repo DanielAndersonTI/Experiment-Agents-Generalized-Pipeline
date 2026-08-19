@@ -1,0 +1,172 @@
+digraph Tables {
+    graph [
+        rankdir=LR,
+        bgcolor="white",
+        margin="0.05",
+        pad="0.05",
+        nodesep="0.12",
+        ranksep="0.20",
+        splines=ortho
+    ];
+
+    node [
+        shape=plain,
+        fontname="Arial",
+        fontsize=9
+    ];
+
+    edge [
+        color="#777777",
+        penwidth=1
+    ];
+
+    tabela [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+
+            <!-- TÍTULO -->
+            <TR>
+                <TD COLSPAN="7" BGCOLOR="#D9EAF7">
+                    <FONT FACE="Arial" POINT-SIZE="13">
+                        <B>Evolução Experimental do Pipeline Multiagente</B>
+                    </FONT>
+                </TD>
+            </TR>
+
+            <!-- CABEÇALHO -->
+            <TR BGCOLOR="#EDEDED">
+                <TD><B>Fase</B></TD>
+                <TD><B>Modificação</B></TD>
+                <TD><B>Modelo / Temp.</B></TD>
+                <TD><B>PetClinic<br/>Serviços</B></TD>
+                <TD><B>PetClinic<br/>Interações</B></TD>
+                <TD><B>Bookstore<br/>Serviços</B></TD>
+                <TD><B>Bookstore<br/>Interações</B></TD>
+            </TR>
+
+            <!-- F1 -->
+            <TR>
+                <TD><B>F1<br/>Baseline</B></TD>
+                <TD>Agente 2 original</TD>
+                <TD>DeepSeek V3<br/>0.3</TD>
+                <TD>0.93–1.00 /<BR/>0.00–0.88 /<BR/>0.93–1.00</TD>
+                <TD>0.73–1.00 /<BR/>0.00–0.78 /<BR/>0.70–1.00</TD>
+                <TD>0.86–1.00 /<BR/>0.00–0.56 /<BR/>0.86–1.00</TD>
+                <TD>0.50–0.88 /<BR/>0.00 /<BR/>0.50–0.88</TD>
+            </TR>
+
+            <!-- F2 -->
+            <TR>
+                <TD><B>F2<br/>Agente 2</B></TD>
+                <TD>Agente 2 especialista<br/>em interações</TD>
+                <TD>DeepSeek V3<br/>0.3</TD>
+                <TD>0.93 / 0.88 / 0.93</TD>
+                <TD>0.86 / 0.77 / 0.86</TD>
+                <TD>1.00 / 0.71–1.00 / 1.00</TD>
+                <TD>0.88–1.00 / 0.25–1.00 / 0.88–1.00</TD>
+            </TR>
+
+            <!-- F3 -->
+            <TR>
+                <TD><B>F3<br/>Agente 3</B></TD>
+                <TD>Agente 3 com<br/>temperatura zero</TD>
+                <TD>DeepSeek V3<br/>Ag3 = 0.0</TD>
+                <TD>0.93 / 0.93 / 0.93</TD>
+                <TD>0.86 / 0.86 / 0.86</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <!-- F4 -->
+            <TR>
+                <TD><B>F4<br/>Temp. 0</B></TD>
+                <TD>Todos os agentes<br/>em temperatura zero</TD>
+                <TD>Gemini Flash<br/>0.0</TD>
+                <TD>0.93 / 0.93 / 0.93</TD>
+                <TD>0.86 / 0.86 / 0.86</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 0.57–1.00 / 1.00</TD>
+            </TR>
+
+            <!-- REFINAMENTOS -->
+            <TR>
+                <TD COLSPAN="7" BGCOLOR="#FFF2CC">
+                    <FONT POINT-SIZE="10">
+                        <B>Refinamentos finais — Agente 4 + ajustes no Agente 2</B>
+                    </FONT>
+                </TD>
+            </TR>
+
+            <TR>
+                <TD><B>RF</B></TD>
+                <TD>Agente 4: refinamento arquitetural<br/>
+                    + ajuste few-shot<br/>
+                    + regra de Auth Service</TD>
+                <TD>Temperatura<br/>zero</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <!-- VALIDAÇÃO -->
+            <TR>
+                <TD COLSPAN="7" BGCOLOR="#D9EAD3">
+                    <FONT POINT-SIZE="10">
+                        <B>Validação — 4 execuções consecutivas</B>
+                    </FONT>
+                </TD>
+            </TR>
+
+            <TR>
+                <TD><B>T1</B></TD>
+                <TD>Validação</TD>
+                <TD>Pipeline final</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <TR>
+                <TD><B>T2</B></TD>
+                <TD>Validação</TD>
+                <TD>Pipeline final</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <TR>
+                <TD><B>T3</B></TD>
+                <TD>Validação</TD>
+                <TD>Pipeline final</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <TR>
+                <TD><B>T4</B></TD>
+                <TD>Validação</TD>
+                <TD>Pipeline final</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+                <TD>1.00 / 1.00 / 1.00</TD>
+            </TR>
+
+            <!-- CONCLUSÃO -->
+            <TR>
+                <TD COLSPAN="7" BGCOLOR="#E2F0D9">
+                    <FONT POINT-SIZE="10">
+                        <B>Resultado final: F1 = 1,00 em serviços e interações,
+                        nos dois sistemas, em 4 execuções consecutivas.</B>
+                    </FONT>
+                </TD>
+            </TR>
+
+        </TABLE>
+    >];
+}

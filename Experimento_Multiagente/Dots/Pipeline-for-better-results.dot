@@ -1,0 +1,114 @@
+digraph PipelineMultiagente {
+    graph [
+        rankdir=LR,
+        bgcolor="white",
+        pad="0.3",
+        nodesep="0.55",
+        ranksep="0.8",
+        splines=ortho,
+        fontname="Arial",
+        label="Pipeline Multiagente para Decomposição Arquitetural",
+        labelloc="t",
+        fontsize=22
+    ];
+
+    node [
+        shape=box,
+        style="rounded,filled",
+        fontname="Arial",
+        fontsize=12,
+        margin="0.18,0.12"
+    ];
+
+    edge [
+        fontname="Arial",
+        fontsize=10,
+        arrowsize=0.8
+    ];
+
+    requisitos [
+        label="REQUISITOS\\nUser Stories",
+        shape=note,
+        fillcolor="white"
+    ];
+
+    agente1 [
+        label="AGENTE 1\\nSoftware Architect (DDD)\\n\\nGera proposta inicial\\nFoco: precisão e conservadorismo",
+        fillcolor="white"
+    ];
+
+    agente2 [
+        label="AGENTE 2\\nCommunication Specialist\\n\\nAnalisa e propõe\\nas interações entre serviços\\nFoco: cobertura",
+        fillcolor="white"
+    ];
+
+    agente4 [
+        label="AGENTE 4\\nDomain-Driven Refiner\\n\\nRefina as propostas\\nPreserva serviços dos requisitos\\nRemove comunicações não justificadas",
+        fillcolor="white"
+    ];
+
+    agente3 [
+        label="AGENTE 3\\nArchitecture Validator\\n\\nConsolida as propostas\\nEstratégia assimétrica:\\nA como base + B como complemento",
+        fillcolor="white"
+    ];
+
+    arquitetura [
+        label="ARQUITETURA CONSOLIDADA\\nServiços + Interações",
+        shape=folder,
+        fillcolor="white"
+    ];
+
+    resultado [
+        label="AVALIAÇÃO\\n\\nF1 = 1,00\\nServiços e Interações\\n\\nPetClinic + Bookstore\\n4 execuções consecutivas",
+        shape=box,
+        fillcolor="white"
+    ];
+
+    requisitos -> agente1 [label="Geração"];
+    requisitos -> agente2 [label="Enriquecimento"];
+
+    agente1 -> agente4 [label="Proposta A"];
+    agente2 -> agente4 [label="Proposta B"];
+
+    agente4 -> agente3 [label="Propostas refinadas"];
+
+    agente3 -> arquitetura [label="Consolidação"];
+
+    arquitetura -> resultado [label="Avaliação"];
+
+    config [
+        label="CONFIGURAÇÕES CRÍTICAS\\n\\nTemperatura = 0\\nFew-shot adequado\\nNormalização de nomes",
+        shape=component,
+        fillcolor="white"
+    ];
+
+    config -> agente1 [style=dashed, arrowhead=none];
+    config -> agente2 [style=dashed, arrowhead=none];
+    config -> agente4 [style=dashed, arrowhead=none];
+    config -> agente3 [style=dashed, arrowhead=none];
+
+    llm [
+        label="LLMs\\nDeepSeek / Gemini",
+        shape=cylinder,
+        fillcolor="white"
+    ];
+
+    llm -> agente1 [style=dotted, label="Modelo"];
+    llm -> agente2 [style=dotted];
+    llm -> agente4 [style=dotted];
+    llm -> agente3 [style=dotted];
+
+    subgraph cluster_fluxo {
+        label="Geração → Enriquecimento → Refinamento → Consolidação";
+        fontname="Arial";
+        fontsize=13;
+        style="rounded,dashed";
+        color="gray";
+        requisitos;
+        agente1;
+        agente2;
+        agente4;
+        agente3;
+        arquitetura;
+    }
+}

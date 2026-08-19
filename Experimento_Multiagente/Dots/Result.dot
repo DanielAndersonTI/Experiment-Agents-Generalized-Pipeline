@@ -1,0 +1,58 @@
+digraph EvolucaoPipeline {
+
+    graph [
+        rankdir=LR,
+        bgcolor="white",
+        pad="0.3",
+        nodesep="0.35",
+        ranksep="0.55",
+        splines=ortho,
+        size="12,7!",
+        ratio="compress"
+    ];
+
+    node [
+        shape=box,
+        style="rounded,filled",
+        fontname="Arial",
+        fontsize=15,
+        margin="0.20,0.15",
+        width=2.8,
+        height=1.7
+    ];
+
+    edge [
+        color="#555555",
+        penwidth=2,
+        arrowsize=0.8
+    ];
+
+    A1 [
+        label="AGENTE 2\n\nNova função:\nespecialista em\ninterações entre serviços",
+        fillcolor="#E8F1FB"
+    ];
+
+    A2 [
+        label="TEMPERATURA = 0\n\nExecuções determinísticas\n+ maior reprodutibilidade\n+ menor variabilidade",
+        fillcolor="#F2F2F2"
+    ];
+
+    A3 [
+        label="AGENTE 4\n\nRefinamento arquitetural\n\nElimina erros sistemáticos\ndo PetClinic",
+        fillcolor="#E8F1FB"
+    ];
+
+    A4 [
+        label="RESULTADO\n\nF1 = 1,00\nServiços + Interações\n\nPetClinic + Bookstore",
+        fillcolor="#E2F0D9",
+        penwidth=3
+    ];
+
+    A5 [
+        label="VALIDAÇÃO\n\n4 execuções consecutivas\ncom o mesmo desempenho\n\n→ Estabilidade e\nreprodutibilidade",
+        fillcolor="#FFF2CC",
+        penwidth=2
+    ];
+
+    A1 -> A2 -> A3 -> A4 -> A5;
+}

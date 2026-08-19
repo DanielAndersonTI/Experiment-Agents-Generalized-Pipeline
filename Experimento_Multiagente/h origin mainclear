@@ -1,0 +1,26 @@
+[33mcommit 648419cb52dd837824513e659848786e08dfa647[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Daniel <danielanderson.ti@gmail.com>
+Date:   Thu Jul 30 17:53:34 2026 -0300
+
+    Conclusion of the experiment and inclusion of new artifacts
+
+[1mdiff --git a/Experimento_Multiagente/.env.example b/Experimento_Multiagente/.env.example[m
+[1mindex ebd15f0..ff59e86 100644[m
+[1m--- a/Experimento_Multiagente/.env.example[m
+[1m+++ b/Experimento_Multiagente/.env.example[m
+[36m@@ -2,10 +2,13 @@[m
+ # OpenRouter API Configuration[m
+ # ========================================[m
+ # Obtenha sua chave em: https://openrouter.ai/keys[m
+[31m-OPENROUTER_API_KEY=sk-or-v1-your-key-here[m
+[31m-OPENROUTER_MODEL=deepseek/deepseek-chat-v3-0324:free[m
+[32m+[m[32m#OPENROUTER_API_KEY=sk-or-v1-your-key-here[m
+[32m+[m[32m#OPENROUTER_MODEL=deepseek/deepseek-chat-v3-0324:free[m
+[32m+[m[32mGOOGLE_API_KEY=your-google-api-key-here[m
+[32m+[m[32mGOOGLE_MODEL=gemini/gemini-flash-latest[m
+ [m
+ [m
+[32m+[m[32m#GOOGLE_API_KEY=[m
+ # ========================================[m
+ # LangChain Debug Mode (opcional)[m
+ # ========================================[m

@@ -1,0 +1,18 @@
+# Core
+python-dotenv==1.0.1
+
+# CrewAI (instala automaticamente a versão correta do LangChain)
+crewai>=0.35.0,<1.0.0
+crewai-tools>=0.13.0
+
+# Data & Analysis
+pandas==2.2.0
+numpy==1.26.4
+
+# Jupyter (opcional)
+ipykernel==6.27.0
+jupyter==1.0.0
+
+# Utilities
+requests==2.32.0
+tqdm==4.66.5

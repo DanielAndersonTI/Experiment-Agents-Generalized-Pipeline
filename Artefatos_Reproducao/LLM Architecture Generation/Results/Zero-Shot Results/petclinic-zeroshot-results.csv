@@ -1,0 +1,9 @@
+Microservice,Responsibilities,Communicates With
+Client Service,Add client;Update client;Delete client;View client details,Pet Service;Discovery Service;Config Service;Gateway Service;Admin Service
+Pet Service,Add pet;Update pet;Delete pet;Link pet to owner;View pet details,Client Service;Visit Service;Discovery Service;Config Service;Gateway Service;Admin Service
+Visit Service,Register new visit;View visit history,Pet Service;Discovery Service;Config Service;Gateway Service;Admin Service
+Vet Service,Add vet;Update vet;Delete vet;View vet specialties,Discovery Service;Config Service;Gateway Service;Admin Service
+Discovery Service,Register services;Service registry;Locate services,Client Service;Pet Service;Visit Service;Vet Service;Config Service;Gateway Service;Admin Service
+Config Service,Centralized configuration management,Client Service;Pet Service;Visit Service;Vet Service;Discovery Service;Gateway Service;Admin Service
+Gateway Service,Route client requests to services;API aggregation,Client Service;Pet Service;Visit Service;Vet Service;Discovery Service;Config Service;Admin Service
+Admin Service,Monitor services;Administration dashboard,Client Service;Pet Service;Visit Service;Vet Service;Discovery Service;Config Service;Gateway Service

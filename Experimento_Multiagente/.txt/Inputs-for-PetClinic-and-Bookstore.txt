@@ -1,0 +1,336 @@
+Trechos do Script que pertencem ao PetClinic e Bookstore dentro do main:
+
+
+PETCLINIC_REQUIREMENTS = """
+Spring PetClinic Microservices - Requirements
+
+1. Manage Clients:
+   - Add, update, and delete client information.
+   - View detailed information about existing clients.
+
+2. Manage Pets:
+   - Add, update, and delete pet information.
+   - Link pets to their respective owners.
+
+3. Manage Visits:
+   - Register new visits for pets.
+   - View visit history for a specific pet.
+
+4. Manage Veterinarians:
+   - Add, update, and delete vet information.
+   - View specialties for each veterinarian.
+
+5. Service Discovery:
+   - Register and locate services using Eureka.
+
+6. Centralized Configuration:
+   - Manage service configurations through a Config Server.
+
+7. API Gateway:
+   - Route client requests to appropriate backend services.
+
+8. Monitoring and Administration:
+   - Monitor services and applications using Admin Server.
+"""
+
+BOOKSTORE_REQUIREMENTS = """
+Bookstore Microservices - Requirements
+
+1. Manage Products:
+   - Add, update, and delete product entries.
+   - List available products for purchase.
+
+2. Manage Shopping Cart:
+   - Add and remove products from the shopping cart.
+   - View items currently in the cart.
+
+3. Manage Orders:
+   - Create orders from shopping cart items.
+   - View order history and order details.
+
+4. Manage Payments:
+   - Process payments for completed orders.
+
+5. Manage Deliveries:
+   - Schedule and track delivery of orders.
+
+6. Manage Customers:
+   - Register and authenticate customer accounts.
+   - Update and retrieve customer profile information.
+
+7. Manage Authentication:
+   - Provide secure authentication and authorization for users.
+   - Integrate with other services to validate credentials and permissions.
+"""
+_____________________________________________________________________________________________________________________________
+
+PETCLINIC_NAME_MAP = {
+    "apigateway": "api-gateway",
+    "api-gateway": "api-gateway",
+    "gateway": "api-gateway",
+    "gateway-service": "api-gateway",
+    "configserver": "config-server",
+    "config-server": "config-server",
+    "configservice": "config-server",
+    "configuration-service": "config-server",
+    "eurekaserver": "discovery-server",
+    "discoveryserver": "discovery-server",
+    "discovery-service": "discovery-server",
+    "discovery": "discovery-server",
+    "eureka": "discovery-server",
+    "adminserver": "admin-server",
+    "admin-server": "admin-server",
+    "adminservice": "admin-server",
+    "admin": "admin-server",
+    "ownerservice": "customers-service",
+    "owner-service": "customers-service",
+    "clientservice": "customers-service",
+    "client-service": "customers-service",
+    "customer-service": "customers-service",
+    "customers-service": "customers-service",
+    "customer": "customers-service",
+    "petservice": "pets-service",
+    "pet-service": "pets-service",
+    "pet": "pets-service",
+    "veterinarianservice": "vets-service",
+    "vetservice": "vets-service",
+    "vet-service": "vets-service",
+    "veterinarian": "vets-service",
+    "vet": "vets-service",
+    "visitservice": "visits-service",
+    "visit-service": "visits-service",
+    "visit": "visits-service",
+    "customers": "customers-service",
+    "vets": "vets-service",
+    "visits": "visits-service",
+    "clientcommandservice": "customers-service",
+    "clientqueryservice": "customers-service",
+    "petcommandservice": "pets-service",
+    "petqueryservice": "pets-service",
+    "visitcommandservice": "visits-service",
+    "visitqueryservice": "visits-service",
+    "vetcommandservice": "vets-service",
+    "vetqueryservice": "vets-service",
+    "eventbus": "discovery-server",
+    "discoveryservice": "discovery-server",
+    "ownerprofileservice": "customers-service",
+    "ownerdashboardservice": "customers-service",
+    "petcatalogservice": "pets-service",
+    "visitschedulingservice": "visits-service",
+    "vetmanagementservice": "vets-service",
+    "pethistoryservice": "visits-service",
+    "servicediscovery": "discovery-server",
+    "eureka-server": "discovery-server",
+    "discovery-service-(eureka)": "discovery-server",
+    "owner": "customers-service",
+    "owner-service": "customers-service",
+    "pet-service": "pets-service",
+    "visit-service": "visits-service",
+    "vet-service": "vets-service",
+    "config-server": "config-server",
+    "admin-server": "admin-server",
+    "api-gateway": "api-gateway",
+    "service-discovery": "discovery-server",
+    "eventbroker": "discovery-server",
+    "messagebroker": "discovery-server",
+    "apigatewayservice": "api-gateway",
+    "eurekaservice": "discovery-server",
+    "gatewayservice": "api-gateway",
+    "client": "customers-service",
+    "config": "config-server",
+    "client-onboarding": "customers-service",
+    "client-onboarding-service": "customers-service",
+    "client-profile": "customers-service",
+    "client-profile-service": "customers-service",
+    "pet-management": "pets-service",
+    "pet-management-service": "pets-service",
+    "pet-registry": "pets-service",
+    "pet-registry-service": "pets-service",
+    "visit-scheduling": "visits-service",
+    "visit-scheduling-service": "visits-service",
+    "clinic-operations": "visits-service",
+    "clinic-operations-service": "visits-service",
+    "vet-roster": "vets-service",
+    "vet-roster-service": "vets-service",
+    "veterinary-roster": "vets-service",
+    "veterinary-roster-service": "vets-service",
+    "admin-monitoring": "admin-server",
+    "admin-monitoring-service": "admin-server",
+}
+
+BOOKSTORE_NAME_MAP = {
+    "authservice": "auth-service",
+    "auth": "auth-service",
+    "cartservice": "cart-service",
+    "cart": "cart-service",
+    "shoppingcartservice": "cart-service",
+    "shopping-cart-service": "cart-service",
+    "shopping-cart": "cart-service",
+    "customerservice": "customer-service",
+    "customer": "customer-service",
+    "deliveryservice": "delivery-service",
+    "delivery": "delivery-service",
+    "deliverymanagementservice": "delivery-service",
+    "delivery-management": "delivery-service",
+    "orderservice": "order-service",
+    "order": "order-service",
+    "orderplacementservice": "order-service",
+    "order-placement": "order-service",
+    "orderqueryservice": "order-service",
+    "order-query": "order-service",
+    "orderfulfillmentservice": "order-service",
+    "order-fulfillment": "order-service",
+    "paymentservice": "payment-service",
+    "payment": "payment-service",
+    "paymentprocessingservice": "payment-service",
+    "payment-processing": "payment-service",
+    "productservice": "product-service",
+    "product": "product-service",
+    "productcatalogservice": "product-service",
+    "product-catalog": "product-service",
+    "bookservice": "product-service",
+    "book": "product-service",
+    "apigateway": "api-gateway",
+    "api-gateway": "api-gateway",
+    "gateway": "api-gateway",
+    "configserver": "config-server",
+    "config-service": "config-server",
+    "config": "config-server",
+    "discoveryserver": "discovery-server",
+    "service-discovery": "discovery-server",
+    "service-discovery-(eureka)": "discovery-server",
+    "discovery": "discovery-server",
+    "adminserver": "admin-server",
+    "admin-service": "admin-server",
+    "admin": "admin-server",
+    "eventbroker": "discovery-server",
+    "event-broker": "discovery-server",
+    "authenticationservice": "auth-service",
+    "authentication": "auth-service",
+    "identity": "auth-service",
+    "identity-service": "auth-service",
+    "identity-&-auth": "auth-service",
+    "identity-&-auth-service": "auth-service",
+    "customer-profile": "customer-service",
+    "customer-profile-service": "customer-service",
+    "product-command": "product-service",
+    "product-command-service": "product-service",
+    "catalog-read": "product-service",
+    "catalog-read-projection": "product-service",
+    "inventory-write": "product-service",
+    "inventory-write-service": "product-service",
+    "ephemeral-cart": "cart-service",
+    "ephemeral-cart-service": "cart-service",
+    "cart-&-checkout": "cart-service",
+    "cart-&-checkout-service": "cart-service",
+    "order-orchestrator": "order-service",
+    "order-orchestrator-service": "order-service",
+    "order-saga-orchestrator": "order-service",
+    "payment-processor": "payment-service",
+    "payment-processor-service": "payment-service",
+    "payment-gateway-integration": "payment-service",
+    "payment-gateway-integration-service": "payment-service",
+    "fulfillment": "delivery-service",
+    "fulfillment-service": "delivery-service",
+    "logistics-&-delivery": "delivery-service",
+    "logistics-&-delivery-service": "delivery-service",
+}
+
+_____________________________________________________________________________________________________________________________
+
+
+PETCLINIC_REFERENCE = [
+    "api-gateway",
+    "config-server",
+    "discovery-server",
+    "admin-server",
+    "customers-service",
+    "vets-service",
+    "visits-service",
+]
+
+BOOKSTORE_REFERENCE = [
+    "auth-service",
+    "cart-service",
+    "customer-service",
+    "delivery-service",
+    "order-service",
+    "payment-service",
+    "product-service",
+]
+
+_____________________________________________________________________________________________________________________________
+
+PETCLINIC_INTERACTIONS_REFERENCE = {
+    ("admin-server", "api-gateway"),
+    ("admin-server", "config-server"),
+    ("admin-server", "customers-service"),
+    ("admin-server", "discovery-server"),
+    ("admin-server", "vets-service"),
+    ("admin-server", "visits-service"),
+    ("api-gateway", "config-server"),
+    ("api-gateway", "customers-service"),
+    ("api-gateway", "discovery-server"),
+    ("api-gateway", "vets-service"),
+    ("api-gateway", "visits-service"),
+    ("config-server", "customers-service"),
+    ("config-server", "discovery-server"),
+    ("config-server", "vets-service"),
+    ("config-server", "visits-service"),
+    ("customers-service", "discovery-server"),
+    ("customers-service", "visits-service"),
+    ("discovery-server", "vets-service"),
+    ("discovery-server", "visits-service"),
+}
+
+BOOKSTORE_INTERACTIONS_REFERENCE = {
+    ("auth-service", "customer-service"),
+    ("cart-service", "customer-service"),
+    ("cart-service", "order-service"),
+    ("cart-service", "product-service"),
+    ("customer-service", "order-service"),
+    ("delivery-service", "order-service"),
+    ("order-service", "payment-service"),
+    ("order-service", "product-service"),
+}
+
+_____________________________________________________________________________________________________________________________
+
+
+SYSTEMS = {
+    "petclinic": {
+        "name": "PetClinic",
+        "requirements": PETCLINIC_REQUIREMENTS,
+        "reference_services": PETCLINIC_REFERENCE,
+        "interaction_reference": PETCLINIC_INTERACTIONS_REFERENCE,
+        "name_map": PETCLINIC_NAME_MAP,
+    },
+    "bookstore": {
+        "name": "Bookstore",
+        "requirements": BOOKSTORE_REQUIREMENTS,
+        "reference_services": BOOKSTORE_REFERENCE,
+        "interaction_reference": BOOKSTORE_INTERACTIONS_REFERENCE,
+        "name_map": BOOKSTORE_NAME_MAP,
+    },
+    "mediastore": {
+        "name": "MediaStore",
+        "requirements": "",
+        "reference_services": [],
+        "interaction_reference": set(),
+        "name_map": {},
+    },
+    "teastore": {
+        "name": "TeaStore",
+        "requirements": "",
+        "reference_services": [],
+        "interaction_reference": set(),
+        "name_map": {},
+    },
+}
+
+_____________________________________________________________________________________________________________________________
+
+
+
+
+

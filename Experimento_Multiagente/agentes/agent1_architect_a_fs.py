@@ -85,6 +85,34 @@ def criar_task_arquitetura(agente):
           implied dependencies between capabilities;
         - Avoid introducing unsupported services or interactions.
 
+        IDENTIFYING INTER-SERVICE COMMUNICATIONS
+        ---------------------------------------
+
+        After defining the services, determine which services must communicate.
+
+        For each possible pair (A -> B), check:
+
+        - Data dependency: Does A need data owned or provided by B?
+        - Action dependency: Does A require B to perform a required action?
+        - Validation dependency: Does A require B to validate information?
+        - Result/status dependency: Does A need a result or status controlled by B?
+        - Workflow dependency: Does the requirement state that A and B must
+          cooperate to complete a business process?
+
+        Include the communication only if at least one of these dependencies is
+        explicitly or strongly implied by the requirements.
+
+        Do NOT add communication when:
+
+        - The relationship is only conceptual or semantic;
+        - Both services share the same domain term but no operational dependency exists;
+        - The relationship is transitive without independent evidence;
+        - The relationship is merely plausible or optional;
+        - The dependency is not required to complete a stated responsibility.
+
+        Prefer precision over recall. When evidence is insufficient, leave the
+        communication out.
+
         IMPORTANT:
         The example must not be treated as a source of domain-specific knowledge.
         Adapt the architectural structure to the new requirements and do not

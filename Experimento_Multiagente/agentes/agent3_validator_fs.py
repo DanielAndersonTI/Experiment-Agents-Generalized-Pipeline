@@ -2,8 +2,8 @@
 Agente 3: Validator Agent (Validador) – Few-Shot
 Responsável por comparar duas propostas de arquitetura e gerar uma versão consolidada.
 
-Abordagem assimétrica: Architecture A funciona como proposta principal,
-enquanto Architecture B atua como fonte complementar de informações.
+Abordagem orientada por métricas: recebe as métricas de A e B e escolhe a
+melhor base, podendo combinar interações complementares quando suportadas.
 
 Versão generalizada para diferentes sistemas e domínios.
 """
@@ -15,26 +15,26 @@ def criar_agente3(llm):
     agente = Agent(
         role="Architecture Validator",
         goal="""
-        Comparar duas propostas de arquitetura de microsserviços e gerar uma
-        versão consolidada baseada nos requisitos do sistema.
+        Comparar duas propostas de arquitetura de microsserviços usando as
+        métricas de avaliação (Precision, Recall e F1) e produzir uma versão
+        consolidada final.
 
         Você deve:
-        1. Analisar ambas as propostas (Architecture A e Architecture B);
-        2. Identificar serviços comuns entre elas;
-        3. Identificar serviços exclusivos de cada proposta;
-        4. Comparar responsabilidades e comunicações entre as propostas;
-        5. Consolidar uma arquitetura final aproveitando a proposta principal
-           e incorporando informações complementares da proposta alternativa;
-        6. Explicar as principais decisões de consolidação.
-
-        Architecture A é a proposta principal e deve receber maior confiança
-        durante a consolidação. Architecture B deve ser utilizada como fonte
-        complementar para identificar capacidades ou relacionamentos que possam
-        melhorar a solução final, desde que sejam compatíveis com os requisitos.
-
-        Como ambas as propostas foram previamente refinadas com base nos
-        requisitos, a consolidação deve buscar preservar os elementos válidos
-        mais completos identificados em qualquer uma das propostas.
+        1. Analisar as métricas de Serviços e Interações das propostas A e B.
+        2. Usar as métricas para decidir qual proposta possui a melhor base
+           de serviços.
+        3. Usar as métricas para decidir qual proposta possui as interações
+           de melhor qualidade.
+        4. Se uma proposta for claramente superior tanto em serviços quanto
+           em interações, utilize-a integralmente como base.
+        5. Se uma proposta for melhor em serviços e a outra melhor em
+           interações, utilize a base de serviços da melhor em serviços e,
+           quando possível, incorpore interações complementares da melhor
+           em interações, desde que os serviços envolvidos existam na base
+           e que a interação seja fortemente sustentada pelos requisitos.
+        6. Não inventar serviços ou interações.
+        7. Preservar as responsabilidades exatamente como estiverem na base
+           de serviços escolhida.
         """,
         backstory="""
         Você é um arquiteto de software sênior com ampla experiência em revisão,
@@ -44,23 +44,15 @@ def criar_agente3(llm):
         - Revisão de arquiteturas de software;
         - Domain-Driven Design;
         - Identificação de bounded contexts;
-        - Análise de overlaps e gaps entre propostas;
-        - Avaliação de responsabilidades e dependências;
-        - Análise de trade-offs arquiteturais;
-        - Consolidação de diferentes propostas em uma solução coerente.
+        - Análise de métricas de Precision, Recall e F1;
+        - Seleção da melhor proposta entre alternativas;
+        - Combinação conservadora de serviços e interações.
 
-        Você trabalha com uma abordagem assimétrica: Architecture A representa
-        a proposta principal e Architecture B fornece informações adicionais
-        que podem complementar essa proposta.
-
-        A proposta A recebe maior confiança e serve como base inicial.
-        Entretanto, quando Architecture B apresenta um serviço, responsabilidade
-        ou interação que é claramente sustentado pelos requisitos e não está
-        presente em A, esse elemento pode ser incorporado à solução consolidada.
-
-        Como as propostas já passaram por uma etapa independente de refinamento,
-        você deve utilizar esse trabalho como evidência adicional para selecionar
-        os elementos mais completos e justificáveis.
+        Você utiliza as métricas de avaliação como evidência objetiva para
+        decidir qual proposta deve servir de base e quais interações podem ser
+        incorporadas. Você não adiciona interações apenas porque elas são
+        plausíveis; elas precisam ser suportadas pelos requisitos e pelas
+        métricas das propostas.
 
         Você não assume previamente quais domínios, entidades, serviços ou
         tecnologias existem no sistema analisado.
@@ -76,90 +68,82 @@ def criar_task_consolidacao(agente):
     task = Task(
         description="""
         Compare the two architecture proposals below and generate a
-        consolidated version.
+        consolidated final architecture.
 
-        IMPORTANT RULES FOR CONSOLIDATION:
+        You will receive:
 
-        - Start with ALL services and interactions from Architecture A.
-          Architecture A is the primary architectural proposal and should
-          receive higher confidence during consolidation.
+        1. Architecture A
+        2. Architecture B
+        3. Evaluation metrics for A
+        4. Evaluation metrics for B
+        5. The system requirements
 
-        - Then, evaluate the services from Architecture B. Add a service from B
-          when:
-            a) it is also present in Architecture A; OR
-            b) it is clearly supported by the system requirements and represents
-               a valid business capability.
+        Use the metrics to decide which proposal has the strongest services and
+        which has the strongest interactions.
 
-        - For interactions, preserve all justified interactions from
-          Architecture A.
+        IMPORTANT RULES:
 
-        - Then, examine each interaction present in Architecture B but absent
-          from Architecture A. Add that interaction when:
-            a) both participating services already exist in the consolidated
-               architecture, AND
-            b) the interaction is clearly supported by the system requirements
-               or by a strong dependency between the corresponding capabilities.
+        - If Architecture A has better services AND better interactions metrics,
+          use Architecture A as the final architecture.
 
-        - Do NOT discard a justified interaction from B merely because it is
-          absent from A.
+        - If Architecture B has better services AND better interactions metrics,
+          use Architecture B as the final architecture.
 
-        - When both proposals contain different valid interactions for the same
-          services, preserve the set of interactions that is best supported by
-          the requirements.
+        - If one proposal is better in services while the other is better in
+          interactions, use the services from the proposal with the best service
+          F1-score as the base.
 
-        - The consolidated architecture should preserve the strongest
-          requirement-supported services and interactions identified across the
-          two refined proposals.
+          Then, from the proposal with the best interaction F1-score, add only
+          interactions whose participating services already exist in the chosen
+          base and whose dependency is strongly supported by the requirements.
 
-        - The consolidation should NOT intentionally remove a valid element
-          merely to reproduce Architecture A.
+        - Do NOT invent new services.
 
-        - Architecture A remains the primary reference whenever the two
-          proposals contain conflicting or ambiguous alternatives.
+        - Do NOT change responsibilities.
 
-        - Do NOT introduce infrastructure, technical, or supporting services
-          unless they are explicitly required by the system requirements or
-          consistently supported by the proposals.
+        - Do NOT add interactions that would introduce false positives or that
+          are not clearly justified.
 
-        - When two services represent substantially similar capabilities,
-          prefer the simplest and most generic service name that is consistent
-          with the requirements.
+        - If no interaction is justified for a service, leave the third column
+          empty.
 
-        - Do not copy domain concepts, service names, or architectural elements
-          from the Few-Shot example unless they are independently justified by
-          the current system requirements.
+        - Preserve the original service names from the chosen base.
 
-        - Do not assume that a component exists merely because it appeared in
-          Architecture B or in the example.
-
-        ARCHITECTURE A (Primary Proposal):
+        ARCHITECTURE A:
         {architecture_a}
 
-        ARCHITECTURE B (Alternative Proposal):
+        ARCHITECTURE B:
         {architecture_b}
 
-        Your output MUST be in this format:
+        METRICS FOR A:
+        {metrics_a}
 
-        === CONSOLIDATED ARCHITECTURE ===
-        Microservice,Responsibilities,Communicates With,Source
-        Service Name,resp1;resp2,ServiceX;ServiceY,A+B
+        METRICS FOR B:
+        {metrics_b}
 
-        === DECISIONS ===
-        - Service X: Kept from A/B/A+B because...
-        - Service Y: Merged or preserved because...
-        - Interaction X-Y: Kept or added because...
+        SYSTEM REQUIREMENTS:
+        {requirements}
+
+        OUTPUT FORMAT:
+
+        Microservice,Responsibilities,Communicates With
+        Service Name,responsibility1;responsibility2,Service1;Service2
 
         Rules:
-        - Include a 'Source' column indicating whether each service came from
-          A, B, or both.
-        - Explain the key consolidation decisions.
-        - Be specific about why services were kept, merged, added, or discarded.
-        - Be specific about important interaction decisions.
-        - Base decisions on the requirements and the two refined proposals.
-        - Prefer the most complete requirement-supported result when the two
-          proposals provide complementary information.
+        - One row per microservice.
+        - Separate responsibilities with semicolons (;).
+        - Separate communicating services with semicolons (;).
+        - Do NOT use markdown formatting.
+        - Do NOT include explanations or additional text.
+        - Do NOT include section titles or comments.
+        - Do NOT include a Source column.
+
+        Produce the consolidated CSV now.
         """,
-        expected_output="Consolidated architecture with decisions explained",
+        expected_output=(
+            "CSV containing the consolidated microservices, their "
+            "responsibilities, and their justified communications."
+        ),
         agent=agente,
     )
     return task

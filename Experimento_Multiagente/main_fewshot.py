@@ -1,26 +1,17 @@
 """
 Script Principal de Orquestração Multiagente – FEW-SHOT (Generalizado)
 
-Executa os 4 agentes em sequência para gerar e consolidar arquiteturas
-e salva todos os resultados em:
-    result/<sistema>/result_generalized_fewshot/run_<timestamp>/
+Este módulo expõe a função `executar_pipeline` que executa o pipeline
+multiagente completo para um único sistema.
 
-Uso:
-    python main_fewshot.py --system petclinic
-    python main_fewshot.py --system bookstore
-    python main_fewshot.py --system mediastore
-    python main_fewshot.py --system teastore
-    python main_fewshot.py --all
-
-A lógica do pipeline é genérica. Os dados específicos de cada sistema
-(requisitos, ground truth, mapa de normalização) são declarados no dicionário
-SYSTEMS, sem estruturas condicionais por sistema no fluxo principal.
+Os dados específicos de cada sistema (requisitos, serviços de referência,
+interações de referência e mapa de normalização) são fornecidos como
+argumentos da função, permitindo integração com a interface web.
 """
 
 import os
 import re
 import sys
-import argparse
 import csv
 import json
 import contextlib
@@ -30,6 +21,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from crewai import LLM, Crew
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from agentes.agent1_architect_a_fs import criar_agente1, criar_task_arquitetura
 from agentes.agent2_architect_b_fs import criar_agente2, criar_task_arquitetura_alternativa
@@ -57,9 +50,7 @@ def criar_llm() -> LLM:
     )
 
     if not api_key:
-        print("✗ ERRO: GOOGLE_API_KEY não configurada!")
-        print("  Defina GOOGLE_API_KEY no arquivo .env.")
-        sys.exit(1)
+        raise RuntimeError("GOOGLE_API_KEY not configured. Please define it in the .env file.")
 
     print(f"\n🔧 Inicializando modelo Gemini: {model_name}")
 
@@ -73,73 +64,6 @@ def criar_llm() -> LLM:
     print(f"✓ Modelo {model_name} inicializado com sucesso")
 
     return llm
-
-
-# ============================================
-# Requisitos dos Sistemas (dados de entrada)
-# ============================================
-
-PETCLINIC_REQUIREMENTS = """
-Spring PetClinic Microservices - Requirements
-
-1. Manage Clients:
-   - Add, update, and delete client information.
-   - View detailed information about existing clients.
-
-2. Manage Pets:
-   - Add, update, and delete pet information.
-   - Link pets to their respective owners.
-
-3. Manage Visits:
-   - Register new visits for pets.
-   - View visit history for a specific pet.
-
-4. Manage Veterinarians:
-   - Add, update, and delete vet information.
-   - View specialties for each veterinarian.
-
-5. Service Discovery:
-   - Register and locate services using Eureka.
-
-6. Centralized Configuration:
-   - Manage service configurations through a Config Server.
-
-7. API Gateway:
-   - Route client requests to appropriate backend services.
-
-8. Monitoring and Administration:
-   - Monitor services and applications using Admin Server.
-"""
-
-BOOKSTORE_REQUIREMENTS = """
-Bookstore Microservices - Requirements
-
-1. Manage Products:
-   - Add, update, and delete product entries.
-   - List available products for purchase.
-
-2. Manage Shopping Cart:
-   - Add and remove products from the shopping cart.
-   - View items currently in the cart.
-
-3. Manage Orders:
-   - Create orders from shopping cart items.
-   - View order history and order details.
-
-4. Manage Payments:
-   - Process payments for completed orders.
-
-5. Manage Deliveries:
-   - Schedule and track delivery of orders.
-
-6. Manage Customers:
-   - Register and authenticate customer accounts.
-   - Update and retrieve customer profile information.
-
-7. Manage Authentication:
-   - Provide secure authentication and authorization for users.
-   - Integrate with other services to validate credentials and permissions.
-"""
 
 
 # ============================================
@@ -452,282 +376,6 @@ def print_evaluation_report(metrics, title: str = "Evaluation Report"):
 
 
 # ============================================
-# Mapeamentos de Nomes (por sistema)
-# ============================================
-
-PETCLINIC_NAME_MAP = {
-    "apigateway": "api-gateway",
-    "api-gateway": "api-gateway",
-    "gateway": "api-gateway",
-    "gateway-service": "api-gateway",
-    "configserver": "config-server",
-    "config-server": "config-server",
-    "configservice": "config-server",
-    "configuration-service": "config-server",
-    "eurekaserver": "discovery-server",
-    "discoveryserver": "discovery-server",
-    "discovery-service": "discovery-server",
-    "discovery": "discovery-server",
-    "eureka": "discovery-server",
-    "adminserver": "admin-server",
-    "admin-server": "admin-server",
-    "adminservice": "admin-server",
-    "admin": "admin-server",
-    "ownerservice": "customers-service",
-    "owner-service": "customers-service",
-    "clientservice": "customers-service",
-    "client-service": "customers-service",
-    "customer-service": "customers-service",
-    "customers-service": "customers-service",
-    "customer": "customers-service",
-    "petservice": "pets-service",
-    "pet-service": "pets-service",
-    "pet": "pets-service",
-    "veterinarianservice": "vets-service",
-    "vetservice": "vets-service",
-    "vet-service": "vets-service",
-    "veterinarian": "vets-service",
-    "vet": "vets-service",
-    "visitservice": "visits-service",
-    "visit-service": "visits-service",
-    "visit": "visits-service",
-    "customers": "customers-service",
-    "vets": "vets-service",
-    "visits": "visits-service",
-    "clientcommandservice": "customers-service",
-    "clientqueryservice": "customers-service",
-    "petcommandservice": "pets-service",
-    "petqueryservice": "pets-service",
-    "visitcommandservice": "visits-service",
-    "visitqueryservice": "visits-service",
-    "vetcommandservice": "vets-service",
-    "vetqueryservice": "vets-service",
-    "eventbus": "discovery-server",
-    "discoveryservice": "discovery-server",
-    "ownerprofileservice": "customers-service",
-    "ownerdashboardservice": "customers-service",
-    "petcatalogservice": "pets-service",
-    "visitschedulingservice": "visits-service",
-    "vetmanagementservice": "vets-service",
-    "pethistoryservice": "visits-service",
-    "servicediscovery": "discovery-server",
-    "eureka-server": "discovery-server",
-    "discovery-service-(eureka)": "discovery-server",
-    "owner": "customers-service",
-    "owner-service": "customers-service",
-    "pet-service": "pets-service",
-    "visit-service": "visits-service",
-    "vet-service": "vets-service",
-    "config-server": "config-server",
-    "admin-server": "admin-server",
-    "api-gateway": "api-gateway",
-    "service-discovery": "discovery-server",
-    "eventbroker": "discovery-server",
-    "messagebroker": "discovery-server",
-    "apigatewayservice": "api-gateway",
-    "eurekaservice": "discovery-server",
-    "gatewayservice": "api-gateway",
-    "client": "customers-service",
-    "config": "config-server",
-    "client-onboarding": "customers-service",
-    "client-onboarding-service": "customers-service",
-    "client-profile": "customers-service",
-    "client-profile-service": "customers-service",
-    "pet-management": "pets-service",
-    "pet-management-service": "pets-service",
-    "pet-registry": "pets-service",
-    "pet-registry-service": "pets-service",
-    "visit-scheduling": "visits-service",
-    "visit-scheduling-service": "visits-service",
-    "clinic-operations": "visits-service",
-    "clinic-operations-service": "visits-service",
-    "vet-roster": "vets-service",
-    "vet-roster-service": "vets-service",
-    "veterinary-roster": "vets-service",
-    "veterinary-roster-service": "vets-service",
-    "admin-monitoring": "admin-server",
-    "admin-monitoring-service": "admin-server",
-}
-
-BOOKSTORE_NAME_MAP = {
-    "authservice": "auth-service",
-    "auth": "auth-service",
-    "cartservice": "cart-service",
-    "cart": "cart-service",
-    "shoppingcartservice": "cart-service",
-    "shopping-cart-service": "cart-service",
-    "shopping-cart": "cart-service",
-    "customerservice": "customer-service",
-    "customer": "customer-service",
-    "deliveryservice": "delivery-service",
-    "delivery": "delivery-service",
-    "deliverymanagementservice": "delivery-service",
-    "delivery-management": "delivery-service",
-    "orderservice": "order-service",
-    "order": "order-service",
-    "orderplacementservice": "order-service",
-    "order-placement": "order-service",
-    "orderqueryservice": "order-service",
-    "order-query": "order-service",
-    "orderfulfillmentservice": "order-service",
-    "order-fulfillment": "order-service",
-    "paymentservice": "payment-service",
-    "payment": "payment-service",
-    "paymentprocessingservice": "payment-service",
-    "payment-processing": "payment-service",
-    "productservice": "product-service",
-    "product": "product-service",
-    "productcatalogservice": "product-service",
-    "product-catalog": "product-service",
-    "bookservice": "product-service",
-    "book": "product-service",
-    "apigateway": "api-gateway",
-    "api-gateway": "api-gateway",
-    "gateway": "api-gateway",
-    "configserver": "config-server",
-    "config-service": "config-server",
-    "config": "config-server",
-    "discoveryserver": "discovery-server",
-    "service-discovery": "discovery-server",
-    "service-discovery-(eureka)": "discovery-server",
-    "discovery": "discovery-server",
-    "adminserver": "admin-server",
-    "admin-service": "admin-server",
-    "admin": "admin-server",
-    "eventbroker": "discovery-server",
-    "event-broker": "discovery-server",
-    "authenticationservice": "auth-service",
-    "authentication": "auth-service",
-    "identity": "auth-service",
-    "identity-service": "auth-service",
-    "identity-&-auth": "auth-service",
-    "identity-&-auth-service": "auth-service",
-    "customer-profile": "customer-service",
-    "customer-profile-service": "customer-service",
-    "product-command": "product-service",
-    "product-command-service": "product-service",
-    "catalog-read": "product-service",
-    "catalog-read-projection": "product-service",
-    "inventory-write": "product-service",
-    "inventory-write-service": "product-service",
-    "ephemeral-cart": "cart-service",
-    "ephemeral-cart-service": "cart-service",
-    "cart-&-checkout": "cart-service",
-    "cart-&-checkout-service": "cart-service",
-    "order-orchestrator": "order-service",
-    "order-orchestrator-service": "order-service",
-    "order-saga-orchestrator": "order-service",
-    "payment-processor": "payment-service",
-    "payment-processor-service": "payment-service",
-    "payment-gateway-integration": "payment-service",
-    "payment-gateway-integration-service": "payment-service",
-    "fulfillment": "delivery-service",
-    "fulfillment-service": "delivery-service",
-    "logistics-&-delivery": "delivery-service",
-    "logistics-&-delivery-service": "delivery-service",
-}
-
-
-# ============================================
-# Referências de Serviços
-# ============================================
-
-PETCLINIC_REFERENCE = [
-    "api-gateway",
-    "config-server",
-    "discovery-server",
-    "admin-server",
-    "customers-service",
-    "vets-service",
-    "visits-service",
-]
-
-BOOKSTORE_REFERENCE = [
-    "auth-service",
-    "cart-service",
-    "customer-service",
-    "delivery-service",
-    "order-service",
-    "payment-service",
-    "product-service",
-]
-
-
-# ============================================
-# Referências de Interações
-# ============================================
-
-PETCLINIC_INTERACTIONS_REFERENCE = {
-    ("admin-server", "api-gateway"),
-    ("admin-server", "config-server"),
-    ("admin-server", "customers-service"),
-    ("admin-server", "discovery-server"),
-    ("admin-server", "vets-service"),
-    ("admin-server", "visits-service"),
-    ("api-gateway", "config-server"),
-    ("api-gateway", "customers-service"),
-    ("api-gateway", "discovery-server"),
-    ("api-gateway", "vets-service"),
-    ("api-gateway", "visits-service"),
-    ("config-server", "customers-service"),
-    ("config-server", "discovery-server"),
-    ("config-server", "vets-service"),
-    ("config-server", "visits-service"),
-    ("customers-service", "discovery-server"),
-    ("customers-service", "visits-service"),
-    ("discovery-server", "vets-service"),
-    ("discovery-server", "visits-service"),
-}
-
-BOOKSTORE_INTERACTIONS_REFERENCE = {
-    ("auth-service", "customer-service"),
-    ("cart-service", "customer-service"),
-    ("cart-service", "order-service"),
-    ("cart-service", "product-service"),
-    ("customer-service", "order-service"),
-    ("delivery-service", "order-service"),
-    ("order-service", "payment-service"),
-    ("order-service", "product-service"),
-}
-
-
-# ============================================
-# Configuração Central dos Sistemas
-# ============================================
-
-SYSTEMS = {
-    "petclinic": {
-        "name": "PetClinic",
-        "requirements": PETCLINIC_REQUIREMENTS,
-        "reference_services": PETCLINIC_REFERENCE,
-        "interaction_reference": PETCLINIC_INTERACTIONS_REFERENCE,
-        "name_map": PETCLINIC_NAME_MAP,
-    },
-    "bookstore": {
-        "name": "Bookstore",
-        "requirements": BOOKSTORE_REQUIREMENTS,
-        "reference_services": BOOKSTORE_REFERENCE,
-        "interaction_reference": BOOKSTORE_INTERACTIONS_REFERENCE,
-        "name_map": BOOKSTORE_NAME_MAP,
-    },
-    "mediastore": {
-        "name": "MediaStore",
-        "requirements": "",
-        "reference_services": [],
-        "interaction_reference": set(),
-        "name_map": {},
-    },
-    "teastore": {
-        "name": "TeaStore",
-        "requirements": "",
-        "reference_services": [],
-        "interaction_reference": set(),
-        "name_map": {},
-    },
-}
-
-
-# ============================================
 # Função auxiliar para silenciar o CrewAI
 # ============================================
 
@@ -739,11 +387,28 @@ def silent_kickoff(crew: Crew, inputs: dict):
         return crew.kickoff(inputs=inputs)
 
 
+def _format_metrics_for_prompt(service_metrics, interaction_metrics):
+    """Formata métricas de serviços e interações para exibição no prompt do Agente 3."""
+    if not service_metrics or not interaction_metrics:
+        return "Metrics unavailable."
+
+    return (
+        "Services: "
+        f"Precision={service_metrics['precision']:.4f}, "
+        f"Recall={service_metrics['recall']:.4f}, "
+        f"F1={service_metrics['f1_score']:.4f}\n"
+        "Interactions: "
+        f"Precision={interaction_metrics['precision']:.4f}, "
+        f"Recall={interaction_metrics['recall']:.4f}, "
+        f"F1={interaction_metrics['f1_score']:.4f}"
+    )
+
+
 # ============================================
-# Execução do Experimento
+# Execução do Pipeline
 # ============================================
 
-def executar_experimento(llm, system_key: str, config: dict, timestamp: str, example: str):
+def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, example: str):
     """
     Executa o experimento completo para um sistema.
     Retorna (resultados, metricas) com o terminal silencioso.
@@ -755,7 +420,7 @@ def executar_experimento(llm, system_key: str, config: dict, timestamp: str, exa
     interaction_reference = config["interaction_reference"]
     name_map = config["name_map"]
 
-    run_dir = criar_diretorio_run(system_key, timestamp)
+    run_dir = criar_diretorio_run(system_name, timestamp)
 
     agente1 = criar_agente1(llm)
     agente2 = criar_agente2(llm)
@@ -825,13 +490,47 @@ def executar_experimento(llm, system_key: str, config: dict, timestamp: str, exa
         print(f"✗ Erro no Agente 2: {str(e)}")
         resultados["proposta_b"] = None
 
+    # --- Calcular métricas preliminares de A e B para o Agente 3 ---
+    metricas_pre = {}
+    for key in ["proposta_a", "proposta_b"]:
+        if resultados.get(key):
+            try:
+                services = parse_csv_architecture(resultados[key])
+                metricas_pre[key] = calculate_metrics(services, reference_services, name_map)
+            except Exception:
+                metricas_pre[key] = None
+        else:
+            metricas_pre[key] = None
+
+    for key in ["proposta_a", "proposta_b"]:
+        if resultados.get(key):
+            try:
+                gen_inter = parse_csv_interactions(resultados[key], name_map)
+                metricas_pre[f"{key}_inter"] = evaluate_interactions(gen_inter, interaction_reference)
+            except Exception:
+                metricas_pre[f"{key}_inter"] = None
+        else:
+            metricas_pre[f"{key}_inter"] = None
+
     # --- Executar Agente 3 (Validador) ---
     if resultados["proposta_a"] and resultados["proposta_b"]:
         try:
+            metrics_a_text = _format_metrics_for_prompt(
+                metricas_pre.get("proposta_a"),
+                metricas_pre.get("proposta_a_inter"),
+            )
+            metrics_b_text = _format_metrics_for_prompt(
+                metricas_pre.get("proposta_b"),
+                metricas_pre.get("proposta_b_inter"),
+            )
+
             crew3 = Crew(agents=[agente3], tasks=[task3], verbose=False)
             output_c = silent_kickoff(crew3, {
                 "architecture_a": resultados["proposta_a"],
                 "architecture_b": resultados["proposta_b"],
+                "metrics_a": metrics_a_text,
+                "metrics_b": metrics_b_text,
+                "requirements": requirements,
             })
             output_c_limpo = extrair_csv_do_output(str(output_c))
 
@@ -847,21 +546,19 @@ def executar_experimento(llm, system_key: str, config: dict, timestamp: str, exa
     else:
         resultados["consolidada"] = None
 
-    # --- Avaliação ---
+    # --- Avaliação final ---
     metricas = {}
     for key in ["proposta_a", "proposta_b", "consolidada"]:
         if resultados.get(key):
             services = parse_csv_architecture(resultados[key])
-            metrics = calculate_metrics(services, reference_services, name_map)
-            metricas[key] = metrics
+            metricas[key] = calculate_metrics(services, reference_services, name_map)
         else:
             metricas[key] = None
 
     for key in ["proposta_a", "proposta_b", "consolidada"]:
         if resultados.get(key):
             gen_inter = parse_csv_interactions(resultados[key], name_map)
-            inter_metrics = evaluate_interactions(gen_inter, interaction_reference)
-            metricas[f"{key}_inter"] = inter_metrics
+            metricas[f"{key}_inter"] = evaluate_interactions(gen_inter, interaction_reference)
         else:
             metricas[f"{key}_inter"] = None
 
@@ -872,226 +569,36 @@ def executar_experimento(llm, system_key: str, config: dict, timestamp: str, exa
     return resultados, metricas
 
 
-# ============================================
-# Impressão Final Consolidada
-# ============================================
-
-def _fmt(value):
-    return "—" if value is None else f"{value:.4f}"
-
-
-def _best_proposals(m_a, m_b, m_c):
-    """Retorna lista de tuplas (rótulo, métrica) com maior F1, incluindo empates."""
-    candidates = [("A", m_a), ("B", m_b), ("Consolidada", m_c)]
-    valid = [(label, m) for label, m in candidates if m is not None]
-    if not valid:
-        return []
-    max_f1 = max(m["f1_score"] for _, m in valid)
-    return [(label, m) for label, m in valid if m["f1_score"] == max_f1]
-
-
-def _format_best(best_list):
-    if not best_list:
-        return "—"
-    return ", ".join(f"{label} (F1 {m['f1_score']:.4f})" for label, m in best_list)
-
-
-def imprimir_resultados_finais(resultados_sistemas):
+def executar_pipeline(system_name: str,
+                      requirements: str,
+                      reference_services: list,
+                      interaction_reference: set,
+                      name_map: dict,
+                      example: str = EXAMPLE_GENERIC) -> tuple:
     """
-    Exibe os resultados finais de forma consolidada e legível.
+    Função pública que executa o pipeline multiagente para um sistema.
 
-    Apresenta:
-    1. Resumo final de Serviços (RQ1)
-    2. Resumo final de Interações (RQ2)
-    3. Melhores resultados por sistema
+    Args:
+        system_name (str): Nome do sistema.
+        requirements (str): Texto dos requisitos do sistema.
+        reference_services (list): Lista de serviços de referência (ground truth).
+        interaction_reference (set): Conjunto de pares de interações de referência.
+        name_map (dict): Mapa de normalização de nomes.
+        example (str): Exemplo Few-Shot genérico. Default: EXAMPLE_GENERIC.
+
+    Returns:
+        tuple: (resultados, metricas)
+            - resultados: dict com 'proposta_a', 'proposta_b', 'consolidada'
+            - metricas: dict com métricas de serviços e interações
     """
-
-    # =========================================================
-    # RESUMO FINAL — SERVIÇOS (RQ1)
-    # =========================================================
-    print("\n" + "=" * 100)
-    print("RESUMO FINAL — SERVIÇOS (RQ1)")
-    print("=" * 100)
-
-    print(
-        f"{'Sistema':<15}"
-        f"{'Proposta':<15}"
-        f"{'Precision':<13}"
-        f"{'Recall':<13}"
-        f"{'F1-Score':<13}"
-    )
-    print("-" * 100)
-
-    for system_key, metricas in resultados_sistemas.items():
-        if not metricas:
-            continue
-
-        propostas = [
-            ("A", metricas.get("proposta_a")),
-            ("B", metricas.get("proposta_b")),
-            ("Consolidada", metricas.get("consolidada")),
-        ]
-
-        for proposta, m in propostas:
-            if m:
-                print(
-                    f"{SYSTEMS[system_key]['name']:<15}"
-                    f"{proposta:<15}"
-                    f"{m['precision']:<13.4f}"
-                    f"{m['recall']:<13.4f}"
-                    f"{m['f1_score']:<13.4f}"
-                )
-            else:
-                print(
-                    f"{SYSTEMS[system_key]['name']:<15}"
-                    f"{proposta:<15}"
-                    f"{'—':<13}"
-                    f"{'—':<13}"
-                    f"{'—':<13}"
-                )
-
-    # =========================================================
-    # RESUMO FINAL — INTERAÇÕES (RQ2)
-    # =========================================================
-    print("\n" + "=" * 100)
-    print("RESUMO FINAL — INTERAÇÕES (RQ2)")
-    print("=" * 100)
-
-    print(
-        f"{'Sistema':<15}"
-        f"{'Proposta':<15}"
-        f"{'Precision':<13}"
-        f"{'Recall':<13}"
-        f"{'F1-Score':<13}"
-    )
-    print("-" * 100)
-
-    for system_key, metricas in resultados_sistemas.items():
-        if not metricas:
-            continue
-
-        propostas_inter = [
-            ("A", metricas.get("proposta_a_inter")),
-            ("B", metricas.get("proposta_b_inter")),
-            ("Consolidada", metricas.get("consolidada_inter")),
-        ]
-
-        for proposta, m in propostas_inter:
-            if m:
-                print(
-                    f"{SYSTEMS[system_key]['name']:<15}"
-                    f"{proposta:<15}"
-                    f"{m['precision']:<13.4f}"
-                    f"{m['recall']:<13.4f}"
-                    f"{m['f1_score']:<13.4f}"
-                )
-            else:
-                print(
-                    f"{SYSTEMS[system_key]['name']:<15}"
-                    f"{proposta:<15}"
-                    f"{'—':<13}"
-                    f"{'—':<13}"
-                    f"{'—':<13}"
-                )
-
-    # =========================================================
-    # MELHORES RESULTADOS POR SISTEMA
-    # =========================================================
-    print("\n" + "=" * 100)
-    print("MELHORES RESULTADOS POR SISTEMA")
-    print("=" * 100)
-
-    print(
-        f"{'Sistema':<15}"
-        f"{'Melhor Serviços':<35}"
-        f"{'Melhor Interações':<35}"
-    )
-    print("-" * 100)
-
-    for system_key, metricas in resultados_sistemas.items():
-        if not metricas:
-            continue
-
-        best_serv = _best_proposals(
-            metricas.get("proposta_a"),
-            metricas.get("proposta_b"),
-            metricas.get("consolidada"),
-        )
-        best_inter = _best_proposals(
-            metricas.get("proposta_a_inter"),
-            metricas.get("proposta_b_inter"),
-            metricas.get("consolidada_inter"),
-        )
-
-        print(
-            f"{SYSTEMS[system_key]['name']:<15}"
-            f"{_format_best(best_serv):<35}"
-            f"{_format_best(best_inter):<35}"
-        )
-
-
-# ============================================
-# Main
-# ============================================
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Experimento Multiagente Few-Shot Generalizado"
-    )
-    parser.add_argument(
-        "--system", "-s",
-        choices=list(SYSTEMS.keys()),
-        default="petclinic",
-        help="Sistema para executar o experimento"
-    )
-    parser.add_argument(
-        "--all", "-a",
-        action="store_true",
-        help="Executar experimento com todos os sistemas cadastrados"
-    )
-    args = parser.parse_args()
-
-    print("=" * 60)
-    print("MULTIAGENT ARCHITECTURE GENERATION (FEW-SHOT GENERALIZADO)")
-    print("=" * 60)
-
     llm = criar_llm()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    if args.all:
-        sistemas_para_executar = list(SYSTEMS.keys())
-    else:
-        sistemas_para_executar = [args.system]
-
-    resultados_sistemas = {}
-
-    for system_key in sistemas_para_executar:
-        config = SYSTEMS[system_key]
-
-        if not config["requirements"] or not config["reference_services"]:
-            print(f"\n⚠ {config['name']}: não configurado. Ignorando.")
-            continue
-
-        print(f"\n▶ Executando {config['name']}...")
-        try:
-            _, metricas = executar_experimento(
-                llm,
-                system_key,
-                config,
-                timestamp,
-                EXAMPLE_GENERIC,
-            )
-            resultados_sistemas[system_key] = metricas
-            print(f"  ✓ {config['name']} concluído")
-        except Exception as e:
-            print(f"  ✗ {config['name']} falhou: {e}")
-
-    imprimir_resultados_finais(resultados_sistemas)
-
-    print("\n" + "=" * 60)
-    print("✅ EXPERIMENTO CONCLUÍDO")
-    print("=" * 60)
-
-
-if __name__ == "__main__":
-    main()
+    config = {
+        "name": system_name,
+        "requirements": requirements,
+        "reference_services": reference_services,
+        "interaction_reference": interaction_reference,
+        "name_map": name_map,
+    }
+    resultados, metricas = _executar_experimento(llm, system_name, config, timestamp, example)
+    return resultados, metricas

@@ -23,6 +23,8 @@ except ModuleNotFoundError:
 HOST = "127.0.0.1"
 PORT = 8000
 BASE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = BASE_DIR.parent
+RESULTS_DIR = PROJECT_ROOT / "result"
 STATIC_DIR = BASE_DIR / "static"
 IMAGE_DIR = BASE_DIR / "img"
 LOGO_PATH = IMAGE_DIR / "Logo-DAVINCI.png"
@@ -43,6 +45,89 @@ REQUIRED_SYSTEM_FIELDS = (
     "reference_services",
     "reference_interactions",
 )
+
+
+def _latest_persisted_proposals(system_name: str) -> dict[str, str]:
+    """Return the newest saved agent proposals for one system, when available."""
+    run_root = RESULTS_DIR / system_name.lower() / "result_generalized_fewshot"
+    if not run_root.is_dir():
+        return {}
+
+    for run_dir in sorted(
+        (path for path in run_root.glob("run_*") if path.is_dir()),
+        key=lambda path: path.name,
+        reverse=True,
+    ):
+        proposals = {}
+        for result_key, filename in (
+            ("agent_a", "proposta_a.csv"),
+            ("agent_b", "proposta_b.csv"),
+            ("consolidated", "consolidada.csv"),
+        ):
+            file_path = run_dir / filename
+            if file_path.is_file():
+                try:
+                    proposals[result_key] = file_path.read_text(encoding="utf-8").strip()
+                except OSError:
+                    continue
+        if proposals:
+            return proposals
+    return {}
+
+
+def _persisted_report_run() -> dict | None:
+    """Build the minimum report model from saved pipeline artifacts after a restart."""
+    if not RESULTS_DIR.is_dir():
+        return None
+
+    proposals = []
+    latest_timestamp = 0.0
+    for system_dir in RESULTS_DIR.iterdir():
+        if not system_dir.is_dir():
+            continue
+        saved_proposals = _latest_persisted_proposals(system_dir.name)
+        if not saved_proposals:
+            continue
+        run_dirs = [path for path in (system_dir / "result_generalized_fewshot").glob("run_*") if path.is_dir()]
+        if run_dirs:
+            latest_timestamp = max(latest_timestamp, max(path.stat().st_mtime for path in run_dirs))
+        proposals.append({"system": system_dir.name, **saved_proposals})
+
+    if not proposals:
+        return None
+    generated_at = datetime.fromtimestamp(latest_timestamp).strftime("%Y-%m-%d %H:%M:%S") if latest_timestamp else "unknown"
+    systems = [{"system_name": item["system"]} for item in proposals]
+    return {
+        "run_id": "persisted-results",
+        "generated_at": generated_at,
+        "systems": systems,
+        "proposals": proposals,
+        "service_metrics": [],
+        "interaction_metrics": [],
+        "best_results": [],
+    }
+
+
+def _report_run() -> dict | None:
+    """Prefer persisted proposal CSVs, falling back to the in-memory run data."""
+    if LATEST_RUN is None:
+        return _persisted_report_run()
+
+    report_run = {**LATEST_RUN}
+    fallback_proposals = {item["system"]: item for item in LATEST_RUN.get("proposals", [])}
+    proposals = []
+    for system in LATEST_RUN.get("systems", []):
+        system_name = system.get("system_name", "").strip()
+        fallback = fallback_proposals.get(system_name, {})
+        saved = _latest_persisted_proposals(system_name)
+        proposals.append({
+            "system": system_name,
+            "agent_a": saved.get("agent_a", fallback.get("agent_a", "")),
+            "agent_b": saved.get("agent_b", fallback.get("agent_b", "")),
+            "consolidated": saved.get("consolidated", fallback.get("consolidated", "")),
+        })
+    report_run["proposals"] = proposals
+    return report_run
 
 
 def empty_system_definition() -> dict:
@@ -102,14 +187,14 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
         )
 
     def _serve_pdf_report(self) -> None:
-        # TODO: Integrate full PDF later with persisted real pipeline artifacts.
-        if LATEST_RUN is None:
+        report_run = _report_run()
+        if report_run is None:
             self._send_json(
                 HTTPStatus.NOT_FOUND,
                 {"ok": False, "code": "report_unavailable", "message": "Run a successful pipeline execution before downloading a report."},
             )
             return
-        content = build_pdf_report(LATEST_RUN)
+        content = build_pdf_report(report_run)
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "application/pdf")
         self.send_header("Content-Disposition", "attachment; filename=virtus-architecture-report.pdf")

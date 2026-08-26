@@ -1,66 +1,72 @@
-- O sistema deve permitir cadastro de usuários com nome de usuário e senha.
-- O sistema deve permitir login de usuários já cadastrados.
-- O sistema deve diferenciar pelo menos dois perfis de uso: usuário comum e administrador.
-- O sistema deve negar o acesso quando o usuário não existir, quando a senha estiver incorreta ou quando o perfil informado não corresponder ao cadastro.
-- O sistema deve manter a identificação do usuário logado durante a navegação no navegador.
-- O sistema deve exibir a área de gestão de recursos apenas para usuários identificados como administradores.
-- O sistema deve permitir que o usuário encerre a sessão.
-- O sistema deve operar com separação de perfis entre usuário comum e administrador.
-- Funções de gestão do acervo devem ser restritas ao perfil administrador.
-- A sessão do usuário deve permanecer identificada no navegador até que ele realize logout ou limpe seus dados locais.
-- O sistema deve impedir cadastro duplicado de usuários com o mesmo nome de usuário.
+- The system must allow user registration with username and password.
+- The system must allow login for already registered users.
+- The system must differentiate at least two usage profiles: regular user and administrator.
+- The system must deny access when the user does not exist, when the password is incorrect, or when the informed profile does not match the registration.
+- The system must maintain the logged user identification during browser navigation.
+- The system must show the resource management area only to users identified as administrators.
+- The system must allow the user to end the session.
+- The system must operate with separation between regular user and administrator profiles.
+- Collection management functions must be restricted to the administrator profile.
+- The user session must remain identified in the browser until logout or local data clearing.
+- The system must prevent duplicate user registration with the same username.
+- The system must maintain authentication as a separate capability, responsible exclusively for registration, login, session, and profile control.
 
-- O sistema deve exibir uma página inicial com a listagem de filmes disponíveis.
-- Cada filme listado deve apresentar, no mínimo, título, pôster e nota.
-- O sistema deve organizar a listagem de filmes em páginas.
-- O sistema deve permitir a consulta da quantidade total de filmes cadastrados para suportar a navegação paginada.
-- O sistema deve permitir abrir a página de detalhes de um filme a partir da listagem.
-- O sistema deve apresentar uma página de detalhes para cada filme.
-- A página de detalhes deve exibir, no mínimo, título, nota, nome alternativo, data de lançamento, duração, direção, roteiro, elenco, sinopse, pôster e categorias.
-- O sistema deve permitir visualizar o elenco completo do filme.
-- O sistema deve impedir a consulta de detalhes de filmes inexistentes, retornando uma mensagem de erro apropriada.
-- O sistema deve disponibilizar uma área de navegação por categorias de filmes.
-- O sistema deve permitir visualizar todas as categorias cadastradas.
-- O sistema deve permitir listar apenas os filmes pertencentes a uma categoria selecionada.
-- Um filme deve poder pertencer a mais de uma categoria.
-- O sistema deve permitir voltar da visão por categoria para a visão geral do catálogo.
-- O sistema deve permitir iniciar a reprodução de um filme a partir da sua página de detalhes.
-- O sistema deve disponibilizar um link para download do arquivo do filme quando o recurso estiver pronto para consumo.
-- Antes da reprodução, o sistema deve garantir que o arquivo de vídeo esteja disponível na área usada pela aplicação para entrega do conteúdo.
-- Se o arquivo ainda não estiver disponível nessa área de entrega, o sistema deve tentar obtê-lo a partir do repositório local configurado.
-- O processo padrão de reprodução pressupõe que o arquivo físico do filme tenha correspondência com o título cadastrado.
+- The system must display a home page with the list of available movies.
+- Each listed movie must show at least title, poster, and rating.
+- The system must organize the movie listing into pages.
+- The system must allow consulting the total number of registered movies to support paginated navigation.
+- The system must allow opening the movie details page from the listing.
+- The system must present a details page for each movie.
+- The details page must show at least title, rating, alternative name, release date, duration, direction, screenplay, cast, synopsis, poster, and categories.
+- The system must allow viewing the full movie cast.
+- The system must prevent consulting details of nonexistent movies, returning an appropriate error message.
+- The system must provide a navigation area for movie categories.
+- The system must allow viewing all registered categories.
+- The system must allow listing only movies belonging to a selected category.
+- A movie must be able to belong to more than one category.
+- The system must allow returning from the category view to the general catalog view.
+- The system must maintain the movie catalog as a separate capability, responsible for listing, details, and categories.
+- The catalog capability depends on authentication to validate user access and restrict management operations.
 
-- O administrador deve poder cadastrar um novo filme no catálogo.
-- O cadastro de filme deve incluir, no mínimo, título, nota, nome alternativo, data de lançamento, duração, direção, roteiro, elenco, categorias, sinopse e pôster.
-- O sistema deve impedir o cadastro duplicado de filmes com o mesmo título.
-- O administrador deve poder enviar o arquivo de vídeo do filme para a aplicação.
-- O administrador deve poder excluir um filme do catálogo.
-- O sistema deve permitir a exclusão em lote de mais de um filme.
-- O sistema deve informar ao administrador quais filmes foram selecionados antes da exclusão em lote.
-- O sistema deve impedir a exclusão de filmes inexistentes.
-- O título do filme deve ser tratado como identificador único do cadastro no catálogo.
+- The system must allow starting movie playback from the details page.
+- The system must provide a download link for the movie file when the resource is ready for consumption.
+- Before playback, the system must ensure that the video file is available in the area used by the application for content delivery.
+- If the file is not yet available in the delivery area, the system must try to obtain it from the configured local repository.
+- The standard playback process assumes that the physical movie file corresponds to the registered title.
+- Video file upload and movie registration are related but independent steps.
+- Automatic playback depends on the existence of an MP4 file corresponding to the registered title.
+- The source movie filename must follow the expected pattern configured in the environment for automatic loading to work.
+- The system must support large video file uploads, up to 2 GB per file.
+- The operational process must consider MP4 as the standard video format.
+- The application environment must have a local area to temporarily store or serve the video files used during playback.
+- The application environment must have a configured local repository from which movies can be loaded on demand.
+- The system must maintain media as a separate capability from the catalog, responsible for upload, storage, and video delivery.
+- The media capability depends on the catalog to identify the registered movie corresponding to each video file.
+- The media capability depends on authentication to validate access before playback and download.
 
-- O envio do arquivo de vídeo e o cadastro do filme são etapas relacionadas, mas independentes.
-- A reprodução automática depende da existência de um arquivo MP4 correspondente ao título cadastrado.
-- O nome do arquivo de origem do filme precisa seguir o padrão esperado pela configuração do ambiente para que a carga automática funcione.
-- O sistema deve suportar upload de arquivos de vídeo grandes, de até 2 GB por arquivo.
-- O processo operacional da aplicação deve considerar o formato MP4 como formato padrão de vídeo.
-- O ambiente da aplicação deve possuir uma área local para armazenar temporariamente ou servir os arquivos de vídeo consumidos na reprodução.
-- O ambiente da aplicação deve possuir um repositório local configurado de onde os filmes possam ser carregados sob demanda.
+- The administrator must be able to register a new movie in the catalog.
+- Movie registration must include at least title, rating, alternative name, release date, duration, direction, screenplay, cast, categories, synopsis, and poster.
+- The system must prevent duplicate movie registration with the same title.
+- The administrator must be able to upload the movie video file to the application.
+- The administrator must be able to delete a movie from the catalog.
+- The system must allow batch deletion of more than one movie.
+- The system must inform the administrator which movies were selected before batch deletion.
+- The system must prevent deleting nonexistent movies.
+- The movie title must be treated as the unique identifier in the catalog registration.
 
-- A aplicação deve ser acessível por interface web.
-- A navegação do catálogo deve ser simples e direta, com acesso visível à página inicial, categorias, detalhes e reprodução.
-- A aplicação deve apresentar mensagens claras de sucesso, alerta e falha nas operações principais, como login, cadastro, inclusão, exclusão, upload e reprodução.
-- A exibição do catálogo deve ser paginada em blocos de até 12 filmes por página, favorecendo organização visual e desempenho percebido.
-- O sistema deve manter um padrão único de resposta para as operações, indicando status, mensagem e dados retornados.
+- The application must be accessible through a web interface.
+- Catalog navigation must be simple and direct, with visible access to the home page, categories, details, and playback.
+- The application must present clear success, warning, and failure messages for main operations such as login, registration, inclusion, deletion, upload, and playback.
+- Catalog display must be paginated in blocks of up to 12 movies per page, supporting visual organization and perceived performance.
+- The system must maintain a single response pattern for operations, indicating status, message, and returned data.
 
-- As informações de usuários, filmes e categorias devem ser persistidas de forma durável.
-- O sistema deve preservar a unicidade de usuários e filmes para evitar duplicidades no acervo e no acesso.
-- O tratamento de erros deve retornar mensagens controladas ao usuário sempre que possível.
-- Os dados de usuários, filmes e categorias devem ser armazenados em uma base estruturada que suporte os relacionamentos do catálogo.
-- A solução deve permitir que a interface do usuário e os serviços da aplicação evoluam de forma separada.
-- A interface do usuário deve conseguir consumir os serviços da aplicação mesmo quando estiver publicada em ambiente distinto.
+- User, movie, and category information must be durably persisted.
+- The system must preserve user and movie uniqueness to avoid duplicates in the collection and access.
+- Error handling must return controlled messages to the user whenever possible.
+- User, movie, and category data must be stored in a structured database that supports catalog relationships.
+- The solution must allow the user interface and application services to evolve separately.
+- The user interface must be able to consume application services even when published in a different environment.
 
-- A intenção de restringir a gestão de recursos ao administrador está clara na interface, mas essa restrição não aparece validada de forma completa no backend.
-- O sistema atual está mais orientado a um acervo local de filmes do que a um armazenamento remoto ou serviço de streaming externo.
-- A disponibilidade para reprodução depende tanto do cadastro do filme quanto da existência do arquivo físico correspondente.
+- The intention to restrict resource management to the administrator is clear in the interface, but this restriction is not completely validated in the backend.
+- The current system is more oriented to a local movie collection than to remote storage or an external streaming service.
+- Playback availability depends on both movie registration and the existence of the corresponding physical file.

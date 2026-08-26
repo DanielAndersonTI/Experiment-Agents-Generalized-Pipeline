@@ -1,76 +1,87 @@
-- O sistema deve permitir o cadastro de bibliotecários por meio de nome de usuário e senha.
-- O sistema não deve permitir o cadastro de um bibliotecário com nome de usuário já existente.
-- O sistema deve exigir o preenchimento de nome de usuário e senha no cadastro.
-- O sistema deve aceitar apenas senhas consideradas fortes o suficiente para uso seguro.
-- O sistema deve rejeitar senhas muito curtas.
-- O sistema deve permitir que bibliotecários autenticados informem nome de usuário e senha para entrar no sistema.
-- O sistema deve conceder acesso somente quando usuário e senha corresponderem exatamente ao cadastro existente.
-- O sistema deve negar o acesso quando usuário ou senha estiverem incorretos ou não forem informados.
-- O sistema deve tratar credenciais de bibliotecários de forma protegida, sem depender da senha em texto puro para validação posterior.
-- O sistema deve responder de forma clara a tentativas de acesso negadas, sem expor detalhes sensíveis do processamento interno.
-- O sistema deve permitir o cadastro de livros no acervo por título.
-- O sistema não deve permitir o cadastro duplicado de um mesmo livro.
-- O sistema deve informar quando a tentativa de cadastro de livro falhar por falta de título.
-- O sistema deve permitir a exclusão de livros já cadastrados.
-- O sistema não deve permitir a exclusão de livros que nunca foram cadastrados.
-- O sistema deve excluir também o vínculo de empréstimo quando um livro removido estiver emprestado.
-- O sistema deve permitir listar todos os livros cadastrados.
-- O sistema deve permitir consultar um livro por identificador.
-- O sistema deve permitir consultar um livro por título.
-- O sistema deve permitir listar apenas os livros disponíveis para empréstimo.
-- O sistema deve informar quando não houver livros cadastrados ou quando uma busca não encontrar resultado.
+- The system must allow librarian registration using username and password.
+- The system must not allow registering a librarian with an already existing username.
+- The system must require filling in username and password during registration.
+- The system must accept only passwords considered strong enough for safe use.
+- The system must reject very short passwords.
+- The system must allow authenticated librarians to provide username and password to enter the system.
+- The system must grant access only when username and password exactly match the existing registration.
+- The system must deny access when username or password are incorrect or not provided.
+- The system must handle librarian credentials securely, without depending on plain-text passwords for later validation.
+- The system must respond clearly to denied access attempts, without exposing sensitive internal processing details.
+- The system must maintain authentication as a separate capability, responsible for registration, login, and session validation.
 
-- O sistema deve permitir o cadastro de leitores aptos a receber empréstimos.
-- O sistema não deve permitir o cadastro duplicado de um mesmo leitor.
-- O sistema deve informar quando a tentativa de cadastro de leitor falhar por falta de nome.
-- O sistema deve permitir a exclusão de leitores já cadastrados.
-- O sistema não deve permitir a exclusão de leitores que nunca foram cadastrados.
-- O sistema deve excluir também os vínculos de empréstimo quando um leitor removido possuir livros emprestados.
-- O sistema deve permitir listar todos os leitores cadastrados.
-- O sistema deve permitir consultar um leitor por identificador.
-- O sistema deve permitir consultar um leitor por nome.
-- O sistema deve informar quando não houver leitores cadastrados ou quando uma busca não encontrar resultado.
-- O sistema não deve aceitar, na mesma consulta, busca simultânea por identificador e por nome/título.
+- The system must allow registering books in the collection by title.
+- The system must not allow duplicate registration of the same book.
+- The system must inform when book registration fails due to missing title.
+- The system must allow deleting already registered books.
+- The system must not allow deleting books that were never registered.
+- The system must also remove the loan link when a removed book is currently on loan.
+- The system must allow listing all registered books.
+- The system must allow consulting a book by identifier.
+- The system must allow consulting a book by title.
+- The system must allow listing only books available for loan.
+- The system must inform when there are no registered books or when a search returns no results.
+- The system must maintain the book catalog as a separate capability.
 
-- O sistema deve permitir registrar o empréstimo de um livro para um leitor cadastrado.
-- O sistema deve registrar a data em que o empréstimo foi realizado.
-- O sistema não deve permitir empréstimo para pessoa que não esteja cadastrada como leitora.
-- O sistema não deve permitir empréstimo de livro que não esteja cadastrado.
-- O sistema não deve permitir empréstimo de livro que já esteja emprestado a outra pessoa.
-- O sistema deve permitir que um mesmo leitor tenha mais de um livro emprestado ao mesmo tempo.
-- O sistema deve garantir que um mesmo livro esteja emprestado para apenas um leitor por vez.
-- O sistema deve informar claramente quando um empréstimo não puder ser concluído.
-- O sistema deve consultar os dados do leitor e do livro durante o registro do empréstimo, garantindo que as informações estejam atualizadas.
-- O sistema deve preservar a consistência entre livros, leitores e empréstimos, evitando registros inválidos ou contraditórios.
+- The system must allow registering readers eligible for loans.
+- The system must not allow duplicate registration of the same reader.
+- The system must inform when reader registration fails due to missing name.
+- The system must allow deleting already registered readers.
+- The system must not allow deleting readers that were never registered.
+- The system must also remove loan links when a removed reader has borrowed books.
+- The system must allow listing all registered readers.
+- The system must allow consulting a reader by identifier.
+- The system must allow consulting a reader by name.
+- The system must inform when there are no registered readers or when a search returns no results.
+- The system must not accept simultaneous search by identifier and by name/title in the same query.
+- The system must maintain reader management as a separate capability.
 
-- O sistema deve permitir limpar os dados e a estrutura da base para reiniciar o ambiente.
-- O sistema deve permitir recriar a estrutura da base quando necessário.
-- O sistema deve permitir restaurar rapidamente o ambiente para um estado limpo e pronto para novos testes.
-- Para executar essas operações de reinício, o sistema deve coordenar as diferentes áreas funcionais envolvidas, garantindo que seus dados sejam restaurados de forma consistente.
+- The system must allow registering a book loan for a registered reader.
+- The system must record the loan date.
+- The system must not allow loans for people not registered as readers.
+- The system must not allow loans for unregistered books.
+- The system must not allow loans for books already borrowed by another person.
+- The system must allow the same reader to borrow multiple books at the same time.
+- The system must ensure the same book is loaned to only one reader at a time.
+- The system must clearly inform when a loan cannot be completed.
+- The system must consult reader and book data during loan registration, ensuring information is current.
+- The system must preserve consistency among books, readers, and loans, avoiding invalid or contradictory records.
+- The system must maintain loan management as a separate capability.
+- The loan capability depends on the reader management capability to validate the reader.
+- The loan capability depends on the book catalog capability to validate the book.
 
-- O sistema deve permitir somar dois números inteiros informados pelo usuário.
-- O sistema deve permitir calcular valores da sequência de Fibonacci com mais de uma abordagem de cálculo.
-- O sistema deve permitir calcular resultados da função de Ackermann com mais de uma abordagem de cálculo.
-- O sistema deve informar erro quando os serviços matemáticos receberem valores fora do formato esperado.
-- O sistema deve oferecer um catálogo de serviços para consulta e teste de endpoints disponíveis.
+- The system must allow clearing data and base structure to reset the environment.
+- The system must allow recreating the base structure when necessary.
+- The system must allow quickly restoring the environment to a clean state ready for new tests.
+- To perform these reset operations, the system must coordinate the involved functional areas, ensuring data is restored consistently.
+- The system must maintain environment management as a separate capability.
 
-- O sistema deve registrar as principais operações para apoiar rastreabilidade e análise de problemas.
-- Para isso, as operações relevantes dos fluxos de cadastro, autenticação, consulta e empréstimo devem ser reportadas a um mecanismo central de registro de eventos.
-- O sistema deve manter esse registro de forma desacoplada das áreas de negócio, permitindo rastrear falhas e comportamentos sem acoplar a persistência da auditoria aos domínios funcionais.
+- The system must allow summing two integers informed by the user.
+- The system must allow calculating Fibonacci sequence values using more than one calculation approach.
+- The system must allow calculating Ackermann function results using more than one calculation approach.
+- The system must inform an error when mathematical services receive values outside the expected format.
+- The system must offer a service catalog for consulting and testing available endpoints.
+- The system must maintain demo utility as a separate capability.
 
-- O sistema deve poder ser utilizado por meio de formulários web simples, com retorno rápido e legível para cada ação.
-- O sistema deve oferecer mensagens objetivas de sucesso, negação e erro para orientar o usuário.
-- O sistema deve reduzir digitação manual em fluxos repetitivos, como empréstimo de livros, por meio de listas ou sugestões.
-- O sistema deve facilitar o preenchimento do empréstimo exibindo opções de livros disponíveis e leitores cadastrados.
-- O sistema deve adaptar a forma de escolha na tela de empréstimo conforme a quantidade de opções disponíveis.
-- O sistema deve bloquear o campo de seleção de empréstimo quando não houver dados disponíveis para escolha.
-- O sistema deve exibir o resultado de cada operação de forma imediata após o envio do formulário.
+- The system must record main operations to support traceability and problem analysis.
+- To achieve this, relevant operations from registration, authentication, consultation, and loan flows must be reported to a central event recording mechanism.
+- The system must maintain this record decoupled from business areas, allowing failure and behavior tracking without coupling audit persistence to functional domains.
+- The system must maintain audit as a separate capability.
+- The authentication, book catalog, reader management, and loan capabilities depend on the audit capability to record their main operations.
 
-- O sistema deve manter comportamento consistente tanto pela interface principal quanto pelos endpoints de consulta e envio de dados.
-- O sistema deve funcionar em navegadores comuns e considerar uso em telas menores.
-- As regras centrais de cadastro, autenticação, consulta e empréstimo devem ser verificadas de forma repetível por testes automatizados.
-- O sistema deve estar organizado por domínios de negócio, favorecendo manutenção e ampliação das funcionalidades.
+- The system must be usable through simple web forms, with fast and readable feedback for each action.
+- The system must offer clear success, denial, and error messages.
+- The system must reduce manual typing in repetitive flows, such as book loans, through lists or suggestions.
+- The system must facilitate loan completion by showing available books and registered readers.
+- The system must adapt the loan selection method according to the number of available options.
+- The system must block the loan selection field when no data is available.
+- The system must display the result of each operation immediately after form submission.
 
-- O código implementa regras de exclusão de livros e leitores, mas a tela principal atual não expõe esses comandos diretamente.
-- O sistema possui autenticação de bibliotecários, mas o código atual não mostra bloqueio de sessão nas demais operações da biblioteca.
-- A parte de biblioteca e autenticação é o núcleo de negócio mais claro da aplicação; os módulos matemáticos aparecem como funcionalidades auxiliares de demonstração.
+- The system must maintain consistent behavior across the main interface and data query/sending endpoints.
+- The system must work in common browsers and consider small screen usage.
+- Central registration, authentication, consultation, and loan rules must be repeatably verifiable by automated tests.
+- The system must be organized by business domains, supporting maintenance and feature expansion.
+
+- The code implements book and reader deletion rules, but the current main screen does not directly expose these commands.
+- The system has librarian authentication, but the current code does not show session blocking in other library operations.
+- The library and authentication part is the clearest business core; mathematical modules appear as auxiliary demonstration features.

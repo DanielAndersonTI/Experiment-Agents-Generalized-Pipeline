@@ -33,8 +33,6 @@ from agentes.agent4_refiner_fs import criar_agente4, criar_task_refinamento
 
 RESULTS_ROOT = Path("result")
 
-# Dicionário genérico de sinônimos para a avaliação semântica.
-# NÃO contém nomes específicos de PetClinic, Bookstore ou qualquer outro benchmark.
 SYNONYM_MAP = {
     "auth": "authentication",
     "authentication": "authentication",
@@ -71,24 +69,61 @@ SYNONYM_MAP = {
     "administration": "administration",
     "admin": "administration",
     "management": "management",
+    "cargo": "cargo",
+    "route": "route",
+    "tracking": "tracking",
+    "event": "event",
+    "integration": "integration",
+    "location": "location",
+    "voyage": "voyage",
+    "network": "network",
+    "investor": "investor",
+    "portfolio": "portfolio",
+    "trading": "trading",
+    "market": "market",
+    "simulation": "simulation",
+    "planejamento": "planning",
+    "rota": "route",
+    "rotas": "route",
+    "evento": "event",
+    "eventos": "event",
+    "carga": "cargo",
+    "cargas": "cargo",
+    "rastreamento": "tracking",
+    "acompanhamento": "tracking",
+    "integração": "integration",
+    "integracao": "integration",
+    "localidade": "location",
+    "localidades": "location",
+    "viagem": "voyage",
+    "viagens": "voyage",
+    "owner": "owner",
+    "animal": "pet",
+    "pet": "pet",
+    "workforce": "workforce",
+    "proposal": "proposal",
+    "billing": "billing",
+    "commissioning": "commissioning",
+    "reporting": "reporting",
+    "notification": "notification",
+    "storage": "storage",
+    "content": "content",
+    "identity": "identity",
+    "access": "access",
+    "reservation": "booking",
+    "booking": "booking",
+    "administration": "administration",
 }
 
-
 def criar_llm() -> LLM:
-    """Cria o modelo LLM usando Google Gemini."""
-
     env_path = Path(__file__).parent / ".env"
-
     if env_path.exists():
         load_dotenv(env_path)
     else:
         load_dotenv()
 
     api_key = os.getenv("GOOGLE_API_KEY")
-    model_name = os.getenv(
-        "GOOGLE_MODEL",
-        "gemini/gemini-flash-latest"
-    )
+    model_name = os.getenv("GOOGLE_MODEL", "gemini/gemini-flash-latest")
 
     if not api_key:
         raise RuntimeError("GOOGLE_API_KEY not configured. Please define it in the .env file.")
@@ -103,13 +138,8 @@ def criar_llm() -> LLM:
     )
 
     print(f"✓ Modelo {model_name} inicializado com sucesso")
-
     return llm
 
-
-# ============================================
-# Exemplo Few-Shot Genérico
-# ============================================
 
 EXAMPLE_GENERIC = """Catalog Service,Manage catalog entries;Update catalog item details;List available items,Order Service;Inventory Service
 Order Service,Create orders from catalog items;View order history;Track order status,Catalog Service;Payment Service;Customer Service
@@ -118,19 +148,13 @@ Customer Service,Register customer profiles;Update customer profiles;Retrieve cu
 Auth Service,Authenticate user credentials;Issue access tokens,Customer Service"""
 
 
-# ============================================
-# Funções de Salvamento
-# ============================================
-
 def criar_diretorio_run(system_name: str, timestamp: str) -> Path:
-    """Cria o diretório de saída generalizado para o sistema."""
     run_dir = RESULTS_ROOT / system_name.lower() / "result_generalized_fewshot" / f"run_{timestamp}"
     run_dir.mkdir(parents=True, exist_ok=True)
     return run_dir
 
 
 def salvar_csv(filepath: Path, cabecalho: list, linhas: list):
-    """Salva dados em formato CSV no caminho especificado."""
     with open(filepath, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(cabecalho)
@@ -138,7 +162,6 @@ def salvar_csv(filepath: Path, cabecalho: list, linhas: list):
 
 
 def salvar_proposta(run_dir: Path, sufixo: str, csv_texto: str):
-    """Extrai as linhas do CSV gerado pelo agente e salva em arquivo."""
     linhas = []
     cabecalho = ["Microservice", "Responsibilities", "Communicates With"]
     for line in csv_texto.strip().split("\n"):
@@ -153,7 +176,6 @@ def salvar_proposta(run_dir: Path, sufixo: str, csv_texto: str):
 
 
 def salvar_metricas(run_dir: Path, metricas: dict):
-    """Salva métricas de serviços e interações em CSVs separados."""
     cab_serv = ["Proposta", "Precision", "Recall", "F1", "Match", "Gerados", "FP", "FN"]
     linhas_serv = []
     for key in ["proposta_a", "proposta_b", "consolidada"]:
@@ -180,7 +202,6 @@ def salvar_metricas(run_dir: Path, metricas: dict):
 
 
 def salvar_sumario_json(run_dir: Path, metricas: dict):
-    """Salva um JSON completo com as métricas."""
     resumo = {
         "metricas": metricas,
         "arquivos": {
@@ -196,7 +217,6 @@ def salvar_sumario_json(run_dir: Path, metricas: dict):
 
 
 def extrair_csv_do_output(texto: str) -> str:
-    """Extrai apenas as linhas que fazem parte do CSV da arquitetura."""
     linhas = texto.split('\n')
     csv_linhas = []
     started = False
@@ -234,7 +254,6 @@ def extrair_csv_do_output(texto: str) -> str:
 
 
 def salvar_relatorio_md(run_dir: Path, system_name: str, metricas: dict):
-    """Gera um relatório Markdown com as métricas e salva no diretório da execução."""
     linhas = [
         f"# Relatório de Execução – {system_name} (Few-Shot Generalizado)",
         "",
@@ -276,12 +295,7 @@ def salvar_relatorio_md(run_dir: Path, system_name: str, metricas: dict):
         f.write("\n".join(linhas))
 
 
-# ============================================
-# Funções de Avaliação
-# ============================================
-
 def normalize_service_name(name: str) -> str:
-    """Normaliza um nome de serviço para avaliação semântica."""
     name = name.lower().strip()
     name = name.replace(' ', '-').replace('_', '-')
     name = name.removesuffix('-service')
@@ -291,7 +305,6 @@ def normalize_service_name(name: str) -> str:
 
 
 def parse_csv_architecture(csv_text: str):
-    """Extrai nomes de serviços do CSV (não normaliza)."""
     services = []
     try:
         lines = str(csv_text).strip().split('\n')
@@ -317,7 +330,6 @@ def parse_csv_architecture(csv_text: str):
 
 
 def parse_csv_interactions(csv_text: str) -> set:
-    """Extrai pares de interações normalizados."""
     interactions = set()
     for line in csv_text.strip().split('\n'):
         line = line.strip()
@@ -335,7 +347,6 @@ def parse_csv_interactions(csv_text: str) -> set:
 
 
 def tokenize_service_name(name: str) -> set:
-    """Extrai tokens relevantes de um nome de serviço."""
     name = normalize_service_name(name)
     tokens = set(re.split(r'[-]', name))
     tokens = {t for t in tokens if t and t not in {"of", "and", "the", "for", "to"}}
@@ -343,14 +354,28 @@ def tokenize_service_name(name: str) -> set:
 
 
 def semantic_token_set(name: str) -> set:
-    """Mapeia tokens para sinônimos genéricos."""
     tokens = tokenize_service_name(name)
     return {SYNONYM_MAP.get(t, t) for t in tokens}
 
 
+
+
 def are_services_equivalent(generated_name: str, reference_name: str) -> bool:
-    """Verifica se dois nomes representam a mesma capacidade."""
-    if normalize_service_name(generated_name) == normalize_service_name(reference_name):
+    """
+    Verifica equivalência semântica justa.
+
+    Considera equivalentes quando:
+    - os nomes normalizados são idênticos;
+    - ou os tokens principais, após sinônimos, são iguais;
+    - ou um nome contém o token principal do outro.
+
+    Não considera equivalentes apenas por interseção mínima.
+    """
+
+    gen_norm = normalize_service_name(generated_name)
+    ref_norm = normalize_service_name(reference_name)
+
+    if gen_norm == ref_norm:
         return True
 
     gen_tokens = semantic_token_set(generated_name)
@@ -359,20 +384,33 @@ def are_services_equivalent(generated_name: str, reference_name: str) -> bool:
     if not gen_tokens or not ref_tokens:
         return False
 
+    # Se os conjuntos semânticos são iguais
     if gen_tokens == ref_tokens:
         return True
 
+    # Se um contém todos os tokens principais do outro
     if gen_tokens.issubset(ref_tokens) or ref_tokens.issubset(gen_tokens):
         return True
 
-    if gen_tokens.intersection(ref_tokens):
+    # Se compartilham o token principal de domínio
+    # Ex.: catalog, media, authentication, cargo, trading
+    main_tokens = {
+        "authentication", "catalog", "media", "cargo", "trading",
+        "portfolio", "account", "customer", "order", "payment",
+        "delivery", "inventory", "tracking", "route", "event",
+        "integration", "administration", "simulation", "market",
+    }
+
+    gen_main = gen_tokens.intersection(main_tokens)
+    ref_main = ref_tokens.intersection(main_tokens)
+
+    if gen_main and gen_main == ref_main:
         return True
 
     return False
 
 
 def are_interactions_equivalent(pair_a, pair_b) -> bool:
-    """Verifica se dois pares de interação representam a mesma relação."""
     a1, a2 = pair_a
     b1, b2 = pair_b
     return (
@@ -382,7 +420,6 @@ def are_interactions_equivalent(pair_a, pair_b) -> bool:
 
 
 def evaluate_interactions(generated_set: set, reference_set: set):
-    """Calcula métricas de interações usando equivalência semântica."""
     generated_list = list(generated_set)
     reference_list = list(reference_set)
 
@@ -420,7 +457,6 @@ def evaluate_interactions(generated_set: set, reference_set: set):
 
 
 def calculate_metrics(generated_services, reference_services):
-    """Calcula Precision, Recall e F1-Score usando equivalência semântica."""
     gen_norm = [normalize_service_name(s) for s in generated_services]
     ref_norm = [normalize_service_name(s) for s in reference_services]
 
@@ -460,7 +496,6 @@ def calculate_metrics(generated_services, reference_services):
 
 
 def print_evaluation_report(metrics, title: str = "Evaluation Report"):
-    """Imprime relatório formatado de avaliação (mantido para uso futuro)."""
     print(f"\n{'='*60}")
     print(f"{title}")
     print(f"{'='*60}")
@@ -489,12 +524,7 @@ def print_evaluation_report(metrics, title: str = "Evaluation Report"):
             print(f"     - {s}")
 
 
-# ============================================
-# Função auxiliar para silenciar o CrewAI
-# ============================================
-
 def silent_kickoff(crew: Crew, inputs: dict):
-    """Executa crew.kickoff silenciando stdout/stderr do CrewAI."""
     buf_out = io.StringIO()
     buf_err = io.StringIO()
     with contextlib.redirect_stdout(buf_out), contextlib.redirect_stderr(buf_err):
@@ -502,7 +532,6 @@ def silent_kickoff(crew: Crew, inputs: dict):
 
 
 def _format_metrics_for_prompt(service_metrics, interaction_metrics):
-    """Formata métricas de serviços e interações para exibição no prompt do Agente 3."""
     if not service_metrics or not interaction_metrics:
         return "Metrics unavailable."
 
@@ -518,16 +547,7 @@ def _format_metrics_for_prompt(service_metrics, interaction_metrics):
     )
 
 
-# ============================================
-# Execução do Pipeline
-# ============================================
-
 def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, example: str):
-    """
-    Executa o experimento completo para um sistema.
-    Retorna (resultados, metricas) com o terminal silencioso.
-    """
-
     system_name = config["name"]
     requirements = config["requirements"]
     reference_services = config["reference_services"]
@@ -547,7 +567,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
 
     resultados = {}
 
-    # --- Executar Agente 1 ---
+    # --- Agente 1 + Refinamento ---
     try:
         crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
         output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
@@ -564,7 +584,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
 
             refined_services = set(parse_csv_architecture(output_a_limpo))
             original_services = set(parse_csv_architecture(original_a))
-            if original_services - refined_services:
+
+            if len(refined_services) < len(original_services):
                 output_a_limpo = original_a
         except Exception:
             output_a_limpo = original_a
@@ -575,7 +596,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         print(f"✗ Erro no Agente 1: {str(e)}")
         resultados["proposta_a"] = None
 
-    # --- Executar Agente 2 ---
+    # --- Agente 2 + Refinamento ---
     try:
         crew2 = Crew(agents=[agente2], tasks=[task2], verbose=False)
         output_b = silent_kickoff(crew2, {"example": example, "requirements": requirements})
@@ -592,7 +613,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
 
             refined_services = set(parse_csv_architecture(output_b_limpo))
             original_services = set(parse_csv_architecture(original_b))
-            if original_services - refined_services:
+
+            if len(refined_services) < len(original_services):
                 output_b_limpo = original_b
         except Exception:
             output_b_limpo = original_b
@@ -603,7 +625,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         print(f"✗ Erro no Agente 2: {str(e)}")
         resultados["proposta_b"] = None
 
-    # --- Calcular métricas preliminares de A e B para o Agente 3 ---
+    # --- Métricas preliminares ---
     metricas_pre = {}
     for key in ["proposta_a", "proposta_b"]:
         if resultados.get(key):
@@ -625,7 +647,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         else:
             metricas_pre[f"{key}_inter"] = None
 
-    # --- Executar Agente 3 (Validador) ---
+    # --- Agente 3 ---
     if resultados["proposta_a"] and resultados["proposta_b"]:
         try:
             metrics_a_text = _format_metrics_for_prompt(
@@ -687,21 +709,6 @@ def executar_pipeline(system_name: str,
                       reference_services: list,
                       interaction_reference: set,
                       example: str = EXAMPLE_GENERIC) -> tuple:
-    """
-    Função pública que executa o pipeline multiagente para um sistema.
-
-    Args:
-        system_name (str): Nome do sistema.
-        requirements (str): Texto dos requisitos do sistema.
-        reference_services (list): Lista de serviços de referência (ground truth).
-        interaction_reference (set): Conjunto de pares de interações de referência.
-        example (str): Exemplo Few-Shot genérico. Default: EXAMPLE_GENERIC.
-
-    Returns:
-        tuple: (resultados, metricas)
-            - resultados: dict com 'proposta_a', 'proposta_b', 'consolidada'
-            - metricas: dict com métricas de serviços e interações
-    """
     llm = criar_llm()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     config = {

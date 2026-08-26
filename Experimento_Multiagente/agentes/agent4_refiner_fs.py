@@ -104,7 +104,7 @@ def criar_task_refinamento(agente):
         Service Name,resp1;resp2,ServiceX;ServiceY
         """,
         expected_output=(
-            "CSV containing the original architecture with only unsupported "
+            "CSV containing the refined architecture with only unsupported "
             "communications removed, while preserving all justified services, "
             "responsibilities, and communications."
         ),

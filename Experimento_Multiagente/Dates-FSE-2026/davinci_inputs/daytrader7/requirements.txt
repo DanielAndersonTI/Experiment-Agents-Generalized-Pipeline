@@ -1,79 +1,85 @@
-- O sistema deve permitir o cadastro de novos investidores.
-- O cadastro do investidor deve contemplar, no mínimo, identificação do usuário, senha, confirmação de senha, nome completo, endereço, e-mail, cartão e saldo inicial de abertura.
-- O sistema deve validar se a senha e a confirmação de senha informadas no cadastro são idênticas.
-- O sistema não deve permitir o cadastro de um investidor com identificação já existente.
-- O sistema deve autenticar o investidor por meio de usuário e senha.
-- O sistema deve permitir o início de sessão para investidores autenticados.
-- O sistema deve permitir o encerramento da sessão do investidor por meio de logout.
-- O sistema deve impedir o acesso aos recursos de conta, carteira e negociação quando o investidor não estiver autenticado.
+- The system must allow registering new investors.
+- Investor registration must include at least user identification, password, password confirmation, full name, address, email, card, and initial opening balance.
+- The system must validate that the password and password confirmation are identical.
+- The system must not allow registering an investor with an already existing identification.
+- The system must authenticate the investor using username and password.
+- The system must allow starting a session for authenticated investors.
+- The system must allow ending the investor session through logout.
+- The system must prevent access to account, portfolio, and trading resources when the investor is not authenticated.
+- The system must maintain authentication as a separate capability, responsible exclusively for login, session, and logout.
 
-- O sistema deve manter uma conta individual para cada investidor cadastrado.
-- A conta do investidor deve registrar saldo atual, saldo inicial, data de criação, data do último acesso, total de logins e total de logouts.
-- O sistema deve permitir a consulta dos dados cadastrais e financeiros da conta do investidor.
-- O sistema deve permitir a atualização do perfil do investidor.
-- A atualização do perfil deve contemplar, no mínimo, senha, nome completo, endereço, e-mail e cartão cadastrado.
-- O sistema deve exigir o preenchimento dos campos essenciais para efetivar a atualização do perfil.
-- O sistema deve impedir a atualização do perfil quando a senha e a confirmação de senha forem divergentes.
+- The system must maintain an individual account for each registered investor.
+- The investor account must record current balance, initial balance, creation date, last access date, total logins, and total logouts.
+- The system must allow consulting the investor registration and financial data.
+- The system must allow updating the investor profile.
+- The profile update must include at least password, full name, address, email, and registered card.
+- The system must require filling in the essential fields to complete the profile update.
+- The system must prevent profile updates when the password and password confirmation are different.
+- The system must maintain the investor account as a separate capability from authentication, responsible for registration and financial data.
 
-- O sistema deve permitir a consulta de cotações de ativos a partir de seus códigos.
-- O sistema deve permitir a consulta simultânea de mais de um ativo.
-- Para cada ativo consultado, o sistema deve apresentar informações como nome da empresa, volume negociado, faixa de preço, preço de abertura, preço atual e variação.
-- O sistema deve disponibilizar um resumo consolidado do mercado.
-- O resumo consolidado do mercado deve apresentar, no mínimo, índice geral de desempenho, índice de abertura, volume negociado, ativos com maiores altas e ativos com maiores baixas.
-- O sistema deve tratar códigos de ativos inválidos sem interromper a navegação do investidor.
+- The system must allow querying asset quotes by their codes.
+- The system must allow simultaneous queries for more than one asset.
+- For each queried asset, the system must show information such as company name, traded volume, price range, opening price, current price, and variation.
+- The system must provide a consolidated market summary.
+- The consolidated market summary must show at least overall performance index, opening index, traded volume, top gaining assets, and top losing assets.
+- The system must handle invalid asset codes without interrupting the investor navigation.
+- The system must maintain market data as an independent capability, responsible for quotes and the consolidated summary.
 
-- O sistema deve permitir a compra de ativos pelo investidor mediante informação do código do ativo e da quantidade desejada.
-- O sistema deve permitir a venda de ativos já existentes na carteira do investidor.
-- Toda operação de compra ou venda deve gerar uma ordem individual de negociação.
-- Toda ordem deve possuir identificação própria, tipo, quantidade, preço, data de abertura, data de conclusão, status e taxa da operação.
-- O sistema deve aplicar taxa fixa de operação nas ordens de compra e venda.
-- Em operações de compra, o sistema deve debitar do saldo do investidor o valor correspondente ao ativo negociado acrescido da taxa da operação.
-- Em operações de venda, o sistema deve creditar ao saldo do investidor o valor líquido da operação, considerando o desconto da taxa aplicável.
-- O sistema deve permitir que as ordens sejam processadas de forma imediata ou posterior, conforme a configuração operacional da simulação.
-- O sistema deve registrar o andamento da ordem por meio de status de negócio, contemplando pelo menos os estados aberta, em processamento, concluída e cancelada.
-- O sistema não deve permitir a conclusão repetida de uma mesma ordem.
-- O sistema deve cancelar a venda quando a posição informada já tiver sido negociada anteriormente ou não estiver mais disponível.
-- O sistema deve apresentar ao investidor a confirmação do envio da ordem para processamento.
+- The system must allow buying assets by informing the asset code and desired quantity.
+- The system must allow selling assets already existing in the investor portfolio.
+- Every buy or sell operation must generate an individual trading order.
+- Every order must have its own identifier, type, quantity, price, opening date, completion date, status, and operation fee.
+- The system must apply a fixed operation fee to buy and sell orders.
+- For buy operations, the system must debit from the investor balance the amount corresponding to the traded asset plus the operation fee.
+- For sell operations, the system must credit the investor balance with the net value of the operation, considering the applicable fee discount.
+- The system must allow orders to be processed immediately or later, according to the simulation operational configuration.
+- The system must track order progress through business status, including at least open, processing, completed, and cancelled.
+- The system must not allow the same order to be completed more than once.
+- The system must cancel a sale when the informed position has already been traded or is no longer available.
+- The system must show the investor confirmation that the order was sent for processing.
+- The system must maintain trading as a separate capability, responsible for the lifecycle of buy and sell orders.
 
-- O sistema deve manter a carteira do investidor com as posições decorrentes de compras realizadas.
-- Quando uma ordem de compra for concluída, o sistema deve registrar a nova posição na carteira do investidor.
-- Quando uma ordem de venda for concluída, o sistema deve remover da carteira a posição correspondente.
-- O sistema deve permitir a consulta da carteira do investidor.
-- Para cada posição da carteira, o sistema deve apresentar, no mínimo, identificação da posição, data da compra, ativo, quantidade, preço de compra, preço atual, valor aplicado, valor de mercado e ganho ou perda.
-- O sistema deve informar quando a carteira do investidor estiver vazia.
-- O sistema deve permitir a venda de uma posição diretamente a partir da carteira.
-- O sistema deve calcular o valor total investido na carteira, o valor de mercado atual e o ganho ou perda consolidado.
-- O sistema deve apresentar ao investidor um resumo consolidado de sua posição financeira, incluindo saldo em caixa, quantidade de posições, valor de mercado da carteira e resultado acumulado em relação ao saldo inicial.
+- The system must maintain the investor portfolio with positions resulting from completed purchases.
+- When a buy order is completed, the system must register the new position in the investor portfolio.
+- When a sell order is completed, the system must remove the corresponding position from the portfolio.
+- The system must allow consulting the investor portfolio.
+- For each portfolio position, the system must show at least position identifier, purchase date, asset, quantity, purchase price, current price, invested amount, market value, and gain or loss.
+- The system must inform when the investor portfolio is empty.
+- The system must allow selling a position directly from the portfolio.
+- The system must calculate the total invested amount, current market value, and consolidated gain or loss.
+- The system must show the investor a consolidated financial position summary, including cash balance, number of positions, portfolio market value, and accumulated result compared to the initial balance.
+- The system must maintain the portfolio as a separate capability from trading, responsible for positions and consolidated results.
 
-- O sistema deve manter histórico das ordens associadas ao investidor.
-- O sistema deve exibir uma visão resumida das ordens mais recentes do investidor.
-- O sistema deve permitir a consulta ampliada do histórico de ordens.
-- O sistema deve alertar o investidor sobre ordens concluídas que ainda não tenham sido apresentadas a ele.
-- A apresentação do alerta deve informar, no mínimo, identificação da ordem, status, datas relevantes, tipo, ativo, quantidade e taxa aplicada.
+- The system must maintain the history of orders associated with the investor.
+- The system must show a summarized view of the investor's most recent orders.
+- The system must allow an expanded consultation of order history.
+- The system must alert the investor about completed orders that have not yet been presented.
+- The alert must show at least order identifier, status, relevant dates, type, asset, quantity, and applied fee.
 
-- O sistema deve atualizar o volume negociado e os indicadores de mercado dos ativos após operações de compra e venda.
-- O sistema deve refletir essas atualizações nas consultas posteriores de cotação e no resumo consolidado do mercado.
+- The system must update the traded volume and market indicators after buy and sell operations.
+- The system must reflect these updates in later quote queries and in the consolidated market summary.
 
-- O sistema deve permitir a configuração de parâmetros operacionais da simulação.
-- Entre os parâmetros operacionais, o sistema deve permitir definir o modo de processamento das ordens, a quantidade máxima de usuários simulados, a quantidade máxima de ativos simulados e o intervalo de atualização do resumo do mercado.
-- O sistema deve permitir habilitar ou desabilitar alertas de ordens concluídas.
-- O sistema deve permitir preparar ou reconstruir a base de dados da simulação.
-- O sistema deve permitir reinicializar os dados operacionais da simulação.
-- Ao reinicializar os dados, o sistema deve disponibilizar estatísticas resumidas da execução, incluindo usuários, ativos, ordens, cancelamentos e posições existentes.
+- The system must allow configuring simulation operational parameters.
+- The system must allow defining order processing mode, maximum number of simulated users, maximum number of simulated assets, and market summary refresh interval.
+- The system must allow enabling or disabling completed order alerts.
+- The system must allow preparing or rebuilding the simulation database.
+- The system must allow resetting the simulation operational data.
+- When resetting data, the system must provide summarized execution statistics, including users, assets, orders, cancellations, and existing positions.
+- The system must maintain simulation administration as a separate capability, responsible for configuration and environment reset.
 
-- O sistema deve exigir autenticação prévia para acesso aos recursos restritos do investidor.
-- O sistema deve garantir que as operações executadas durante a sessão sejam associadas ao investidor autenticado.
-- O sistema deve encerrar adequadamente a sessão do investidor no logout, reduzindo o risco de uso indevido posterior.
-- O sistema deve preservar a consistência entre saldo, ordens, cotações e carteira após cada operação.
-- O sistema deve manter rastreabilidade mínima do ciclo de vida das ordens por meio de identificação, datas e status.
-- O sistema deve tratar falhas de processamento sem comprometer a integridade dos dados do investidor.
-- O sistema deve impedir, sempre que possível, duplicidade de conclusão ou reaproveitamento indevido de ordens e posições.
-- O sistema deve suportar processamento imediato ou posterior de ordens, de modo a atender diferentes estratégias operacionais da simulação.
-- O sistema deve permitir o uso de atualização configurável do resumo de mercado para equilibrar atualidade da informação e custo operacional.
-- O sistema deve suportar operação com volumes elevados de usuários, ativos e ordens simuladas.
+- The system must require prior authentication to access restricted investor resources.
+- The system must ensure that operations executed during the session are associated with the authenticated investor.
+- The system must properly end the investor session at logout, reducing the risk of later misuse.
+- The system must preserve consistency among balance, orders, quotes, and portfolio after each operation.
+- The system must maintain minimum order lifecycle traceability through identifiers, dates, and status.
+- The system must handle processing failures without compromising investor data integrity.
+- The system must prevent, whenever possible, duplicate completion or improper reuse of orders and positions.
+- The system must support immediate or later order processing to meet different simulation operational strategies.
+- The system must allow configurable market summary updates to balance information freshness and operational cost.
+- The system must support operation with high volumes of simulated users, assets, and orders.
 
-- O sistema deve apresentar ao investidor informações de negócio de forma clara, objetiva e organizada por contexto de uso.
-- O sistema deve oferecer mensagens compreensíveis para situações como falha de login, erro de cadastro, divergência de senha, dados obrigatórios ausentes e operações inválidas.
-- O sistema deve permitir navegação simples entre as visões principais de home, conta, carteira, cotações, ordens e resumo de mercado.
-- O sistema deve disponibilizar mecanismos administrativos para preparação, configuração e reinicialização controlada do ambiente de simulação.
-- O sistema deve disponibilizar indicadores resumidos da execução para apoio ao acompanhamento operacional da simulação.
+- The system must present business information clearly, objectively, and organized by usage context.
+- The system must offer understandable messages for situations such as login failure, registration error, password mismatch, missing required data, and invalid operations.
+- The system must allow simple navigation among the main views of home, account, portfolio, quotes, orders, and market summary.
+- The system must provide administrative mechanisms for preparation, configuration, and controlled reset of the simulation environment.
+- The system must provide summarized execution indicators to support operational monitoring of the simulation.

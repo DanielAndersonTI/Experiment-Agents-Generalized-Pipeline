@@ -1861,8 +1861,16 @@ def criar_task_arquitetura_alternativa(agente):
            requirements?
 
         ======================================================================
-        DECISION POLICY
+                DECISION POLICY
         ======================================================================
+
+        STRONG RULE:
+        If a functional dependency is explicitly or strongly implied by the
+        requirements, you MUST declare it in the 'Communicates With' column.
+
+        Do NOT leave the 'Communicates With' column empty when there is a
+        required data, action, validation, workflow, or result dependency
+        between two identified services.
 
         INCLUDE an interaction when:
 

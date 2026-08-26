@@ -1,49 +1,57 @@
-- O sistema deve disponibilizar uma página inicial para entrada do usuário.
-- O sistema deve oferecer navegação para as funcionalidades principais de tutores e veterinários.
-- O sistema deve possuir interface web simples, com formulários e navegação de fácil compreensão.
-- O sistema deve apresentar mensagens claras de sucesso, erro e validação.
-- O sistema deve ser utilizável em diferentes tamanhos de tela, como computador e celular.
-- O sistema deve suportar múltiplos idiomas de interface.
-- As mensagens e rótulos devem manter consistência entre os idiomas suportados.
-- O sistema deve exibir páginas de erro compreensíveis para falhas conhecidas e inesperadas.
+- The system must provide a home page for user entry.
+- The system must offer navigation to the main functionalities for owners and veterinarians.
+- The system must have a simple web interface, with easy-to-understand forms and navigation.
+- The system must present clear success, error, and validation messages.
+- The system must be usable on different screen sizes, such as desktop and mobile.
+- The system must support multiple interface languages.
+- Messages and labels must remain consistent across supported languages.
+- The system must display understandable error pages for known and unexpected failures.
 
-- O sistema deve permitir cadastrar tutores com nome, sobrenome, endereço, cidade e telefone.
-- O sistema deve permitir alterar os dados de um tutor já cadastrado.
-- O sistema deve permitir consultar tutores a partir do início do sobrenome informado.
-- O sistema deve permitir consulta ampla de tutores quando nenhum sobrenome for informado.
-- O sistema deve direcionar diretamente para o cadastro detalhado do tutor quando a busca retornar apenas um resultado.
-- O sistema deve apresentar uma lista paginada quando a busca retornar vários tutores.
-- O sistema deve informar ao usuário quando nenhuma correspondência de tutor for encontrada.
-- O sistema deve exibir os dados completos do tutor selecionado.
+- The system must allow registering owners with first name, last name, address, city, and telephone.
+- The system must allow updating the data of an already registered owner.
+- The system must allow searching owners by the beginning of the informed last name.
+- The system must allow broad owner search when no last name is provided.
+- The system must direct directly to the detailed owner registration when the search returns only one result.
+- The system must present a paginated list when the search returns several owners.
+- The system must inform the user when no owner match is found.
+- The system must display the complete data of the selected owner.
+- The system must maintain owner management as a separate capability, responsible exclusively for owner data and consultation.
 
-- O sistema deve permitir cadastrar um animal vinculado a um tutor.
-- O sistema deve permitir alterar os dados de um animal já cadastrado.
-- O sistema deve registrar, para cada animal, nome, tipo e data de nascimento.
-- O sistema deve disponibilizar uma lista pré-definida de tipos de animal para seleção.
-- O sistema deve impedir que um mesmo tutor possua dois animais com o mesmo nome.
-- O sistema deve impedir o cadastro de data de nascimento futura para o animal.
+- The system must allow registering an animal linked to an owner.
+- The system must allow updating the data of an already registered animal.
+- The system must record, for each animal, name, type, and birth date.
+- The system must provide a predefined list of animal types for selection.
+- The system must prevent the same owner from having two animals with the same name.
+- The system must prevent registering a future birth date for the animal.
+- The system must maintain animal management as a separate capability, responsible for animal data and the link with the owner.
+- The animal management capability depends on owner management to validate the owner link.
 
-- O sistema deve permitir registrar uma visita para um animal específico.
-- O registro da visita deve conter, no mínimo, data e descrição do atendimento.
-- O sistema deve sugerir a data atual como valor inicial para uma nova visita.
-- O sistema deve associar a visita registrada ao histórico do animal e do respectivo tutor.
-- O sistema deve exibir o histórico de visitas dos animais vinculados ao tutor.
-- O registro de visitas deve permanecer consistente mesmo quando a distribuição ao veterinário ocorrer em etapa separada.
-- O sistema deve retomar processamentos internos pendentes após reinicialização, evitando perda de eventos relevantes.
+- The system must allow registering a visit for a specific animal.
+- The visit record must contain at least date and service description.
+- The system must suggest the current date as the initial value for a new visit.
+- The system must associate the registered visit with the animal history and the respective owner.
+- The system must display the visit history of the animals linked to the owner.
+- Visit registration must remain consistent even when veterinarian assignment occurs in a separate step.
+- The system must resume pending internal processes after restart, avoiding loss of relevant events.
+- The system must maintain visit management as a separate capability, responsible for visit registration and service history.
+- The visit management capability depends on animal management to validate the animal.
+- The visit management capability depends on veterinarian management to assign the visit.
 
-- O sistema deve listar os veterinários cadastrados com seus nomes e especialidades.
-- O sistema deve informar a próxima visita prevista para cada veterinário.
-- O sistema deve apresentar a listagem de veterinários de forma paginada.
-- O sistema deve atribuir automaticamente cada nova visita a um veterinário.
-- A atribuição automática deve priorizar o veterinário com menor carga de atendimentos futuros.
-- O sistema deve desconsiderar, periodicamente, atribuições de visitas já passadas no cálculo da carga dos veterinários.
-- O sistema deve disponibilizar a lista de veterinários em formato estruturado para consumo por outros sistemas.
-- Consultas frequentes de veterinários devem ser otimizadas para reduzir tempo de resposta.
+- The system must list registered veterinarians with their names and specialties.
+- The system must inform the next expected visit for each veterinarian.
+- The system must present the veterinarian list in a paginated manner.
+- The system must automatically assign each new visit to a veterinarian.
+- Automatic assignment must prioritize the veterinarian with the lowest future workload.
+- The system must periodically disregard past visit assignments when calculating veterinarian workload.
+- The system must provide the veterinarian list in a structured format for consumption by other systems.
+- Frequent veterinarian queries must be optimized to reduce response time.
+- The system must maintain veterinarian management as a separate capability, responsible for veterinarian data, specialties, and workload.
+- The veterinarian management capability depends on visit management to calculate workload and next visits.
 
-- O sistema deve validar dados obrigatórios antes de efetivar cadastros e alterações.
-- O sistema não deve permitir a alteração direta de identificadores internos por meio dos formulários.
-- Recursos estáticos da interface devem poder ser reutilizados temporariamente pelo navegador para melhorar carregamento.
-- O sistema deve suportar crescimento do volume de tutores e veterinários sem comprometer a navegação básica, utilizando paginação.
-- O sistema deve poder operar com diferentes configurações de armazenamento de dados.
-- O sistema deve ser organizado de forma a facilitar evolução isolada das áreas de tutores, veterinários e funções gerais.
-- Os principais comportamentos do sistema devem ser passíveis de verificação por testes automatizados.
+- The system must validate required data before completing registrations and updates.
+- The system must not allow direct modification of internal identifiers through forms.
+- Static interface resources must be temporarily reusable by the browser to improve loading.
+- The system must support growth in the volume of owners and veterinarians without compromising basic navigation, using pagination.
+- The system must be able to operate with different data storage configurations.
+- The system must be organized to facilitate isolated evolution of owners, veterinarians, and general functions.
+- The main system behaviors must be verifiable through automated tests.

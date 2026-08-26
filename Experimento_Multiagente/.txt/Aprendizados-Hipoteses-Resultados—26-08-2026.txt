@@ -1,0 +1,93 @@
+Aprendizados, Hipóteses e Resultados — 26/08/2026
+
+1. Correção da avaliação de interações
+- A comparação estava usando formatos incompatíveis entre referência e geração.
+- Foi adicionada equivalência semântica aos pares de interações.
+- Isso evitou que interações corretas fossem contadas como erro.
+
+2. Correção do bug em evaluate_interactions
+- Havia um TypeError: 'int' object is not iterable.
+- A função foi corrigida para armazenar pares reais, não índices.
+- Sem isso, o cálculo quebrava e o pipeline falhava.
+
+3. Ajustes na interface e no pipeline
+- Remoção do campo Name Normalization Map.
+- pipeline_runner.py passou a chamar executar_pipeline com 4 argumentos.
+- main_fewshot.py passou a usar avaliação semântica automática.
+- Servidor ajustado para refletir a ausência do mapa.
+
+4. Melhoria do mapeamento semântico
+- Foi criado um SYNONYM_MAP mais justo e combinado.
+- A equivalência semântica passou a considerar tokens principais, não apenas interseção mínima.
+- Isso preservou a individualidade dos agentes e evitou erros apenas por nomes diferentes.
+- Métricas iguais entre A e B não são artificiais quando ambos identificam as mesmas capacidades com nomes equivalentes.
+- Os CSVs mantêm os nomes originais de cada agente; a normalização ocorre apenas na avaliação.
+
+5. Individualidade dos agentes
+- A individualidade aparece principalmente em sistemas complexos ou quando os agentes divergem.
+- A consolidação seleciona a melhor proposta com base nas métricas.
+- Quando A e B convergem, isso não indica redundância obrigatória, mas sim que as capacidades estão bem definidas nos requisitos.
+
+6. Aprendizados sobre requisitos
+
+Requisitos em geral:
+- Devem descrever capacidades de negócio e dependências funcionais.
+- Não devem citar nomes de serviços nem interações esperadas.
+- Devem ser escritos em inglês para alinhar com as referências.
+- Devem separar autenticação, perfil, catálogo, estoque, pedidos, pagamentos e outras capacidades quando forem domínios diferentes.
+
+Requisitos para sistemas pequenos:
+- Requisitos textuais simples já são suficientes.
+- A estrutura pode ser mais linear.
+- A clareza das frases é mais importante do que a organização formal.
+
+Requisitos para sistemas grandes:
+- Precisam ser mais robustos, organizados e específicos.
+- Devem ser divididos por áreas ou módulos.
+- Cada área deve ter suas responsabilidades descritas separadamente.
+- As dependências entre as áreas devem ser explícitas.
+- Frases como "a área X depende da área Y para validar dados" ajudam o modelo a inferir interações.
+- A organização por seções melhora principalmente a recuperação de interações.
+- Exemplo: dividir em Administração, Identidade, Força de Trabalho, Projetos, CRM, Financeiro, Faturamento, Documentos, Comissionamento, Relatórios, Notificações e Armazenamento.
+
+7. Generalização e domínio
+- O pipeline não depende de domínio específico.
+- À medida que é aplicado a diferentes sistemas, seu mapeamento semântico e padrões de inferência são refinados.
+- Isso favorece a transferência de conhecimento arquitetural entre domínios.
+- A hipótese é que treinar ou ajustar o pipeline para uma área específica, como e-commerce ou saúde, pode gerar melhores resultados na reaplicação dentro daquele domínio do que testar em sistemas muito diversos de vários setores.
+
+8. Resultados finais dos 8 sistemas
+
+Serviços:
+7ep: 1.0000
+AcmeAir: 1.0000
+Cargo Tracker: 0.9091
+DayTrader7: 1.0000
+Jokul: 1.0000
+JPetStore: 1.0000
+PetClinic: 1.0000
+TNTConcept: 0.9231
+
+Interações:
+7ep: 1.0000
+AcmeAir: 1.0000
+Cargo Tracker: 0.2353
+DayTrader7: 0.9091
+Jokul: 1.0000
+JPetStore: 0.9412
+PetClinic: 1.0000
+TNTConcept: 0.7761
+
+9. Constatações específicas
+
+- Cargo Tracker teve interações quase zeradas porque os requisitos não explicitavam as dependências logísticas entre carga, rota, eventos, rastreamento, integração e rede logística.
+- TNTConcept melhorou quando os requisitos foram organizados por áreas e as dependências ficaram explícitas.
+- Sistemas maiores exigem requisitos mais robustos, organizados e específicos.
+- A clareza das dependências funcionais melhora principalmente a identificação de interações.
+
+10. Próximos passos
+
+- Revisar Cargo Tracker com requisitos mais explícitos.
+- Avaliar a melhoria do TNTConcept com requisitos organizados por áreas.
+- Documentar as constatações e hipóteses para o artigo.
+- Testar a reaplicação do pipeline em domínios específicos para validar a hipótese de especialização.

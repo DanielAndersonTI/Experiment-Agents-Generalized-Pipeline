@@ -2,7 +2,10 @@
 
 import json
 import threading
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -42,6 +45,9 @@ class ServerRouteTests(unittest.TestCase):
 		self.assertEqual(context.exception.code, 400)
 
 	def test_report_requires_successful_run(self):
-		with self.assertRaises(HTTPError) as context:
+		with tempfile.TemporaryDirectory() as temporary_dir, \
+				patch.object(server_module, "RESULTS_DIR", Path(temporary_dir)), \
+				patch.object(server_module, "LATEST_RUN", None), \
+				self.assertRaises(HTTPError) as context:
 			urlopen(self.base + "/api/report/pdf")
 		self.assertEqual(context.exception.code, 404)

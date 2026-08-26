@@ -1,77 +1,81 @@
-- O sistema deve permitir registrar uma nova carga informando origem, destino e prazo limite de chegada.
-- Cada carga cadastrada deve receber um identificador único de rastreamento.
-- A origem e o destino da carga devem ser diferentes.
-- A origem da carga deve permanecer fixa durante todo o ciclo logístico.
-- O cadastro da carga pode ser concluído mesmo antes da definição da rota.
-- O prazo de chegada deve ser obrigatório e deve servir como critério para o planejamento da viagem.
-- O sistema deve permitir selecionar origem e destino apenas entre localidades logísticas previamente cadastradas.
+- The system must allow registering a new cargo by providing origin, destination, and arrival deadline.
+- Each registered cargo must receive a unique tracking identifier.
+- The origin and destination of the cargo must be different.
+- The origin of the cargo must remain fixed throughout the logistics cycle.
+- Cargo registration may be completed even before the route is defined.
+- The arrival deadline must be required and must serve as a criterion for voyage planning.
+- The system must allow selecting origin and destination only among previously registered logistics locations.
+- The system must maintain cargo management as a separate capability, responsible for cargo registration and lifecycle.
 
-- O sistema deve consultar e apresentar rotas candidatas compatíveis com a necessidade da carga.
-- Uma rota candidata só deve ser considerada válida quando respeitar a origem, o destino final e o prazo de chegada da carga.
-- O usuário deve poder escolher uma das rotas apresentadas e vinculá-la à carga.
-- Quando a carga ainda não tiver rota definida, ela deve permanecer identificada como "não roteirizada".
-- Quando nenhuma rota atender aos critérios informados, o sistema deve informar que não há opção viável para a especificação atual.
-- O sistema deve exibir os trechos da rota escolhida, incluindo pontos de embarque, desembarque, viagem e datas previstas.
+- The system must retrieve and present candidate routes compatible with the cargo needs.
+- A candidate route must be considered valid only when it respects the cargo origin, final destination, and arrival deadline.
+- The user must be able to choose one of the presented routes and assign it to the cargo.
+- When the cargo does not have a route yet, it must remain identified as "not routed".
+- When no route meets the informed criteria, the system must inform that there is no feasible option for the current specification.
+- The system must display the legs of the chosen route, including load points, unload points, voyages, and expected dates.
+- Route planning depends on origin, destination, and deadline information provided by cargo management.
+- The system must maintain route planning as an independent capability, responsible for selecting and validating route options.
 
-- O sistema deve permitir alterar o destino de uma carga já cadastrada.
-- O novo destino não pode ser igual nem à origem nem ao destino atual da carga.
-- Ao alterar o destino, o sistema deve reavaliar a rota atual da carga.
-- Quando a rota atual deixar de atender ao novo destino, a carga deve passar a exigir nova roteirização.
-- O sistema deve permitir replanejar a rota de cargas que ficaram fora da rota prevista ou que tiveram o destino alterado.
+- The system must allow changing the destination of an already registered cargo.
+- The new destination cannot be equal to the origin or to the current destination.
+- When the destination changes, the system must reevaluate the current route.
+- When the current route no longer satisfies the new destination, the cargo must require new routing.
+- The system must allow replanning routes for cargos that are off the expected route or whose destination has changed.
 
-- O sistema deve permitir consultar uma carga pelo identificador de rastreamento.
-- Na consulta, o sistema deve apresentar a situação atual da carga.
-- O sistema deve informar a última localização conhecida da carga.
-- O sistema deve informar a previsão de chegada quando a carga estiver com rota válida e em curso compatível com o planejamento.
-- O sistema deve manter e exibir o histórico de eventos logísticos associados à carga.
-- O histórico deve diferenciar eventos esperados de eventos fora do planejado.
-- O sistema deve sinalizar quando a carga estiver fora da rota esperada.
-- O sistema deve permitir visualizar a carga com apoio geográfico, destacando origem, destino final e última localização conhecida.
+- The system must allow consulting a cargo by tracking identifier.
+- The consultation must show the current situation of the cargo.
+- The system must inform the last known location of the cargo.
+- The system must inform the estimated arrival when the cargo has a valid route and is progressing according to plan.
+- The system must maintain and display the history of logistics events associated with the cargo.
+- The history must distinguish expected events from unexpected events.
+- The system must signal when the cargo is off the expected route.
+- The system must allow viewing the cargo with geographic support, highlighting origin, final destination, and last known location.
+- Cargo tracking depends on information maintained by cargo management, route planning, and logistics events.
+- The system must maintain cargo tracking as a separate capability, responsible for consolidating operational status and history.
 
-- O sistema deve disponibilizar uma visão administrativa consolidada das cargas.
-- As cargas devem ser agrupadas, no mínimo, nas categorias "não roteirizadas", "roteirizadas em andamento" e "retiradas pelo destinatário".
-- O sistema deve permitir abrir o detalhamento de qualquer carga a partir da visão administrativa.
-- Cargas roteirizadas e ainda não retiradas devem poder ser acompanhadas como cargas em trânsito.
-- O sistema deve manter os canais de acompanhamento alinhados com a situação mais recente de cada carga.
+- The system must allow registering logistics events of the following types: reception, load, unload, customs, and pickup.
+- Every logistics event must be associated with an existing cargo.
+- Every logistics event must inform the location where it occurred and the occurrence date.
+- Load and unload events must be associated with the corresponding voyage.
+- Events that are not load or unload must not require voyage identification.
+- The system must reject registration attempts with nonexistent cargo, location, or voyage.
+- A valid event registration must update the operational situation of the cargo.
+- After each valid event, the system must recalculate information such as transport status, last known location, next expected step, and plan adherence.
+- When an event indicates execution different from the planned route, the cargo must be marked as off route.
+- When the cargo is unloaded at the final destination, the system must mark it as arrived.
+- When pickup by the recipient is registered, the cargo must be considered complete from a logistics perspective.
+- Event registration depends on the existence of cargo and voyage maintained by other capabilities.
+- The system must maintain logistics event registration as a separate capability, responsible for processing and validating received events.
 
-- O sistema deve permitir registrar eventos logísticos dos tipos: recebimento, embarque, desembarque, alfândega e retirada.
-- Todo evento logístico deve estar associado a uma carga existente.
-- Todo evento logístico deve informar a localidade em que ocorreu e a data de ocorrência.
-- Eventos de embarque e desembarque devem estar associados à viagem correspondente.
-- Eventos que não sejam de embarque ou desembarque não devem exigir identificação de viagem.
-- O sistema deve rejeitar tentativas de registro com carga, localidade ou viagem inexistentes.
-- O registro de um evento válido deve atualizar a situação operacional da carga.
-- Após cada evento válido, o sistema deve recalcular informações como status de transporte, localização conhecida, próxima etapa esperada e aderência ao plano.
-- Quando um evento indicar execução diferente da rota prevista, a carga deve ser marcada como fora de rota.
-- Quando a carga for descarregada no destino final, o sistema deve marcá-la como chegada ao destino.
-- Quando a retirada pelo destinatário for registrada, a carga deve ser considerada concluída do ponto de vista logístico.
+- The system must allow logistics event registration through more than one operational channel.
+- Supported channels must include at least an operational interface, an integration service, and input file processing.
+- The system must provide a consolidated view of cargos for monitoring channels.
+- Integration channels depend on logistics events and cargo tracking.
+- The system must maintain integration as a separate capability, responsible for receiving events and providing standardized information.
 
-- O sistema deve permitir o registro de eventos logísticos por mais de um canal operacional.
-- Entre os canais suportados, deve haver pelo menos interface operacional, serviço de integração e processamento de arquivos de entrada.
-- O sistema deve disponibilizar uma visão consolidada das cargas para consumo por canais de monitoramento.
-- O sistema deve preservar a consistência entre cadastro da carga, rota planejada e eventos realizados.
-- Nenhum evento inválido pode alterar o estado da carga.
-- As regras de origem, destino, prazo e compatibilidade da rota devem ser aplicadas de forma uniforme em todos os canais de operação.
-- A situação da carga deve ser recalculada sempre que houver mudança relevante de planejamento ou execução.
+- The system must preserve consistency among cargo registration, planned route, and executed events.
+- No invalid event may change the cargo state.
+- Origin, destination, deadline, and route compatibility rules must be applied uniformly across all operational channels.
+- Cargo status must be recalculated whenever there is a relevant planning or execution change.
 
-- O sistema deve manter histórico suficiente para reconstituir o ciclo logístico da carga.
-- Cada evento deve conservar, no mínimo, o momento em que ocorreu e o momento em que foi registrado no sistema.
-- Tentativas rejeitadas de registro devem ser identificáveis para posterior análise operacional.
-- O sistema deve permitir distinguir cargas entregues corretamente, cargas ainda em trânsito e cargas com desvio operacional.
+- The system must maintain enough history to reconstruct the cargo logistics cycle.
+- Each event must keep at least the moment it occurred and the moment it was registered.
+- Rejected registration attempts must be identifiable for later operational analysis.
+- The system must allow distinguishing correctly delivered cargos, cargos still in transit, and cargos with operational deviation.
 
-- A atualização da situação da carga deve ocorrer em tempo adequado ao acompanhamento operacional.
-- O recebimento de eventos deve continuar fluindo mesmo quando o recálculo detalhado da situação ocorrer em segundo plano.
-- Entradas recebidas por arquivo devem ser processadas de forma periódica, sem depender de acionamento manual constante.
-- Os canais de monitoramento devem refletir a informação mais recente disponível sobre a carga.
+- Cargo status updates must occur in a timely manner for operational tracking.
+- Event reception must continue even when detailed status recalculation occurs in the background.
+- File inputs must be processed periodically, without depending on constant manual action.
+- Monitoring channels must reflect the most recent available information about the cargo.
 
-- As informações apresentadas ao usuário devem ser organizadas por situação de negócio, e não apenas por estrutura técnica.
-- A navegação operacional deve facilitar tarefas frequentes, como localizar carga, consultar detalhes, escolher rota e registrar evento.
-- O sistema deve reduzir erros de operação por meio de listas controladas de localidades, viagens, tipos de evento e identificadores de carga.
-- Mensagens de erro e ausência de rota devem ser compreensíveis para uso administrativo e logístico.
+- Information presented to the user must be organized by business situation, not only by technical structure.
+- Operational navigation must facilitate frequent tasks such as locating cargo, consulting details, choosing a route, and registering an event.
+- The system must reduce operation errors through controlled lists of locations, voyages, event types, and cargo identifiers.
+- Error messages and missing route alerts must be understandable for administrative and logistics use.
 
-- Falhas em uma tentativa isolada de registro não devem comprometer o processamento das demais cargas.
-- Registros recebidos em formato inválido devem ser separados para tratamento posterior, sem interromper o restante da carga de trabalho.
-- O sistema deve tratar cargas fora da rota como exceções operacionais visíveis, para permitir ação corretiva rápida.
-- O sistema deve manter coerência entre os dados apresentados na interface administrativa, no rastreamento, nos canais móveis e nas integrações.
-- As informações principais da carga devem poder ser trocadas em formatos padronizados para facilitar integração com outros sistemas.
-- O modelo de acompanhamento deve ser único, independentemente do canal usado para registrar ou consultar a carga.
+- Failures in an isolated registration attempt must not compromise the processing of other cargos.
+- Invalid input records must be separated for later handling without interrupting the rest of the workload.
+- The system must treat off-route cargos as visible operational exceptions to allow fast corrective action.
+- The system must maintain consistency among data presented in the administrative interface, tracking, mobile channels, and integrations.
+- Main cargo information must be exchangeable in standardized formats to facilitate integration with other systems.
+- The tracking model must be unique regardless of the channel used to register or consult the cargo.

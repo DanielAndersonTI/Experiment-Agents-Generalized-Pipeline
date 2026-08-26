@@ -2,10 +2,13 @@
 
 import json
 import threading
+import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 from urllib.request import Request, urlopen
 
+import Interface.server as server_module
 from Interface.server import create_server
 from Interface.utils.parsers import parse_reference_interactions, parse_reference_services
 
@@ -100,6 +103,25 @@ class ContractTests(unittest.TestCase):
 			b"/Im1 Do",
 		):
 			self.assertIn(marker, report)
+
+	def test_report_prefers_persisted_proposals_after_restart(self):
+		with tempfile.TemporaryDirectory() as temporary_dir:
+			run_dir = Path(temporary_dir) / "persisted demo" / "result_generalized_fewshot" / "run_20260826_154805"
+			run_dir.mkdir(parents=True)
+			for filename, content in (
+				("proposta_a.csv", "Microservice,Responsibilities,Communicates With\nPersisted A,Own A,B"),
+				("proposta_b.csv", "Microservice,Responsibilities,Communicates With\nPersisted B,Own B,A"),
+				("consolidada.csv", "Microservice,Responsibilities,Communicates With\nPersisted Final,Own Final,A"),
+			):
+				(run_dir / filename).write_text(content, encoding="utf-8")
+
+			with patch.object(server_module, "RESULTS_DIR", Path(temporary_dir)), patch.object(server_module, "LATEST_RUN", None):
+				report_run = server_module._report_run()
+
+		self.assertEqual(report_run["systems"], [{"system_name": "persisted demo"}])
+		self.assertIn("Persisted A", report_run["proposals"][0]["agent_a"])
+		self.assertIn("Persisted B", report_run["proposals"][0]["agent_b"])
+		self.assertIn("Persisted Final", report_run["proposals"][0]["consolidated"])
 
 	def test_parsers_accept_interface_formats(self):
 		self.assertEqual(parse_reference_services("A\nB, C"), ["A", "B", "C"])

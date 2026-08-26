@@ -1,65 +1,69 @@
-- O sistema deve permitir que o cliente acesse sua conta por meio de login e senha.
-- O sistema deve criar uma sessão de uso após a autenticação bem-sucedida.
-- O sistema deve permitir que o cliente encerre sua sessão por meio de logout.
-- O sistema deve exigir sessão ativa para acessar áreas restritas, como perfil do cliente e reservas.
-- O sistema deve restringir as funcionalidades privadas a clientes autenticados.
-- A sessão do cliente deve ter validade limitada e expirar automaticamente após o período configurado.
-- O logout deve invalidar a sessão em uso imediatamente.
-- Os dados pessoais do cliente devem ser protegidos contra acesso indevido por outros clientes.
-- O sistema deve manter a autenticação como uma capacidade separada das funções de perfil e cadastro, responsável exclusivamente por login, criação de sessão, validação de sessão ativa e logout.
+- The system must allow customers to access their account using login and password.
+- The system must create a usage session after successful authentication.
+- The system must allow customers to end their session through logout.
+- The system must require an active session to access restricted areas, such as customer profile and bookings.
+- The system must restrict private functionalities to authenticated customers.
+- The customer session must have limited validity and expire automatically after the configured period.
+- Logout must invalidate the current session immediately.
+- Customer personal data must be protected against improper access by other customers.
+- The system must maintain authentication as a separate capability, responsible exclusively for login, session creation, active session validation, and logout.
 
-- O sistema deve permitir a pesquisa de voos informando aeroporto de origem, aeroporto de destino e data da viagem.
-- O sistema deve permitir pesquisas de viagem somente de ida ou de ida e volta.
-- O sistema deve apresentar as opções de voo encontradas para cada trecho da viagem.
-- O sistema deve exibir, para cada voo encontrado, informações de horário de partida, horário de chegada e valores de referência das classes exibidas ao cliente.
-- O sistema deve trabalhar com um conjunto de aeroportos previamente cadastrados.
-- As consultas de voos devem priorizar resposta rápida, pois representam um fluxo recorrente da jornada do cliente.
-- O sistema deve manter a pesquisa de voos como uma capacidade independente, responsável pelos aeroportos, rotas, horários e valores de referência apresentados ao cliente.
+- The system must allow flight search by informing origin airport, destination airport, and travel date.
+- The system must allow one-way or round-trip searches.
+- The system must present the flight options found for each trip segment.
+- For each flight found, the system must show departure time, arrival time, and reference fare values.
+- The system must work with a set of previously registered airports.
+- Flight searches must prioritize fast response, as they represent a recurring customer journey flow.
+- The system must maintain flight search as an independent capability, responsible for airports, routes, schedules, and reference fares.
 
-- O sistema deve permitir que um cliente autenticado reserve um voo de ida.
-- O sistema deve permitir que um cliente autenticado reserve, em uma mesma operação, os voos de ida e volta.
-- O sistema deve gerar um identificador para cada reserva criada.
-- O sistema deve registrar a data em que a reserva foi realizada.
-- O sistema deve informar ao cliente o identificador da reserva criada após a conclusão da operação.
-- O sistema deve permitir que o cliente consulte suas reservas existentes.
-- O sistema deve apresentar ao cliente a lista de reservas já realizadas.
-- O sistema deve permitir o cancelamento de uma reserva selecionada.
-- Após o cancelamento, a reserva não deve mais constar como ativa na listagem do cliente.
-- O fluxo de reservas depende da autenticação do cliente e das informações de voos disponibilizadas pela capacidade de pesquisa.
+- The system must allow an authenticated customer to create a booking for a one-way flight.
+- The system must allow an authenticated customer to create a booking for outbound and return flights in the same operation.
+- The system must generate an identifier for each created booking.
+- The system must record the booking date.
+- The system must inform the customer of the booking identifier after operation completion.
+- The system must allow customers to consult existing bookings.
+- The system must present the list of completed bookings.
+- The system must allow canceling a selected booking.
+- After cancellation, the booking must no longer appear as active in the customer listing.
+- The booking capability depends on customer authentication.
+- The booking capability depends on flight search to obtain available flights.
 
-- O sistema deve permitir que o cliente consulte o próprio perfil.
-- O sistema deve exibir no perfil os dados de contato do cliente, incluindo telefone, tipo de telefone e endereço.
-- O sistema deve permitir a atualização dos dados de contato e endereço do cliente.
-- O sistema deve exigir a senha atual do cliente para confirmar alterações no perfil.
-- O sistema deve impedir que um cliente consulte ou altere o perfil de outro cliente.
-- O sistema deve manter o perfil do cliente como uma capacidade separada da autenticação, responsável apenas pelos dados cadastrais e de contato.
+- The system must allow customers to consult their own profile.
+- The profile must show customer contact data, including phone, phone type, and address.
+- The system must allow updating contact and address data.
+- The system must require the current password to confirm profile changes.
+- The system must prevent customers from viewing or changing another customer profile.
+- The system must maintain the customer profile as a separate capability from authentication, responsible only for registration and contact data.
+- The customer profile capability depends on authentication to validate customer access.
 
-- O sistema deve exibir ao cliente seu status no programa de fidelidade.
-- O sistema deve exibir a quantidade de milhas acumuladas no ano.
-- O sistema deve exibir a quantidade total de milhas acumuladas.
-- As informações de fidelidade devem ser apresentadas ao cliente como dados de consulta, e não como campos de edição no fluxo principal da interface.
-- O sistema deve manter a fidelidade como uma capacidade separada do perfil do cliente, responsável exclusivamente por status e milhas acumuladas.
+- The system must show the customer loyalty program status.
+- The system must show the number of miles accumulated in the year.
+- The system must show the total accumulated miles.
+- Loyalty information must be presented as read-only data, not as editable fields.
+- The system must maintain loyalty as a separate capability from the customer profile, responsible exclusively for status and accumulated miles.
+- The loyalty capability depends on authentication to validate customer access.
 
-- O sistema deve permitir a carga inicial ou recarga da base de dados da aplicação.
-- O processo de carga deve permitir definir a quantidade de clientes de exemplo a ser gerada.
-- A carga da base deve recriar os dados principais da operação, incluindo voos, clientes, sessões e reservas de teste.
-- O sistema deve disponibilizar informações resumidas de operação, como quantidades de clientes, sessões, voos, trechos, reservas e aeroportos cadastrados.
-- O ambiente deve oferecer meios simples de preparação e conferência da base de dados para testes, demonstrações ou reinicialização operacional.
-- O sistema deve fornecer indicadores básicos de operação para acompanhamento do ambiente sem exigir consulta direta ao banco de dados.
-- O sistema deve manter a administração do ambiente como uma capacidade separada, responsável por preparar, recarregar e supervisionar os dados operacionais.
+- The system must allow initial loading or reloading of the application database.
+- The loading process must allow defining the number of sample customers to be generated.
+- The database load must recreate the main operational data, including flights, customers, sessions, and test bookings.
+- The system must provide summarized operational information, such as numbers of customers, sessions, flights, segments, bookings, and registered airports.
+- The environment must offer simple ways to prepare and verify the database for tests, demonstrations, or operational reset.
+- The system must provide basic operational indicators without requiring direct database access.
+- The system must maintain environment administration as a separate capability, responsible for preparing, reloading, and supervising operational data.
+- The environment administration capability depends on authentication, flight search, booking, and customer profile to prepare and reset their data.
 
-- A aplicação deve suportar alto volume de chamadas e consultas, em especial nos fluxos de autenticação, pesquisa de voos e reservas.
-- A solução deve ser adequada para crescimento de uso sem depender de atendimento manual para as operações principais de autoatendimento.
-- A aplicação deve poder ser executada em diferentes ambientes, incluindo infraestrutura local, nuvem pública e cenários híbridos.
-- A solução deve manter os dados de clientes, voos, sessões e reservas persistidos entre as requisições da aplicação.
-- Cada sessão e cada reserva devem possuir identificação única.
-- As operações de reserva e cancelamento devem manter consistência suficiente para refletir corretamente o estado atual das reservas do cliente.
-- A aplicação deve registrar dados mínimos de acompanhamento das operações, como data da reserva e contagem de registros operacionais.
+- The application must support high call and query volume, especially in authentication, flight search, and booking flows.
+- The solution must be suitable for growth without manual support for main self-service operations.
+- The application must run in different environments, including local infrastructure, public cloud, and hybrid scenarios.
+- The solution must keep customer, flight, session, and booking data persisted between requests.
+- Each session and booking must have a unique identifier.
+- Booking and cancellation operations must maintain enough consistency to correctly reflect the current booking state.
+- The application must record minimal operational tracking data, such as booking date and operational record counts.
 
-- A navegação deve favorecer o autosserviço, permitindo que o cliente pesquise voos, gerencie reservas e atualize seu perfil sem intermediação humana.
-- O sistema deve apresentar horários, datas e valores de forma legível para o cliente.
-- As principais jornadas devem estar acessíveis por interface web simples, com separação clara entre pesquisa de voos, reservas, perfil e suporte.
+- Navigation must support self-service, allowing customers to search flights, manage bookings, and update their profile without human intermediation.
+- The system must show schedules, dates, and values clearly.
+- Main journeys must be accessible through a simple web interface, with clear separation among flight search, bookings, profile, and support.
 
-- Não foi identificado fluxo de cadastro público de novos clientes. As contas de cliente são geradas por rotina administrativa de carga de dados.
-- Não foi identificado fluxo de pagamento, escolha de assento ou seleção formal de classe tarifária no momento da reserva; o sistema exibe preços, mas a reserva observada no código é simplificada.
-- Existe uma interface de “Support” com aparência de chat em tempo real, mas o backend correspondente não foi localizado no código analisado. Por isso, esse item não foi tratado acima como requisito funcional consolidado.
+- No public customer registration flow was identified. Customer accounts are generated by administrative data loading.
+- No payment flow, seat selection, or formal fare class selection was identified at booking time; the system shows prices, but the observed booking is simplified.
+- A Support interface with real-time chat appearance exists, but the corresponding backend was not found. Therefore, this item was not treated as a consolidated functional requirement.

@@ -99,8 +99,13 @@ def criar_task_arquitetura(agente):
         - Workflow dependency: Does the requirement state that A and B must
           cooperate to complete a business process?
 
-        Include the communication only if at least one of these dependencies is
-        explicitly or strongly implied by the requirements.
+        STRONG RULE:
+        If at least one of these dependencies is explicitly or strongly implied
+        by the requirements, you MUST declare the communication in the
+        'Communicates With' column.
+
+        Do NOT leave the 'Communicates With' column empty when a functional
+        dependency exists between two identified services.
 
         Do NOT add communication when:
 
@@ -110,8 +115,7 @@ def criar_task_arquitetura(agente):
         - The relationship is merely plausible or optional;
         - The dependency is not required to complete a stated responsibility.
 
-        Prefer precision over recall. When evidence is insufficient, leave the
-        communication out.
+        Prefer precision over recall, but do not omit required communications.
 
         IMPORTANT:
         The example must not be treated as a source of domain-specific knowledge.

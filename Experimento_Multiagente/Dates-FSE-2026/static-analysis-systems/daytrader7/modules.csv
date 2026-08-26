@@ -1,0 +1,5 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+sample.daytrader7,maven,systems/daytrader7/sample.daytrader7/pom.xml,daytrader7,pom,,,daytrader-ee7-ejb|daytrader-ee7-web|daytrader-ee7,
+sample.daytrader7/daytrader-ee7,maven,systems/daytrader7/sample.daytrader7/daytrader-ee7/pom.xml,daytrader-ee7,ear,1.8,,,
+sample.daytrader7/daytrader-ee7-ejb,maven,systems/daytrader7/sample.daytrader7/daytrader-ee7-ejb/pom.xml,daytrader-ee7-ejb,jar,1.8,,,
+sample.daytrader7/daytrader-ee7-web,maven,systems/daytrader7/sample.daytrader7/daytrader-ee7-web/pom.xml,daytrader-ee7-web,war,1.8,,,

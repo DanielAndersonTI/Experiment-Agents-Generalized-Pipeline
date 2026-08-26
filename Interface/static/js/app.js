@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	const runButton = document.querySelector("#run-button");
 	const globalAlert = document.querySelector("#global-alert");
 	const loadingAlert = document.querySelector("#pipeline-loading");
+	const progressBar = document.querySelector("#pipeline-progress-bar");
+	const progressPercent = document.querySelector("#pipeline-percent");
+	const progressStatus = document.querySelector("#pipeline-status");
 	const inputView = document.querySelector("#input-view");
 	const resultsView = document.querySelector("#results-view");
 	const newDecompositionButton = document.querySelector("#new-decomposition-button");
@@ -39,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			block.querySelector("[data-remove-system]").disabled = blocks.length === 1;
 		});
 		countLabel.textContent = blocks.length;
-		addButton.disabled = blocks.length >= 5;
+		addButton.disabled = blocks.length >= 10;
 	};
 
 	const appendBlock = () => {
@@ -105,9 +108,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		return system;
 	});
 
+	const updateProgress = (progress) => {
+		const percent = Math.max(0, Math.min(100, Number(progress.percent) || 0));
+		progressBar.style.width = `${percent}%`;
+		progressPercent.textContent = `${percent}%`;
+		progressBar.parentElement.setAttribute("aria-valuenow", String(percent));
+		progressStatus.textContent = progress.completed < progress.total
+			? `Completed ${progress.completed} of ${progress.total} systems${progress.current_system ? ` | Running: ${progress.current_system}` : ""}`
+			: "All systems processed. Preparing results...";
+	};
+
+	const watchProgress = () => {
+		updateProgress({ percent: 0, completed: 0, total: systemsContainer.querySelectorAll("[data-system-block]").length });
+		return setInterval(async () => {
+			try {
+				const response = await fetch("/api/pipeline/progress", { cache: "no-store" });
+				if (response.ok) updateProgress(await response.json());
+			} catch (error) {
+				// The run request remains the source of truth if a progress poll fails.
+			}
+		}, 500);
+	};
+
 	addButton.addEventListener("click", async () => {
 		const currentCount = systemsContainer.querySelectorAll("[data-system-block]").length;
-		if (currentCount >= 5) return;
+		if (currentCount >= 10) return;
 		const response = await fetch("/api/systems", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -144,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		runButton.disabled = true;
 		runButton.textContent = "RUNNING PIPELINE...";
 		loadingAlert.classList.remove("d-none");
+		const progressWatcher = watchProgress();
 		showAlert("The pipeline is running. This may take a few minutes. Please wait...", "info");
 		try {
 			const response = await fetch("/api/pipeline/run", {
@@ -157,6 +183,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		} catch (error) {
 			showAlert(error.message || "The pipeline run could not be completed.");
 		} finally {
+			clearInterval(progressWatcher);
+			updateProgress({ percent: 100, completed: systemsContainer.querySelectorAll("[data-system-block]").length, total: systemsContainer.querySelectorAll("[data-system-block]").length });
 			loadingAlert.classList.add("d-none");
 			runButton.disabled = false;
 			runButton.textContent = "RUN PIPELINE";

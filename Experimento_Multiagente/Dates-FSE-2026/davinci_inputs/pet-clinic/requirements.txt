@@ -1,0 +1,49 @@
+- O sistema deve disponibilizar uma página inicial para entrada do usuário.
+- O sistema deve oferecer navegação para as funcionalidades principais de tutores e veterinários.
+- O sistema deve possuir interface web simples, com formulários e navegação de fácil compreensão.
+- O sistema deve apresentar mensagens claras de sucesso, erro e validação.
+- O sistema deve ser utilizável em diferentes tamanhos de tela, como computador e celular.
+- O sistema deve suportar múltiplos idiomas de interface.
+- As mensagens e rótulos devem manter consistência entre os idiomas suportados.
+- O sistema deve exibir páginas de erro compreensíveis para falhas conhecidas e inesperadas.
+
+- O sistema deve permitir cadastrar tutores com nome, sobrenome, endereço, cidade e telefone.
+- O sistema deve permitir alterar os dados de um tutor já cadastrado.
+- O sistema deve permitir consultar tutores a partir do início do sobrenome informado.
+- O sistema deve permitir consulta ampla de tutores quando nenhum sobrenome for informado.
+- O sistema deve direcionar diretamente para o cadastro detalhado do tutor quando a busca retornar apenas um resultado.
+- O sistema deve apresentar uma lista paginada quando a busca retornar vários tutores.
+- O sistema deve informar ao usuário quando nenhuma correspondência de tutor for encontrada.
+- O sistema deve exibir os dados completos do tutor selecionado.
+
+- O sistema deve permitir cadastrar um animal vinculado a um tutor.
+- O sistema deve permitir alterar os dados de um animal já cadastrado.
+- O sistema deve registrar, para cada animal, nome, tipo e data de nascimento.
+- O sistema deve disponibilizar uma lista pré-definida de tipos de animal para seleção.
+- O sistema deve impedir que um mesmo tutor possua dois animais com o mesmo nome.
+- O sistema deve impedir o cadastro de data de nascimento futura para o animal.
+
+- O sistema deve permitir registrar uma visita para um animal específico.
+- O registro da visita deve conter, no mínimo, data e descrição do atendimento.
+- O sistema deve sugerir a data atual como valor inicial para uma nova visita.
+- O sistema deve associar a visita registrada ao histórico do animal e do respectivo tutor.
+- O sistema deve exibir o histórico de visitas dos animais vinculados ao tutor.
+- O registro de visitas deve permanecer consistente mesmo quando a distribuição ao veterinário ocorrer em etapa separada.
+- O sistema deve retomar processamentos internos pendentes após reinicialização, evitando perda de eventos relevantes.
+
+- O sistema deve listar os veterinários cadastrados com seus nomes e especialidades.
+- O sistema deve informar a próxima visita prevista para cada veterinário.
+- O sistema deve apresentar a listagem de veterinários de forma paginada.
+- O sistema deve atribuir automaticamente cada nova visita a um veterinário.
+- A atribuição automática deve priorizar o veterinário com menor carga de atendimentos futuros.
+- O sistema deve desconsiderar, periodicamente, atribuições de visitas já passadas no cálculo da carga dos veterinários.
+- O sistema deve disponibilizar a lista de veterinários em formato estruturado para consumo por outros sistemas.
+- Consultas frequentes de veterinários devem ser otimizadas para reduzir tempo de resposta.
+
+- O sistema deve validar dados obrigatórios antes de efetivar cadastros e alterações.
+- O sistema não deve permitir a alteração direta de identificadores internos por meio dos formulários.
+- Recursos estáticos da interface devem poder ser reutilizados temporariamente pelo navegador para melhorar carregamento.
+- O sistema deve suportar crescimento do volume de tutores e veterinários sem comprometer a navegação básica, utilizando paginação.
+- O sistema deve poder operar com diferentes configurações de armazenamento de dados.
+- O sistema deve ser organizado de forma a facilitar evolução isolada das áreas de tutores, veterinários e funções gerais.
+- Os principais comportamentos do sistema devem ser passíveis de verificação por testes automatizados.

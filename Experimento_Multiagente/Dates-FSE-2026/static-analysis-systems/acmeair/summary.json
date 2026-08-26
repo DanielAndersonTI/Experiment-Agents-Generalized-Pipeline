@@ -1,0 +1,250 @@
+{
+  "project": "acmeair",
+  "project_path": "systems/acmeair",
+  "generated_at_utc": "2026-06-25T17:58:12.195313+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 1,
+    "source_roots": 2,
+    "java_files": 32,
+    "analyzed_type_files": 32,
+    "packages": 10,
+    "classes": 32,
+    "entrypoints": 8,
+    "main_classes": 31,
+    "test_classes": 1,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 13,
+    "external_package_dependencies": 74
+  },
+  "role_counts": {
+    "controller": 11,
+    "other": 7,
+    "persistence": 2,
+    "service": 9,
+    "test": 1,
+    "utility": 2
+  },
+  "source_roots": [
+    "systems/acmeair/acmeair-monolithic-java/src/main/java",
+    "systems/acmeair/acmeair-monolithic-java/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "com.acmeair.web",
+      "package_count": 2
+    },
+    {
+      "package_root": "com.acmeair.mongo",
+      "package_count": 2
+    },
+    {
+      "package_root": "com.acmeair.service",
+      "package_count": 1
+    },
+    {
+      "package_root": "com.acmeair.loader",
+      "package_count": 1
+    },
+    {
+      "package_root": "com.acmeair",
+      "package_count": 1
+    },
+    {
+      "package_root": "com.acmeair.config",
+      "package_count": 1
+    },
+    {
+      "package_root": "com.acmeair.util",
+      "package_count": 1
+    },
+    {
+      "package_root": "it.com.prims",
+      "package_count": 1
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.mongo.services",
+      "target_package": "com.acmeair.mongo",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.mongo.services",
+      "target_package": "com.acmeair.service",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.web",
+      "target_package": "com.acmeair.service",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.config",
+      "target_package": "com.acmeair.service",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.loader",
+      "target_package": "com.acmeair.service",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.config",
+      "target_package": "com.acmeair.loader",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.loader",
+      "target_package": "com.acmeair",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.mongo",
+      "target_package": "com.acmeair",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.mongo.services",
+      "target_package": "com.acmeair",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.mongo.services",
+      "target_package": "com.acmeair.web.dto",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.service",
+      "target_package": "com.acmeair",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.service",
+      "target_package": "com.acmeair.web.dto",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "acmeair",
+      "source_package": "com.acmeair.web",
+      "target_package": "com.acmeair.web.dto",
+      "category": "internal",
+      "count": 1
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "jakarta.ws",
+      "count": 44
+    },
+    {
+      "dependency_root": "java.util",
+      "count": 31
+    },
+    {
+      "dependency_root": "org.json.simple",
+      "count": 21
+    },
+    {
+      "dependency_root": "com.mongodb.client",
+      "count": 17
+    },
+    {
+      "dependency_root": "jakarta.inject",
+      "count": 16
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 13
+    },
+    {
+      "dependency_root": "jakarta.servlet",
+      "count": 12
+    },
+    {
+      "dependency_root": "jakarta.enterprise",
+      "count": 10
+    },
+    {
+      "dependency_root": "de.flapdoodle.embed",
+      "count": 10
+    },
+    {
+      "dependency_root": "javax.ws",
+      "count": 9
+    },
+    {
+      "dependency_root": "jakarta.xml",
+      "count": 7
+    },
+    {
+      "dependency_root": "org.junit",
+      "count": 6
+    },
+    {
+      "dependency_root": "com.mongodb",
+      "count": 5
+    },
+    {
+      "dependency_root": "java.net",
+      "count": 5
+    },
+    {
+      "dependency_root": "java.time",
+      "count": 5
+    },
+    {
+      "dependency_root": "jakarta.annotation",
+      "count": 4
+    },
+    {
+      "dependency_root": "org.bson",
+      "count": 4
+    },
+    {
+      "dependency_root": "jakarta.json",
+      "count": 3
+    },
+    {
+      "dependency_root": "java.nio",
+      "count": 1
+    },
+    {
+      "dependency_root": "org.junit.Assert",
+      "count": 1
+    }
+  ]
+}

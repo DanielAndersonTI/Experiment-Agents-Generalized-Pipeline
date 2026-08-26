@@ -1,0 +1,12 @@
+project,package,class_count,method_count,public_method_count,incoming_internal_dependencies,outgoing_internal_dependencies,roles
+daytrader7,com.ibm.websphere.samples.daytrader,2,30,29,22,20,controller:2
+daytrader7,com.ibm.websphere.samples.daytrader.beans,2,49,49,12,4,controller:2
+daytrader7,com.ibm.websphere.samples.daytrader.direct,2,71,34,11,17,controller:2
+daytrader7,com.ibm.websphere.samples.daytrader.ejb3,6,42,37,11,31,controller:6
+daytrader7,com.ibm.websphere.samples.daytrader.entities,5,156,156,53,10,domain:5
+daytrader7,com.ibm.websphere.samples.daytrader.util,8,145,141,119,4,controller:8
+daytrader7,com.ibm.websphere.samples.daytrader.web,8,46,29,1,33,controller:8
+daytrader7,com.ibm.websphere.samples.daytrader.web.jsf,14,247,246,0,37,controller:14
+daytrader7,com.ibm.websphere.samples.daytrader.web.prims,43,149,135,0,34,controller:43
+daytrader7,com.ibm.websphere.samples.daytrader.web.prims.ejb3,11,44,44,0,37,controller:11
+daytrader7,com.ibm.websphere.samples.daytrader.web.websocket,7,32,29,3,5,controller:7

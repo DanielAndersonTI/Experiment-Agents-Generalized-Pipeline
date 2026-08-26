@@ -1,0 +1,6 @@
+project,module,package,type_name,file,entrypoint_reasons
+cargo-tracker,.,net.java.cargotracker.application,BookingServiceTestRestConfiguration,systems/cargo-tracker/src/test/java/net/java/cargotracker/application/BookingServiceTestRestConfiguration.java,application-bootstrap
+cargo-tracker,.,net.java.cargotracker.application.util,RestConfiguration,systems/cargo-tracker/src/main/java/net/java/cargotracker/application/util/RestConfiguration.java,application-bootstrap
+cargo-tracker,.,net.java.cargotracker.interfaces.booking.rest,CargoMonitoringService,systems/cargo-tracker/src/main/java/net/java/cargotracker/interfaces/booking/rest/CargoMonitoringService.java,http-entrypoint
+cargo-tracker,.,net.java.cargotracker.interfaces.handling.rest,HandlingReportService,systems/cargo-tracker/src/main/java/net/java/cargotracker/interfaces/handling/rest/HandlingReportService.java,http-entrypoint
+cargo-tracker,.,net.java.pathfinder.api,GraphTraversalService,systems/cargo-tracker/src/main/java/net/java/pathfinder/api/GraphTraversalService.java,http-entrypoint

@@ -1,0 +1,16 @@
+{
+  "output_root": "analysis-results/static-analysis",
+  "artifacts_per_project": [
+    "summary.json",
+    "modules.csv",
+    "classes.csv",
+    "package_dependencies.csv",
+    "package_metrics.csv",
+    "entrypoints.csv"
+  ],
+  "consolidated_artifacts": [
+    "index.json",
+    "project_summaries.csv",
+    "manifest.json"
+  ]
+}

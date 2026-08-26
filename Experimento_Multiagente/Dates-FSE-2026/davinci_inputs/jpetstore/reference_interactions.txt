@@ -1,0 +1,9 @@
+Customer Account Service <-> Authentication Service
+Customer Account Service <-> Catalog Service
+Catalog Service <-> Inventory Service
+Shopping Cart Service <-> Catalog Service
+Shopping Cart Service <-> Inventory Service
+Order Service <-> Authentication Service
+Order Service <-> Customer Account Service
+Order Service <-> Shopping Cart Service
+Order Service <-> Inventory Service

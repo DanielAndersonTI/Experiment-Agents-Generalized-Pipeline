@@ -1,0 +1,23 @@
+dn: ou=people,dc=autentia,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=autentia,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=reset,dc=autentia,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: reset
+userPassword: resetadmin
+
+dn: uid=admin,ou=people,dc=autentia,dc=com
+objectClass: inetOrgPerson
+objectClass: simpleSecurityObject
+cn: admin
+sn: admin
+uid: admin
+userpassword: adminadmin

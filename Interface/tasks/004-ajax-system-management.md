@@ -1,7 +1,7 @@
 # Task 004: Add AJAX System Management
 
 ## Objective
-Implement dynamic addition and removal of system blocks through AJAX with a strict maximum of five systems.
+Implement dynamic addition and removal of system blocks through AJAX with a strict maximum of ten systems.
 
 ## Files Affected
 
@@ -21,8 +21,8 @@ Implement dynamic addition and removal of system blocks through AJAX with a stri
 
 ## Acceptance Criteria
 
-- A new block is added through an AJAX request when fewer than five exist.
-- A sixth block is rejected with an English limit message.
+- A new block is added through an AJAX request when fewer than ten exist.
+- An eleventh block is rejected with an English limit message.
 - A non-final block can be removed through AJAX.
 - The only remaining block cannot be removed.
 - Invalid indexes and invalid counts receive structured backend errors.

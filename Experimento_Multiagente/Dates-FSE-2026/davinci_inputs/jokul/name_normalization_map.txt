@@ -1,0 +1,5 @@
+User Service -> Authentication Service
+Catalog Service -> Movie Catalog Service
+Media Service -> Media Service
+Video Streaming Service -> Media Service
+Movie Catalog Service -> Movie Catalog Service

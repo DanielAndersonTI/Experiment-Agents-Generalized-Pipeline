@@ -1,0 +1,2 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+acmeair-monolithic-java,maven,systems/acmeair/acmeair-monolithic-java/pom.xml,acmeair-monolithic,war,1.8,,,

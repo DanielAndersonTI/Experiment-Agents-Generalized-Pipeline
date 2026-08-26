@@ -20,6 +20,8 @@ body {
 	background: var(--virtus-navy);
 	color: var(--virtus-white);
 }
+.brand-lockup { align-items: center; display: flex; gap: 1rem; }
+.brand-logo { height: 76px; object-fit: contain; object-position: center; width: 76px; }
 
 .brand-mark {
 	font-size: 1.75rem;
@@ -71,11 +73,23 @@ h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
 .results-table th { background: var(--virtus-navy); color: var(--virtus-white); font-size: 0.72rem; letter-spacing: 0.08em; white-space: nowrap; }
 .results-table td { vertical-align: middle; }
 .empty-state { color: var(--virtus-muted); padding: 1.5rem !important; text-align: center; }
+.pipeline-loading { background: #071743; border: 1px solid var(--virtus-navy); color: var(--virtus-white); margin-bottom: 1.5rem; padding: 1.25rem 1.5rem; position: relative; overflow: hidden; }
+.pipeline-loading::after { background: var(--virtus-gold); content: ""; height: 2px; left: 0; opacity: 0.8; position: absolute; top: 0; width: 34%; animation: loading-scan 2.4s ease-in-out infinite; }
+.loading-heading { align-items: center; display: flex; font-size: 0.76rem; font-weight: 800; gap: 0.6rem; letter-spacing: 0.12em; }
+.loading-heading strong { color: var(--virtus-gold); font-size: 1.15rem; margin-left: auto; }
+.loading-pulse { background: var(--virtus-gold); box-shadow: 0 0 0 0 rgba(233, 196, 106, 0.7); height: 8px; width: 8px; animation: loading-pulse 1.6s infinite; }
+.progress-track { background: rgba(255, 255, 255, 0.16); height: 10px; margin: 1rem 0 0.65rem; overflow: hidden; }
+.progress-bar { background: linear-gradient(90deg, var(--virtus-gold), #fff1b8); height: 100%; transition: width 0.45s ease; width: 0; }
+.loading-status { color: #c8d2f0; font-size: 0.78rem; letter-spacing: 0.03em; }
+@keyframes loading-pulse { 70% { box-shadow: 0 0 0 8px rgba(233, 196, 106, 0); } 100% { box-shadow: 0 0 0 0 rgba(233, 196, 106, 0); } }
+@keyframes loading-scan { 0%, 100% { transform: translateX(-100%); } 50% { transform: translateX(300%); } }
 
 @media (max-width: 576px) {
 	.intro-row, .action-bar, .results-actions { align-items: stretch; flex-direction: column; }
 	.system-block { padding: 1rem; }
 	.btn { width: 100%; }
+	.brand-logo { height: 62px; width: 62px; }
+	.brand-mark { font-size: 1.25rem; }
 }
 
 @media (min-width: 577px) and (max-width: 991px) {

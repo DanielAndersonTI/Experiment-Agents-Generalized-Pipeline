@@ -1,0 +1,85 @@
+site_name: ""
+site_url: https://soot-oss.github.io/SootUp/
+repo_url: https://github.com/soot-oss/SootUp/
+edit_uri: edit/develop/docs/
+
+nav:
+  - Getting Started:
+      - Installation: installation.md
+      - First Steps: getting-started.md
+      - Analysis Input: analysisinput.md
+      - Examples: examples.md
+
+  - Basics:
+      - Jimple IR: jimple.md
+      - Jimple Body: jimple-body.md
+      - Jimple Statements: jimple-stmts.md
+      - Jimple Types: jimple-types.md
+      - Jimple Values: jimple-values.md
+
+  - Advanced Topics:
+      - BodyInterceptors: bodyinterceptors.md
+      - TypeHierarchy: typehierarchy.md
+      - Callgraphs: callgraphs.md
+      - BuiltIn Analyses: builtin-analyses.md
+      - Code Property Graphs: codepropertygraphs.md
+
+  - How to..:
+      - Write a Dataflow analysis: write_analyses.md
+      - Incorporate Pointer Analysis: qilin.md
+  #  - Modify a ControlFlowGraph: mutable_controlflowgraph.md
+  #  - Modify a View: mutable_view.md
+  #  - Implement a BodyInterceptor: body_interceptor.md
+  #  - Implement an AnalysisTool: write_analysis_tool.md
+  #  - From Prototype to Tool: tool_setup.md
+
+  - Misc & More:
+      - Announcements: announcement.md
+      - Design Decisions: whatsnew.md
+      - Migration Help: migrating.md
+      - Javadoc: api/index.html
+      - Troubleshooting & FAQ: faq.md
+    # - Based on SootUp: tools.md
+
+
+theme:
+  name: material
+  logo: ./img/SootUpLogo.svg
+  favicon: ./img/icon.svg
+  palette:
+    primary: custom
+  custom_dir: ./docs/overrides
+  features:
+    - navigation.sections
+
+extra_css:
+  - css/customizetheme.css
+  - css/hint.min.css
+
+plugins:
+  - tooltips
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      linenums: true
+      use_pygments: true
+      extend_pygments_lang:
+        - name: jimple
+          lang: lspserver
+          options:
+            filetype: jimple
+            # the path of the jimplelsp.jar needs to be the same as in the gh-pages.yml workflow
+            lspcommand: "java -jar ./jimplelsp.jar"
+
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  version:
+    provider: mike

@@ -1,0 +1,2 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+jpetstore-6,maven,systems/jpetstore/jpetstore-6/pom.xml,jpetstore,war,17,,,

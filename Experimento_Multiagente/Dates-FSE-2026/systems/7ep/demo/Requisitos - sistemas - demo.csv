@@ -1,0 +1,71 @@
+Requisitos - categorias,Identificação,Descrição
+Acesso de bibliotecários,RF - 01,O sistema deve permitir o cadastro de bibliotecários por meio de nome de usuário e senha.
+,RF - 02,O sistema não deve permitir o cadastro de um bibliotecário com nome de usuário já existente.
+,RF - 03,O sistema deve exigir o preenchimento de nome de usuário e senha no cadastro.
+,RF - 04,O sistema deve aceitar apenas senhas consideradas fortes o suficiente para uso seguro.
+,RF - 05,O sistema deve rejeitar senhas muito curtas.
+,RF - 06,O sistema deve permitir que bibliotecários autenticados informem nome de usuário e senha para entrar no sistema.
+,RF - 07,O sistema deve conceder acesso somente quando usuário e senha corresponderem exatamente ao cadastro existente.
+,RF - 08,O sistema deve negar o acesso quando usuário ou senha estiverem incorretos ou não forem informados.
+Cadastro e manutenção de livros,RF - 09,O sistema deve permitir o cadastro de livros no acervo por titulo.
+,RF - 10,O sistema não deve permitir o cadastro duplicado de um mesmo livro.
+,RF - 11,O sistema deve informar quando a tentativa de cadastro de livro falhar por falta de titulo.
+,RF - 12,O sistema deve permitir a exclusão de livros já cadastrados.
+,RF - 13,O sistema não deve permitir a exclusão de livros que nunca foram cadastrados.
+,RF - 14,O sistema deve excluir também o vínculo de empréstimo quando um livro removido estiver emprestado.
+Cadastro e manutenção de leitores,RF - 15,O sistema deve permitir o cadastro de leitores aptos a receber empréstimos.
+,RF - 16,O sistema não deve permitir o cadastro duplicado de um mesmo leitor.
+,RF - 17,O sistema deve informar quando a tentativa de cadastro de leitor falhar por falta de nome.
+,RF - 18,O sistema deve permitir a exclusão de leitores já cadastrados.
+,RF - 19,O sistema não deve permitir a exclusão de leitores que nunca foram cadastrados.
+,RF - 20,O sistema deve excluir tambem os vinculos de empréstimo quando um leitor removido possuir livros emprestados.
+Empréstimo de livros,RF - 21,O sistema deve permitir registrar o empréstimo de um livro para um leitor cadastrado.
+,RF - 22,O sistema deve registrar a data em que o emprestimo foi realizado.
+,RF - 23,O sistema não deve permitir empréstimo para pessoa que não esteja cadastrada como leitora.
+,RF - 24,O sistema não deve permitir empréstimo de livro que não esteja cadastrado.
+,RF - 25,O sistema não deve permitir empréstimo de livro que jã esteja emprestado a outra pessoa.
+,RF - 26,O sistema deve permitir que um mesmo leitor tenha mais de um livro emprestado ao mesmo tempo.
+,RF - 27,O sistema deve garantir que um mesmo livro esteja emprestado para apenas um leitor por vez.
+,RF - 28,O sistema deve informar claramente quando um empréstimo não puder ser concluído.
+Consulta de acervo e leitores,RF - 29,O sistema deve permitir listar todos os livros cadastrados.
+,RF - 30,O sistema deve permitir consultar um livro por identificador.
+,RF - 31,O sistema deve permitir consultar um livro por título.
+,RF - 32,O sistema deve informar quando não houver livros cadastrados ou quando uma busca não encontrar resultado.
+,RF - 33,O sistema deve permitir listar apenas os livros disponíveis para empréstimo.
+,RF - 34,O sistema deve permitir listar todos os leitores cadastrados.
+,RF - 35,O sistema deve permitir consultar um leitor por identificador.
+,RF - 36,O sistema deve permitir consultar um leitor por nome.
+,RF - 37,O sistema deve informar quando não houver leitores cadastrados ou quando uma busca não encontrar resultado.
+,RF - 38,"O sistema não deve aceitar, na mesma consulta, busca simultanea por identificador e por nome/titulo."
+Apoio operacional da interface,RF - 39,O sistema deve facilitar o preenchimento do empréstimo exibindo opções de livros disponíveis e leitores cadastrados.
+,RF - 40,"O sistema deve adaptar a forma de escolha na tela de empréstimo conforme a quantidade de opcões disponíveis, usando seleção direta quando houver poucas opções e sugestões de busca quando houver muitas."
+,RF - 41,O sistema deve bloquear o campo de seleção de empréstimo quando não houver dados disponíveis para escolha.
+,RF - 42,O sistema deve exibir o resultado de cada operação de forma imediata após o envio do formulário.
+Administração do ambiente de demonstração,RF - 43,O sistema deve permitir limpar os dados e a estrutura da base para reiniciar o ambiente.
+,RF - 44,O sistema deve permitir recriar a estrutura da base quando necessario.
+,RF - 45,O sistema deve permitir restaurar rapidamente o ambiente para um estado limpo e pronto para novos testes.
+Funcionalidades auxiliares e demonstrativas,RF - 46,O sistema deve oferecer um catalogo de serviços para consulta e teste de endpoints disponíveis.
+,RF - 47,O sistema deve permitir somar dois números inteiros informados pelo usuário.
+,RF - 48,O sistema deve permitir calcular valores da sequência de Fibonacci com mais de uma abordagem de cálculo.
+,RF - 49,O sistema deve permitir calcular resultados da função de Ackermann com mais de uma abordagem de cálculo.
+,RF - 50,O sistema deve informar erro quando os serviços matemáticos receberem valores fora do formato esperado.
+Seguranca e proteção de acesso,RNF - 51,"O sistema deve tratar credenciais de bibliotecários de forma protegida, sem depender da senha em texto puro para validacao posterior."
+,RNF - 52,O sistema deve exigir senhas com nível mínimo de robustez antes de concluir o cadastro de um bibliotecário.
+,RNF - 53,"O sistema deve responder de forma clara a tentativas de acesso negadas, sem expor detalhes sensíveis do processamento interno."
+Integridade das informações,RNF - 54,"O sistema deve preservar a consistência entre livros, leitores e empréstimos, evitando registros inválidos ou contraditórios."
+,RNF - 55,O sistema deve impedir duplicidades nos cadastros principais quando o registro já existir.
+,RNF - 56,"O sistema deve manter a base coerente quando livros ou leitores forem excluídos, removendo também os empréstimos vinculados."
+,RNF - 57,O sistema deve validar dados obrigatórios antes de executar operações de negócio.
+Usabilidade,RNF - 58,"O sistema deve poder ser utilizado por meio de formulários web simples, com retorno rápido e legível para cada ação."
+,RNF - 59,"O sistema deve oferecer mensagens objetivas de sucesso, negação e erro para orientar o usuário."
+,RNF - 60,"O sistema deve reduzir digitação manual em fluxos repetitivos, como empréstimo de livros, por meio de listas ou sugestões."
+,RNF - 61,O sistema deve funcionar em navegadores comuns e considerar uso em telas menores.
+Confiabilidade operacional,RNF - 62,O sistema deve permitir reiniciar o ambiente de dados de forma previsivel para repeticção de testes e demonstrações.
+,RNF - 63,O sistema deve manter comportamento consistente tanto pela interface principal quanto pelos endpoints de consulta e envio de dados.
+,RNF - 64,O sistema deve registrar as principais operações para apoiar rastreabilidade e análise de problemas.
+Qualidade e evolução,RNF - 65,"As regras centrais de cadastro, autenticação, consulta e empréstimo devem ser verificadas de forma repetível por testes automatizados."
+,RNF - 66,"O sistema deve estar organizado por domínios de negócio, favorecendo manutenção e ampliação das funcionalidades."
+Observações do levantamento,RNF - 67,"O código implementa regras de exclusão de livros e leitores, mas a tela principal atual não expõe esses comandos diretamente."
+,RNF - 68,"O sistema possui autenticacao de bibliotecários, mas o código atual não mostra bloqueio de sessão nas demais operações da biblioteca."
+,RNF - 69,"A parte de biblioteca e autenticação e o núcleo de negócio mais claro da aplicação; os módulos matemáticos aparecem como funcionalidades auxiliares de demonstração.
+"

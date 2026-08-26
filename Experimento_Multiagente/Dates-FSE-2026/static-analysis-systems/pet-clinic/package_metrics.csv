@@ -1,0 +1,8 @@
+project,package,class_count,method_count,public_method_count,incoming_internal_dependencies,outgoing_internal_dependencies,roles
+pet-clinic,org.springframework.samples.petclinic,6,15,4,0,3,bootstrap:1|test:5
+pet-clinic,org.springframework.samples.petclinic.owner,1,1,1,5,0,other:1
+pet-clinic,org.springframework.samples.petclinic.owner.application,2,4,3,2,9,service:1|test:1
+pet-clinic,org.springframework.samples.petclinic.owner.domain,8,57,48,24,0,domain:7|test:1
+pet-clinic,org.springframework.samples.petclinic.owner.ui,11,72,28,0,19,controller:3|test:6|ui:2
+pet-clinic,org.springframework.samples.petclinic.system.internal,8,11,8,0,0,configuration:2|controller:2|other:1|test:3
+pet-clinic,org.springframework.samples.petclinic.vet.internal,14,44,21,3,3,controller:1|domain:3|other:5|service:1|test:4

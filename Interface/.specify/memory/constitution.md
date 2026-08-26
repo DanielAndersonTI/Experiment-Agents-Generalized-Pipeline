@@ -12,7 +12,7 @@ The backend MUST use Python's standard-library `http.server`. It MUST expose the
 Until the real integration is approved, backend pipeline responses MUST be simulated with mock data. Mock behavior MUST preserve the expected shape of systems, requirements, services, interactions, metrics, best results, and report responses so the interface can be tested independently. Future integration points MUST be marked with clear TODO comments, including comments such as `# TODO: Integrate with pipeline_runner here`.
 
 ### IV. Complete Prototype Workflow
-The interface MUST support adding up to five systems dynamically through AJAX. Each system MUST provide fields for system name, requirements, reference services, reference interactions, and a name normalization map. The workflow MUST provide `Run Pipeline`, `New Decomposition`, a results page with Services, Interactions, and Best Results tables, and `Download Full Report (PDF)`. The report download may remain a simulated or simple test PDF response during this phase.
+The interface MUST support adding up to ten systems dynamically through AJAX. Each system MUST provide fields for system name, requirements, reference services, and reference interactions. The workflow MUST provide `Run Pipeline`, `New Decomposition`, a results page with Services, Interactions, and Best Results tables, and `Download Full Report (PDF)`. The report download may remain a simulated or simple test PDF response during this phase.
 
 ### V. VIRTUS Visual Identity
 The interface MUST use the VIRTUS visual language: navy primary `#0A1E5C`, white background `#FFFFFF`, light-gray fields `#F2F2F2`, and gold accent `#E9C46A`. Typography MUST be sans-serif, headings MUST use uppercase text, and body copy MUST remain legible. All visible interface text MUST be in English.
@@ -27,7 +27,7 @@ The existing pipeline is an external protected dependency in this phase. Files u
 
 The implementation MUST use HTML, CSS, Bootstrap 5, and plain JavaScript for the frontend. It MUST use AJAX for dynamic system management and pipeline submission. The local server MUST run with Python's standard library only. The interface MUST remain usable without a live LLM, external pipeline process, or production database.
 
-The server MUST validate the maximum of five systems and return structured errors for invalid requests. Mock responses MUST be deterministic enough for repeatable UI testing. File paths and integration details for the existing pipeline MUST not be inferred from browser input.
+The server MUST validate the maximum of ten systems and return structured errors for invalid requests. Mock responses MUST be deterministic enough for repeatable UI testing. File paths and integration details for the existing pipeline MUST not be inferred from browser input.
 
 ## Development Workflow
 

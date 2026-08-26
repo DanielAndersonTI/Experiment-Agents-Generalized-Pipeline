@@ -1,0 +1,66 @@
+- O sistema deve permitir cadastro de usuários com nome de usuário e senha.
+- O sistema deve permitir login de usuários já cadastrados.
+- O sistema deve diferenciar pelo menos dois perfis de uso: usuário comum e administrador.
+- O sistema deve negar o acesso quando o usuário não existir, quando a senha estiver incorreta ou quando o perfil informado não corresponder ao cadastro.
+- O sistema deve manter a identificação do usuário logado durante a navegação no navegador.
+- O sistema deve exibir a área de gestão de recursos apenas para usuários identificados como administradores.
+- O sistema deve permitir que o usuário encerre a sessão.
+- O sistema deve operar com separação de perfis entre usuário comum e administrador.
+- Funções de gestão do acervo devem ser restritas ao perfil administrador.
+- A sessão do usuário deve permanecer identificada no navegador até que ele realize logout ou limpe seus dados locais.
+- O sistema deve impedir cadastro duplicado de usuários com o mesmo nome de usuário.
+
+- O sistema deve exibir uma página inicial com a listagem de filmes disponíveis.
+- Cada filme listado deve apresentar, no mínimo, título, pôster e nota.
+- O sistema deve organizar a listagem de filmes em páginas.
+- O sistema deve permitir a consulta da quantidade total de filmes cadastrados para suportar a navegação paginada.
+- O sistema deve permitir abrir a página de detalhes de um filme a partir da listagem.
+- O sistema deve apresentar uma página de detalhes para cada filme.
+- A página de detalhes deve exibir, no mínimo, título, nota, nome alternativo, data de lançamento, duração, direção, roteiro, elenco, sinopse, pôster e categorias.
+- O sistema deve permitir visualizar o elenco completo do filme.
+- O sistema deve impedir a consulta de detalhes de filmes inexistentes, retornando uma mensagem de erro apropriada.
+- O sistema deve disponibilizar uma área de navegação por categorias de filmes.
+- O sistema deve permitir visualizar todas as categorias cadastradas.
+- O sistema deve permitir listar apenas os filmes pertencentes a uma categoria selecionada.
+- Um filme deve poder pertencer a mais de uma categoria.
+- O sistema deve permitir voltar da visão por categoria para a visão geral do catálogo.
+- O sistema deve permitir iniciar a reprodução de um filme a partir da sua página de detalhes.
+- O sistema deve disponibilizar um link para download do arquivo do filme quando o recurso estiver pronto para consumo.
+- Antes da reprodução, o sistema deve garantir que o arquivo de vídeo esteja disponível na área usada pela aplicação para entrega do conteúdo.
+- Se o arquivo ainda não estiver disponível nessa área de entrega, o sistema deve tentar obtê-lo a partir do repositório local configurado.
+- O processo padrão de reprodução pressupõe que o arquivo físico do filme tenha correspondência com o título cadastrado.
+
+- O administrador deve poder cadastrar um novo filme no catálogo.
+- O cadastro de filme deve incluir, no mínimo, título, nota, nome alternativo, data de lançamento, duração, direção, roteiro, elenco, categorias, sinopse e pôster.
+- O sistema deve impedir o cadastro duplicado de filmes com o mesmo título.
+- O administrador deve poder enviar o arquivo de vídeo do filme para a aplicação.
+- O administrador deve poder excluir um filme do catálogo.
+- O sistema deve permitir a exclusão em lote de mais de um filme.
+- O sistema deve informar ao administrador quais filmes foram selecionados antes da exclusão em lote.
+- O sistema deve impedir a exclusão de filmes inexistentes.
+- O título do filme deve ser tratado como identificador único do cadastro no catálogo.
+
+- O envio do arquivo de vídeo e o cadastro do filme são etapas relacionadas, mas independentes.
+- A reprodução automática depende da existência de um arquivo MP4 correspondente ao título cadastrado.
+- O nome do arquivo de origem do filme precisa seguir o padrão esperado pela configuração do ambiente para que a carga automática funcione.
+- O sistema deve suportar upload de arquivos de vídeo grandes, de até 2 GB por arquivo.
+- O processo operacional da aplicação deve considerar o formato MP4 como formato padrão de vídeo.
+- O ambiente da aplicação deve possuir uma área local para armazenar temporariamente ou servir os arquivos de vídeo consumidos na reprodução.
+- O ambiente da aplicação deve possuir um repositório local configurado de onde os filmes possam ser carregados sob demanda.
+
+- A aplicação deve ser acessível por interface web.
+- A navegação do catálogo deve ser simples e direta, com acesso visível à página inicial, categorias, detalhes e reprodução.
+- A aplicação deve apresentar mensagens claras de sucesso, alerta e falha nas operações principais, como login, cadastro, inclusão, exclusão, upload e reprodução.
+- A exibição do catálogo deve ser paginada em blocos de até 12 filmes por página, favorecendo organização visual e desempenho percebido.
+- O sistema deve manter um padrão único de resposta para as operações, indicando status, mensagem e dados retornados.
+
+- As informações de usuários, filmes e categorias devem ser persistidas de forma durável.
+- O sistema deve preservar a unicidade de usuários e filmes para evitar duplicidades no acervo e no acesso.
+- O tratamento de erros deve retornar mensagens controladas ao usuário sempre que possível.
+- Os dados de usuários, filmes e categorias devem ser armazenados em uma base estruturada que suporte os relacionamentos do catálogo.
+- A solução deve permitir que a interface do usuário e os serviços da aplicação evoluam de forma separada.
+- A interface do usuário deve conseguir consumir os serviços da aplicação mesmo quando estiver publicada em ambiente distinto.
+
+- A intenção de restringir a gestão de recursos ao administrador está clara na interface, mas essa restrição não aparece validada de forma completa no backend.
+- O sistema atual está mais orientado a um acervo local de filmes do que a um armazenamento remoto ou serviço de streaming externo.
+- A disponibilidade para reprodução depende tanto do cadastro do filme quanto da existência do arquivo físico correspondente.

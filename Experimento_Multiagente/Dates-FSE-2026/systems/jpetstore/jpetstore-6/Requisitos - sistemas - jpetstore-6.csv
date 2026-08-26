@@ -1,0 +1,63 @@
+Requisitos - Categorias,Identificação,Descrição
+Catálogo e Navegação,RF - 01,O sistema deve permitir que visitantes e clientes entrem na loja virtual e naveguem pelo catálogo principal.
+,RF - 02,"O sistema deve organizar os produtos por categorias de animais, contemplando as categorias de peixes, cães, répteis, gatos e aves."
+,RF - 03,"O sistema deve permitir o acesso às categorias por diferentes caminhos de navegação, como menu principal, atalhos rápidos e elementos visuais da página inicial."
+,RF - 04,O sistema deve permitir a visualização da lista de produtos de cada categoria.
+,RF - 05,O sistema deve permitir a visualização dos itens disponíveis de cada produto.
+,RF - 06,"O sistema deve permitir a visualização do detalhamento de cada item, incluindo descrição, identificação, preço e situação de estoque."
+Pesquisa de Produtos,RF - 07,O sistema deve permitir pesquisar produtos por palavra-chave.
+,RF - 08,A pesquisa deve considerar o nome do produto como base para retorno dos resultados.
+,RF - 09,"Quando nenhuma palavra-chave for informada, o sistema deve impedir a pesquisa e orientar o usuário a preencher o campo de busca."
+"Cadastro, Acesso e Perfil do Cliente",RF - 10,"O sistema deve permitir o cadastro de novos clientes por meio do preenchimento de dados de identificação, contato, endereço e credenciais de acesso."
+,RF - 11,O sistema deve permitir que o cliente realize autenticação informando usuário e senha.
+,RF - 12,O sistema deve informar quando a autenticação não puder ser concluída em razão de usuário ou senha inválidos.
+,RF - 13,O sistema deve permitir que o cliente encerre sua sessão de uso.
+,RF - 14,O sistema deve permitir que o cliente edite seus dados cadastrais e preferências de perfil.
+,RF - 15,O sistema deve permitir que o cliente defina idioma de preferência.
+,RF - 16,O sistema deve permitir que o cliente escolha uma categoria favorita.
+,RF - 17,O sistema deve permitir que o cliente habilite uma lista personalizada de produtos com base em sua categoria favorita.
+,RF - 18,O sistema deve permitir que o cliente habilite a exibição de um banner promocional relacionado à sua categoria favorita.
+Carrinho de Compras,RF - 19,O sistema deve permitir incluir itens no carrinho de compras a partir das páginas de produto e de detalhe do item.
+,RF - 20,"Quando o mesmo item for adicionado mais de uma vez, o sistema deve consolidar o item no carrinho e aumentar sua quantidade."
+,RF - 21,"O sistema deve permitir visualizar o carrinho com a relação dos itens selecionados, quantidades, preços unitários e totais por item."
+,RF - 22,"O sistema deve informar, para cada item no carrinho, se ele se encontra disponível em estoque no momento da inclusão."
+,RF - 23,O sistema deve permitir a atualização das quantidades dos itens no carrinho.
+,RF - 24,O sistema deve permitir a remoção de itens do carrinho.
+,RF - 25,"Quando a quantidade informada para um item for menor que 1, o sistema deve removê-lo do carrinho."
+,RF - 26,O sistema deve calcular automaticamente o subtotal do carrinho com base nos itens e nas quantidades selecionadas.
+Estoque e Disponibilidade,RF - 27,O sistema deve informar a disponibilidade de estoque na visualização do item.
+,RF - 28,"Quando não houver quantidade disponível em estoque, o sistema deve indicar que o item está sob encomenda."
+,RF - 29,"Ao concluir um pedido, o sistema deve registrar a baixa da quantidade comprada no estoque."
+Processo de Compra e Pedido,RF - 30,O sistema deve exigir que o usuário esteja autenticado para iniciar o processo de fechamento da compra.
+,RF - 31,"Ao iniciar um pedido, o sistema deve utilizar os dados cadastrais do cliente para preencher inicialmente as informações de cobrança e entrega."
+,RF - 32,O sistema deve utilizar os itens do carrinho para compor automaticamente o pedido.
+,RF - 33,O sistema deve permitir ao cliente informar ou ajustar os dados de pagamento do pedido.
+,RF - 34,O sistema deve permitir a escolha do tipo de cartão dentre as opções disponibilizadas pela aplicação.
+,RF - 35,O sistema deve permitir que o cliente indique um endereço de entrega diferente do endereço de cobrança.
+,RF - 36,"Quando o cliente optar por endereço de entrega diferente, o sistema deve apresentar uma etapa específica para preenchimento desse endereço."
+,RF - 37,"Antes da finalização, o sistema deve apresentar uma etapa de confirmação com os dados de cobrança e entrega informados."
+,RF - 38,O sistema deve concluir o pedido somente após a confirmação explícita do cliente.
+,RF - 39,"Ao concluir o pedido, o sistema deve gerar um identificador único para a compra."
+,RF - 40,"Ao concluir o pedido, o sistema deve registrar a data da compra, os itens adquiridos, as quantidades, os valores e a situação inicial do pedido."
+,RF - 41,"Após a conclusão da compra, o sistema deve limpar o carrinho do cliente."
+,RF - 42,"Após a conclusão da compra, o sistema deve exibir mensagem de confirmação de recebimento do pedido."
+Consulta de Pedidos,RF - 43,O sistema deve permitir que o cliente consulte a lista de seus pedidos já realizados.
+,RF - 44,"O sistema deve apresentar, na listagem de pedidos, ao menos o número do pedido, a data e o valor total."
+,RF - 45,O sistema deve permitir a consulta do detalhamento de um pedido específico.
+,RF - 46,"No detalhamento do pedido, o sistema deve apresentar dados de pagamento, endereços, transportadora, status, itens comprados, quantidades, preços e valor total da compra."
+,RF - 47,O sistema deve restringir a visualização de pedidos ao respectivo cliente responsável pela compra.
+Segurança e Controle de Acesso,RNF - 48,O sistema deve proteger as funcionalidades de fechamento de compra e consulta de pedidos por meio de autenticação do cliente.
+,RNF - 49,"O sistema deve encerrar adequadamente a sessão do cliente no processo de logout, evitando a continuidade indevida do acesso autenticado."
+,RNF - 50,O sistema não deve expor desnecessariamente a senha do cliente durante a navegação após o login.
+Integridade e Consistência das Informações,RNF - 51,"O sistema deve manter consistência entre carrinho, pedido e estoque, evitando divergências entre a compra realizada e os itens registrados."
+,RNF - 52,"O sistema deve garantir que o pedido seja registrado com todos os seus elementos principais, incluindo cabeçalho, status e itens comprados."
+,RNF - 53,"O sistema deve garantir unicidade na numeração dos pedidos, permitindo rastreabilidade das compras."
+,RNF - 54,"O sistema deve calcular automaticamente valores do carrinho e do pedido, reduzindo risco de erro manual."
+Confiabilidade Operacional,RNF - 55,"O sistema deve tratar entradas inválidas de forma controlada, exibindo mensagens adequadas ao usuário sem comprometer a continuidade da aplicação."
+,RNF - 56,"O sistema deve impedir operações inconsistentes, como iniciar compra sem autenticação ou tentar manipular itens inexistentes de forma silenciosa."
+,RNF - 57,O sistema deve preservar o histórico de pedidos para consulta posterior pelo cliente.
+Usabilidade e Experiência de Uso,RNF - 58,"O sistema deve oferecer navegação simples e compreensível, com acesso claro às categorias, busca, carrinho, conta do cliente e ajuda."
+,RNF - 59,"O processo de compra deve ser conduzido em etapas lógicas e progressivas, facilitando o entendimento do cliente durante o checkout."
+,RNF - 60,"O sistema deve fornecer mensagens de orientação e confirmação em pontos importantes do fluxo, como falha de login, campo de busca vazio e pedido concluído."
+Atualização das Informações de Negócio,RNF - 61,O sistema deve consultar a situação de estoque de forma atualizada nos pontos críticos da jornada de compra.
+,RNF - 62,"O sistema deve refletir as preferências cadastradas pelo cliente, como lista personalizada e banner associado à categoria favorita."

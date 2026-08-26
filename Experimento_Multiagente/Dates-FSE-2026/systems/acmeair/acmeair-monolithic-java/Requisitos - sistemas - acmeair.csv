@@ -1,0 +1,53 @@
+Requisitos - Categorias,Identificação,Descrição
+Acesso e sessão do cliente,RF - 01,O sistema deve permitir que o cliente acesse sua conta por meio de login e senha.
+,RF - 02,O sistema deve criar uma sessao de uso apos a autenticacao bem-sucedida.
+,RF - 03,O sistema deve permitir que o cliente encerre sua sessao por meio de logout.
+,RF - 04,"O sistema deve exigir sessao ativa para acessar areas restritas, como perfil do cliente e reservas."
+Consulta de voos,RF - 05,"O sistema deve permitir a pesquisa de voos informando aeroporto de origem, aeroporto de destino e data da viagem."
+,RF - 06,O sistema deve permitir pesquisas de viagem somente de ida ou de ida e volta.
+,RF - 07,O sistema deve apresentar as opcoes de voo encontradas para cada trecho da viagem.
+,RF - 08,"O sistema deve exibir, para cada voo encontrado, informacoes de horario de partida, horario de chegada e valores de referencia das classes exibidas ao cliente."
+,RF - 09,O sistema deve trabalhar com um conjunto de aeroportos previamente cadastrados.
+Reserva de voos,RF - 10,O sistema deve permitir que um cliente autenticado reserve um voo de ida.
+,RF - 11,"O sistema deve permitir que um cliente autenticado reserve, em uma mesma operacao, os voos de ida e volta."
+,RF - 12,O sistema deve gerar um identificador para cada reserva criada.
+,RF - 13,O sistema deve registrar a data em que a reserva foi realizada.
+,RF - 14,O sistema deve informar ao cliente o identificador da reserva criada apos a conclusao da operacao.
+Consulta e cancelamento de reservas,RF - 15,O sistema deve permitir que o cliente consulte suas reservas existentes.
+,RF - 16,O sistema deve apresentar ao cliente a lista de reservas ja realizadas.
+,RF - 17,O sistema deve permitir o cancelamento de uma reserva selecionada.
+,RF - 18,"Apos o cancelamento, a reserva nao deve mais constar como ativa na listagem do cliente."
+Perfil do cliente,RF - 19,O sistema deve permitir que o cliente consulte o proprio perfil.
+,RF - 20,"O sistema deve exibir no perfil os dados de contato do cliente, incluindo telefone, tipo de telefone e endereco."
+,RF - 21,O sistema deve permitir a atualizacao dos dados de contato e endereco do cliente.
+,RF - 22,O sistema deve exigir a senha atual do cliente para confirmar alteracoes no perfil.
+,RF - 23,O sistema deve impedir que um cliente consulte ou altere o perfil de outro cliente.
+Programa de fidelidade,RF - 24,O sistema deve exibir ao cliente seu status no programa de fidelidade.
+,RF - 25,O sistema deve exibir a quantidade de milhas acumuladas no ano.
+,RF - 26,O sistema deve exibir a quantidade total de milhas acumuladas.
+,RF - 27,"As informacoes de fidelidade devem ser apresentadas ao cliente como dados de consulta, e nao como campos de edicao no fluxo principal da interface."
+Administração e preparação do ambiente,RF - 28,O sistema deve permitir a carga inicial ou recarga da base de dados da aplicacao.
+,RF - 29,O processo de carga deve permitir definir a quantidade de clientes de exemplo a ser gerada.
+,RF - 30,"A carga da base deve recriar os dados principais da operacao, incluindo voos, clientes, sessoes e reservas de teste."
+,RF - 31,"O sistema deve disponibilizar informacoes resumidas de operacao, como quantidades de clientes, sessoes, voos, trechos, reservas e aeroportos cadastrados."
+Segurança e controle de acesso,RNF - 32,A aplicacao deve restringir as funcionalidades privadas a clientes autenticados.
+,RNF - 33,A sessao do cliente deve ter validade limitada e expirar automaticamente apos o periodo configurado.
+,RNF - 34,O logout deve invalidar a sessao em uso imediatamente.
+,RNF - 35,Os dados pessoais do cliente devem ser protegidos contra acesso indevido por outros clientes.
+Desempenho e escalabilidade,RNF - 36,"A aplicacao deve suportar alto volume de chamadas e consultas, em especial nos fluxos de autenticacao, pesquisa de voos e reservas."
+,RNF - 37,"As consultas de voos devem priorizar resposta rapida, pois representam um fluxo recorrente da jornada do cliente."
+,RNF - 38,A solucao deve ser adequada para crescimento de uso sem depender de atendimento manual para as operacoes principais de autoatendimento.
+Disponibilidade e portabilidade,RNF - 39,"A aplicacao deve poder ser executada em diferentes ambientes, incluindo infraestrutura local, nuvem publica e cenarios hibridos."
+,RNF - 40,"A solucao deve manter os dados de clientes, voos, sessoes e reservas persistidos entre as requisicoes da aplicacao."
+Integridade e rastreabilidade,RNF - 41,Cada sessao e cada reserva devem possuir identificacao unica.
+,RNF - 42,As operacoes de reserva e cancelamento devem manter consistencia suficiente para refletir corretamente o estado atual das reservas do cliente.
+,RNF - 43,"A aplicacao deve registrar dados minimos de acompanhamento das operacoes, como data da reserva e contagem de registros operacionais."
+Usabilidade e autosservico,RNF - 44,"A navegacao deve favorecer o autosservico, permitindo que o cliente pesquise voos, gerencie reservas e atualize seu perfil sem intermediacao humana."
+,RNF - 45,"O sistema deve apresentar horarios, datas e valores de forma legivel para o cliente."
+,RNF - 46,"As principais jornadas devem estar acessiveis por interface web simples, com separacao clara entre pesquisa de voos, reservas, perfil e suporte."
+Operação administrativa,RNF - 47,"O ambiente deve oferecer meios simples de preparacao e conferencia da base de dados para testes, demonstracoes ou reinicializacao operacional."
+,RNF - 48,O sistema deve fornecer indicadores basicos de operacao para acompanhamento do ambiente sem exigir consulta direta ao banco de dados.
+Observações de escopo identificadas,RNF - 49,"O fluxo chamado de `Check-in` na interface, na pratica, funciona como consulta e cancelamento de reservas; nao foi identificado um processo completo de check-in do passageiro neste repositorio."
+,RNF - 50,"Existe uma interface de `Support` com aparencia de chat em tempo real, mas o backend correspondente nao foi localizado no codigo analisado. Por isso, esse item nao foi tratado acima como requisito funcional consolidado."
+,RNF - 51,Nao foi identificado fluxo de cadastro publico de novos clientes. As contas de cliente sao geradas por rotina administrativa de carga de dados.
+,RNF - 52,"Nao foi identificado fluxo de pagamento, escolha de assento ou selecao formal de classe tarifaria no momento da reserva; o sistema exibe precos, mas a reserva observada no codigo e simplificada."

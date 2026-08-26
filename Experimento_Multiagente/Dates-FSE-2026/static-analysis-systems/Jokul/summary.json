@@ -1,0 +1,268 @@
+{
+  "project": "Jokul",
+  "project_path": "systems/Jokul",
+  "generated_at_utc": "2026-06-25T17:58:13.191208+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 1,
+    "source_roots": 2,
+    "java_files": 28,
+    "analyzed_type_files": 28,
+    "packages": 12,
+    "classes": 28,
+    "entrypoints": 5,
+    "main_classes": 25,
+    "test_classes": 3,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 19,
+    "external_package_dependencies": 60
+  },
+  "role_counts": {
+    "aspect": 1,
+    "bootstrap": 1,
+    "configuration": 1,
+    "controller": 4,
+    "domain": 4,
+    "exception": 4,
+    "other": 6,
+    "service": 2,
+    "test": 3,
+    "utility": 2
+  },
+  "source_roots": [
+    "systems/Jokul/jokul/jokul-server/src/main/java",
+    "systems/Jokul/jokul/jokul-server/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "io.innofang.jokul",
+      "package_count": 12
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.domain",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.repositories",
+      "target_package": "io.innofang.jokul.domain",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.repositories",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.enums",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.utils",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.exception",
+      "target_package": "io.innofang.jokul.enums",
+      "category": "internal",
+      "count": 2
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.services",
+      "target_package": "io.innofang.jokul.exception",
+      "category": "internal",
+      "count": 2
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.utils",
+      "target_package": "io.innofang.jokul.domain",
+      "category": "internal",
+      "count": 2
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul",
+      "target_package": "io.innofang.jokul.services",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.exception",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.properties",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.controller",
+      "target_package": "io.innofang.jokul.services",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.domain",
+      "target_package": "io.innofang.jokul.utils",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.handle",
+      "target_package": "io.innofang.jokul.domain",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.handle",
+      "target_package": "io.innofang.jokul.enums",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.handle",
+      "target_package": "io.innofang.jokul.exception",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.handle",
+      "target_package": "io.innofang.jokul.utils",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.services",
+      "target_package": "io.innofang.jokul.properties",
+      "category": "internal",
+      "count": 1
+    },
+    {
+      "project": "Jokul",
+      "source_package": "io.innofang.jokul.utils",
+      "target_package": "io.innofang.jokul.enums",
+      "category": "internal",
+      "count": 1
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "org.springframework.web",
+      "count": 20
+    },
+    {
+      "dependency_root": "java.util",
+      "count": 15
+    },
+    {
+      "dependency_root": "org.springframework.boot",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.data",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.beans",
+      "count": 8
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 8
+    },
+    {
+      "dependency_root": "org.junit",
+      "count": 8
+    },
+    {
+      "dependency_root": "javax.persistence",
+      "count": 6
+    },
+    {
+      "dependency_root": "com.fasterxml.jackson",
+      "count": 5
+    },
+    {
+      "dependency_root": "org.springframework.test",
+      "count": 5
+    },
+    {
+      "dependency_root": "org.slf4j",
+      "count": 4
+    },
+    {
+      "dependency_root": "org.springframework.core",
+      "count": 4
+    },
+    {
+      "dependency_root": "java.nio",
+      "count": 4
+    },
+    {
+      "dependency_root": "org.springframework.context",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.springframework.stereotype",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.junit.runner",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.aspectj.lang",
+      "count": 2
+    },
+    {
+      "dependency_root": "org.springframework.http",
+      "count": 2
+    },
+    {
+      "dependency_root": "javax.servlet",
+      "count": 1
+    },
+    {
+      "dependency_root": "org.hibernate.annotations",
+      "count": 1
+    }
+  ]
+}

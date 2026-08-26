@@ -1,0 +1,2 @@
+project,module,package,type_name,file,entrypoint_reasons
+jpetstore,jpetstore-6,(default),MavenWrapperDownloader,systems/jpetstore/jpetstore-6/.mvn/wrapper/MavenWrapperDownloader.java,main-method

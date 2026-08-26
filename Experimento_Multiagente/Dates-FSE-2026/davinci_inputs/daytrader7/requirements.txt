@@ -1,0 +1,79 @@
+- O sistema deve permitir o cadastro de novos investidores.
+- O cadastro do investidor deve contemplar, no mínimo, identificação do usuário, senha, confirmação de senha, nome completo, endereço, e-mail, cartão e saldo inicial de abertura.
+- O sistema deve validar se a senha e a confirmação de senha informadas no cadastro são idênticas.
+- O sistema não deve permitir o cadastro de um investidor com identificação já existente.
+- O sistema deve autenticar o investidor por meio de usuário e senha.
+- O sistema deve permitir o início de sessão para investidores autenticados.
+- O sistema deve permitir o encerramento da sessão do investidor por meio de logout.
+- O sistema deve impedir o acesso aos recursos de conta, carteira e negociação quando o investidor não estiver autenticado.
+
+- O sistema deve manter uma conta individual para cada investidor cadastrado.
+- A conta do investidor deve registrar saldo atual, saldo inicial, data de criação, data do último acesso, total de logins e total de logouts.
+- O sistema deve permitir a consulta dos dados cadastrais e financeiros da conta do investidor.
+- O sistema deve permitir a atualização do perfil do investidor.
+- A atualização do perfil deve contemplar, no mínimo, senha, nome completo, endereço, e-mail e cartão cadastrado.
+- O sistema deve exigir o preenchimento dos campos essenciais para efetivar a atualização do perfil.
+- O sistema deve impedir a atualização do perfil quando a senha e a confirmação de senha forem divergentes.
+
+- O sistema deve permitir a consulta de cotações de ativos a partir de seus códigos.
+- O sistema deve permitir a consulta simultânea de mais de um ativo.
+- Para cada ativo consultado, o sistema deve apresentar informações como nome da empresa, volume negociado, faixa de preço, preço de abertura, preço atual e variação.
+- O sistema deve disponibilizar um resumo consolidado do mercado.
+- O resumo consolidado do mercado deve apresentar, no mínimo, índice geral de desempenho, índice de abertura, volume negociado, ativos com maiores altas e ativos com maiores baixas.
+- O sistema deve tratar códigos de ativos inválidos sem interromper a navegação do investidor.
+
+- O sistema deve permitir a compra de ativos pelo investidor mediante informação do código do ativo e da quantidade desejada.
+- O sistema deve permitir a venda de ativos já existentes na carteira do investidor.
+- Toda operação de compra ou venda deve gerar uma ordem individual de negociação.
+- Toda ordem deve possuir identificação própria, tipo, quantidade, preço, data de abertura, data de conclusão, status e taxa da operação.
+- O sistema deve aplicar taxa fixa de operação nas ordens de compra e venda.
+- Em operações de compra, o sistema deve debitar do saldo do investidor o valor correspondente ao ativo negociado acrescido da taxa da operação.
+- Em operações de venda, o sistema deve creditar ao saldo do investidor o valor líquido da operação, considerando o desconto da taxa aplicável.
+- O sistema deve permitir que as ordens sejam processadas de forma imediata ou posterior, conforme a configuração operacional da simulação.
+- O sistema deve registrar o andamento da ordem por meio de status de negócio, contemplando pelo menos os estados aberta, em processamento, concluída e cancelada.
+- O sistema não deve permitir a conclusão repetida de uma mesma ordem.
+- O sistema deve cancelar a venda quando a posição informada já tiver sido negociada anteriormente ou não estiver mais disponível.
+- O sistema deve apresentar ao investidor a confirmação do envio da ordem para processamento.
+
+- O sistema deve manter a carteira do investidor com as posições decorrentes de compras realizadas.
+- Quando uma ordem de compra for concluída, o sistema deve registrar a nova posição na carteira do investidor.
+- Quando uma ordem de venda for concluída, o sistema deve remover da carteira a posição correspondente.
+- O sistema deve permitir a consulta da carteira do investidor.
+- Para cada posição da carteira, o sistema deve apresentar, no mínimo, identificação da posição, data da compra, ativo, quantidade, preço de compra, preço atual, valor aplicado, valor de mercado e ganho ou perda.
+- O sistema deve informar quando a carteira do investidor estiver vazia.
+- O sistema deve permitir a venda de uma posição diretamente a partir da carteira.
+- O sistema deve calcular o valor total investido na carteira, o valor de mercado atual e o ganho ou perda consolidado.
+- O sistema deve apresentar ao investidor um resumo consolidado de sua posição financeira, incluindo saldo em caixa, quantidade de posições, valor de mercado da carteira e resultado acumulado em relação ao saldo inicial.
+
+- O sistema deve manter histórico das ordens associadas ao investidor.
+- O sistema deve exibir uma visão resumida das ordens mais recentes do investidor.
+- O sistema deve permitir a consulta ampliada do histórico de ordens.
+- O sistema deve alertar o investidor sobre ordens concluídas que ainda não tenham sido apresentadas a ele.
+- A apresentação do alerta deve informar, no mínimo, identificação da ordem, status, datas relevantes, tipo, ativo, quantidade e taxa aplicada.
+
+- O sistema deve atualizar o volume negociado e os indicadores de mercado dos ativos após operações de compra e venda.
+- O sistema deve refletir essas atualizações nas consultas posteriores de cotação e no resumo consolidado do mercado.
+
+- O sistema deve permitir a configuração de parâmetros operacionais da simulação.
+- Entre os parâmetros operacionais, o sistema deve permitir definir o modo de processamento das ordens, a quantidade máxima de usuários simulados, a quantidade máxima de ativos simulados e o intervalo de atualização do resumo do mercado.
+- O sistema deve permitir habilitar ou desabilitar alertas de ordens concluídas.
+- O sistema deve permitir preparar ou reconstruir a base de dados da simulação.
+- O sistema deve permitir reinicializar os dados operacionais da simulação.
+- Ao reinicializar os dados, o sistema deve disponibilizar estatísticas resumidas da execução, incluindo usuários, ativos, ordens, cancelamentos e posições existentes.
+
+- O sistema deve exigir autenticação prévia para acesso aos recursos restritos do investidor.
+- O sistema deve garantir que as operações executadas durante a sessão sejam associadas ao investidor autenticado.
+- O sistema deve encerrar adequadamente a sessão do investidor no logout, reduzindo o risco de uso indevido posterior.
+- O sistema deve preservar a consistência entre saldo, ordens, cotações e carteira após cada operação.
+- O sistema deve manter rastreabilidade mínima do ciclo de vida das ordens por meio de identificação, datas e status.
+- O sistema deve tratar falhas de processamento sem comprometer a integridade dos dados do investidor.
+- O sistema deve impedir, sempre que possível, duplicidade de conclusão ou reaproveitamento indevido de ordens e posições.
+- O sistema deve suportar processamento imediato ou posterior de ordens, de modo a atender diferentes estratégias operacionais da simulação.
+- O sistema deve permitir o uso de atualização configurável do resumo de mercado para equilibrar atualidade da informação e custo operacional.
+- O sistema deve suportar operação com volumes elevados de usuários, ativos e ordens simuladas.
+
+- O sistema deve apresentar ao investidor informações de negócio de forma clara, objetiva e organizada por contexto de uso.
+- O sistema deve oferecer mensagens compreensíveis para situações como falha de login, erro de cadastro, divergência de senha, dados obrigatórios ausentes e operações inválidas.
+- O sistema deve permitir navegação simples entre as visões principais de home, conta, carteira, cotações, ordens e resumo de mercado.
+- O sistema deve disponibilizar mecanismos administrativos para preparação, configuração e reinicialização controlada do ambiente de simulação.
+- O sistema deve disponibilizar indicadores resumidos da execução para apoio ao acompanhamento operacional da simulação.

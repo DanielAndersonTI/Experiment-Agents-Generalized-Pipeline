@@ -1,0 +1,9 @@
+project,module,package,type_name,file,entrypoint_reasons
+acmeair,acmeair-monolithic-java,com.acmeair.config,AcmeAirConfiguration,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/config/AcmeAirConfiguration.java,http-entrypoint
+acmeair,acmeair-monolithic-java,com.acmeair.config,LoaderREST,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/config/LoaderREST.java,http-entrypoint
+acmeair,acmeair-monolithic-java,com.acmeair.loader,Loader,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/loader/Loader.java,main-method
+acmeair,acmeair-monolithic-java,com.acmeair.web,AcmeAirApp,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/web/AcmeAirApp.java,application-bootstrap
+acmeair,acmeair-monolithic-java,com.acmeair.web,BookingsREST,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/web/BookingsREST.java,http-entrypoint
+acmeair,acmeair-monolithic-java,com.acmeair.web,CustomerREST,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/web/CustomerREST.java,http-entrypoint
+acmeair,acmeair-monolithic-java,com.acmeair.web,FlightsREST,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/web/FlightsREST.java,http-entrypoint
+acmeair,acmeair-monolithic-java,com.acmeair.web,LoginREST,systems/acmeair/acmeair-monolithic-java/src/main/java/com/acmeair/web/LoginREST.java,http-entrypoint

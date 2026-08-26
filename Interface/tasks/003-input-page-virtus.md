@@ -12,7 +12,7 @@ Create the initial page and system form using the VIRTUS visual identity.
 ## Deliverables
 
 - Render one system block on initial load.
-- Add fields for system name, architecture target, requirements, reference services, reference interactions, and name normalization map.
+- Add fields for system name, architecture target, requirements, reference services, and reference interactions.
 - Make `Microservices` the only enabled architecture target.
 - Add English labels, placeholders, descriptions, and required indicators.
 - Establish CSS variables and Bootstrap 5 layout conventions for navy `#0A1E5C`, white `#FFFFFF`, light gray `#F2F2F2`, and gold `#E9C46A`.

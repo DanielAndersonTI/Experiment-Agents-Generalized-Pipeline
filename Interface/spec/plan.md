@@ -6,7 +6,7 @@
 
 ## Summary
 
-Implement a local web prototype for collecting up to five generalized system definitions, running a mocked microservice architecture decomposition, displaying mock metrics, and downloading a simple PDF report. The backend will use only Python's standard-library `http.server`; the frontend will use HTML, CSS, Bootstrap 5, and plain JavaScript with AJAX. No stage in this plan invokes or modifies the existing multi-agent pipeline.
+Implement a local web prototype for collecting up to ten generalized system definitions, running a mocked microservice architecture decomposition, displaying mock metrics, and downloading a simple PDF report. The backend will use only Python's standard-library `http.server`; the frontend will use HTML, CSS, Bootstrap 5, and plain JavaScript with AJAX. No stage in this plan invokes or modifies the existing multi-agent pipeline.
 
 All future real-pipeline integration will remain behind the mock execution boundary and will be marked in the relevant backend code with `# TODO: Integrate with pipeline_runner here` or equivalent. The implementation will remain entirely inside `Interface/`.
 
@@ -26,9 +26,9 @@ All future real-pipeline integration will remain behind the mock execution bound
 
 **Performance Goals**: Initial page and static assets should load locally without perceptible delay; mock AJAX responses should complete promptly and provide a visible loading state during the request
 
-**Constraints**: Maximum five systems per decomposition; all required fields validated; English-only interface; mock-only execution; no files outside `Interface/` changed; no calls to the real pipeline or LLM
+**Constraints**: Maximum ten systems per decomposition; all required fields validated; English-only interface; mock-only execution; no files outside `Interface/` changed; no calls to the real pipeline or LLM
 
-**Scale/Scope**: One local user, up to five systems per run, one active in-memory report context, one input page and one results view
+**Scale/Scope**: One local user, up to ten systems per run, one active in-memory report context, one input page and one results view
 
 ## Constitution Check
 
@@ -133,11 +133,11 @@ Interface/
 **Functionality delivered**:
 
 - One system block rendered on initial load.
-- Fields for system name, architecture target, requirements, reference services, reference interactions, and name normalization map.
+- Fields for system name, architecture target, requirements, reference services, and reference interactions.
 - `Microservices` as the only enabled architecture target.
 - English labels, placeholders, descriptions, required indicators, and accessible form associations.
 - Add and remove controls with a visible count or limit state.
-- Client-side state model for up to five systems.
+- Client-side state model for up to ten systems.
 
 **Completion criterion**: A user can fill one block, see all required fields, add blocks until five, and cannot select an unsupported architecture target.
 
@@ -159,7 +159,7 @@ Interface/
 - `DELETE /api/systems/<index>` validates indexes and prevents deletion of the final block.
 - Frontend AJAX handlers add and remove blocks without a full page reload.
 - Frontend validation for whitespace-only required fields and unsupported targets.
-- Backend validation for malformed JSON, zero systems, more than five systems, missing fields, and invalid targets.
+- Backend validation for malformed JSON, zero systems, more than ten systems, missing fields, and invalid targets.
 - English field-level and request-level error messages.
 
 **Completion criterion**: Add/remove flows work without reload, invalid input prevents pipeline submission, and direct invalid API requests receive stable structured errors.

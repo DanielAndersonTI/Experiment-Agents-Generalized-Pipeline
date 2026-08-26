@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+import traceback
 from datetime import datetime
 from pathlib import Path
 
@@ -17,7 +18,6 @@ except ModuleNotFoundError:
     executar_pipeline = None
 
 from .parsers import (
-    parse_name_map,
     parse_reference_interactions,
     parse_reference_services,
 )
@@ -40,7 +40,6 @@ def run_real_pipeline(system_data: dict) -> dict:
         requirements = system_data["requirements"].strip()
         reference_services = parse_reference_services(system_data["reference_services"])
         interaction_reference = parse_reference_interactions(system_data["reference_interactions"])
-        name_map = parse_name_map(system_data["name_normalization_map"])
 
         global executar_pipeline
         if executar_pipeline is None:
@@ -53,7 +52,6 @@ def run_real_pipeline(system_data: dict) -> dict:
             requirements,
             reference_services,
             interaction_reference,
-            name_map,
         )
         f1_values = [
             metric["f1_score"]
@@ -75,5 +73,6 @@ def run_real_pipeline(system_data: dict) -> dict:
     except KeyError as error:
         return {"ok": False, "run_id": run_id, "metrics": {}, "error": f"Missing required field: {error.args[0]}."}
     except Exception as error:
+        traceback.print_exc()
         agent = getattr(error, "agent", None)
         return {"ok": False, "run_id": run_id, "metrics": {}, "error": _error_message(error, agent)}

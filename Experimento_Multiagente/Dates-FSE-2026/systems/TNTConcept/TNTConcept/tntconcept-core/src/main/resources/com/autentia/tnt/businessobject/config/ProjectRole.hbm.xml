@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    TNTConcept Easy Enterprise Management by Autentia Real Bussiness Solution S.L.
+    Copyright (C) 2007 Autentia Real Bussiness Solution S.L.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="com.autentia.tnt.businessobject.ProjectRole" table="ProjectRole" >
+    <id name="id" type="java.lang.Integer">
+      <generator class="native" />
+    </id>
+    <property name="name" type="java.lang.String" not-null="true"/>
+    <property name="costPerHour" type="java.math.BigDecimal" not-null="true"/>
+    <property name="expectedHours" type="int" not-null="true"/>
+    <many-to-one  name="project" class="com.autentia.tnt.businessobject.Project" column="projectId" not-null="true" />
+    <set name="activities" cascade="all-delete-orphan" inverse="true" >
+      <key column="roleId" />
+      <one-to-many class="com.autentia.tnt.businessobject.Activity" />
+    </set>
+    <property name="ownerId" type="java.lang.Integer" column="ownerId"/>
+	<property name="departmentId" type="java.lang.Integer" column="departmentId"/>
+	<property name="insertDate" type="java.util.Date" column="insertDate" insert="false" update="false"/>
+	<property name="updateDate" type="java.util.Date" column="updateDate" insert="false" update="false"/>
+    <property name="requireEvidence" not-null="true" column="requireEvidence">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.RequireEvidenceType</param>
+      </type>
+    </property>
+    <property name="maxTimeAllowedByYear" type="java.lang.Integer" column="maxTimeAllowedByYear" not-null="true"/>
+    <property name="maxTimeAllowedByActivity" type="java.lang.Integer" column="maxTimeAllowedByActivity" not-null="true"/>
+    <property name="isWorkingTime" type="java.lang.Boolean" column="isWorkingTime" not-null="true"/>
+    <property name="isApprovalRequired" type="java.lang.Boolean" column="isApprovalRequired" not-null="true"/>
+    <property name="timeUnit" not-null="true" column="timeUnit">
+      <type name="com.autentia.tnt.util.GenericEnumUserType">
+        <param name="enumClassName">com.autentia.tnt.businessobject.TimeUnitType</param>
+      </type>
+    </property>
+  </class>
+</hibernate-mapping>

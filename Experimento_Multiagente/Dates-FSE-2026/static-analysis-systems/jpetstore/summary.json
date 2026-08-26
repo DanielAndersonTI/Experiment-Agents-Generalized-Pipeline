@@ -1,0 +1,166 @@
+{
+  "project": "jpetstore",
+  "project_path": "systems/jpetstore",
+  "generated_at_utc": "2026-06-25T17:58:13.311041+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 1,
+    "source_roots": 3,
+    "java_files": 43,
+    "analyzed_type_files": 43,
+    "packages": 6,
+    "classes": 43,
+    "entrypoints": 1,
+    "main_classes": 24,
+    "test_classes": 18,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 5,
+    "external_package_dependencies": 60
+  },
+  "role_counts": {
+    "controller": 5,
+    "domain": 9,
+    "other": 8,
+    "service": 3,
+    "test": 18
+  },
+  "source_roots": [
+    "C:/Users/Renanzin/arquitecture generation tool/systems/jpetstore/jpetstore-6/.mvn/wrapper",
+    "systems/jpetstore/jpetstore-6/src/main/java",
+    "systems/jpetstore/jpetstore-6/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "org.mybatis.jpetstore",
+      "package_count": 5
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "jpetstore",
+      "source_package": "org.mybatis.jpetstore.service",
+      "target_package": "org.mybatis.jpetstore.mapper",
+      "category": "internal",
+      "count": 16
+    },
+    {
+      "project": "jpetstore",
+      "source_package": "org.mybatis.jpetstore.service",
+      "target_package": "org.mybatis.jpetstore.domain",
+      "category": "internal",
+      "count": 15
+    },
+    {
+      "project": "jpetstore",
+      "source_package": "org.mybatis.jpetstore.mapper",
+      "target_package": "org.mybatis.jpetstore.domain",
+      "category": "internal",
+      "count": 14
+    },
+    {
+      "project": "jpetstore",
+      "source_package": "org.mybatis.jpetstore.web.actions",
+      "target_package": "org.mybatis.jpetstore.domain",
+      "category": "internal",
+      "count": 11
+    },
+    {
+      "project": "jpetstore",
+      "source_package": "org.mybatis.jpetstore.web.actions",
+      "target_package": "org.mybatis.jpetstore.service",
+      "category": "internal",
+      "count": 5
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "java.util",
+      "count": 58
+    },
+    {
+      "dependency_root": "org.junit.jupiter",
+      "count": 31
+    },
+    {
+      "dependency_root": "net.sourceforge.stripes",
+      "count": 26
+    },
+    {
+      "dependency_root": "org.assertj.core",
+      "count": 18
+    },
+    {
+      "dependency_root": "org.springframework.test",
+      "count": 14
+    },
+    {
+      "dependency_root": "com.codeborne.selenide",
+      "count": 13
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 12
+    },
+    {
+      "dependency_root": "java.math",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.transaction",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.jdbc",
+      "count": 9
+    },
+    {
+      "dependency_root": "org.springframework.beans",
+      "count": 7
+    },
+    {
+      "dependency_root": "org.mockito.Mockito",
+      "count": 7
+    },
+    {
+      "dependency_root": "org.mockito",
+      "count": 6
+    },
+    {
+      "dependency_root": "java.net",
+      "count": 4
+    },
+    {
+      "dependency_root": "java.nio",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.springframework.stereotype",
+      "count": 3
+    },
+    {
+      "dependency_root": "javax.servlet",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.mockito.junit",
+      "count": 3
+    },
+    {
+      "dependency_root": "org.mybatis.spring",
+      "count": 2
+    },
+    {
+      "dependency_root": "org.springframework.context",
+      "count": 2
+    }
+  ]
+}

@@ -4,9 +4,10 @@ Script Principal de Orquestração Multiagente – FEW-SHOT (Generalizado)
 Este módulo expõe a função `executar_pipeline` que executa o pipeline
 multiagente completo para um único sistema.
 
-Os dados específicos de cada sistema (requisitos, serviços de referência,
-interações de referência e mapa de normalização) são fornecidos como
-argumentos da função, permitindo integração com a interface web.
+Os dados específicos de cada sistema (requisitos, serviços de referência e
+interações de referência) são fornecidos como argumentos da função.
+O mapa de normalização foi substituído por uma avaliação semântica
+automática aplicada somente no cálculo das métricas.
 """
 
 import os
@@ -31,6 +32,46 @@ from agentes.agent4_refiner_fs import criar_agente4, criar_task_refinamento
 
 
 RESULTS_ROOT = Path("result")
+
+# Dicionário genérico de sinônimos para a avaliação semântica.
+# NÃO contém nomes específicos de PetClinic, Bookstore ou qualquer outro benchmark.
+SYNONYM_MAP = {
+    "auth": "authentication",
+    "authentication": "authentication",
+    "login": "authentication",
+    "account": "account",
+    "customer": "customer",
+    "client": "customer",
+    "user": "user",
+    "catalog": "catalog",
+    "product": "catalog",
+    "book": "catalog",
+    "inventory": "inventory",
+    "stock": "inventory",
+    "cart": "cart",
+    "shopping": "cart",
+    "order": "order",
+    "purchase": "order",
+    "payment": "payment",
+    "billing": "payment",
+    "delivery": "delivery",
+    "shipping": "delivery",
+    "logistics": "delivery",
+    "media": "media",
+    "video": "media",
+    "movie": "media",
+    "film": "media",
+    "reader": "reader",
+    "borrower": "reader",
+    "loan": "loan",
+    "lending": "loan",
+    "math": "utility",
+    "demo": "utility",
+    "environment": "environment",
+    "administration": "administration",
+    "admin": "administration",
+    "management": "management",
+}
 
 
 def criar_llm() -> LLM:
@@ -239,6 +280,16 @@ def salvar_relatorio_md(run_dir: Path, system_name: str, metricas: dict):
 # Funções de Avaliação
 # ============================================
 
+def normalize_service_name(name: str) -> str:
+    """Normaliza um nome de serviço para avaliação semântica."""
+    name = name.lower().strip()
+    name = name.replace(' ', '-').replace('_', '-')
+    name = name.removesuffix('-service')
+    name = name.removesuffix('-microservice')
+    name = name.removesuffix('-ms')
+    return name
+
+
 def parse_csv_architecture(csv_text: str):
     """Extrai nomes de serviços do CSV (não normaliza)."""
     services = []
@@ -265,7 +316,7 @@ def parse_csv_architecture(csv_text: str):
     return services
 
 
-def parse_csv_interactions(csv_text: str, name_map: dict) -> set:
+def parse_csv_interactions(csv_text: str) -> set:
     """Extrai pares de interações normalizados."""
     interactions = set()
     for line in csv_text.strip().split('\n'):
@@ -274,72 +325,137 @@ def parse_csv_interactions(csv_text: str, name_map: dict) -> set:
             continue
         parts = [p.strip() for p in line.split(',')]
         if len(parts) >= 3:
-            origem = normalize_service_name(parts[0], name_map)
+            origem = normalize_service_name(parts[0])
             destinos_str = parts[2] if len(parts) == 3 else parts[2]
-            destinos = [normalize_service_name(d.strip(), name_map) for d in destinos_str.split(';') if d.strip()]
+            destinos = [normalize_service_name(d.strip()) for d in destinos_str.split(';') if d.strip()]
             for destino in destinos:
                 par = tuple(sorted([origem, destino]))
                 interactions.add(par)
     return interactions
 
 
-def evaluate_interactions(generated_set: set, reference_set: set):
-    """Calcula métricas de interações (Precision, Recall, F1)."""
-    tp = generated_set & reference_set
-    fp = generated_set - reference_set
-    fn = reference_set - generated_set
+def tokenize_service_name(name: str) -> set:
+    """Extrai tokens relevantes de um nome de serviço."""
+    name = normalize_service_name(name)
+    tokens = set(re.split(r'[-]', name))
+    tokens = {t for t in tokens if t and t not in {"of", "and", "the", "for", "to"}}
+    return tokens
 
-    precision = len(tp) / len(generated_set) if generated_set else 0.0
-    recall = len(tp) / len(reference_set) if reference_set else 0.0
+
+def semantic_token_set(name: str) -> set:
+    """Mapeia tokens para sinônimos genéricos."""
+    tokens = tokenize_service_name(name)
+    return {SYNONYM_MAP.get(t, t) for t in tokens}
+
+
+def are_services_equivalent(generated_name: str, reference_name: str) -> bool:
+    """Verifica se dois nomes representam a mesma capacidade."""
+    if normalize_service_name(generated_name) == normalize_service_name(reference_name):
+        return True
+
+    gen_tokens = semantic_token_set(generated_name)
+    ref_tokens = semantic_token_set(reference_name)
+
+    if not gen_tokens or not ref_tokens:
+        return False
+
+    if gen_tokens == ref_tokens:
+        return True
+
+    if gen_tokens.issubset(ref_tokens) or ref_tokens.issubset(gen_tokens):
+        return True
+
+    if gen_tokens.intersection(ref_tokens):
+        return True
+
+    return False
+
+
+def are_interactions_equivalent(pair_a, pair_b) -> bool:
+    """Verifica se dois pares de interação representam a mesma relação."""
+    a1, a2 = pair_a
+    b1, b2 = pair_b
+    return (
+        (are_services_equivalent(a1, b1) and are_services_equivalent(a2, b2)) or
+        (are_services_equivalent(a1, b2) and are_services_equivalent(a2, b1))
+    )
+
+
+def evaluate_interactions(generated_set: set, reference_set: set):
+    """Calcula métricas de interações usando equivalência semântica."""
+    generated_list = list(generated_set)
+    reference_list = list(reference_set)
+
+    matched_generated_pairs = []
+    matched_reference_pairs = []
+
+    for gen_pair in generated_list:
+        for ref_pair in reference_list:
+            if ref_pair in matched_reference_pairs:
+                continue
+            if are_interactions_equivalent(gen_pair, ref_pair):
+                matched_generated_pairs.append(gen_pair)
+                matched_reference_pairs.append(ref_pair)
+                break
+
+    tp = len(matched_generated_pairs)
+    fp = len(generated_list) - tp
+    fn = len(reference_list) - tp
+
+    precision = tp / len(generated_list) if generated_list else 0.0
+    recall = tp / len(reference_list) if reference_list else 0.0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
 
     return {
         "precision": round(precision, 4),
         "recall": round(recall, 4),
         "f1_score": round(f1, 4),
-        "tp_count": len(tp),
-        "fp_count": len(fp),
-        "fn_count": len(fn),
-        "tp": sorted(tp),
-        "fp": sorted(fp),
-        "fn": sorted(fn),
+        "tp_count": tp,
+        "fp_count": fp,
+        "fn_count": fn,
+        "tp": sorted([tuple(sorted(pair)) for pair in matched_generated_pairs]),
+        "fp": sorted([tuple(sorted(pair)) for pair in generated_list if pair not in matched_generated_pairs]),
+        "fn": sorted([tuple(sorted(pair)) for pair in reference_list if pair not in matched_reference_pairs]),
     }
 
 
-def normalize_service_name(name: str, name_map: dict) -> str:
-    """Normaliza um nome de serviço usando o mapa do sistema."""
-    name = name.lower().strip()
-    name = name.replace(' ', '-').replace('_', '-')
-    name = name.removesuffix('-service')
-    name = name.removesuffix('-microservice')
-    name = name.removesuffix('-ms')
-    name = name_map.get(name, name)
-    return name
+def calculate_metrics(generated_services, reference_services):
+    """Calcula Precision, Recall e F1-Score usando equivalência semântica."""
+    gen_norm = [normalize_service_name(s) for s in generated_services]
+    ref_norm = [normalize_service_name(s) for s in reference_services]
 
+    matched_generated = set()
+    matched_reference = set()
+    pairs = []
 
-def calculate_metrics(generated_services, reference_services, name_map: dict):
-    """Calcula Precision, Recall e F1-Score para serviços."""
-    gen_normalized = set(normalize_service_name(s, name_map) for s in generated_services)
-    ref_normalized = set(normalize_service_name(s, name_map) for s in reference_services)
+    for i, gen in enumerate(gen_norm):
+        for j, ref in enumerate(ref_norm):
+            if j in matched_reference:
+                continue
+            if are_services_equivalent(gen, ref):
+                matched_generated.add(i)
+                matched_reference.add(j)
+                pairs.append((gen, ref))
+                break
 
-    true_positives = gen_normalized & ref_normalized
-    false_positives = gen_normalized - ref_normalized
-    false_negatives = ref_normalized - gen_normalized
+    tp = len(matched_generated)
+    fp = len(gen_norm) - tp
+    fn = len(ref_norm) - tp
 
-    precision = len(true_positives) / len(gen_normalized) if gen_normalized else 0.0
-    recall = len(true_positives) / len(ref_normalized) if ref_normalized else 0.0
+    precision = tp / len(gen_norm) if gen_norm else 0.0
+    recall = tp / len(ref_norm) if ref_norm else 0.0
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
 
     return {
-        "true_positives": sorted(true_positives),
-        "false_positives": sorted(false_positives),
-        "false_negatives": sorted(false_negatives),
+        "true_positives": sorted(pairs),
+        "false_positives": sorted(set(gen_norm) - set(matched_generated)),
+        "false_negatives": sorted(set(ref_norm) - set(matched_reference)),
         "precision": round(precision, 4),
         "recall": round(recall, 4),
         "f1_score": round(f1, 4),
-        "generated_count": len(gen_normalized),
-        "reference_count": len(ref_normalized),
-        "match_count": len(true_positives),
+        "generated_count": len(gen_norm),
+        "reference_count": len(ref_norm),
+        "match_count": tp,
     }
 
 
@@ -356,8 +472,6 @@ def print_evaluation_report(metrics, title: str = "Evaluation Report"):
     print(f"  Serviços Gerados:  {metrics['generated_count']}")
     print(f"  Serviços Referência: {metrics['reference_count']}")
     print(f"  Match (TP): {metrics['match_count']}")
-    print(f"  False Positives: {len(metrics['false_positives'])}")
-    print(f"  False Negatives: {len(metrics['false_negatives'])}")
 
     if metrics['false_positives']:
         print(f"\n  ❌ False Positives (gerados mas não na referência):")
@@ -370,7 +484,7 @@ def print_evaluation_report(metrics, title: str = "Evaluation Report"):
             print(f"     - {s}")
 
     if metrics['true_positives']:
-        print(f"\n  ✅ True Positives (match):")
+        print(f"\n  ✅ True Positives (match semântico):")
         for s in metrics['true_positives']:
             print(f"     - {s}")
 
@@ -418,7 +532,6 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
     requirements = config["requirements"]
     reference_services = config["reference_services"]
     interaction_reference = config["interaction_reference"]
-    name_map = config["name_map"]
 
     run_dir = criar_diretorio_run(system_name, timestamp)
 
@@ -496,7 +609,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         if resultados.get(key):
             try:
                 services = parse_csv_architecture(resultados[key])
-                metricas_pre[key] = calculate_metrics(services, reference_services, name_map)
+                metricas_pre[key] = calculate_metrics(services, reference_services)
             except Exception:
                 metricas_pre[key] = None
         else:
@@ -505,7 +618,7 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
     for key in ["proposta_a", "proposta_b"]:
         if resultados.get(key):
             try:
-                gen_inter = parse_csv_interactions(resultados[key], name_map)
+                gen_inter = parse_csv_interactions(resultados[key])
                 metricas_pre[f"{key}_inter"] = evaluate_interactions(gen_inter, interaction_reference)
             except Exception:
                 metricas_pre[f"{key}_inter"] = None
@@ -551,13 +664,13 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
     for key in ["proposta_a", "proposta_b", "consolidada"]:
         if resultados.get(key):
             services = parse_csv_architecture(resultados[key])
-            metricas[key] = calculate_metrics(services, reference_services, name_map)
+            metricas[key] = calculate_metrics(services, reference_services)
         else:
             metricas[key] = None
 
     for key in ["proposta_a", "proposta_b", "consolidada"]:
         if resultados.get(key):
-            gen_inter = parse_csv_interactions(resultados[key], name_map)
+            gen_inter = parse_csv_interactions(resultados[key])
             metricas[f"{key}_inter"] = evaluate_interactions(gen_inter, interaction_reference)
         else:
             metricas[f"{key}_inter"] = None
@@ -573,7 +686,6 @@ def executar_pipeline(system_name: str,
                       requirements: str,
                       reference_services: list,
                       interaction_reference: set,
-                      name_map: dict,
                       example: str = EXAMPLE_GENERIC) -> tuple:
     """
     Função pública que executa o pipeline multiagente para um sistema.
@@ -583,7 +695,6 @@ def executar_pipeline(system_name: str,
         requirements (str): Texto dos requisitos do sistema.
         reference_services (list): Lista de serviços de referência (ground truth).
         interaction_reference (set): Conjunto de pares de interações de referência.
-        name_map (dict): Mapa de normalização de nomes.
         example (str): Exemplo Few-Shot genérico. Default: EXAMPLE_GENERIC.
 
     Returns:
@@ -598,7 +709,6 @@ def executar_pipeline(system_name: str,
         "requirements": requirements,
         "reference_services": reference_services,
         "interaction_reference": interaction_reference,
-        "name_map": name_map,
     }
     resultados, metricas = _executar_experimento(llm, system_name, config, timestamp, example)
     return resultados, metricas

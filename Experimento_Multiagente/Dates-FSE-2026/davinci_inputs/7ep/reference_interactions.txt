@@ -1,0 +1,10 @@
+Authentication Service <-> Audit Service
+Book Catalog Service <-> Loan Management Service
+Book Catalog Service <-> Audit Service
+Reader Management Service <-> Loan Management Service
+Reader Management Service <-> Audit Service
+Loan Management Service <-> Audit Service
+Environment Management Service <-> Authentication Service
+Environment Management Service <-> Book Catalog Service
+Environment Management Service <-> Reader Management Service
+Environment Management Service <-> Loan Management Service

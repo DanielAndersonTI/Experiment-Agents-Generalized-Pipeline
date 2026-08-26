@@ -1,0 +1,5 @@
+Catalog Service -> Catalog Service
+Customer Service -> Customer Account Service
+Cart Service -> Shopping Cart Service
+Inventory Service -> Inventory Service
+Order Service -> Order Service

@@ -1,0 +1,2033 @@
+{
+  "generated_at_utc": "2026-06-25T17:58:15.800196+00:00",
+  "projects_analyzed": [
+    "7ep",
+    "acmeair",
+    "cargo-tracker",
+    "daytrader7",
+    "Jokul",
+    "jpetstore",
+    "pet-clinic",
+    "TNTConcept"
+  ],
+  "project_count": 8,
+  "projects": [
+    {
+      "project": "7ep",
+      "project_path": "systems/7ep",
+      "generated_at_utc": "2026-06-25T17:58:12.104236+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "gradle"
+      ],
+      "counts": {
+        "build_files": 3,
+        "source_roots": 8,
+        "java_files": 119,
+        "analyzed_type_files": 109,
+        "packages": 14,
+        "classes": 109,
+        "entrypoints": 14,
+        "main_classes": 53,
+        "test_classes": 42,
+        "ui_test_classes": 3,
+        "internal_package_dependencies": 13,
+        "external_package_dependencies": 148
+      },
+      "role_counts": {
+        "controller": 12,
+        "domain": 9,
+        "other": 31,
+        "persistence": 8,
+        "test": 45,
+        "utility": 4
+      },
+      "source_roots": [
+        "systems/7ep/demo/desktop_app/src/main/java",
+        "systems/7ep/demo/desktop_app/src/test/java",
+        "systems/7ep/demo/src/bdd_test/java",
+        "systems/7ep/demo/src/integration_test/java",
+        "systems/7ep/demo/src/main/java",
+        "systems/7ep/demo/src/selenified_tests/java",
+        "systems/7ep/demo/src/test/java",
+        "systems/7ep/demo/src/ui_tests/java/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "com.coveros.training",
+          "package_count": 14
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.library",
+          "target_package": "com.coveros.training.library.domainobjects",
+          "category": "internal",
+          "count": 29
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.library",
+          "target_package": "com.coveros.training.helpers",
+          "category": "internal",
+          "count": 16
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.authentication",
+          "target_package": "com.coveros.training.authentication.domainobjects",
+          "category": "internal",
+          "count": 11
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.authentication",
+          "target_package": "com.coveros.training.persistence",
+          "category": "internal",
+          "count": 10
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.persistence",
+          "target_package": "com.coveros.training.library.domainobjects",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.authentication",
+          "target_package": "com.coveros.training.helpers",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.library",
+          "target_package": "com.coveros.training.persistence",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.mathematics",
+          "target_package": "com.coveros.training.helpers",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.persistence",
+          "target_package": "com.coveros.training.authentication.domainobjects",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.persistence",
+          "target_package": "com.coveros.training.helpers",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.tomcat",
+          "target_package": "com.coveros.training.persistence",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.library.domainobjects",
+          "target_package": "com.coveros.training.helpers",
+          "category": "internal",
+          "count": 2
+        },
+        {
+          "project": "7ep",
+          "source_package": "com.coveros.training.math",
+          "target_package": "com.coveros.training.mathematics",
+          "category": "internal",
+          "count": 2
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "javax.servlet",
+          "count": 97
+        },
+        {
+          "dependency_root": "org.junit",
+          "count": 95
+        },
+        {
+          "dependency_root": "java.util",
+          "count": 63
+        },
+        {
+          "dependency_root": "org.slf4j",
+          "count": 38
+        },
+        {
+          "dependency_root": "org.apache.commons",
+          "count": 28
+        },
+        {
+          "dependency_root": "io.cucumber.java",
+          "count": 28
+        },
+        {
+          "dependency_root": "java.time",
+          "count": 21
+        },
+        {
+          "dependency_root": "java.sql",
+          "count": 20
+        },
+        {
+          "dependency_root": "org.mockito",
+          "count": 20
+        },
+        {
+          "dependency_root": "org.mockito.Mockito",
+          "count": 19
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 16
+        },
+        {
+          "dependency_root": "com.coveros.training",
+          "count": 12
+        },
+        {
+          "dependency_root": "org.junit.Assert",
+          "count": 10
+        },
+        {
+          "dependency_root": "nl.jqno.equalsverifier",
+          "count": 9
+        },
+        {
+          "dependency_root": "java.math",
+          "count": 9
+        },
+        {
+          "dependency_root": "org.checkerframework.checker",
+          "count": 9
+        },
+        {
+          "dependency_root": "org.junit.runners",
+          "count": 8
+        },
+        {
+          "dependency_root": "org.openqa.selenium",
+          "count": 7
+        },
+        {
+          "dependency_root": "java.net",
+          "count": 6
+        },
+        {
+          "dependency_root": "com.gargoylesoftware.htmlunit",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "project": "acmeair",
+      "project_path": "systems/acmeair",
+      "generated_at_utc": "2026-06-25T17:58:12.195313+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 1,
+        "source_roots": 2,
+        "java_files": 32,
+        "analyzed_type_files": 32,
+        "packages": 10,
+        "classes": 32,
+        "entrypoints": 8,
+        "main_classes": 31,
+        "test_classes": 1,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 13,
+        "external_package_dependencies": 74
+      },
+      "role_counts": {
+        "controller": 11,
+        "other": 7,
+        "persistence": 2,
+        "service": 9,
+        "test": 1,
+        "utility": 2
+      },
+      "source_roots": [
+        "systems/acmeair/acmeair-monolithic-java/src/main/java",
+        "systems/acmeair/acmeair-monolithic-java/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "com.acmeair.web",
+          "package_count": 2
+        },
+        {
+          "package_root": "com.acmeair.mongo",
+          "package_count": 2
+        },
+        {
+          "package_root": "com.acmeair.service",
+          "package_count": 1
+        },
+        {
+          "package_root": "com.acmeair.loader",
+          "package_count": 1
+        },
+        {
+          "package_root": "com.acmeair",
+          "package_count": 1
+        },
+        {
+          "package_root": "com.acmeair.config",
+          "package_count": 1
+        },
+        {
+          "package_root": "com.acmeair.util",
+          "package_count": 1
+        },
+        {
+          "package_root": "it.com.prims",
+          "package_count": 1
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.mongo.services",
+          "target_package": "com.acmeair.mongo",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.mongo.services",
+          "target_package": "com.acmeair.service",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.web",
+          "target_package": "com.acmeair.service",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.config",
+          "target_package": "com.acmeair.service",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.loader",
+          "target_package": "com.acmeair.service",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.config",
+          "target_package": "com.acmeair.loader",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.loader",
+          "target_package": "com.acmeair",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.mongo",
+          "target_package": "com.acmeair",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.mongo.services",
+          "target_package": "com.acmeair",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.mongo.services",
+          "target_package": "com.acmeair.web.dto",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.service",
+          "target_package": "com.acmeair",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.service",
+          "target_package": "com.acmeair.web.dto",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "acmeair",
+          "source_package": "com.acmeair.web",
+          "target_package": "com.acmeair.web.dto",
+          "category": "internal",
+          "count": 1
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "jakarta.ws",
+          "count": 44
+        },
+        {
+          "dependency_root": "java.util",
+          "count": 31
+        },
+        {
+          "dependency_root": "org.json.simple",
+          "count": 21
+        },
+        {
+          "dependency_root": "com.mongodb.client",
+          "count": 17
+        },
+        {
+          "dependency_root": "jakarta.inject",
+          "count": 16
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 13
+        },
+        {
+          "dependency_root": "jakarta.servlet",
+          "count": 12
+        },
+        {
+          "dependency_root": "jakarta.enterprise",
+          "count": 10
+        },
+        {
+          "dependency_root": "de.flapdoodle.embed",
+          "count": 10
+        },
+        {
+          "dependency_root": "javax.ws",
+          "count": 9
+        },
+        {
+          "dependency_root": "jakarta.xml",
+          "count": 7
+        },
+        {
+          "dependency_root": "org.junit",
+          "count": 6
+        },
+        {
+          "dependency_root": "com.mongodb",
+          "count": 5
+        },
+        {
+          "dependency_root": "java.net",
+          "count": 5
+        },
+        {
+          "dependency_root": "java.time",
+          "count": 5
+        },
+        {
+          "dependency_root": "jakarta.annotation",
+          "count": 4
+        },
+        {
+          "dependency_root": "org.bson",
+          "count": 4
+        },
+        {
+          "dependency_root": "jakarta.json",
+          "count": 3
+        },
+        {
+          "dependency_root": "java.nio",
+          "count": 1
+        },
+        {
+          "dependency_root": "org.junit.Assert",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "project": "cargo-tracker",
+      "project_path": "systems/cargo-tracker",
+      "generated_at_utc": "2026-06-25T17:58:12.461505+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 1,
+        "source_roots": 2,
+        "java_files": 109,
+        "analyzed_type_files": 109,
+        "packages": 28,
+        "classes": 109,
+        "entrypoints": 5,
+        "main_classes": 0,
+        "test_classes": 0,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 110,
+        "external_package_dependencies": 203
+      },
+      "role_counts": {
+        "controller": 16,
+        "domain": 41,
+        "event": 1,
+        "other": 30,
+        "persistence": 4,
+        "service": 17
+      },
+      "source_roots": [
+        "systems/cargo-tracker/src/main/java/net/java",
+        "systems/cargo-tracker/src/test/java/net/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "net.java.cargotracker",
+          "package_count": 26
+        },
+        {
+          "package_root": "net.java.pathfinder",
+          "package_count": 2
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 20
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.domain.model.handling",
+          "category": "internal",
+          "count": 13
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.handling",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 12
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.interfaces.booking.web",
+          "target_package": "net.java.cargotracker.interfaces.booking.facade.dto",
+          "category": "internal",
+          "count": 11
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.domain.model.voyage",
+          "category": "internal",
+          "count": 10
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.cargo",
+          "target_package": "net.java.cargotracker.domain.model.location",
+          "category": "internal",
+          "count": 10
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.domain.model.location",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application.internal",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.cargo",
+          "target_package": "net.java.cargotracker.domain.model.handling",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.cargo",
+          "target_package": "net.java.cargotracker.domain.model.voyage",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.scenario",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.handling",
+          "target_package": "net.java.cargotracker.domain.model.voyage",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.infrastructure.routing",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.domain.model.handling",
+          "target_package": "net.java.cargotracker.domain.model.location",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.domain.shared",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application.internal",
+          "target_package": "net.java.cargotracker.domain.model.handling",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.interfaces.booking.facade.internal.assembler",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.interfaces.booking.web",
+          "target_package": "net.java.cargotracker.interfaces.booking.facade",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.interfaces.tracking.web",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application.internal",
+          "target_package": "net.java.cargotracker.application",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application.util",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application.util",
+          "target_package": "net.java.cargotracker.domain.model.handling",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.infrastructure.persistence.jpa",
+          "target_package": "net.java.cargotracker.domain.model.cargo",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.cargotracker.infrastructure.persistence.jpa",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "cargo-tracker",
+          "source_package": "net.java.cargotracker.application",
+          "target_package": "net.java.pathfinder.api",
+          "category": "internal",
+          "count": 4
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "java.util",
+          "count": 164
+        },
+        {
+          "dependency_root": "javax.persistence",
+          "count": 99
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 55
+        },
+        {
+          "dependency_root": "javax.inject",
+          "count": 44
+        },
+        {
+          "dependency_root": "javax.ejb",
+          "count": 29
+        },
+        {
+          "dependency_root": "org.apache.commons",
+          "count": 29
+        },
+        {
+          "dependency_root": "javax.faces",
+          "count": 23
+        },
+        {
+          "dependency_root": "javax.enterprise",
+          "count": 21
+        },
+        {
+          "dependency_root": "javax.ws",
+          "count": 21
+        },
+        {
+          "dependency_root": "javax.validation",
+          "count": 20
+        },
+        {
+          "dependency_root": "javax.jms",
+          "count": 19
+        },
+        {
+          "dependency_root": "net.java.cargotracker",
+          "count": 18
+        },
+        {
+          "dependency_root": "java.text",
+          "count": 16
+        },
+        {
+          "dependency_root": "org.junit.Assert",
+          "count": 11
+        },
+        {
+          "dependency_root": "javax.annotation",
+          "count": 10
+        },
+        {
+          "dependency_root": "javax.batch",
+          "count": 9
+        },
+        {
+          "dependency_root": "org.primefaces.model",
+          "count": 8
+        },
+        {
+          "dependency_root": "org.glassfish.jersey",
+          "count": 7
+        },
+        {
+          "dependency_root": "java.lang",
+          "count": 6
+        },
+        {
+          "dependency_root": "org.junit",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "project": "daytrader7",
+      "project_path": "systems/daytrader7",
+      "generated_at_utc": "2026-06-25T17:58:12.901985+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 4,
+        "source_roots": 2,
+        "java_files": 108,
+        "analyzed_type_files": 108,
+        "packages": 11,
+        "classes": 108,
+        "entrypoints": 45,
+        "main_classes": 108,
+        "test_classes": 0,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 41,
+        "external_package_dependencies": 113
+      },
+      "role_counts": {
+        "controller": 103,
+        "domain": 5
+      },
+      "source_roots": [
+        "systems/daytrader7/sample.daytrader7/daytrader-ee7-ejb/src/main/java",
+        "systems/daytrader7/sample.daytrader7/daytrader-ee7-web/src/main/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "com.ibm.websphere",
+          "package_count": 11
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 24
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 22
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 16
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 15
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 14
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 11
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 10
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.entities",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 10
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.direct",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+          "target_package": "com.ibm.websphere.samples.daytrader",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.ejb3",
+          "category": "internal",
+          "count": 8
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web",
+          "target_package": "com.ibm.websphere.samples.daytrader",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.direct",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader",
+          "target_package": "com.ibm.websphere.samples.daytrader.beans",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+          "target_package": "com.ibm.websphere.samples.daytrader.direct",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.websocket",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.beans",
+          "target_package": "com.ibm.websphere.samples.daytrader.util",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+          "target_package": "com.ibm.websphere.samples.daytrader.beans",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web",
+          "target_package": "com.ibm.websphere.samples.daytrader.direct",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "daytrader7",
+          "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+          "target_package": "com.ibm.websphere.samples.daytrader.entities",
+          "category": "internal",
+          "count": 3
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "javax.servlet",
+          "count": 334
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 85
+        },
+        {
+          "dependency_root": "java.util",
+          "count": 72
+        },
+        {
+          "dependency_root": "javax.persistence",
+          "count": 71
+        },
+        {
+          "dependency_root": "javax.websocket",
+          "count": 49
+        },
+        {
+          "dependency_root": "javax.ejb",
+          "count": 42
+        },
+        {
+          "dependency_root": "javax.jms",
+          "count": 30
+        },
+        {
+          "dependency_root": "java.math",
+          "count": 29
+        },
+        {
+          "dependency_root": "javax.enterprise",
+          "count": 24
+        },
+        {
+          "dependency_root": "javax.inject",
+          "count": 22
+        },
+        {
+          "dependency_root": "javax.json",
+          "count": 19
+        },
+        {
+          "dependency_root": "javax.annotation",
+          "count": 17
+        },
+        {
+          "dependency_root": "javax.faces",
+          "count": 16
+        },
+        {
+          "dependency_root": "java.sql",
+          "count": 12
+        },
+        {
+          "dependency_root": "javax.naming",
+          "count": 10
+        },
+        {
+          "dependency_root": "java.lang",
+          "count": 8
+        },
+        {
+          "dependency_root": "javax.validation",
+          "count": 5
+        },
+        {
+          "dependency_root": "javax.interceptor",
+          "count": 5
+        },
+        {
+          "dependency_root": "java.net",
+          "count": 4
+        },
+        {
+          "dependency_root": "javax.transaction",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "project": "Jokul",
+      "project_path": "systems/Jokul",
+      "generated_at_utc": "2026-06-25T17:58:13.191208+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 1,
+        "source_roots": 2,
+        "java_files": 28,
+        "analyzed_type_files": 28,
+        "packages": 12,
+        "classes": 28,
+        "entrypoints": 5,
+        "main_classes": 25,
+        "test_classes": 3,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 19,
+        "external_package_dependencies": 60
+      },
+      "role_counts": {
+        "aspect": 1,
+        "bootstrap": 1,
+        "configuration": 1,
+        "controller": 4,
+        "domain": 4,
+        "exception": 4,
+        "other": 6,
+        "service": 2,
+        "test": 3,
+        "utility": 2
+      },
+      "source_roots": [
+        "systems/Jokul/jokul/jokul-server/src/main/java",
+        "systems/Jokul/jokul/jokul-server/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "io.innofang.jokul",
+          "package_count": 12
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.domain",
+          "category": "internal",
+          "count": 9
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.repositories",
+          "target_package": "io.innofang.jokul.domain",
+          "category": "internal",
+          "count": 6
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.repositories",
+          "category": "internal",
+          "count": 5
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.enums",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.utils",
+          "category": "internal",
+          "count": 4
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.exception",
+          "target_package": "io.innofang.jokul.enums",
+          "category": "internal",
+          "count": 2
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.services",
+          "target_package": "io.innofang.jokul.exception",
+          "category": "internal",
+          "count": 2
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.utils",
+          "target_package": "io.innofang.jokul.domain",
+          "category": "internal",
+          "count": 2
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul",
+          "target_package": "io.innofang.jokul.services",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.exception",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.properties",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.controller",
+          "target_package": "io.innofang.jokul.services",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.domain",
+          "target_package": "io.innofang.jokul.utils",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.handle",
+          "target_package": "io.innofang.jokul.domain",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.handle",
+          "target_package": "io.innofang.jokul.enums",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.handle",
+          "target_package": "io.innofang.jokul.exception",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.handle",
+          "target_package": "io.innofang.jokul.utils",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.services",
+          "target_package": "io.innofang.jokul.properties",
+          "category": "internal",
+          "count": 1
+        },
+        {
+          "project": "Jokul",
+          "source_package": "io.innofang.jokul.utils",
+          "target_package": "io.innofang.jokul.enums",
+          "category": "internal",
+          "count": 1
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "org.springframework.web",
+          "count": 20
+        },
+        {
+          "dependency_root": "java.util",
+          "count": 15
+        },
+        {
+          "dependency_root": "org.springframework.boot",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.data",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.beans",
+          "count": 8
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 8
+        },
+        {
+          "dependency_root": "org.junit",
+          "count": 8
+        },
+        {
+          "dependency_root": "javax.persistence",
+          "count": 6
+        },
+        {
+          "dependency_root": "com.fasterxml.jackson",
+          "count": 5
+        },
+        {
+          "dependency_root": "org.springframework.test",
+          "count": 5
+        },
+        {
+          "dependency_root": "org.slf4j",
+          "count": 4
+        },
+        {
+          "dependency_root": "org.springframework.core",
+          "count": 4
+        },
+        {
+          "dependency_root": "java.nio",
+          "count": 4
+        },
+        {
+          "dependency_root": "org.springframework.context",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.springframework.stereotype",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.junit.runner",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.aspectj.lang",
+          "count": 2
+        },
+        {
+          "dependency_root": "org.springframework.http",
+          "count": 2
+        },
+        {
+          "dependency_root": "javax.servlet",
+          "count": 1
+        },
+        {
+          "dependency_root": "org.hibernate.annotations",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "project": "jpetstore",
+      "project_path": "systems/jpetstore",
+      "generated_at_utc": "2026-06-25T17:58:13.311041+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 1,
+        "source_roots": 3,
+        "java_files": 43,
+        "analyzed_type_files": 43,
+        "packages": 6,
+        "classes": 43,
+        "entrypoints": 1,
+        "main_classes": 24,
+        "test_classes": 18,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 5,
+        "external_package_dependencies": 60
+      },
+      "role_counts": {
+        "controller": 5,
+        "domain": 9,
+        "other": 8,
+        "service": 3,
+        "test": 18
+      },
+      "source_roots": [
+        "C:/Users/Renanzin/arquitecture generation tool/systems/jpetstore/jpetstore-6/.mvn/wrapper",
+        "systems/jpetstore/jpetstore-6/src/main/java",
+        "systems/jpetstore/jpetstore-6/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "org.mybatis.jpetstore",
+          "package_count": 5
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "jpetstore",
+          "source_package": "org.mybatis.jpetstore.service",
+          "target_package": "org.mybatis.jpetstore.mapper",
+          "category": "internal",
+          "count": 16
+        },
+        {
+          "project": "jpetstore",
+          "source_package": "org.mybatis.jpetstore.service",
+          "target_package": "org.mybatis.jpetstore.domain",
+          "category": "internal",
+          "count": 15
+        },
+        {
+          "project": "jpetstore",
+          "source_package": "org.mybatis.jpetstore.mapper",
+          "target_package": "org.mybatis.jpetstore.domain",
+          "category": "internal",
+          "count": 14
+        },
+        {
+          "project": "jpetstore",
+          "source_package": "org.mybatis.jpetstore.web.actions",
+          "target_package": "org.mybatis.jpetstore.domain",
+          "category": "internal",
+          "count": 11
+        },
+        {
+          "project": "jpetstore",
+          "source_package": "org.mybatis.jpetstore.web.actions",
+          "target_package": "org.mybatis.jpetstore.service",
+          "category": "internal",
+          "count": 5
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "java.util",
+          "count": 58
+        },
+        {
+          "dependency_root": "org.junit.jupiter",
+          "count": 31
+        },
+        {
+          "dependency_root": "net.sourceforge.stripes",
+          "count": 26
+        },
+        {
+          "dependency_root": "org.assertj.core",
+          "count": 18
+        },
+        {
+          "dependency_root": "org.springframework.test",
+          "count": 14
+        },
+        {
+          "dependency_root": "com.codeborne.selenide",
+          "count": 13
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 12
+        },
+        {
+          "dependency_root": "java.math",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.transaction",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.jdbc",
+          "count": 9
+        },
+        {
+          "dependency_root": "org.springframework.beans",
+          "count": 7
+        },
+        {
+          "dependency_root": "org.mockito.Mockito",
+          "count": 7
+        },
+        {
+          "dependency_root": "org.mockito",
+          "count": 6
+        },
+        {
+          "dependency_root": "java.net",
+          "count": 4
+        },
+        {
+          "dependency_root": "java.nio",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.springframework.stereotype",
+          "count": 3
+        },
+        {
+          "dependency_root": "javax.servlet",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.mockito.junit",
+          "count": 3
+        },
+        {
+          "dependency_root": "org.mybatis.spring",
+          "count": 2
+        },
+        {
+          "dependency_root": "org.springframework.context",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "project": "pet-clinic",
+      "project_path": "systems/pet-clinic",
+      "generated_at_utc": "2026-06-25T17:58:13.448452+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "gradle",
+        "maven"
+      ],
+      "counts": {
+        "build_files": 2,
+        "source_roots": 2,
+        "java_files": 57,
+        "analyzed_type_files": 50,
+        "packages": 7,
+        "classes": 50,
+        "entrypoints": 10,
+        "main_classes": 30,
+        "test_classes": 20,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 6,
+        "external_package_dependencies": 163
+      },
+      "role_counts": {
+        "bootstrap": 1,
+        "configuration": 2,
+        "controller": 6,
+        "domain": 10,
+        "other": 7,
+        "service": 2,
+        "test": 20,
+        "ui": 2
+      },
+      "source_roots": [
+        "systems/pet-clinic/spring-petclinic-modulith/src/main/java",
+        "systems/pet-clinic/spring-petclinic-modulith/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "org.springframework.samples",
+          "package_count": 7
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic.owner.ui",
+          "target_package": "org.springframework.samples.petclinic.owner.domain",
+          "category": "internal",
+          "count": 17
+        },
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic.owner.application",
+          "target_package": "org.springframework.samples.petclinic.owner.domain",
+          "category": "internal",
+          "count": 7
+        },
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic",
+          "target_package": "org.springframework.samples.petclinic.vet.internal",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic.vet.internal",
+          "target_package": "org.springframework.samples.petclinic.owner",
+          "category": "internal",
+          "count": 3
+        },
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic.owner.application",
+          "target_package": "org.springframework.samples.petclinic.owner",
+          "category": "internal",
+          "count": 2
+        },
+        {
+          "project": "pet-clinic",
+          "source_package": "org.springframework.samples.petclinic.owner.ui",
+          "target_package": "org.springframework.samples.petclinic.owner.application",
+          "category": "internal",
+          "count": 2
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "java.util",
+          "count": 62
+        },
+        {
+          "dependency_root": "jakarta.persistence",
+          "count": 58
+        },
+        {
+          "dependency_root": "org.junit.jupiter",
+          "count": 44
+        },
+        {
+          "dependency_root": "org.springframework.web",
+          "count": 37
+        },
+        {
+          "dependency_root": "org.springframework.boot",
+          "count": 37
+        },
+        {
+          "dependency_root": "org.springframework.test",
+          "count": 36
+        },
+        {
+          "dependency_root": "org.springframework.data",
+          "count": 22
+        },
+        {
+          "dependency_root": "org.springframework.http",
+          "count": 17
+        },
+        {
+          "dependency_root": "org.springframework.context",
+          "count": 13
+        },
+        {
+          "dependency_root": "java.time",
+          "count": 13
+        },
+        {
+          "dependency_root": "org.assertj.core",
+          "count": 13
+        },
+        {
+          "dependency_root": "org.springframework.beans",
+          "count": 13
+        },
+        {
+          "dependency_root": "jakarta.validation",
+          "count": 12
+        },
+        {
+          "dependency_root": "org.springframework.stereotype",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.modulith",
+          "count": 10
+        },
+        {
+          "dependency_root": "org.springframework.validation",
+          "count": 8
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 7
+        },
+        {
+          "dependency_root": "org.hamcrest.Matchers",
+          "count": 7
+        },
+        {
+          "dependency_root": "org.springframework.aot",
+          "count": 6
+        },
+        {
+          "dependency_root": "org.springframework.core",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "project": "TNTConcept",
+      "project_path": "systems/TNTConcept",
+      "generated_at_utc": "2026-06-25T17:58:15.782739+00:00",
+      "methodology": {
+        "type": "source-static-analysis",
+        "notes": [
+          "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+          "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+        ]
+      },
+      "build_tools": [
+        "maven"
+      ],
+      "counts": {
+        "build_files": 3,
+        "source_roots": 4,
+        "java_files": 660,
+        "analyzed_type_files": 660,
+        "packages": 72,
+        "classes": 660,
+        "entrypoints": 0,
+        "main_classes": 535,
+        "test_classes": 125,
+        "ui_test_classes": 0,
+        "internal_package_dependencies": 356,
+        "external_package_dependencies": 575
+      },
+      "role_counts": {
+        "controller": 6,
+        "event": 4,
+        "exception": 6,
+        "other": 364,
+        "repository": 137,
+        "test": 125,
+        "utility": 18
+      },
+      "source_roots": [
+        "systems/TNTConcept/TNTConcept/tntconcept-core/src/main/java",
+        "systems/TNTConcept/TNTConcept/tntconcept-core/src/test/java",
+        "systems/TNTConcept/TNTConcept/tntconcept-web/src/main/java",
+        "systems/TNTConcept/TNTConcept/tntconcept-web/src/test/java"
+      ],
+      "package_roots": [
+        {
+          "package_root": "com.autentia.tnt",
+          "package_count": 64
+        },
+        {
+          "package_root": "com.autentia.jsf",
+          "package_count": 7
+        },
+        {
+          "package_root": "org.apache.myfaces",
+          "package_count": 1
+        }
+      ],
+      "top_internal_dependencies": [
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.hibernate",
+          "target_package": "com.autentia.tnt.dao",
+          "category": "internal",
+          "count": 220
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.hibernate",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 165
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.hibernate",
+          "target_package": "com.autentia.tnt.util",
+          "category": "internal",
+          "count": 135
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.hibernate",
+          "target_package": "com.autentia.tnt.test.utils",
+          "category": "internal",
+          "count": 91
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 87
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.search",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 74
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.businessobject",
+          "target_package": "com.autentia.tnt.dao",
+          "category": "internal",
+          "count": 71
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.search",
+          "target_package": "com.autentia.tnt.dao",
+          "category": "internal",
+          "count": 67
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.dao.hibernate",
+          "target_package": "com.autentia.tnt.dao.search",
+          "category": "internal",
+          "count": 61
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.contacts",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 53
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.contacts",
+          "target_package": "com.autentia.tnt.manager.contacts",
+          "category": "internal",
+          "count": 32
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.contacts",
+          "target_package": "com.autentia.tnt.util",
+          "category": "internal",
+          "count": 30
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.manager.admin",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 29
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.manager.contacts",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 28
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.manager.billing",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 27
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.account",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 26
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean",
+          "target_package": "com.autentia.tnt.util",
+          "category": "internal",
+          "count": 25
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.manager.admin",
+          "target_package": "com.autentia.tnt.dao.hibernate",
+          "category": "internal",
+          "count": 25
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.activity",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 23
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.contacts",
+          "target_package": "com.autentia.tnt.bean",
+          "category": "internal",
+          "count": 23
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.contacts",
+          "target_package": "com.autentia.tnt.upload",
+          "category": "internal",
+          "count": 22
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.manager.contacts",
+          "target_package": "com.autentia.tnt.dao.hibernate",
+          "category": "internal",
+          "count": 21
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.admin",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 20
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.bean.admin",
+          "target_package": "com.autentia.tnt.manager.admin",
+          "category": "internal",
+          "count": 20
+        },
+        {
+          "project": "TNTConcept",
+          "source_package": "com.autentia.tnt.test.utils",
+          "target_package": "com.autentia.tnt.businessobject",
+          "category": "internal",
+          "count": 19
+        }
+      ],
+      "top_external_dependency_roots": [
+        {
+          "dependency_root": "java.util",
+          "count": 952
+        },
+        {
+          "dependency_root": "org.apache.commons",
+          "count": 491
+        },
+        {
+          "dependency_root": "javax.faces",
+          "count": 339
+        },
+        {
+          "dependency_root": "java.io",
+          "count": 188
+        },
+        {
+          "dependency_root": "org.junit",
+          "count": 140
+        },
+        {
+          "dependency_root": "java.math",
+          "count": 118
+        },
+        {
+          "dependency_root": "org.junit.Assert",
+          "count": 109
+        },
+        {
+          "dependency_root": "org.apache.myfaces",
+          "count": 73
+        },
+        {
+          "dependency_root": "org.hibernate",
+          "count": 73
+        },
+        {
+          "dependency_root": "org.acegisecurity.acls",
+          "count": 72
+        },
+        {
+          "dependency_root": "javax.servlet",
+          "count": 58
+        },
+        {
+          "dependency_root": "net.sf.jasperreports",
+          "count": 49
+        },
+        {
+          "dependency_root": "org.hibernate.type",
+          "count": 39
+        },
+        {
+          "dependency_root": "java.text",
+          "count": 37
+        },
+        {
+          "dependency_root": "java.time",
+          "count": 32
+        },
+        {
+          "dependency_root": "org.springframework.context",
+          "count": 31
+        },
+        {
+          "dependency_root": "javax.naming",
+          "count": 30
+        },
+        {
+          "dependency_root": "java.sql",
+          "count": 27
+        },
+        {
+          "dependency_root": "org.mockito.Mockito",
+          "count": 27
+        },
+        {
+          "dependency_root": "org.acegisecurity",
+          "count": 25
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+Authentication Service <-> Investor Account Service
+Trading Service <-> Authentication Service
+Trading Service <-> Investor Account Service
+Trading Service <-> Market Data Service
+Trading Service <-> Portfolio Service
+Portfolio Service <-> Investor Account Service
+Portfolio Service <-> Market Data Service
+Simulation Administration Service <-> Authentication Service
+Simulation Administration Service <-> Investor Account Service
+Simulation Administration Service <-> Market Data Service
+Simulation Administration Service <-> Trading Service
+Simulation Administration Service <-> Portfolio Service

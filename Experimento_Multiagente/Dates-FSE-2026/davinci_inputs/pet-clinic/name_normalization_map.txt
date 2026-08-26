@@ -1,0 +1,4 @@
+Customers Service -> Owner Management Service
+Visits Service -> Visit Management Service
+Vets Service -> Veterinarian Management Service
+Tutor and Pet Service -> Owner Management Service

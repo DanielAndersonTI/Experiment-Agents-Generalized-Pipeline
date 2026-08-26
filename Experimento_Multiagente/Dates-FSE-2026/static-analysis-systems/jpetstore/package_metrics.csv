@@ -1,0 +1,7 @@
+project,package,class_count,method_count,public_method_count,incoming_internal_dependencies,outgoing_internal_dependencies,roles
+jpetstore,(default),1,4,1,0,0,other:1
+jpetstore,org.mybatis.jpetstore,1,1,0,0,0,test:1
+jpetstore,org.mybatis.jpetstore.domain,11,188,177,40,0,domain:9|test:2
+jpetstore,org.mybatis.jpetstore.mapper,15,29,0,16,14,other:7|test:8
+jpetstore,org.mybatis.jpetstore.service,6,41,22,5,31,service:3|test:3
+jpetstore,org.mybatis.jpetstore.web.actions,9,103,70,0,16,controller:5|test:4

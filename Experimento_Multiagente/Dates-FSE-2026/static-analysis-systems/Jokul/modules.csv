@@ -1,0 +1,2 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+jokul/jokul-server,maven,systems/Jokul/jokul/jokul-server/pom.xml,knock-knock,jar,1.8,,,

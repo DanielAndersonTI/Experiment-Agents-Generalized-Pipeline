@@ -1,0 +1,11 @@
+project,package,class_count,method_count,public_method_count,incoming_internal_dependencies,outgoing_internal_dependencies,roles
+acmeair,com.acmeair,2,9,9,4,0,other:2
+acmeair,com.acmeair.config,2,11,11,0,5,controller:2
+acmeair,com.acmeair.loader,5,23,13,1,5,other:5
+acmeair,com.acmeair.mongo,2,4,2,8,1,persistence:2
+acmeair,com.acmeair.mongo.services,4,37,30,0,17,service:4
+acmeair,com.acmeair.service,5,10,8,22,2,service:5
+acmeair,com.acmeair.util,2,8,8,0,0,utility:2
+acmeair,com.acmeair.web,7,8,7,0,8,controller:7
+acmeair,com.acmeair.web.dto,2,40,40,3,0,controller:2
+acmeair,it.com.prims,1,1,1,0,0,test:1

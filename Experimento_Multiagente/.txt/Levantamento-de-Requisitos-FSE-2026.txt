@@ -1,0 +1,51 @@
+ Imagine que você recebeu apenas os repositórios dos 8 sistemas, todos originalmente monolitos ou projetos de referência. Seu objetivo é transformar isso em entradas para a ferramenta DAVINCI, que vai gerar e avaliar arquiteturas de microsserviços.
+
+1. Onde nascem os dados
+Cada sistema tem uma pasta com código-fonte, documentação e, principalmente, um CSV ou Markdown de requisitos. Esses arquivos foram criados por quem preparou o dataset e descrevem as funcionalidades em linguagem natural, por exemplo: “o sistema permite cadastrar clientes”, “o usuário pode registrar uma visita”. Você não precisa extrair requisitos do zero; eles já estão nesses documentos. Basta abrir o CSV e copiar a coluna de descrição/categoria para o campo “System Requirements” da interface. Para sistemas como PetClinic, AcmeAir e Cargo Tracker, esses requisitos estão prontos. Em alguns, como 7ep, existem também cenários Gherkin, que podem enriquecer a descrição, mas o CSV já é suficiente.
+
+2. Como obter a lista de serviços de referência
+O ground truth de serviços vem de outro conjunto de arquivos: os CSVs em ground true/. Neles há uma coluna “Microservice Name”. Por exemplo, reference_microservices_architecture_tntconcept.csv lista 14 serviços. Você copia esses nomes para o campo “Reference Services”. Isso é a resposta ideal que o pipeline tentará alcançar na métrica de serviços. Não é usado na geração, apenas na avaliação.
+
+3. Como obter as interações de referência
+No mesmo CSV de ground truth há a coluna “Communicate With”. Se um serviço se comunica com vários, os nomes vêm separados por ;. Você transforma cada linha em pares não direcionados, como Authentication <-> Booking. Esses pares preenchem o campo “Reference Interactions” da interface. O pipeline usará essa lista para calcular se as interações que os agentes propuseram estão corretas.
+
+4. O mapa de normalização
+O pipeline pode chamar um serviço de Order Service enquanto o ground truth chama de Ordering Service. Para não penalizar isso, usamos um mapa de aliases. Inicialmente, você pode deixar esse campo vazio. Depois da primeira execução, se notar que o pipeline gerou nomes equivalentes, preenche algo como Order Service -> Ordering Service. Esse mapa é específico de cada sistema e deve ser criado manualmente.
+
+5. Onde entram as ferramentas de busca
+Você não precisa de ferramentas especiais de busca. Basta navegar pelas pastas do repositório TOSEM, localizar a pasta de cada sistema e os CSVs de requisitos e de ground truth. Um script simples em Python pode automatizar isso: ler os CSVs, extrair serviços e interações, e gerar arquivos de texto prontos para colar na interface. Se quiser, esse script pode percorrer os 8 sistemas e salvar tudo em uma pasta organizada.
+
+6. Como executar e aferir
+Depois de ter os 6 campos preenchidos para cada sistema, você roda o DAVINCI. A interface chama o pipeline, que usa os requisitos para gerar as propostas A e B, refina, consolida e então compara com os serviços e interações de referência. No final, aparecem as métricas: Precision, Recall e F1 para serviços e interações. Você confere se o resultado está próximo de 1,00 para serviços e razoável para interações. Como o dataset já tem os dados, a aferição é automática; não precisa de avaliação manual, exceto para entender por que alguns falsos positivos ou falsos negativos ocorreram.
+
+Em resumo: os datasets já contêm os requisitos e o ground truth. Seu trabalho é apenas extrair essas colunas, montar os arquivos de entrada no formato que a interface aceita e executar o pipeline. O restante é feito pelos agentes.
+
+Papel do Mapa de Normalização na Avaliação Arquitetural
+No contexto do pipeline proposto, o Mapa de Normalização de Nomes é um artefato de apoio exclusivamente utilizado na fase de avaliação quantitativa. Sua função primordial é estabelecer uma equivalência semântica entre os nomes de serviços gerados pelos agentes de LLM e os nomes canônicos definidos na arquitetura de referência (ground truth). Devido à natureza generativa dos modelos de linguagem, é comum que um mesmo conceito de negócio seja representado por rótulos distintos (e.g., "Order Management" versus "Order Service"). Sem um mecanismo de alinhamento, tais variações seriam erroneamente contabilizadas como falsos positivos ou falsos negativos, penalizando injustamente as métricas de Precision, Recall e F1-Score.
+
+Momento de Uso e Separação de Interesses
+
+É fundamental destacar que o mapa não participa do processo de síntese arquitetural. Ele não é inserido nos prompts dos agentes, nem influencia o raciocínio do LLM durante a decomposição de serviços ou a inferência de interações. O pipeline já incorpora uma camada de normalização léxica automática — que padroniza caixa, remove sufixos comuns (como -service ou -ms) e substitui espaços por hífens. O mapa é aplicado apenas a posteriori, durante a comparação das estruturas geradas com as estruturas esperadas. Essa separação rigorosa garante que a validade do experimento não seja comprometida por conhecimento prévio do domínio.
+
+Impacto da Ausência do Mapa
+
+Caso o mapa não seja fornecido, a avaliação permanece funcional, mas adota uma postura conservadora. As métricas resultantes refletirão a capacidade do pipeline de reproduzir os rótulos canônicos com precisão léxica. Embora isso possa resultar em valores ligeiramente inferiores de Recall ou Precision, os resultados ainda são válidos e demonstram a robustez do modelo em se aproximar da nomenclatura de referência sem intervenção humana.
+
+Perspectiva de Evolução para uma Ferramenta de Produção
+
+Quando o pipeline evoluir de um protótipo de pesquisa para uma ferramenta de apoio ao projeto arquitetural, o papel do mapa será redefinido. Em um cenário de uso real, o usuário pode não possuir, ou não desejar fornecer, um ground truth formal para avaliação. Nesse contexto, o mapa de normalização torna-se opcional. A ferramenta poderá operar de duas maneiras distintas:
+
+Modo Gerador (Sem Avaliação): O mapa é totalmente desnecessário. A ferramenta entrega a arquitetura recomendada com base exclusivamente nos requisitos textuais.
+
+Modo Avaliativo (Com Referência): Se o usuário desejar medir a acurácia, a ferramenta pode solicitar aliases opcionais ou, em versões futuras, empregar similaridade semântica (embeddings) para automatizar a correspondência entre variações de nomenclatura, reduzindo a necessidade de configuração manual.
+
+Portanto, o mapa de normalização não constitui uma limitação da abordagem, mas sim um componente metodológico que assegura a integridade estatística da avaliação experimental atual, enquanto aponta para um caminho de automação em iterações futuras.
+
+1. System Requirements
+É o input mais importante, pois é a única fonte usada pelos agentes para gerar a arquitetura. Requisitos claros e completos aumentam diretamente a qualidade dos serviços e interações.
+
+2. Reference Services e Reference Interactions
+São essenciais apenas para avaliar o resultado. Sem eles, o pipeline gera normalmente, mas você não consegue medir Precision, Recall e F1. A importância é alta para experimentos, mas nula para geração pura.
+
+3. Name Normalization Map
+É muito importante para uma avaliação justa, porque evita penalizar variações de nome que representam o mesmo serviço. Sem ele, as métricas podem ficar artificialmente baixas, como aconteceu na sua última execução.

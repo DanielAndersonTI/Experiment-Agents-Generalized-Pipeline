@@ -1,0 +1,65 @@
+- O sistema deve permitir que o cliente acesse sua conta por meio de login e senha.
+- O sistema deve criar uma sessão de uso após a autenticação bem-sucedida.
+- O sistema deve permitir que o cliente encerre sua sessão por meio de logout.
+- O sistema deve exigir sessão ativa para acessar áreas restritas, como perfil do cliente e reservas.
+- O sistema deve restringir as funcionalidades privadas a clientes autenticados.
+- A sessão do cliente deve ter validade limitada e expirar automaticamente após o período configurado.
+- O logout deve invalidar a sessão em uso imediatamente.
+- Os dados pessoais do cliente devem ser protegidos contra acesso indevido por outros clientes.
+- O sistema deve manter a autenticação como uma capacidade separada das funções de perfil e cadastro, responsável exclusivamente por login, criação de sessão, validação de sessão ativa e logout.
+
+- O sistema deve permitir a pesquisa de voos informando aeroporto de origem, aeroporto de destino e data da viagem.
+- O sistema deve permitir pesquisas de viagem somente de ida ou de ida e volta.
+- O sistema deve apresentar as opções de voo encontradas para cada trecho da viagem.
+- O sistema deve exibir, para cada voo encontrado, informações de horário de partida, horário de chegada e valores de referência das classes exibidas ao cliente.
+- O sistema deve trabalhar com um conjunto de aeroportos previamente cadastrados.
+- As consultas de voos devem priorizar resposta rápida, pois representam um fluxo recorrente da jornada do cliente.
+- O sistema deve manter a pesquisa de voos como uma capacidade independente, responsável pelos aeroportos, rotas, horários e valores de referência apresentados ao cliente.
+
+- O sistema deve permitir que um cliente autenticado reserve um voo de ida.
+- O sistema deve permitir que um cliente autenticado reserve, em uma mesma operação, os voos de ida e volta.
+- O sistema deve gerar um identificador para cada reserva criada.
+- O sistema deve registrar a data em que a reserva foi realizada.
+- O sistema deve informar ao cliente o identificador da reserva criada após a conclusão da operação.
+- O sistema deve permitir que o cliente consulte suas reservas existentes.
+- O sistema deve apresentar ao cliente a lista de reservas já realizadas.
+- O sistema deve permitir o cancelamento de uma reserva selecionada.
+- Após o cancelamento, a reserva não deve mais constar como ativa na listagem do cliente.
+- O fluxo de reservas depende da autenticação do cliente e das informações de voos disponibilizadas pela capacidade de pesquisa.
+
+- O sistema deve permitir que o cliente consulte o próprio perfil.
+- O sistema deve exibir no perfil os dados de contato do cliente, incluindo telefone, tipo de telefone e endereço.
+- O sistema deve permitir a atualização dos dados de contato e endereço do cliente.
+- O sistema deve exigir a senha atual do cliente para confirmar alterações no perfil.
+- O sistema deve impedir que um cliente consulte ou altere o perfil de outro cliente.
+- O sistema deve manter o perfil do cliente como uma capacidade separada da autenticação, responsável apenas pelos dados cadastrais e de contato.
+
+- O sistema deve exibir ao cliente seu status no programa de fidelidade.
+- O sistema deve exibir a quantidade de milhas acumuladas no ano.
+- O sistema deve exibir a quantidade total de milhas acumuladas.
+- As informações de fidelidade devem ser apresentadas ao cliente como dados de consulta, e não como campos de edição no fluxo principal da interface.
+- O sistema deve manter a fidelidade como uma capacidade separada do perfil do cliente, responsável exclusivamente por status e milhas acumuladas.
+
+- O sistema deve permitir a carga inicial ou recarga da base de dados da aplicação.
+- O processo de carga deve permitir definir a quantidade de clientes de exemplo a ser gerada.
+- A carga da base deve recriar os dados principais da operação, incluindo voos, clientes, sessões e reservas de teste.
+- O sistema deve disponibilizar informações resumidas de operação, como quantidades de clientes, sessões, voos, trechos, reservas e aeroportos cadastrados.
+- O ambiente deve oferecer meios simples de preparação e conferência da base de dados para testes, demonstrações ou reinicialização operacional.
+- O sistema deve fornecer indicadores básicos de operação para acompanhamento do ambiente sem exigir consulta direta ao banco de dados.
+- O sistema deve manter a administração do ambiente como uma capacidade separada, responsável por preparar, recarregar e supervisionar os dados operacionais.
+
+- A aplicação deve suportar alto volume de chamadas e consultas, em especial nos fluxos de autenticação, pesquisa de voos e reservas.
+- A solução deve ser adequada para crescimento de uso sem depender de atendimento manual para as operações principais de autoatendimento.
+- A aplicação deve poder ser executada em diferentes ambientes, incluindo infraestrutura local, nuvem pública e cenários híbridos.
+- A solução deve manter os dados de clientes, voos, sessões e reservas persistidos entre as requisições da aplicação.
+- Cada sessão e cada reserva devem possuir identificação única.
+- As operações de reserva e cancelamento devem manter consistência suficiente para refletir corretamente o estado atual das reservas do cliente.
+- A aplicação deve registrar dados mínimos de acompanhamento das operações, como data da reserva e contagem de registros operacionais.
+
+- A navegação deve favorecer o autosserviço, permitindo que o cliente pesquise voos, gerencie reservas e atualize seu perfil sem intermediação humana.
+- O sistema deve apresentar horários, datas e valores de forma legível para o cliente.
+- As principais jornadas devem estar acessíveis por interface web simples, com separação clara entre pesquisa de voos, reservas, perfil e suporte.
+
+- Não foi identificado fluxo de cadastro público de novos clientes. As contas de cliente são geradas por rotina administrativa de carga de dados.
+- Não foi identificado fluxo de pagamento, escolha de assento ou seleção formal de classe tarifária no momento da reserva; o sistema exibe preços, mas a reserva observada no código é simplificada.
+- Existe uma interface de “Support” com aparência de chat em tempo real, mas o backend correspondente não foi localizado no código analisado. Por isso, esse item não foi tratado acima como requisito funcional consolidado.

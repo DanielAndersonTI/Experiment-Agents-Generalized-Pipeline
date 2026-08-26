@@ -1,0 +1,310 @@
+{
+  "project": "cargo-tracker",
+  "project_path": "systems/cargo-tracker",
+  "generated_at_utc": "2026-06-25T17:58:12.461505+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 1,
+    "source_roots": 2,
+    "java_files": 109,
+    "analyzed_type_files": 109,
+    "packages": 28,
+    "classes": 109,
+    "entrypoints": 5,
+    "main_classes": 0,
+    "test_classes": 0,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 110,
+    "external_package_dependencies": 203
+  },
+  "role_counts": {
+    "controller": 16,
+    "domain": 41,
+    "event": 1,
+    "other": 30,
+    "persistence": 4,
+    "service": 17
+  },
+  "source_roots": [
+    "systems/cargo-tracker/src/main/java/net/java",
+    "systems/cargo-tracker/src/test/java/net/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "net.java.cargotracker",
+      "package_count": 26
+    },
+    {
+      "package_root": "net.java.pathfinder",
+      "package_count": 2
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 20
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.domain.model.handling",
+      "category": "internal",
+      "count": 13
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.handling",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 12
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.interfaces.booking.web",
+      "target_package": "net.java.cargotracker.interfaces.booking.facade.dto",
+      "category": "internal",
+      "count": 11
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.domain.model.voyage",
+      "category": "internal",
+      "count": 10
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.cargo",
+      "target_package": "net.java.cargotracker.domain.model.location",
+      "category": "internal",
+      "count": 10
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.domain.model.location",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application.internal",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.cargo",
+      "target_package": "net.java.cargotracker.domain.model.handling",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.cargo",
+      "target_package": "net.java.cargotracker.domain.model.voyage",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.scenario",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.handling",
+      "target_package": "net.java.cargotracker.domain.model.voyage",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.infrastructure.routing",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.domain.model.handling",
+      "target_package": "net.java.cargotracker.domain.model.location",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.domain.shared",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application.internal",
+      "target_package": "net.java.cargotracker.domain.model.handling",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.interfaces.booking.facade.internal.assembler",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.interfaces.booking.web",
+      "target_package": "net.java.cargotracker.interfaces.booking.facade",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.interfaces.tracking.web",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application.internal",
+      "target_package": "net.java.cargotracker.application",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application.util",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application.util",
+      "target_package": "net.java.cargotracker.domain.model.handling",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.infrastructure.persistence.jpa",
+      "target_package": "net.java.cargotracker.domain.model.cargo",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.cargotracker.infrastructure.persistence.jpa",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "cargo-tracker",
+      "source_package": "net.java.cargotracker.application",
+      "target_package": "net.java.pathfinder.api",
+      "category": "internal",
+      "count": 4
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "java.util",
+      "count": 164
+    },
+    {
+      "dependency_root": "javax.persistence",
+      "count": 99
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 55
+    },
+    {
+      "dependency_root": "javax.inject",
+      "count": 44
+    },
+    {
+      "dependency_root": "javax.ejb",
+      "count": 29
+    },
+    {
+      "dependency_root": "org.apache.commons",
+      "count": 29
+    },
+    {
+      "dependency_root": "javax.faces",
+      "count": 23
+    },
+    {
+      "dependency_root": "javax.enterprise",
+      "count": 21
+    },
+    {
+      "dependency_root": "javax.ws",
+      "count": 21
+    },
+    {
+      "dependency_root": "javax.validation",
+      "count": 20
+    },
+    {
+      "dependency_root": "javax.jms",
+      "count": 19
+    },
+    {
+      "dependency_root": "net.java.cargotracker",
+      "count": 18
+    },
+    {
+      "dependency_root": "java.text",
+      "count": 16
+    },
+    {
+      "dependency_root": "org.junit.Assert",
+      "count": 11
+    },
+    {
+      "dependency_root": "javax.annotation",
+      "count": 10
+    },
+    {
+      "dependency_root": "javax.batch",
+      "count": 9
+    },
+    {
+      "dependency_root": "org.primefaces.model",
+      "count": 8
+    },
+    {
+      "dependency_root": "org.glassfish.jersey",
+      "count": 7
+    },
+    {
+      "dependency_root": "java.lang",
+      "count": 6
+    },
+    {
+      "dependency_root": "org.junit",
+      "count": 6
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+Requisitos - Categorias,Identificação,Descrição
+Cadastro e Acesso,RF - 01,O sistema deve permitir o cadastro de novos investidores.
+,RF - 02,"O cadastro do investidor deve contemplar, no minimo, identificacao do usuario, senha, confirmacao de senha, nome completo, endereco, e-mail, cartao e saldo inicial de abertura."
+,RF - 03,O sistema deve validar se a senha e a confirmacao de senha informadas no cadastro sao identicas.
+,RF - 04,O sistema nao deve permitir o cadastro de um investidor com identificacao ja existente.
+,RF - 05,O sistema deve autenticar o investidor por meio de usuario e senha.
+,RF - 06,O sistema deve permitir o inicio de sessao para investidores autenticados.
+,RF - 07,O sistema deve permitir o encerramento da sessao do investidor por meio de logout.
+,RF - 08,"O sistema deve impedir o acesso aos recursos de conta, carteira e negociacao quando o investidor nao estiver autenticado."
+Conta e Perfil do Investidor,RF - 09,O sistema deve manter uma conta individual para cada investidor cadastrado.
+,RF - 10,"A conta do investidor deve registrar saldo atual, saldo inicial, data de criacao, data do ultimo acesso, total de logins e total de logouts."
+,RF - 11,O sistema deve permitir a consulta dos dados cadastrais e financeiros da conta do investidor.
+,RF - 12,O sistema deve permitir a atualizacao do perfil do investidor.
+,RF - 13,"A atualizacao do perfil deve contemplar, no minimo, senha, nome completo, endereco, e-mail e cartao cadastrado."
+,RF - 14,O sistema deve exigir o preenchimento dos campos essenciais para efetivar a atualizacao do perfil.
+,RF - 15,O sistema deve impedir a atualizacao do perfil quando a senha e a confirmacao de senha forem divergentes.
+Consulta de Mercado e Cotacoes,RF - 16,O sistema deve permitir a consulta de cotacoes de ativos a partir de seus codigos.
+,RF - 17,O sistema deve permitir a consulta simultanea de mais de um ativo.
+,RF - 18,"Para cada ativo consultado, o sistema deve apresentar informacoes como nome da empresa, volume negociado, faixa de preco, preco de abertura, preco atual e variacao."
+,RF - 19,O sistema deve disponibilizar um resumo consolidado do mercado.
+,RF - 20,"O resumo consolidado do mercado deve apresentar, no minimo, indice geral de desempenho, indice de abertura, volume negociado, ativos com maiores altas e ativos com maiores baixas."
+,RF - 21,O sistema deve tratar codigos de ativos invalidos sem interromper a navegacao do investidor.
+Negociacao de Ativos,RF - 22,O sistema deve permitir a compra de ativos pelo investidor mediante informacao do codigo do ativo e da quantidade desejada.
+,RF - 23,O sistema deve permitir a venda de ativos ja existentes na carteira do investidor.
+,RF - 24,Toda operacao de compra ou venda deve gerar uma ordem individual de negociacao.
+,RF - 25,"Toda ordem deve possuir identificacao propria, tipo, quantidade, preco, data de abertura, data de conclusao, status e taxa da operacao."
+,RF - 26,O sistema deve aplicar taxa fixa de operacao nas ordens de compra e venda.
+,RF - 27,"Em operacoes de compra, o sistema deve debitar do saldo do investidor o valor correspondente ao ativo negociado acrescido da taxa da operacao."
+,RF - 28,"Em operacoes de venda, o sistema deve creditar ao saldo do investidor o valor liquido da operacao, considerando o desconto da taxa aplicavel."
+,RF - 29,"O sistema deve permitir que as ordens sejam processadas de forma imediata ou posterior, conforme a configuracao operacional da simulacao."
+,RF - 30,"O sistema deve registrar o andamento da ordem por meio de status de negocio, contemplando pelo menos os estados aberta, em processamento, concluida e cancelada."
+,RF - 31,O sistema nao deve permitir a conclusao repetida de uma mesma ordem.
+,RF - 32,O sistema deve cancelar a venda quando a posicao informada ja tiver sido negociada anteriormente ou nao estiver mais disponivel.
+,RF - 33,O sistema deve apresentar ao investidor a confirmacao do envio da ordem para processamento.
+Carteira e Acompanhamento do Investidor,RF - 34,O sistema deve manter a carteira do investidor com as posicoes decorrentes de compras realizadas.
+,RF - 35,"Quando uma ordem de compra for concluida, o sistema deve registrar a nova posicao na carteira do investidor."
+,RF - 36,"Quando uma ordem de venda for concluida, o sistema deve remover da carteira a posicao correspondente."
+,RF - 37,O sistema deve permitir a consulta da carteira do investidor.
+,RF - 38,"Para cada posicao da carteira, o sistema deve apresentar, no minimo, identificacao da posicao, data da compra, ativo, quantidade, preco de compra, preco atual, valor aplicado, valor de mercado e ganho ou perda."
+,RF - 39,O sistema deve informar quando a carteira do investidor estiver vazia.
+,RF - 40,O sistema deve permitir a venda de uma posicao diretamente a partir da carteira.
+,RF - 41,"O sistema deve calcular o valor total investido na carteira, o valor de mercado atual e o ganho ou perda consolidado."
+,RF - 42,"O sistema deve apresentar ao investidor um resumo consolidado de sua posicao financeira, incluindo saldo em caixa, quantidade de posicoes, valor de mercado da carteira e resultado acumulado em relacao ao saldo inicial."
+Historico e Alertas de Ordens,RF - 43,O sistema deve manter historico das ordens associadas ao investidor.
+,RF - 44,O sistema deve exibir uma visao resumida das ordens mais recentes do investidor.
+,RF - 45,O sistema deve permitir a consulta ampliada do historico de ordens.
+,RF - 46,O sistema deve alertar o investidor sobre ordens concluidas que ainda nao tenham sido apresentadas a ele.
+,RF - 47,"A apresentacao do alerta deve informar, no minimo, identificacao da ordem, status, datas relevantes, tipo, ativo, quantidade e taxa aplicada."
+Atualizacao de Informacoes de Mercado,RF - 48,O sistema deve atualizar o volume negociado e os indicadores de mercado dos ativos apos operacoes de compra e venda.
+,RF - 49,O sistema deve refletir essas atualizacoes nas consultas posteriores de cotacao e no resumo consolidado do mercado.
+Administracao Operacional da Simulacao,RF - 50,O sistema deve permitir a configuracao de parametros operacionais da simulacao.
+,RF - 51,"Entre os parametros operacionais, o sistema deve permitir definir o modo de processamento das ordens, a quantidade maxima de usuarios simulados, a quantidade maxima de ativos simulados e o intervalo de atualizacao do resumo do mercado."
+,RF - 52,O sistema deve permitir habilitar ou desabilitar alertas de ordens concluidas.
+,RF - 53,O sistema deve permitir preparar ou reconstruir a base de dados da simulacao.
+,RF - 54,O sistema deve permitir reinicializar os dados operacionais da simulacao.
+,RF - 55,"Ao reinicializar os dados, o sistema deve disponibilizar estatisticas resumidas da execucao, incluindo usuarios, ativos, ordens, cancelamentos e posicoes existentes."
+Seguranca e Controle de Acesso,RNF - 56,O sistema deve exigir autenticacao previa para acesso aos recursos restritos do investidor.
+,RNF - 57,O sistema deve garantir que as operacoes executadas durante a sessao sejam associadas ao investidor autenticado.
+,RNF - 58,"O sistema deve encerrar adequadamente a sessao do investidor no logout, reduzindo o risco de uso indevido posterior."
+Confiabilidade e Integridade do Negocio,RNF - 59,"O sistema deve preservar a consistencia entre saldo, ordens, cotacoes e carteira apos cada operacao."
+,RNF - 60,"O sistema deve manter rastreabilidade minima do ciclo de vida das ordens por meio de identificacao, datas e status."
+,RNF - 61,O sistema deve tratar falhas de processamento sem comprometer a integridade dos dados do investidor.
+,RNF - 62,"O sistema deve impedir, sempre que possivel, duplicidade de conclusao ou reaproveitamento indevido de ordens e posicoes."
+Desempenho e Capacidade Operacional,RNF - 63,"O sistema deve suportar processamento imediato ou posterior de ordens, de modo a atender diferentes estrategias operacionais da simulacao."
+,RNF - 64,O sistema deve permitir o uso de atualizacao configuravel do resumo de mercado para equilibrar atualidade da informacao e custo operacional.
+,RNF - 65,"O sistema deve suportar operacao com volumes elevados de usuarios, ativos e ordens simuladas."
+Usabilidade e Experiencia de Uso,RNF - 66,"O sistema deve apresentar ao investidor informacoes de negocio de forma clara, objetiva e organizada por contexto de uso."
+,RNF - 67,"O sistema deve oferecer mensagens compreensiveis para situacoes como falha de login, erro de cadastro, divergencia de senha, dados obrigatorios ausentes e operacoes invalidas."
+,RNF - 68,"O sistema deve permitir navegacao simples entre as visoes principais de home, conta, carteira, cotacoes, ordens e resumo de mercado."
+Operacao e Administracao,RNF - 69,"O sistema deve disponibilizar mecanismos administrativos para preparacao, configuracao e reinicializacao controlada do ambiente de simulacao."
+,RNF - 70,O sistema deve disponibilizar indicadores resumidos da execucao para apoio ao acompanhamento operacional da simulacao.

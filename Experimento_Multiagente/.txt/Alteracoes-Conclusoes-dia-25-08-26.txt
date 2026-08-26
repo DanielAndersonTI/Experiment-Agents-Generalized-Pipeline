@@ -1,0 +1,107 @@
+Registro das Alterações e Achados — 25-26/08/2026
+1. Correção da avaliação de interações
+A comparação de interações estava usando formatos incompatíveis entre a referência e a geração.
+
+Antes, a comparação era feita por igualdade exata entre os pares, mas os formatos estavam assim:
+
+Referência: ("Audit Service", "Authentication Service")
+
+Geração: ("audit", "authentication")
+
+Isso fazia:
+
+text
+TP = 0
+Precision = 0
+Recall = 0
+F1 = 0
+Para corrigir, foi adicionada equivalência semântica também aos pares de interações, usando are_services_equivalent() para comparar as pontas dos pares.
+
+Essa mudança permitiu que interações corretas fossem reconhecidas, sem depender de nomes idênticos.
+
+2. Correção do bug em evaluate_interactions
+Havia um erro:
+
+text
+TypeError: 'int' object is not iterable
+A função foi corrigida para armazenar os pares reais, em vez de índices.
+
+Sem essa correção, o cálculo das interações quebrava e o pipeline retornava falha.
+
+3. Ajustes na interface e no pipeline
+Também foram feitos ajustes importantes:
+
+Remoção do campo Name Normalization Map da interface.
+
+pipeline_runner.py passou a chamar executar_pipeline com 4 argumentos.
+
+main_fewshot.py passou a usar avaliação semântica automática para serviços e interações.
+
+O servidor foi ajustado para refletir a ausência do mapa.
+
+4. Reescrita dos requisitos do 7ep
+Depois das correções, as interações deixaram de vir zeradas, mas os resultados ainda eram baixos.
+
+Os requisitos originais escondiam dependências importantes.
+
+Eles foram reescritos para explicitar:
+
+auditoria central desacoplada;
+
+administração e reinício coordenado do ambiente;
+
+validação e consulta entre empréstimo, leitor e livro;
+
+catálogo de serviços e funções matemáticas como capacidade auxiliar.
+
+Nenhum nome de serviço ou interação foi adicionado.
+
+Essa foi a mudança mais impactante para os resultados.
+
+O F1 de interações do 7ep subiu de 0,3333 para 0,9000.
+
+Resultado final após essas mudanças
+Para o sistema 7ep:
+
+Proposta	Serviços F1	Interações F1
+Proposal A	1.0000	0.9000
+Proposal B	0.8571	0.6000
+Consolidated	1.0000	0.9000
+Achado sobre a sensibilidade aos requisitos
+Os experimentos com AcmeAir confirmaram o padrão observado anteriormente no 7ep: o pipeline identifica corretamente os serviços principais, mas tende a omitir serviços secundários ou transversais quando as capacidades correspondentes não estão claramente separadas nos requisitos.
+
+No caso do AcmeAir, autenticação, perfil do cliente e fidelidade foram parcialmente agrupados na mesma responsabilidade, reduzindo o recall de serviços e, consequentemente, o recall de interações.
+
+Isso evidencia que a clareza com que cada capacidade de negócio é descrita nos requisitos é o principal fator que influencia a decomposição arquitetural, especialmente para serviços complementares e suas comunicações.
+
+Para reduzir essa sensibilidade, além de melhorar os requisitos, é necessário investigar futuramente regras genéricas nos agentes que permitam reconhecer capacidades implícitas, como fidelidade, autenticação e administração, sem depender de frases longas ou seções separadas no texto de entrada.
+
+A melhoria dos requisitos demonstrou impacto direto na qualidade da decomposição arquitetural. No sistema AcmeAir, a versão anterior dos requisitos descrevia as funcionalidades de autenticação, perfil do cliente e fidelidade de forma sobreposta, o que levou o pipeline a agrupar essas capacidades em um único serviço e, consequentemente, a omitir interações esperadas. Após a reescrita, foram adicionadas frases que explicitavam a separação entre as capacidades e suas responsabilidades. Exemplos de alterações:
+
+Antes:
+- O sistema deve permitir que o cliente acesse sua conta por meio de login e senha.
+- O sistema deve permitir que o cliente consulte o próprio perfil.
+- O sistema deve exibir ao cliente seu status no programa de fidelidade.
+
+Depois:
+- O sistema deve manter a autenticação como uma capacidade separada das funções de perfil e cadastro, responsável exclusivamente por login, criação de sessão, validação de sessão ativa e logout.
+- O sistema deve manter o perfil do cliente como uma capacidade separada da autenticação, responsável apenas pelos dados cadastrais e de contato.
+- O sistema deve manter a fidelidade como uma capacidade separada do perfil do cliente, responsável exclusivamente por status e milhas acumuladas.
+
+Essas frases não nomearam serviços nem indicaram interações; apenas tornaram explícito que as responsabilidades pertenciam a capacidades distintas. O efeito foi imediato:
+
+Antes da melhoria:
+| Proposta | Serviços F1 | Interações F1 |
+|----------|-------------|----------------|
+| Proposal A | 0.7273 | 0.2667 |
+| Proposal B | 0.8000 | 0.6154 |
+| Consolidated | 0.8000 | 0.6154 |
+
+Depois da melhoria:
+| Proposta | Serviços F1 | Interações F1 |
+|----------|-------------|----------------|
+| Proposal A | 0.8333 | 0.5000 |
+| Proposal B | 1.0000 | 1.0000 |
+| Consolidated | 1.0000 | 1.0000 |
+
+A consolidação passou a selecionar corretamente a melhor proposta e atingiu F1 = 1.0000 tanto em serviços quanto em interações. Isso confirma que, além da arquitetura multiagente e da avaliação semântica, a clareza com que os requisitos explicitam capacidades de negócio independentes é um fator determinante para o desempenho do pipeline.

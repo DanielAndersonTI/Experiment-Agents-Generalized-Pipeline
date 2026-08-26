@@ -7,7 +7,7 @@ from unittest.mock import patch
 from urllib.request import Request, urlopen
 
 from Interface.server import create_server
-from Interface.utils.parsers import parse_name_map, parse_reference_interactions, parse_reference_services
+from Interface.utils.parsers import parse_reference_interactions, parse_reference_services
 
 
 SYSTEM = {
@@ -16,7 +16,6 @@ SYSTEM = {
 	"requirements": "Manage records.",
 	"reference_services": "Record Service",
 	"reference_interactions": "Record -> Audit",
-	"name_normalization_map": "Record=Record Service",
 }
 
 MOCK_RUN = {
@@ -64,6 +63,17 @@ class ContractTests(unittest.TestCase):
 		self.assertEqual(len(result["proposals"]), 1)
 		self.assertIn("Microservice,Responsibilities,Communicates With", result["proposals"][0]["agent_a"])
 
+	def test_ten_systems_are_returned_in_results_and_report(self):
+		systems = [{**SYSTEM, "system_name": f"Contract Demo {index}"} for index in range(1, 11)]
+		with patch("Interface.server.run_real_pipeline", return_value=MOCK_RUN):
+			result = json.loads(self.run_payload({"systems": systems}).read())
+		self.assertEqual(len(result["systems"]), 10)
+		self.assertEqual(len(result["service_metrics"]), 30)
+		self.assertEqual(len(result["interaction_metrics"]), 30)
+		self.assertEqual(len(result["best_results"]), 10)
+		report = urlopen(self.base + "/api/report/pdf").read()
+		self.assertIn(b"SYSTEM: Contract Demo 10", report)
+
 	def test_report_contains_complete_execution_sections(self):
 		with patch("Interface.server.run_real_pipeline", return_value=MOCK_RUN):
 			self.run_payload({"systems": [SYSTEM]}).read()
@@ -87,10 +97,10 @@ class ContractTests(unittest.TestCase):
 			b"In partnership with Virtus UFCG",
 			b"Contact: daniel.silva@virtus-cc.ufcg.edu.br",
 			b"2026 DAVINCI Architect. All rights reserved.",
+			b"/Im1 Do",
 		):
 			self.assertIn(marker, report)
 
 	def test_parsers_accept_interface_formats(self):
 		self.assertEqual(parse_reference_services("A\nB, C"), ["A", "B", "C"])
 		self.assertEqual(parse_reference_interactions("A <-> B; C -> D; E, F"), {("A", "B"), ("C", "D"), ("E", "F")})
-		self.assertEqual(parse_name_map("alias -> Canonical; other, Main"), {"alias": "Canonical", "other": "Main"})

@@ -1,0 +1,4 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+TNTConcept,maven,systems/TNTConcept/TNTConcept/pom.xml,tntconcept-parent,pom,17,,tntconcept-core|tntconcept-web,
+TNTConcept/tntconcept-core,maven,systems/TNTConcept/TNTConcept/tntconcept-core/pom.xml,tntconcept-core,jar,,,,
+TNTConcept/tntconcept-web,maven,systems/TNTConcept/TNTConcept/tntconcept-web/pom.xml,tntconcept-web,war,,,,

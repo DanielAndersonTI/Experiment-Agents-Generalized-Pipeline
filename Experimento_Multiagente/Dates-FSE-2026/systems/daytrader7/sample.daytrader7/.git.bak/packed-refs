@@ -1,0 +1,9 @@
+# pack-refs with: peeled fully-peeled sorted 
+fe1daeab48463e09ba6786a49da96af2dd125905 refs/remotes/origin/dependabot/maven/daytrader-ee7/org.apache.derby-derby-10.17.1.0
+643d04c100f75898003b5c98cde6b5f5015c613a refs/remotes/origin/master
+2b235d3505b0f12e6cc83115b384bc20ad4679c3 refs/remotes/origin/session
+d2b011efe67ee400feb7f5c5e2a592db314986f4 refs/tags/v1.0
+892709c7e492839361682e68c40c6533cd9c06c0 refs/tags/v1.1
+892709c7e492839361682e68c40c6533cd9c06c0 refs/tags/v1.2
+13fd0bd9a1b58b3a412260f3c0e2ef3902196a66 refs/tags/v1.3
+46d65972bcbd39df509e3603fe39db98f30160bf refs/tags/v1.4

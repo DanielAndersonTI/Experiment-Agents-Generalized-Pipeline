@@ -1,0 +1,228 @@
+{
+  "project": "7ep",
+  "project_path": "systems/7ep",
+  "generated_at_utc": "2026-06-25T17:58:12.104236+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "gradle"
+  ],
+  "counts": {
+    "build_files": 3,
+    "source_roots": 8,
+    "java_files": 119,
+    "analyzed_type_files": 109,
+    "packages": 14,
+    "classes": 109,
+    "entrypoints": 14,
+    "main_classes": 53,
+    "test_classes": 42,
+    "ui_test_classes": 3,
+    "internal_package_dependencies": 13,
+    "external_package_dependencies": 148
+  },
+  "role_counts": {
+    "controller": 12,
+    "domain": 9,
+    "other": 31,
+    "persistence": 8,
+    "test": 45,
+    "utility": 4
+  },
+  "source_roots": [
+    "systems/7ep/demo/desktop_app/src/main/java",
+    "systems/7ep/demo/desktop_app/src/test/java",
+    "systems/7ep/demo/src/bdd_test/java",
+    "systems/7ep/demo/src/integration_test/java",
+    "systems/7ep/demo/src/main/java",
+    "systems/7ep/demo/src/selenified_tests/java",
+    "systems/7ep/demo/src/test/java",
+    "systems/7ep/demo/src/ui_tests/java/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "com.coveros.training",
+      "package_count": 14
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.library",
+      "target_package": "com.coveros.training.library.domainobjects",
+      "category": "internal",
+      "count": 29
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.library",
+      "target_package": "com.coveros.training.helpers",
+      "category": "internal",
+      "count": 16
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.authentication",
+      "target_package": "com.coveros.training.authentication.domainobjects",
+      "category": "internal",
+      "count": 11
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.authentication",
+      "target_package": "com.coveros.training.persistence",
+      "category": "internal",
+      "count": 10
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.persistence",
+      "target_package": "com.coveros.training.library.domainobjects",
+      "category": "internal",
+      "count": 9
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.authentication",
+      "target_package": "com.coveros.training.helpers",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.library",
+      "target_package": "com.coveros.training.persistence",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.mathematics",
+      "target_package": "com.coveros.training.helpers",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.persistence",
+      "target_package": "com.coveros.training.authentication.domainobjects",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.persistence",
+      "target_package": "com.coveros.training.helpers",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.tomcat",
+      "target_package": "com.coveros.training.persistence",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.library.domainobjects",
+      "target_package": "com.coveros.training.helpers",
+      "category": "internal",
+      "count": 2
+    },
+    {
+      "project": "7ep",
+      "source_package": "com.coveros.training.math",
+      "target_package": "com.coveros.training.mathematics",
+      "category": "internal",
+      "count": 2
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "javax.servlet",
+      "count": 97
+    },
+    {
+      "dependency_root": "org.junit",
+      "count": 95
+    },
+    {
+      "dependency_root": "java.util",
+      "count": 63
+    },
+    {
+      "dependency_root": "org.slf4j",
+      "count": 38
+    },
+    {
+      "dependency_root": "org.apache.commons",
+      "count": 28
+    },
+    {
+      "dependency_root": "io.cucumber.java",
+      "count": 28
+    },
+    {
+      "dependency_root": "java.time",
+      "count": 21
+    },
+    {
+      "dependency_root": "java.sql",
+      "count": 20
+    },
+    {
+      "dependency_root": "org.mockito",
+      "count": 20
+    },
+    {
+      "dependency_root": "org.mockito.Mockito",
+      "count": 19
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 16
+    },
+    {
+      "dependency_root": "com.coveros.training",
+      "count": 12
+    },
+    {
+      "dependency_root": "org.junit.Assert",
+      "count": 10
+    },
+    {
+      "dependency_root": "nl.jqno.equalsverifier",
+      "count": 9
+    },
+    {
+      "dependency_root": "java.math",
+      "count": 9
+    },
+    {
+      "dependency_root": "org.checkerframework.checker",
+      "count": 9
+    },
+    {
+      "dependency_root": "org.junit.runners",
+      "count": 8
+    },
+    {
+      "dependency_root": "org.openqa.selenium",
+      "count": 7
+    },
+    {
+      "dependency_root": "java.net",
+      "count": 6
+    },
+    {
+      "dependency_root": "com.gargoylesoftware.htmlunit",
+      "count": 6
+    }
+  ]
+}

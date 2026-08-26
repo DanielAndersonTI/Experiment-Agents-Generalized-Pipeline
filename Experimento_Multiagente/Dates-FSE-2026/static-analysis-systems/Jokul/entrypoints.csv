@@ -1,0 +1,6 @@
+project,module,package,type_name,file,entrypoint_reasons
+Jokul,jokul/jokul-server,io.innofang.jokul,Application,systems/Jokul/jokul/jokul-server/src/main/java/io/innofang/jokul/Application.java,main-method|application-bootstrap
+Jokul,jokul/jokul-server,io.innofang.jokul.controller,MovieController,systems/Jokul/jokul/jokul-server/src/main/java/io/innofang/jokul/controller/MovieController.java,http-entrypoint
+Jokul,jokul/jokul-server,io.innofang.jokul.controller,MovieUploadController,systems/Jokul/jokul/jokul-server/src/main/java/io/innofang/jokul/controller/MovieUploadController.java,http-entrypoint
+Jokul,jokul/jokul-server,io.innofang.jokul.controller,TypeController,systems/Jokul/jokul/jokul-server/src/main/java/io/innofang/jokul/controller/TypeController.java,http-entrypoint
+Jokul,jokul/jokul-server,io.innofang.jokul.controller,UserController,systems/Jokul/jokul/jokul-server/src/main/java/io/innofang/jokul/controller/UserController.java,http-entrypoint

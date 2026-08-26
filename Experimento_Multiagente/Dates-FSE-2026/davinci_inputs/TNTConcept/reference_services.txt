@@ -1,0 +1,14 @@
+Administration and Configuration Service
+Identity and Access Service
+Workforce Service
+CRM Service
+Proposal Service
+Project Service
+Work Tracking Service
+Financial Management Service
+Billing Service
+Content Management Service
+Commissioning Service
+Reporting Service
+Notification Service
+File Storage Service

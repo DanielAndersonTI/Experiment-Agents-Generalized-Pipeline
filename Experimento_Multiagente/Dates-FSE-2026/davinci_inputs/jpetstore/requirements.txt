@@ -1,0 +1,70 @@
+- O sistema deve permitir que visitantes e clientes entrem na loja virtual e naveguem pelo catálogo principal.
+- O sistema deve organizar os produtos por categorias de animais, contemplando as categorias de peixes, cães, répteis, gatos e aves.
+- O sistema deve permitir o acesso às categorias por diferentes caminhos de navegação, como menu principal, atalhos rápidos e elementos visuais da página inicial.
+- O sistema deve permitir a visualização da lista de produtos de cada categoria.
+- O sistema deve permitir a visualização dos itens disponíveis de cada produto.
+- O sistema deve permitir a visualização do detalhamento de cada item, incluindo descrição, identificação, preço e situação de estoque.
+- O sistema deve permitir pesquisar produtos por palavra-chave.
+- A pesquisa deve considerar o nome do produto como base para retorno dos resultados.
+- Quando nenhuma palavra-chave for informada, o sistema deve impedir a pesquisa e orientar o usuário a preencher o campo de busca.
+
+- O sistema deve permitir o cadastro de novos clientes por meio do preenchimento de dados de identificação, contato, endereço e credenciais de acesso.
+- O sistema deve permitir que o cliente realize autenticação informando usuário e senha.
+- O sistema deve informar quando a autenticação não puder ser concluída em razão de usuário ou senha inválidos.
+- O sistema deve permitir que o cliente encerre sua sessão de uso.
+- O sistema deve permitir que o cliente edite seus dados cadastrais e preferências de perfil.
+- O sistema deve permitir que o cliente defina idioma de preferência.
+- O sistema deve permitir que o cliente escolha uma categoria favorita.
+- O sistema deve permitir que o cliente habilite uma lista personalizada de produtos com base em sua categoria favorita.
+- O sistema deve permitir que o cliente habilite a exibição de um banner promocional relacionado à sua categoria favorita.
+- O sistema deve refletir as preferências cadastradas pelo cliente, como lista personalizada e banner associado à categoria favorita.
+
+- O sistema deve permitir incluir itens no carrinho de compras a partir das páginas de produto e de detalhe do item.
+- Quando o mesmo item for adicionado mais de uma vez, o sistema deve consolidar o item no carrinho e aumentar sua quantidade.
+- O sistema deve permitir visualizar o carrinho com a relação dos itens selecionados, quantidades, preços unitários e totais por item.
+- O sistema deve informar, para cada item no carrinho, se ele se encontra disponível em estoque no momento da inclusão.
+- O sistema deve permitir a atualização das quantidades dos itens no carrinho.
+- O sistema deve permitir a remoção de itens do carrinho.
+- Quando a quantidade informada para um item for menor que 1, o sistema deve removê-lo do carrinho.
+- O sistema deve calcular automaticamente o subtotal do carrinho com base nos itens e nas quantidades selecionadas.
+
+- O sistema deve informar a disponibilidade de estoque na visualização do item.
+- Quando não houver quantidade disponível em estoque, o sistema deve indicar que o item está sob encomenda.
+- O sistema deve consultar a situação de estoque de forma atualizada nos pontos críticos da jornada de compra.
+- Ao concluir um pedido, o sistema deve registrar a baixa da quantidade comprada no estoque.
+
+- O sistema deve exigir que o usuário esteja autenticado para iniciar o processo de fechamento da compra.
+- Ao iniciar um pedido, o sistema deve utilizar os dados cadastrais do cliente para preencher inicialmente as informações de cobrança e entrega.
+- O sistema deve utilizar os itens do carrinho para compor automaticamente o pedido.
+- O sistema deve permitir ao cliente informar ou ajustar os dados de pagamento do pedido.
+- O sistema deve permitir a escolha do tipo de cartão dentre as opções disponibilizadas pela aplicação.
+- O sistema deve permitir que o cliente indique um endereço de entrega diferente do endereço de cobrança.
+- Quando o cliente optar por endereço de entrega diferente, o sistema deve apresentar uma etapa específica para preenchimento desse endereço.
+- Antes da finalização, o sistema deve apresentar uma etapa de confirmação com os dados de cobrança e entrega informados.
+- O sistema deve concluir o pedido somente após a confirmação explícita do cliente.
+- Ao concluir o pedido, o sistema deve gerar um identificador único para a compra.
+- Ao concluir o pedido, o sistema deve registrar a data da compra, os itens adquiridos, as quantidades, os valores e a situação inicial do pedido.
+- Após a conclusão da compra, o sistema deve limpar o carrinho do cliente.
+- Após a conclusão da compra, o sistema deve exibir mensagem de confirmação de recebimento do pedido.
+
+- O sistema deve permitir que o cliente consulte a lista de seus pedidos já realizados.
+- O sistema deve apresentar, na listagem de pedidos, ao menos o número do pedido, a data e o valor total.
+- O sistema deve permitir a consulta do detalhamento de um pedido específico.
+- No detalhamento do pedido, o sistema deve apresentar dados de pagamento, endereços, transportadora, status, itens comprados, quantidades, preços e valor total da compra.
+- O sistema deve restringir a visualização de pedidos ao respectivo cliente responsável pela compra.
+- O sistema deve proteger as funcionalidades de fechamento de compra e consulta de pedidos por meio de autenticação do cliente.
+
+- O sistema deve encerrar adequadamente a sessão do cliente no processo de logout, evitando a continuidade indevida do acesso autenticado.
+- O sistema não deve expor desnecessariamente a senha do cliente durante a navegação após o login.
+- O sistema deve manter consistência entre carrinho, pedido e estoque, evitando divergências entre a compra realizada e os itens registrados.
+- O sistema deve garantir que o pedido seja registrado com todos os seus elementos principais, incluindo cabeçalho, status e itens comprados.
+- O sistema deve garantir unicidade na numeração dos pedidos, permitindo rastreabilidade das compras.
+- O sistema deve calcular automaticamente valores do carrinho e do pedido, reduzindo risco de erro manual.
+
+- O sistema deve tratar entradas inválidas de forma controlada, exibindo mensagens adequadas ao usuário sem comprometer a continuidade da aplicação.
+- O sistema deve impedir operações inconsistentes, como iniciar compra sem autenticação ou tentar manipular itens inexistentes de forma silenciosa.
+- O sistema deve preservar o histórico de pedidos para consulta posterior pelo cliente.
+
+- O sistema deve oferecer navegação simples e compreensível, com acesso claro às categorias, busca, carrinho, conta do cliente e ajuda.
+- O processo de compra deve ser conduzido em etapas lógicas e progressivas, facilitando o entendimento do cliente durante o checkout.
+- O sistema deve fornecer mensagens de orientação e confirmação em pontos importantes do fluxo, como falha de login, campo de busca vazio e pedido concluído.

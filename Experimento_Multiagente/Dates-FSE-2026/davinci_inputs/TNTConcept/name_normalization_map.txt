@@ -1,0 +1,10 @@
+User and Access Management Service -> Identity and Access Service
+Vacation Management Service -> Workforce Service
+Project Management Service -> Project Service
+CRM and Commercial Service -> CRM Service
+Timesheet and Operations Service -> Work Tracking Service
+Financial and Invoicing Service -> Financial Management Service
+Order and Commissioning Service -> Commissioning Service
+Document and Knowledge Management Service -> Content Management Service
+Reporting and Export Service -> Reporting Service
+Notification Service -> Notification Service

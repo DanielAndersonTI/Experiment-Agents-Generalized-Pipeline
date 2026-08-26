@@ -1,0 +1,8 @@
+Cargo Service -> Cargo Management Service
+Routing Service -> Route Planning Service
+Location Service -> Logistics Network Service
+Voyage Service -> Logistics Network Service
+Handling Event Service -> Logistics Event Service
+Tracking Service -> Cargo Tracking Service
+Tracking and Monitoring Service -> Cargo Tracking Service
+Location and Transport Network Service -> Logistics Network Service

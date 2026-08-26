@@ -1,0 +1,95 @@
+- O sistema deve permitir manter cadastros de apoio usados pelas demais áreas, como departamentos, tipos de contrato, categorias de usuário, tipos de organização, tipos de interação, motivos tributários, regimes de faturamento e frequências.
+- O sistema deve permitir configurações individuais por usuário para personalizar o uso da aplicação.
+
+- O sistema deve permitir cadastrar e manter usuários com dados pessoais, contratuais, departamento, categoria, perfil de acesso e acordo de trabalho.
+- O sistema deve permitir alterar senha, resetar senha administrativamente e obrigar a renovação da senha quando ela expirar.
+- O sistema deve impedir a troca de senha quando a senha atual estiver incorreta, quando a nova senha não for confirmada corretamente ou quando a nova senha for igual à anterior.
+- O sistema deve controlar acesso por perfil de usuário, com níveis distintos como administrador, supervisor, equipe interna, usuário comum, gerente de projeto e cliente.
+- O sistema deve restringir operações sensíveis por escopo de atuação, permitindo regras como acesso total, acesso somente aos próprios registros ou acesso por área.
+- O sistema deve suportar autenticação local e autenticação via LDAP, conforme configuração do ambiente.
+- O sistema deve aplicar controle de acesso também sobre documentos, faturamentos, usuários e demais entidades críticas.
+
+- O sistema deve permitir manter acordos de trabalho com regras vigentes por período, incluindo carga anual de trabalho e quantidade de férias.
+- O sistema deve permitir registrar solicitações de férias com datas de início e fim, ano de compensação, comentários do solicitante e observações da análise.
+- O sistema deve controlar o ciclo da solicitação de férias com os estados pendente, aceita, rejeitada e cancelada.
+- O sistema deve impedir solicitações de férias com intervalo de datas inválido.
+- O sistema deve impedir solicitações que ultrapassem o saldo disponível de férias do colaborador.
+- O sistema deve calcular o saldo de férias considerando somente dias úteis, desconsiderando fins de semana e feriados.
+- O sistema deve calcular o direito anual de férias de forma proporcional quando o colaborador estiver no primeiro ano de contrato.
+- O sistema deve considerar somente solicitações aprovadas para abatimento do saldo de férias.
+- O sistema deve notificar por e-mail os aprovadores configurados quando uma nova solicitação de férias for registrada.
+- O sistema deve avisar por e-mail quando contratos ou períodos de experiência estiverem próximos do vencimento.
+
+- O sistema deve permitir cadastrar e manter projetos vinculados a clientes, com período de vigência, situação aberta ou encerrada, papéis envolvidos e custos relacionados.
+- O sistema deve permitir registrar atividades internas e externas por colaborador, data, cliente, projeto, papel executado e descrição.
+- O sistema deve priorizar, no apontamento operacional, projetos abertos e papéis válidos para execução.
+- O sistema deve permitir classificar atividades como faturáveis ou não faturáveis.
+- O sistema deve diferenciar o tempo que compõe jornada de trabalho do tempo que não compõe jornada, para cálculo correto de horas trabalhadas.
+- O sistema deve permitir manter objetivos e ocupações vinculados à rotina operacional.
+- O sistema deve apresentar relatórios consolidados de horas por usuário, projeto e organização.
+- O sistema deve permitir anexar evidências às atividades quando o projeto ou papel exigir comprovação.
+- O sistema deve suportar políticas de evidência como sem exigência, exigência única ou exigência semanal.
+- O sistema deve alertar por e-mail os colaboradores que tenham atividades recentes em projetos com exigência semanal de evidência, mas ainda sem comprovação anexada.
+
+- O sistema deve permitir cadastrar e manter organizações, contatos, colaboradores externos, cargos e tipos de interação.
+- O sistema deve permitir registrar interações comerciais e de relacionamento vinculadas a contatos, propostas e projetos.
+- O sistema deve permitir pesquisar contatos por critérios avançados e exportar o resultado para CSV.
+- O sistema deve permitir classificar propostas por potencial de negócio, em níveis como alto, médio e baixo.
+- O sistema deve controlar o ciclo da proposta com os estados aberta, aceita e rejeitada.
+- O sistema deve permitir registrar motivos de rejeição de propostas.
+- O sistema deve permitir compor propostas com papéis de trabalho, horas previstas, materiais, custos e indicação do que pode ou não ser faturado.
+- O sistema deve permitir duplicar uma proposta preservando sua composição, mas sem reaproveitar identificadores únicos.
+- O sistema deve permitir converter uma proposta em rascunho de faturamento, reaproveitando contato, descrição e itens faturáveis.
+
+- O sistema deve permitir manter contas, tipos de lançamento, grupos de lançamento e lançamentos financeiros periódicos.
+- O sistema deve permitir copiar lançamentos periódicos para reaproveitar recorrências financeiras.
+- O sistema deve permitir registrar contas a receber e contas a pagar por meio de faturamentos emitidos e recebidos.
+- O sistema deve permitir detalhar faturamentos por itens, quantidades, valores, tributos, observações e anexos.
+- O sistema deve calcular automaticamente o valor total do faturamento a partir dos itens detalhados.
+- O sistema deve calcular automaticamente o valor líquido a pagar quando houver retenção de IRPF para fornecedores autônomos.
+- O sistema deve permitir registrar múltiplos vencimentos para um mesmo faturamento.
+- O vencimento principal do faturamento deve refletir a data do último pagamento previsto.
+- O sistema deve permitir importar para o faturamento horas faturáveis e custos de projeto já registrados na operação.
+- O sistema deve permitir converter itens faturáveis de propostas em itens de faturamento.
+- O sistema deve calcular automaticamente o saldo em aberto do faturamento com base nos lançamentos financeiros associados.
+- O sistema deve marcar o faturamento como pago quando os lançamentos financeiros cobrirem o valor total devido.
+- O sistema deve permitir associar faturamentos a títulos de crédito, alterando o estado do faturamento para refletir essa vinculação.
+- O sistema deve permitir que a associação a um título de crédito gere ou não um novo vencimento, conforme a escolha do usuário.
+- O sistema deve permitir acompanhar indicadores financeiros, títulos de crédito, necessidade operacional de fundos e rotinas fiscais já contempladas no sistema.
+
+- O sistema deve permitir organizar documentos por categorias.
+- O sistema deve permitir manter versões de um mesmo documento, com arquivo, data e identificação da versão.
+- O sistema deve permitir associar documentos a responsáveis e áreas organizacionais.
+- O sistema deve criar e manter automaticamente uma categoria documental própria para cada usuário, permitindo separar documentação individual.
+- O sistema deve permitir navegar dos dados do usuário para sua documentação associada.
+- O sistema deve permitir manter publicações, revistas e tutoriais como base de conhecimento institucional.
+- O sistema deve permitir manter murais de avisos por categoria.
+- O sistema deve exibir avisos públicos na entrada do sistema.
+- O sistema deve permitir manter outros conteúdos de apoio à gestão, como ideias, inventário, tags e links.
+
+- O sistema deve permitir registrar pedidos/comissionamentos vinculados a projetos, revisores, colaboradores e dados de pagamento.
+- O sistema deve controlar o fluxo do pedido com estados como criado, aprovado, aceito, confirmado, validado e finalizado.
+- O sistema deve permitir registrar atrasos, alterações e arquivos relacionados ao pedido.
+- O sistema deve preservar o histórico textual das mudanças ocorridas ao longo do fluxo do pedido.
+- O sistema deve permitir o envio por e-mail de documentos relacionados ao pedido.
+
+- O sistema deve disponibilizar relatórios por domínio de negócio, incluindo faturamento, horas, projetos, propostas, interações, organizações, uso pessoal e comissionamentos.
+- O sistema deve permitir exportar relatórios em múltiplos formatos, incluindo CSV, PDF, HTML, RTF, XLS e ODT.
+- O sistema deve permitir exportar consultas operacionais específicas, como busca avançada de contatos e relatório global de horas, em formato CSV.
+
+- O sistema deve permitir envio de notificações por e-mail para eventos relevantes de negócio, como férias, expiração contratual, redefinição de senha, evidências pendentes e pedidos.
+- O sistema deve realizar automaticamente cálculos críticos de negócio, como saldo de férias, total do faturamento, saldo em aberto, retenções e vencimento final.
+- O sistema deve manter coerência entre módulos relacionados, como usuário e sua pasta documental, proposta e faturamento, faturamento e título de crédito.
+- O sistema deve preservar versões documentais e histórico de alterações em processos que exigem rastreabilidade, como documentos e comissionamentos.
+
+- O sistema deve gerar saídas interoperáveis para consumo externo, especialmente por meio de arquivos CSV e relatórios em formatos de mercado.
+- O sistema deve operar com armazenamento externo para anexos e relatórios, de forma a manter documentos e saídas organizados fora da aplicação.
+- O sistema deve validar, na inicialização, se os diretórios e arquivos essenciais de configuração estão disponíveis.
+- O sistema deve preparar automaticamente a estrutura mínima necessária para armazenamento de arquivos enviados pelos usuários.
+- O sistema deve permitir que regras operacionais específicas sejam habilitadas ou desabilitadas por configuração, como edição de faturamentos, uso de LDAP e envio de notificações.
+
+- O sistema deve oferecer navegação padronizada baseada em consulta, detalhe, edição, criação e pesquisa para os principais módulos.
+- O sistema deve apoiar a rotina do usuário com filtros, ordenação, pesquisas por período, atalhos de navegação e valores padrão coerentes com o contexto de uso.
+- O sistema deve permitir exportação e visualização de informações de forma simples para apoiar decisões operacionais e gerenciais.
+- O sistema deve suportar, no mínimo, português, espanhol e inglês nas mensagens e textos de interface.
+- O sistema deve tratar textos e arquivos com codificação compatível com caracteres internacionais, preservando nomes, descrições e conteúdos multilíngues.

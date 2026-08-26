@@ -1,0 +1,4 @@
+Book Service -> Book Catalog Service
+Reader Service -> Reader Management Service
+Loan Service -> Loan Management Service
+Math Utility Service -> Demo Utility Service

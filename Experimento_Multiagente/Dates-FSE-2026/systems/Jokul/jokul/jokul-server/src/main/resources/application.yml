@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jackson:
+    default-property-inclusion: non_null
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/movie
+      username: root
+      password: 123123
+  servlet:
+      multipart:
+        max-file-size: 2048MB
+        max-request-size: 2048MB
+        enabled: true
+server:
+  servlet:
+    context-path: /jokul
+
+storage:
+  location: upload-dir
+  source: E:/Movie/%s.mp4

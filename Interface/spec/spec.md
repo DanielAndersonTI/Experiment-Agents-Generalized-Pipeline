@@ -16,14 +16,14 @@ As an architecture researcher, I want to enter one or more system definitions so
 
 **Why this priority**: Input collection is the minimum viable workflow and must work independently before execution or reporting can provide value.
 
-**Independent Test**: Open the home page, complete the first system block, add and remove system blocks, and verify that no more than five systems can be configured.
+**Independent Test**: Open the home page, complete the first system block, add and remove system blocks, and verify that no more than ten systems can be configured.
 
 **Acceptance Scenarios**:
 
 1. **Given** the home page is opened, **When** the page finishes loading, **Then** exactly one empty system block is displayed.
 2. **Given** a system block is displayed, **When** the user enters a system name, requirements, reference services, reference interactions, and a normalization map, **Then** the values remain visible and the block is valid.
-3. **Given** fewer than five system blocks exist, **When** the user selects `Add another system`, **Then** a new empty block is added through an AJAX request.
-4. **Given** five system blocks exist, **When** the user selects `Add another system`, **Then** no sixth block is added and an appropriate limit message is displayed.
+3. **Given** fewer than ten system blocks exist, **When** the user selects `Add another system`, **Then** a new empty block is added through an AJAX request.
+4. **Given** ten system blocks exist, **When** the user selects `Add another system`, **Then** no eleventh block is added and an appropriate limit message is displayed.
 5. **Given** more than one system block exists, **When** the user selects `Remove`, **Then** that block is removed through an AJAX request.
 6. **Given** exactly one system block exists, **When** the user attempts to remove it, **Then** it remains visible and the interface explains that one block is required.
 7. **Given** one or more fields are invalid, **When** the user selects `Run Pipeline`, **Then** the interface displays field-level or block-level validation messages and does not submit the run request.
@@ -77,7 +77,7 @@ As an architecture researcher, I want to start a new decomposition so that I can
 ### Edge Cases
 
 - A request containing zero systems MUST be rejected by the backend with a structured validation error.
-- A request containing more than five systems MUST be rejected by the backend with a structured validation error.
+- A request containing more than ten systems MUST be rejected by the backend with a structured validation error.
 - A system with a missing or whitespace-only required field MUST be rejected before mock execution.
 - The `Architecture target` control MUST display `Microservices` as the only enabled option; unsupported targets remain unavailable.
 - Empty mock arrays MUST render a meaningful empty state rather than broken tables.
@@ -90,10 +90,10 @@ As an architecture researcher, I want to start a new decomposition so that I can
 ### Functional Requirements
 
 - **FR-001**: The system MUST render an initial decomposition page containing exactly one system block.
-- **FR-002**: Each system block MUST contain required fields for system name, system requirements, reference services, reference interactions, and name normalization map.
+- **FR-002**: Each system block MUST contain required fields for system name, system requirements, reference services, and reference interactions.
 - **FR-003**: Each system block MUST contain an `Architecture target` dropdown with only `Microservices` enabled in this phase.
 - **FR-004**: The system MUST provide placeholders and short descriptions for all input fields.
-- **FR-005**: The system MUST add system blocks dynamically through an AJAX request, up to a maximum of five blocks.
+- **FR-005**: The system MUST add system blocks dynamically through an AJAX request, up to a maximum of ten blocks.
 - **FR-006**: The system MUST allow a block to be removed through AJAX when more than one block exists.
 - **FR-007**: The system MUST prevent removal of the final remaining system block.
 - **FR-008**: The system MUST validate all required fields in the frontend before submitting a run.
@@ -136,8 +136,7 @@ A system input object MUST contain:
   "architecture_target": "Microservices",
   "requirements": "string",
   "reference_services": "string",
-  "reference_interactions": "string",
-  "name_normalization_map": "string"
+  "reference_interactions": "string"
 }
 ```
 
@@ -185,7 +184,7 @@ The mock implementation MUST contain a clear future integration marker, for exam
 ### Measurable Outcomes
 
 - **SC-001**: A first-time user can load the input page and see one valid system block without manual setup.
-- **SC-002**: The interface accepts and renders up to five system blocks, and never renders a sixth block after a rejected add request.
+- **SC-002**: The interface accepts and renders up to ten system blocks, and never renders an eleventh block after a rejected add request.
 - **SC-003**: A valid mocked run displays Services, Interactions, and Best Results data within one completed AJAX response, without invoking the real pipeline.
 - **SC-004**: Every required empty field is identified in the frontend before a run request is sent, and the backend rejects the same invalid payload if submitted directly.
 - **SC-005**: The success, LLM error, and low-results mock scenarios can each be demonstrated through the interface without code changes or external model credentials.

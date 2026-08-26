@@ -15,7 +15,7 @@ Open <http://127.0.0.1:8000/> in a browser. Stop the server with `Ctrl+C`.
 ## Browser workflow
 
 1. Complete the required fields in the first system block.
-2. Use `ADD ANOTHER SYSTEM` to add up to five systems.
+2. Use `ADD ANOTHER SYSTEM` to add up to ten systems.
 3. Choose `RUN PIPELINE` to run the real pipeline for each submitted system.
 4. Review Services, Interactions, and Best Results.
 5. Select `DOWNLOAD FULL REPORT (PDF)` after a successful run.

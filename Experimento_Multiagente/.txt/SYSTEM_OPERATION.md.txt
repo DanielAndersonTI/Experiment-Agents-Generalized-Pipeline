@@ -1,0 +1,15 @@
+## How the System Works
+
+The DAVINCI Architect pipeline transforms textual system requirements into a recommended microservice architecture through a sequence of specialized LLM agents. The process is designed to separate architectural concerns and to reduce errors that commonly occur when a single model performs the entire task.
+
+The workflow begins with the ingestion of functional requirements, which serve as the only input for generation. The first agent applies Domain-Driven Design and bounded-context reasoning to identify candidate services and their responsibilities. In parallel, a second agent independently analyzes the same requirements with a focus on inter-service communication, using a set of generalized architectural reasoning patterns. This separation allows the pipeline to produce two complementary architectural proposals rather than relying on a single perspective.
+
+After generation, a refinement agent reviews each proposal and removes only those communications that cannot be justified by the requirements. The goal of this step is not to redesign the architecture, but to reduce speculative dependencies while preserving valid services and interactions.
+
+The final stage is consolidation. Instead of simply merging the two proposals, the consolidator receives evaluation-oriented evidence about the quality of each candidate architecture. This allows the pipeline to select the proposal with the strongest support and, when justified, incorporate complementary interactions from the alternative proposal. The result is a final architecture that represents the best available decomposition rather than a simple union of all generated elements.
+
+Evaluation is performed only after generation and uses a semantic equivalence strategy. Service names are normalized and compared based on the business capabilities they represent, rather than on exact string matches. This avoids penalizing valid decompositions that use alternative naming conventions. Interaction evaluation follows the same principle: a communication is considered correct if both participating services correspond to the same capabilities described in the reference architecture.
+
+The system has been implemented as a local web application, allowing researchers and practitioners to provide new requirements, execute the pipeline, and inspect the generated architecture along with quantitative metrics. The evaluation-oriented inputs, such as reference services and interactions, are used exclusively to compute Precision, Recall, and F1-score and are never provided to the generation agents.
+
+This design reflects the central research hypothesis of the work: that dividing the synthesis of software architecture into specialized subproblems — decomposition, communication inference, refinement, and consolidation — leads to more reliable results than attempting to solve all of these tasks in a single LLM call.

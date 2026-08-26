@@ -1,0 +1,68 @@
+Requisitos - Categorias,Identificação,Descrição
+Cadastro e abertura da carga,RF - 0,"O sistema deve permitir registrar uma nova carga informando origem, destino e prazo limite de chegada."
+,RF - 02,Cada carga cadastrada deve receber um identificador unico de rastreamento.
+,RF - 03,A origem e o destino da carga devem ser diferentes.
+,RF - 04,A origem da carga deve permanecer fixa durante todo o ciclo logistico.
+,RF - 05,O cadastro da carga pode ser concluido mesmo antes da definicao da rota.
+,RF - 06,O prazo de chegada deve ser obrigatorio e deve servir como criterio para o planejamento da viagem.
+,RF - 07,O sistema deve permitir selecionar origem e destino apenas entre localidades logisticas previamente cadastradas.
+Planejamento e roteirizacao,RF - 08,O sistema deve consultar e apresentar rotas candidatas compativeis com a necessidade da carga.
+,RF - 09,"Uma rota candidata so deve ser considerada valida quando respeitar a origem, o destino final e o prazo de chegada da carga."
+,RF - 10,O usuario deve poder escolher uma das rotas apresentadas e vincula-la a carga.
+,RF - 11,"Quando a carga ainda nao tiver rota definida, ela deve permanecer identificada como ""nao roteirizada""."
+,RF - 12,"Quando nenhuma rota atender aos criterios informados, o sistema deve informar que nao ha opcao viavel para a especificacao atual."
+,RF - 13,"O sistema deve exibir os trechos da rota escolhida, incluindo pontos de embarque, desembarque, viagem e datas previstas."
+Replanejamento da viagem,RF - 14,O sistema deve permitir alterar o destino de uma carga ja cadastrada.
+,RF - 15,O novo destino nao pode ser igual nem a origem nem ao destino atual da carga.
+,RF - 16,"Ao alterar o destino, o sistema deve reavaliar a rota atual da carga."
+,RF - 17,"Quando a rota atual deixar de atender ao novo destino, a carga deve passar a exigir nova roteirizacao."
+,RF - 18,O sistema deve permitir replanejar a rota de cargas que ficaram fora da rota prevista ou que tiveram o destino alterado.
+Acompanhamento e rastreamento,RF - 19,O sistema deve permitir consultar uma carga pelo identificador de rastreamento.
+,RF - 20,"Na consulta, o sistema deve apresentar a situacao atual da carga."
+,RF - 21,O sistema deve informar a ultima localizacao conhecida da carga.
+,RF - 22, O sistema deve informar a previsao de chegada quando a carga estiver com rota valida e em curso compativel com o planejamento.
+,RF - 23,O sistema deve manter e exibir o historico de eventos logisticos associados a carga.
+,RF - 24,O historico deve diferenciar eventos esperados de eventos fora do planejado.
+,RF - 25,O sistema deve sinalizar quando a carga estiver fora da rota esperada.
+,RF - 26,"O sistema deve permitir visualizar a carga com apoio geografico, destacando origem, destino final e ultima localizacao conhecida."
+Gestao operacional das cargas,RF - 27,O sistema deve disponibilizar uma visao administrativa consolidada das cargas.
+,RF - 28,"As cargas devem ser agrupadas, no minimo, nas categorias ""nao roteirizadas"", ""roteirizadas em andamento"" e ""retiradas pelo destinatario""."
+,RF - 29,O sistema deve permitir abrir o detalhamento de qualquer carga a partir da visao administrativa.
+,RF - 30,Cargas roteirizadas e ainda nao retiradas devem poder ser acompanhadas como cargas em transito.
+Registro de eventos logisticos,RF - 31,"O sistema deve permitir registrar eventos logisticos dos tipos: recebimento, embarque, desembarque, alfandega e retirada."
+,RF - 32,Todo evento logistico deve estar associado a uma carga existente.
+,RF - 33,Todo evento logistico deve informar a localidade em que ocorreu e a data de ocorrencia.
+,RF - 34,Eventos de embarque e desembarque devem estar associados a viagem correspondente.
+,RF - 35,Eventos que nao sejam de embarque ou desembarque nao devem exigir identificacao de viagem.
+,RF - 36,"O sistema deve rejeitar tentativas de registro com carga, localidade ou viagem inexistentes."
+,RF - 37,O registro de um evento valido deve atualizar a situacao operacional da carga.
+,RF - 38,"Apos cada evento valido, o sistema deve recalcular informacoes como status de transporte, localizacao conhecida, proxima etapa esperada e aderencia ao plano."
+,RF - 39,"Quando um evento indicar execucao diferente da rota prevista, a carga deve ser marcada como fora de rota."
+,RF - 40,"Quando a carga for descarregada no destino final, o sistema deve marca-la como chegada ao destino."
+,RF - 41,"Quando a retirada pelo destinatario for registrada, a carga deve ser considerada concluida do ponto de vista logistico."
+Canais de operacao e monitoramento,RF - 42,O sistema deve permitir o registro de eventos logisticos por mais de um canal operacional.
+,RF - 43,"Entre os canais suportados, deve haver pelo menos interface operacional, servico de integracao e processamento de arquivos de entrada."
+,RF - 44,O sistema deve disponibilizar uma visao consolidada das cargas para consumo por canais de monitoramento.
+,RF - 45,O sistema deve manter os canais de acompanhamento alinhados com a situacao mais recente de cada carga.
+Integridade e consistencia do negocio,RNF - 46,"O sistema deve preservar a consistencia entre cadastro da carga, rota planejada e eventos realizados."
+,RNF - 47,Nenhum evento invalido pode alterar o estado da carga.
+,RNF - 48,"As regras de origem, destino, prazo e compatibilidade da rota devem ser aplicadas de forma uniforme em todos os canais de operacao."
+,RNF - 49,A situacao da carga deve ser recalculada sempre que houver mudanca relevante de planejamento ou execucao.
+Rastreabilidade e auditoria operacional,RNF - 50,O sistema deve manter historico suficiente para reconstituir o ciclo logistico da carga.
+,RNF - 51,"Cada evento deve conservar, no minimo, o momento em que ocorreu e o momento em que foi registrado no sistema."
+,RNF - 52,Tentativas rejeitadas de registro devem ser identificaveis para posterior analise operacional.
+,RNF - 53,"O sistema deve permitir distinguir cargas entregues corretamente, cargas ainda em transito e cargas com desvio operacional."
+Atualizacao e tempestividade,RNF - 54,A atualizacao da situacao da carga deve ocorrer em tempo adequado ao acompanhamento operacional.
+,RNF - 55,O recebimento de eventos deve continuar fluindo mesmo quando o recalculo detalhado da situacao ocorrer em segundo plano.
+,RNF - 56,"Entradas recebidas por arquivo devem ser processadas de forma periodica, sem depender de acionamento manual constante."
+,RNF - 57, Os canais de monitoramento devem refletir a informacao mais recente disponivel sobre a carga.
+Usabilidade operacional,RNF - 58,"As informacoes apresentadas ao usuario devem ser organizadas por situacao de negocio, e nao apenas por estrutura tecnica."
+,RNF - 59,"A navegacao operacional deve facilitar tarefas frequentes, como localizar carga, consultar detalhes, escolher rota e registrar evento."
+,RNF - 60,"O sistema deve reduzir erros de operacao por meio de listas controladas de localidades, viagens, tipos de evento e identificadores de carga."
+,RNF - 61,Mensagens de erro e ausencia de rota devem ser compreensiveis para uso administrativo e logistico.
+Resiliencia do processamento,RNF - 62,Falhas em uma tentativa isolada de registro nao devem comprometer o processamento das demais cargas.
+,RNF - 63,"Registros recebidos em formato invalido devem ser separados para tratamento posterior, sem interromper o restante da carga de trabalho."
+,RNF - 64,"O sistema deve tratar cargas fora da rota como excecoes operacionais visiveis, para permitir acao corretiva rapida."
+Interoperabilidade entre canais,RNF - 65,"O sistema deve manter coerencia entre os dados apresentados na interface administrativa, no rastreamento, nos canais moveis e nas integracoes."
+,RNF - 66,As informacoes principais da carga devem poder ser trocadas em formatos padronizados para facilitar integracao com outros sistemas.
+,RNF - 67,"O modelo de acompanhamento deve ser unico, independentemente do canal usado para registrar ou consultar a carga."

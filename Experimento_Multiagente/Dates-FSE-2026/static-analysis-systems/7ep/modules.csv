@@ -1,0 +1,4 @@
+module_path,build_tool,build_file,artifact_id,packaging,java_version,plugins,declared_submodules,parse_error
+demo,gradle,systems/7ep/demo/build.gradle,demo,war,11,com.dorongold.task-tree|info.solidsoft.pitest|jacoco|java-library|org.checkerframework|org.flywaydb.flyway|org.gretty|org.hidetake.ssh|org.owasp.dependencycheck|org.sonarqube|war,,
+demo/desktop_app,gradle,systems/7ep/demo/desktop_app/build.gradle,desktop_app,jar,11,jacoco|java|java-library,,
+demo/src/ui_tests/java,gradle,systems/7ep/demo/src/ui_tests/java/build.gradle,java,jar,11,java-library,,

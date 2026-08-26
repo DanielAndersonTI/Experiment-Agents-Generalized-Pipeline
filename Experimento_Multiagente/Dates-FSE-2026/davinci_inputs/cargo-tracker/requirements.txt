@@ -1,0 +1,77 @@
+- O sistema deve permitir registrar uma nova carga informando origem, destino e prazo limite de chegada.
+- Cada carga cadastrada deve receber um identificador único de rastreamento.
+- A origem e o destino da carga devem ser diferentes.
+- A origem da carga deve permanecer fixa durante todo o ciclo logístico.
+- O cadastro da carga pode ser concluído mesmo antes da definição da rota.
+- O prazo de chegada deve ser obrigatório e deve servir como critério para o planejamento da viagem.
+- O sistema deve permitir selecionar origem e destino apenas entre localidades logísticas previamente cadastradas.
+
+- O sistema deve consultar e apresentar rotas candidatas compatíveis com a necessidade da carga.
+- Uma rota candidata só deve ser considerada válida quando respeitar a origem, o destino final e o prazo de chegada da carga.
+- O usuário deve poder escolher uma das rotas apresentadas e vinculá-la à carga.
+- Quando a carga ainda não tiver rota definida, ela deve permanecer identificada como "não roteirizada".
+- Quando nenhuma rota atender aos critérios informados, o sistema deve informar que não há opção viável para a especificação atual.
+- O sistema deve exibir os trechos da rota escolhida, incluindo pontos de embarque, desembarque, viagem e datas previstas.
+
+- O sistema deve permitir alterar o destino de uma carga já cadastrada.
+- O novo destino não pode ser igual nem à origem nem ao destino atual da carga.
+- Ao alterar o destino, o sistema deve reavaliar a rota atual da carga.
+- Quando a rota atual deixar de atender ao novo destino, a carga deve passar a exigir nova roteirização.
+- O sistema deve permitir replanejar a rota de cargas que ficaram fora da rota prevista ou que tiveram o destino alterado.
+
+- O sistema deve permitir consultar uma carga pelo identificador de rastreamento.
+- Na consulta, o sistema deve apresentar a situação atual da carga.
+- O sistema deve informar a última localização conhecida da carga.
+- O sistema deve informar a previsão de chegada quando a carga estiver com rota válida e em curso compatível com o planejamento.
+- O sistema deve manter e exibir o histórico de eventos logísticos associados à carga.
+- O histórico deve diferenciar eventos esperados de eventos fora do planejado.
+- O sistema deve sinalizar quando a carga estiver fora da rota esperada.
+- O sistema deve permitir visualizar a carga com apoio geográfico, destacando origem, destino final e última localização conhecida.
+
+- O sistema deve disponibilizar uma visão administrativa consolidada das cargas.
+- As cargas devem ser agrupadas, no mínimo, nas categorias "não roteirizadas", "roteirizadas em andamento" e "retiradas pelo destinatário".
+- O sistema deve permitir abrir o detalhamento de qualquer carga a partir da visão administrativa.
+- Cargas roteirizadas e ainda não retiradas devem poder ser acompanhadas como cargas em trânsito.
+- O sistema deve manter os canais de acompanhamento alinhados com a situação mais recente de cada carga.
+
+- O sistema deve permitir registrar eventos logísticos dos tipos: recebimento, embarque, desembarque, alfândega e retirada.
+- Todo evento logístico deve estar associado a uma carga existente.
+- Todo evento logístico deve informar a localidade em que ocorreu e a data de ocorrência.
+- Eventos de embarque e desembarque devem estar associados à viagem correspondente.
+- Eventos que não sejam de embarque ou desembarque não devem exigir identificação de viagem.
+- O sistema deve rejeitar tentativas de registro com carga, localidade ou viagem inexistentes.
+- O registro de um evento válido deve atualizar a situação operacional da carga.
+- Após cada evento válido, o sistema deve recalcular informações como status de transporte, localização conhecida, próxima etapa esperada e aderência ao plano.
+- Quando um evento indicar execução diferente da rota prevista, a carga deve ser marcada como fora de rota.
+- Quando a carga for descarregada no destino final, o sistema deve marcá-la como chegada ao destino.
+- Quando a retirada pelo destinatário for registrada, a carga deve ser considerada concluída do ponto de vista logístico.
+
+- O sistema deve permitir o registro de eventos logísticos por mais de um canal operacional.
+- Entre os canais suportados, deve haver pelo menos interface operacional, serviço de integração e processamento de arquivos de entrada.
+- O sistema deve disponibilizar uma visão consolidada das cargas para consumo por canais de monitoramento.
+- O sistema deve preservar a consistência entre cadastro da carga, rota planejada e eventos realizados.
+- Nenhum evento inválido pode alterar o estado da carga.
+- As regras de origem, destino, prazo e compatibilidade da rota devem ser aplicadas de forma uniforme em todos os canais de operação.
+- A situação da carga deve ser recalculada sempre que houver mudança relevante de planejamento ou execução.
+
+- O sistema deve manter histórico suficiente para reconstituir o ciclo logístico da carga.
+- Cada evento deve conservar, no mínimo, o momento em que ocorreu e o momento em que foi registrado no sistema.
+- Tentativas rejeitadas de registro devem ser identificáveis para posterior análise operacional.
+- O sistema deve permitir distinguir cargas entregues corretamente, cargas ainda em trânsito e cargas com desvio operacional.
+
+- A atualização da situação da carga deve ocorrer em tempo adequado ao acompanhamento operacional.
+- O recebimento de eventos deve continuar fluindo mesmo quando o recálculo detalhado da situação ocorrer em segundo plano.
+- Entradas recebidas por arquivo devem ser processadas de forma periódica, sem depender de acionamento manual constante.
+- Os canais de monitoramento devem refletir a informação mais recente disponível sobre a carga.
+
+- As informações apresentadas ao usuário devem ser organizadas por situação de negócio, e não apenas por estrutura técnica.
+- A navegação operacional deve facilitar tarefas frequentes, como localizar carga, consultar detalhes, escolher rota e registrar evento.
+- O sistema deve reduzir erros de operação por meio de listas controladas de localidades, viagens, tipos de evento e identificadores de carga.
+- Mensagens de erro e ausência de rota devem ser compreensíveis para uso administrativo e logístico.
+
+- Falhas em uma tentativa isolada de registro não devem comprometer o processamento das demais cargas.
+- Registros recebidos em formato inválido devem ser separados para tratamento posterior, sem interromper o restante da carga de trabalho.
+- O sistema deve tratar cargas fora da rota como exceções operacionais visíveis, para permitir ação corretiva rápida.
+- O sistema deve manter coerência entre os dados apresentados na interface administrativa, no rastreamento, nos canais móveis e nas integrações.
+- As informações principais da carga devem poder ser trocadas em formatos padronizados para facilitar integração com outros sistemas.
+- O modelo de acompanhamento deve ser único, independentemente do canal usado para registrar ou consultar a carga.

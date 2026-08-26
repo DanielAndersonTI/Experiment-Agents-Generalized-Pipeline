@@ -1,0 +1,15 @@
+project,module,package,type_name,file,entrypoint_reasons
+7ep,demo,com.coveros.training.authentication,LoginServlet,systems/7ep/demo/src/main/java/com/coveros/training/authentication/LoginServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.authentication,RegisterServlet,systems/7ep/demo/src/main/java/com/coveros/training/authentication/RegisterServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryBookListAvailableServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryBookListAvailableServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryBookListSearchServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryBookListSearchServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryBorrowerListSearchServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryBorrowerListSearchServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryLendServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryLendServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryRegisterBookServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryRegisterBookServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.library,LibraryRegisterBorrowerServlet,systems/7ep/demo/src/main/java/com/coveros/training/library/LibraryRegisterBorrowerServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.mathematics,AckServlet,systems/7ep/demo/src/main/java/com/coveros/training/mathematics/AckServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.mathematics,FibServlet,systems/7ep/demo/src/main/java/com/coveros/training/mathematics/FibServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.mathematics,MathServlet,systems/7ep/demo/src/main/java/com/coveros/training/mathematics/MathServlet.java,http-entrypoint
+7ep,demo,com.coveros.training.persistence,DbServlet,systems/7ep/demo/src/main/java/com/coveros/training/persistence/DbServlet.java,http-entrypoint
+7ep,demo/desktop_app,com.coveros.training.autoinsurance,AutoInsuranceUI,systems/7ep/demo/desktop_app/src/main/java/com/coveros/training/autoinsurance/AutoInsuranceUI.java,main-method
+7ep,demo/desktop_app,com.coveros.training.autoinsurance,ExecutionDataClient,systems/7ep/demo/desktop_app/src/test/java/com/coveros/training/autoinsurance/ExecutionDataClient.java,main-method

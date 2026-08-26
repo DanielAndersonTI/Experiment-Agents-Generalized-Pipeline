@@ -1,0 +1,15 @@
+project,package,class_count,method_count,public_method_count,incoming_internal_dependencies,outgoing_internal_dependencies,roles
+7ep,com.coveros.training,3,10,10,0,0,test:3
+7ep,com.coveros.training.authentication,11,70,57,0,29,controller:2|other:4|test:5
+7ep,com.coveros.training.authentication.domainobjects,8,37,35,15,0,domain:5|test:3
+7ep,com.coveros.training.autoinsurance,12,60,39,0,0,other:6|test:6
+7ep,com.coveros.training.cartesianproduct,2,4,4,0,0,other:2
+7ep,com.coveros.training.expenses,4,9,9,0,0,other:4
+7ep,com.coveros.training.helpers,8,26,19,36,0,test:4|utility:4
+7ep,com.coveros.training.library,17,176,152,0,52,controller:6|other:3|test:8
+7ep,com.coveros.training.library.domainobjects,7,36,36,38,2,domain:4|test:3
+7ep,com.coveros.training.math,3,7,7,0,2,other:3
+7ep,com.coveros.training.mathematics,18,88,57,2,6,controller:3|other:7|test:8
+7ep,com.coveros.training.persistence,13,139,110,20,17,controller:1|persistence:8|test:4
+7ep,com.coveros.training.selenified,1,0,0,0,0,other:1
+7ep,com.coveros.training.tomcat,2,8,8,0,3,other:1|test:1

@@ -1,0 +1,302 @@
+{
+  "project": "daytrader7",
+  "project_path": "systems/daytrader7",
+  "generated_at_utc": "2026-06-25T17:58:12.901985+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 4,
+    "source_roots": 2,
+    "java_files": 108,
+    "analyzed_type_files": 108,
+    "packages": 11,
+    "classes": 108,
+    "entrypoints": 45,
+    "main_classes": 108,
+    "test_classes": 0,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 41,
+    "external_package_dependencies": 113
+  },
+  "role_counts": {
+    "controller": 103,
+    "domain": 5
+  },
+  "source_roots": [
+    "systems/daytrader7/sample.daytrader7/daytrader-ee7-ejb/src/main/java",
+    "systems/daytrader7/sample.daytrader7/daytrader-ee7-web/src/main/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "com.ibm.websphere",
+      "package_count": 11
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 24
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 22
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 16
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 15
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 14
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 11
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 10
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.entities",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 10
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.direct",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.jsf",
+      "target_package": "com.ibm.websphere.samples.daytrader",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.ejb3",
+      "category": "internal",
+      "count": 8
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web",
+      "target_package": "com.ibm.websphere.samples.daytrader",
+      "category": "internal",
+      "count": 6
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.direct",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 5
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader",
+      "target_package": "com.ibm.websphere.samples.daytrader.beans",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+      "target_package": "com.ibm.websphere.samples.daytrader.direct",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.websocket",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 4
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.beans",
+      "target_package": "com.ibm.websphere.samples.daytrader.util",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.ejb3",
+      "target_package": "com.ibm.websphere.samples.daytrader.beans",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web",
+      "target_package": "com.ibm.websphere.samples.daytrader.direct",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "daytrader7",
+      "source_package": "com.ibm.websphere.samples.daytrader.web.prims",
+      "target_package": "com.ibm.websphere.samples.daytrader.entities",
+      "category": "internal",
+      "count": 3
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "javax.servlet",
+      "count": 334
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 85
+    },
+    {
+      "dependency_root": "java.util",
+      "count": 72
+    },
+    {
+      "dependency_root": "javax.persistence",
+      "count": 71
+    },
+    {
+      "dependency_root": "javax.websocket",
+      "count": 49
+    },
+    {
+      "dependency_root": "javax.ejb",
+      "count": 42
+    },
+    {
+      "dependency_root": "javax.jms",
+      "count": 30
+    },
+    {
+      "dependency_root": "java.math",
+      "count": 29
+    },
+    {
+      "dependency_root": "javax.enterprise",
+      "count": 24
+    },
+    {
+      "dependency_root": "javax.inject",
+      "count": 22
+    },
+    {
+      "dependency_root": "javax.json",
+      "count": 19
+    },
+    {
+      "dependency_root": "javax.annotation",
+      "count": 17
+    },
+    {
+      "dependency_root": "javax.faces",
+      "count": 16
+    },
+    {
+      "dependency_root": "java.sql",
+      "count": 12
+    },
+    {
+      "dependency_root": "javax.naming",
+      "count": 10
+    },
+    {
+      "dependency_root": "java.lang",
+      "count": 8
+    },
+    {
+      "dependency_root": "javax.validation",
+      "count": 5
+    },
+    {
+      "dependency_root": "javax.interceptor",
+      "count": 5
+    },
+    {
+      "dependency_root": "java.net",
+      "count": 4
+    },
+    {
+      "dependency_root": "javax.transaction",
+      "count": 3
+    }
+  ]
+}

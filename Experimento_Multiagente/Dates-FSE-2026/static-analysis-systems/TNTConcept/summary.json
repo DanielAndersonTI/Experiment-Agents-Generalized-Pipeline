@@ -1,0 +1,317 @@
+{
+  "project": "TNTConcept",
+  "project_path": "systems/TNTConcept",
+  "generated_at_utc": "2026-06-25T17:58:15.782739+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "maven"
+  ],
+  "counts": {
+    "build_files": 3,
+    "source_roots": 4,
+    "java_files": 660,
+    "analyzed_type_files": 660,
+    "packages": 72,
+    "classes": 660,
+    "entrypoints": 0,
+    "main_classes": 535,
+    "test_classes": 125,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 356,
+    "external_package_dependencies": 575
+  },
+  "role_counts": {
+    "controller": 6,
+    "event": 4,
+    "exception": 6,
+    "other": 364,
+    "repository": 137,
+    "test": 125,
+    "utility": 18
+  },
+  "source_roots": [
+    "systems/TNTConcept/TNTConcept/tntconcept-core/src/main/java",
+    "systems/TNTConcept/TNTConcept/tntconcept-core/src/test/java",
+    "systems/TNTConcept/TNTConcept/tntconcept-web/src/main/java",
+    "systems/TNTConcept/TNTConcept/tntconcept-web/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "com.autentia.tnt",
+      "package_count": 64
+    },
+    {
+      "package_root": "com.autentia.jsf",
+      "package_count": 7
+    },
+    {
+      "package_root": "org.apache.myfaces",
+      "package_count": 1
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.hibernate",
+      "target_package": "com.autentia.tnt.dao",
+      "category": "internal",
+      "count": 220
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.hibernate",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 165
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.hibernate",
+      "target_package": "com.autentia.tnt.util",
+      "category": "internal",
+      "count": 135
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.hibernate",
+      "target_package": "com.autentia.tnt.test.utils",
+      "category": "internal",
+      "count": 91
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 87
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.search",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 74
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.businessobject",
+      "target_package": "com.autentia.tnt.dao",
+      "category": "internal",
+      "count": 71
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.search",
+      "target_package": "com.autentia.tnt.dao",
+      "category": "internal",
+      "count": 67
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.dao.hibernate",
+      "target_package": "com.autentia.tnt.dao.search",
+      "category": "internal",
+      "count": 61
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.contacts",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 53
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.contacts",
+      "target_package": "com.autentia.tnt.manager.contacts",
+      "category": "internal",
+      "count": 32
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.contacts",
+      "target_package": "com.autentia.tnt.util",
+      "category": "internal",
+      "count": 30
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.manager.admin",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 29
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.manager.contacts",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 28
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.manager.billing",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 27
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.account",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 26
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean",
+      "target_package": "com.autentia.tnt.util",
+      "category": "internal",
+      "count": 25
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.manager.admin",
+      "target_package": "com.autentia.tnt.dao.hibernate",
+      "category": "internal",
+      "count": 25
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.activity",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 23
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.contacts",
+      "target_package": "com.autentia.tnt.bean",
+      "category": "internal",
+      "count": 23
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.contacts",
+      "target_package": "com.autentia.tnt.upload",
+      "category": "internal",
+      "count": 22
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.manager.contacts",
+      "target_package": "com.autentia.tnt.dao.hibernate",
+      "category": "internal",
+      "count": 21
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.admin",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 20
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.bean.admin",
+      "target_package": "com.autentia.tnt.manager.admin",
+      "category": "internal",
+      "count": 20
+    },
+    {
+      "project": "TNTConcept",
+      "source_package": "com.autentia.tnt.test.utils",
+      "target_package": "com.autentia.tnt.businessobject",
+      "category": "internal",
+      "count": 19
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "java.util",
+      "count": 952
+    },
+    {
+      "dependency_root": "org.apache.commons",
+      "count": 491
+    },
+    {
+      "dependency_root": "javax.faces",
+      "count": 339
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 188
+    },
+    {
+      "dependency_root": "org.junit",
+      "count": 140
+    },
+    {
+      "dependency_root": "java.math",
+      "count": 118
+    },
+    {
+      "dependency_root": "org.junit.Assert",
+      "count": 109
+    },
+    {
+      "dependency_root": "org.apache.myfaces",
+      "count": 73
+    },
+    {
+      "dependency_root": "org.hibernate",
+      "count": 73
+    },
+    {
+      "dependency_root": "org.acegisecurity.acls",
+      "count": 72
+    },
+    {
+      "dependency_root": "javax.servlet",
+      "count": 58
+    },
+    {
+      "dependency_root": "net.sf.jasperreports",
+      "count": 49
+    },
+    {
+      "dependency_root": "org.hibernate.type",
+      "count": 39
+    },
+    {
+      "dependency_root": "java.text",
+      "count": 37
+    },
+    {
+      "dependency_root": "java.time",
+      "count": 32
+    },
+    {
+      "dependency_root": "org.springframework.context",
+      "count": 31
+    },
+    {
+      "dependency_root": "javax.naming",
+      "count": 30
+    },
+    {
+      "dependency_root": "java.sql",
+      "count": 27
+    },
+    {
+      "dependency_root": "org.mockito.Mockito",
+      "count": 27
+    },
+    {
+      "dependency_root": "org.acegisecurity",
+      "count": 25
+    }
+  ]
+}

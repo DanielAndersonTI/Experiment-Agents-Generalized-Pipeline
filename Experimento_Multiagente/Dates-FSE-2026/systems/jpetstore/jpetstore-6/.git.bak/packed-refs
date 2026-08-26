@@ -1,0 +1,18 @@
+# pack-refs with: peeled fully-peeled sorted 
+7a7a9bbf7a887d01c75d678b3e212e33295b92c1 refs/remotes/origin/copilot/migrate-from-stripes-to-spring-web-mvc
+4c5d658ec53758c743bb723e4184e0343a50df43 refs/remotes/origin/gh-pages
+fc35bccad8a87c14c87568c07d584f331917f759 refs/remotes/origin/master
+2e039b409ffd388f9bf885349269d630fd871107 refs/remotes/origin/renovate/major-spring-batch
+382ebc17f7e83cd5694fb9891201d5cecbb6803d refs/remotes/origin/renovate/major-spring-core
+2ef31695884e2c285a7601c065f011f624e66858 refs/remotes/origin/renovate/spring-core
+e01f1007dc1c813418ecfb9963999d1face7f812 refs/remotes/origin/site
+c810fefea3f5e4f646ab85564a05726e93f5d14e refs/tags/jpetstore-6.0.2
+^6fa36aad5fe55571a13b76a85802d31e6e355ed4
+b78ad5966c15de5f34bdcf8f7062423ffb709ce4 refs/tags/jpetstore-6.1.0
+^0632ee486774fb4c09fb267a9e264975862cd778
+4d545faa8ada96121397b347e815debf7a28a233 refs/tags/jpetstore-6.2.0
+^a05d6786a91409b32da5d8b64afe3e79ffa79552
+03731d1f0b3daa7a0d49753c472e2bd137d272ce refs/tags/mybatis-jpetstore-6.0.0
+^43d68528f106f83a774616e38bf0fbcaa0d74021
+ac605889d1ecee8cebe193f0808280a378d3f8b5 refs/tags/mybatis-jpetstore-6.0.1
+^638d493652df7c2195c52c1b84870223b78e834a

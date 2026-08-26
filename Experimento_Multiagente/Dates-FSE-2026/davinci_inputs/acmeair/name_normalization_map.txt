@@ -1,0 +1,6 @@
+Auth Service -> Authentication Service
+Customer Service -> Customer Profile Service
+Flight Service -> Flight Search Service
+Booking Service -> Booking Service
+Administration Service -> Environment Administration Service
+Operation Service -> Environment Administration Service

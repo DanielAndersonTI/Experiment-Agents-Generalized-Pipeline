@@ -1,0 +1,176 @@
+{
+  "project": "pet-clinic",
+  "project_path": "systems/pet-clinic",
+  "generated_at_utc": "2026-06-25T17:58:13.448452+00:00",
+  "methodology": {
+    "type": "source-static-analysis",
+    "notes": [
+      "Analise estatica baseada em codigo-fonte Java, estrutura de build e imports.",
+      "Nao depende de compilacao local, pois o ambiente atual nao possui java/maven no PATH."
+    ]
+  },
+  "build_tools": [
+    "gradle",
+    "maven"
+  ],
+  "counts": {
+    "build_files": 2,
+    "source_roots": 2,
+    "java_files": 57,
+    "analyzed_type_files": 50,
+    "packages": 7,
+    "classes": 50,
+    "entrypoints": 10,
+    "main_classes": 30,
+    "test_classes": 20,
+    "ui_test_classes": 0,
+    "internal_package_dependencies": 6,
+    "external_package_dependencies": 163
+  },
+  "role_counts": {
+    "bootstrap": 1,
+    "configuration": 2,
+    "controller": 6,
+    "domain": 10,
+    "other": 7,
+    "service": 2,
+    "test": 20,
+    "ui": 2
+  },
+  "source_roots": [
+    "systems/pet-clinic/spring-petclinic-modulith/src/main/java",
+    "systems/pet-clinic/spring-petclinic-modulith/src/test/java"
+  ],
+  "package_roots": [
+    {
+      "package_root": "org.springframework.samples",
+      "package_count": 7
+    }
+  ],
+  "top_internal_dependencies": [
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic.owner.ui",
+      "target_package": "org.springframework.samples.petclinic.owner.domain",
+      "category": "internal",
+      "count": 17
+    },
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic.owner.application",
+      "target_package": "org.springframework.samples.petclinic.owner.domain",
+      "category": "internal",
+      "count": 7
+    },
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic",
+      "target_package": "org.springframework.samples.petclinic.vet.internal",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic.vet.internal",
+      "target_package": "org.springframework.samples.petclinic.owner",
+      "category": "internal",
+      "count": 3
+    },
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic.owner.application",
+      "target_package": "org.springframework.samples.petclinic.owner",
+      "category": "internal",
+      "count": 2
+    },
+    {
+      "project": "pet-clinic",
+      "source_package": "org.springframework.samples.petclinic.owner.ui",
+      "target_package": "org.springframework.samples.petclinic.owner.application",
+      "category": "internal",
+      "count": 2
+    }
+  ],
+  "top_external_dependency_roots": [
+    {
+      "dependency_root": "java.util",
+      "count": 62
+    },
+    {
+      "dependency_root": "jakarta.persistence",
+      "count": 58
+    },
+    {
+      "dependency_root": "org.junit.jupiter",
+      "count": 44
+    },
+    {
+      "dependency_root": "org.springframework.web",
+      "count": 37
+    },
+    {
+      "dependency_root": "org.springframework.boot",
+      "count": 37
+    },
+    {
+      "dependency_root": "org.springframework.test",
+      "count": 36
+    },
+    {
+      "dependency_root": "org.springframework.data",
+      "count": 22
+    },
+    {
+      "dependency_root": "org.springframework.http",
+      "count": 17
+    },
+    {
+      "dependency_root": "org.springframework.context",
+      "count": 13
+    },
+    {
+      "dependency_root": "java.time",
+      "count": 13
+    },
+    {
+      "dependency_root": "org.assertj.core",
+      "count": 13
+    },
+    {
+      "dependency_root": "org.springframework.beans",
+      "count": 13
+    },
+    {
+      "dependency_root": "jakarta.validation",
+      "count": 12
+    },
+    {
+      "dependency_root": "org.springframework.stereotype",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.modulith",
+      "count": 10
+    },
+    {
+      "dependency_root": "org.springframework.validation",
+      "count": 8
+    },
+    {
+      "dependency_root": "java.io",
+      "count": 7
+    },
+    {
+      "dependency_root": "org.hamcrest.Matchers",
+      "count": 7
+    },
+    {
+      "dependency_root": "org.springframework.aot",
+      "count": 6
+    },
+    {
+      "dependency_root": "org.springframework.core",
+      "count": 5
+    }
+  ]
+}

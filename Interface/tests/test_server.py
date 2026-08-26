@@ -29,13 +29,16 @@ class ServerRouteTests(unittest.TestCase):
 		return urlopen(request)
 
 	def test_home_page_and_system_creation(self):
-		self.assertIn(b"VIRTUS Architecture Interface", urlopen(self.base + "/").read())
+		home = urlopen(self.base + "/").read()
+		self.assertIn(b"/img/Logo-DAVINCI.png", home)
+		self.assertIn(b"og:image", home)
+		self.assertEqual(urlopen(self.base + "/img/Logo-DAVINCI.png").headers.get_content_type(), "image/png")
 		response = self.request_json("/api/systems", {"current_count": 0})
 		self.assertTrue(json.loads(response.read())["ok"])
 
 	def test_system_limit_is_rejected(self):
 		with self.assertRaises(HTTPError) as context:
-			self.request_json("/api/systems", {"current_count": 5})
+			self.request_json("/api/systems", {"current_count": 10})
 		self.assertEqual(context.exception.code, 400)
 
 	def test_report_requires_successful_run(self):

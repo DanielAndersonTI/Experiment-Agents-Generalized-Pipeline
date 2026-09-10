@@ -9,18 +9,18 @@ load_dotenv()
 
 
 # Verifica API KEY
-api_key = os.getenv("OPENROUTER_API_KEY")
-model_name = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat-v3-0324:free")
+api_key = os.getenv("DEEPSEEK_API_KEY")
+model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 if not api_key:
-    raise Exception("OPENROUTER_API_KEY não encontrada no arquivo .env")
+    raise Exception("DEEPSEEK_API_KEY não encontrada no arquivo .env")
 
-print("✓ API KEY do OpenRouter encontrada")
+print("✓ API KEY do DeepSeek encontrada")
 
 
-# Configura LLM via OpenRouter
+# Configura LLM via DeepSeek
 llm = LLM(
-    model=f"openrouter/{model_name}",
+    model=f"deepseek/{model_name}",
     api_key=api_key,
     temperature=0.2
 )

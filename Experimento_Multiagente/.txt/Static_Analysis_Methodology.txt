@@ -1,0 +1,516 @@
+STATIC SOURCE-CODE ANALYSIS PROCEDURE AND STRUCTURAL EVIDENCE CONSTRUCTION
+Methodological Supplement for a Software-Architecture Study
+Repository-Grounded Description of the Implemented Source-Based Analysis
+
+Scope note
+----------
+This document describes the analysis actually implemented by
+static analysis/analyze_systems.py. It is a lightweight, offline,
+source-based procedure. It is not a compiler analysis, a bytecode
+analysis, a runtime trace, or a call-graph reconstruction.
+
+Current artifact snapshot: 2026-08-25T23:25:33.045868+00:00.
+The generated corpus profile below contains 8 projects.
+
+
+1. PURPOSE AND ANALYTICAL SCOPE
+------------------------------
+
+The study uses static analysis to construct a reproducible layer of
+structural evidence for architectural reasoning. The procedure inspects
+Java source code, build descriptors, and explicit import declarations
+from the repository snapshot. Its purpose is to expose size,
+organization, and static coupling indicators that can contextualize a
+proposed service decomposition. It does not attempt to derive a
+uniquely correct microservice architecture.
+
+Recommended article wording:
+"The analysis produces structural evidence from source code, build
+descriptors, and explicit import declarations. It was not designed to
+reconstruct runtime behavior or to infer a uniquely correct
+microservice decomposition."
+
+The active analyzer is the Python standard-library runner located at
+static analysis/analyze_systems.py. Although the repository also
+contains a SootUp directory, the configured runner does not invoke
+SootUp. The implementation performs no Java compilation, Maven or
+Gradle execution, bytecode inspection, application execution, dynamic
+instrumentation, or dependency resolution against a build tool. This
+design was appropriate for an offline source-level inventory, including
+environments where Java and Maven are unavailable on PATH.
+
+For clarity in the article, the procedure should be described as
+source-based, regex-assisted static analysis. Terms such as call graph,
+runtime dependency, message flow, verified architectural layer, or
+ground-truth service boundary should not be used for these artifacts.
+
+
+2. INPUTS, CORPUS DISCOVERY, AND EXECUTION
+------------------------------------------
+
+The runner treats each immediate subdirectory of systems/ as a separate
+project. Project directories and discovered files are sorted, giving a
+stable traversal order for a fixed source snapshot. For every project,
+the analyzer recursively discovers Java files and build descriptors. It
+scans all remaining Java source categories, including main, test,
+UI-test, and other Java directories.
+
+  Element           | Operational rule                          | Interpretation for the study
+  ------------------+-------------------------------------------+------------------------------------------------------------------
+  Project unit      | Each immediate child directory of         | One source-analysis unit; it is not necessarily one deployable
+                    | systems/                                  | application or one microservice.
+  Java source       | Recursive discovery of *.java outside     | All eligible Java source sets are included, including production
+                    | ignored directories                       | and test-related code.
+  Build descriptor  | pom.xml, build.gradle, build.gradle.kts   | Evidence of build structure only; not a count of business modules
+                    |                                           | or service candidates.
+  Java descriptor   | package-info.java, module-info.java       | Counted as discovered Java descriptor files, but excluded from
+                    |                                           | per-type records.
+  Ignored dirs      | .git, .github, .gradle, .idea, .vscode,   | Generated, IDE, dependency, and build-output directories are not
+                    | build, dist, node_modules, out, target    | scanned.
+
+Source text is decoded by trying UTF-8, UTF-8 with BOM, and Latin-1,
+followed by UTF-8 with replacement if necessary. This permits analysis
+of heterogeneous legacy source trees without requiring a successful
+compilation environment.
+
+Reproduction command:
+    python "static analysis\analyze_systems.py"
+
+The runner writes per-project results beneath
+analysis-results/static-analysis/ and writes an aggregate index at the
+same root. Fixed artifact names are overwritten for every project
+discovered in the current run. The implementation does not remove stale
+project directories that may remain from an earlier, broader corpus; a
+replication package should therefore archive or clean the output
+directory before a new corpus run and record the repository revision
+and analyzer version.
+
+
+3. END-TO-END ANALYSIS WORKFLOW
+-------------------------------
+
+The implemented workflow is summarized below. Every later aggregation
+is derived from per-file records created during the Java-source scan.
+
+  Step | Operation                                                    | Produced evidence
+  -----+--------------------------------------------------------------+---------------------------------------------------------------
+  1    | Discover project directories, build descriptors, and         | Sorted project and file inventories; ignored generated/build
+       | eligible Java files.                                         | directories.
+  2    | Parse Maven or Gradle descriptors without executing a build. | Build tool, descriptor location, artifact identifier, packaging,
+       |                                                              | Java-version cue, plugins, declared submodules.
+  3    | Sanitize Java text for selected pattern matching and extract | Package, imports, annotations, primary type, line counts,
+       | one record per non-descriptor file.                          | method counts, source-set label, role, entrypoint cues.
+  4    | Construct project-wide known type and package sets, then     | Internal versus external import declarations and external
+       | classify imports.                                            | dependency-root frequencies.
+  5    | Aggregate cross-package imports into weighted directed       | Package dependencies and occurrence-weighted incoming/outgoing
+       | package relations.                                           | internal dependency measures.
+  6    | Write detailed per-project artifacts and consolidated corpus | CSV and JSON evidence for review, prompt construction, and
+       | files.                                                       | reporting.
+
+Pipeline lineage:
+    systems/ -> project and build discovery -> Java-file scan ->
+    per-file records -> package/import aggregation -> per-project
+    artifacts -> consolidated index -> bounded prompt evidence.
+
+
+4. BUILD-STRUCTURE EXTRACTION AND SOURCE-TO-MODULE MAPPING
+----------------------------------------------------------
+
+Every discovered pom.xml produces one Maven build-descriptor record.
+Maven extraction uses XML parsing to collect the root artifactId, direct
+packaging value (jar when omitted), selected Java-version properties
+(java.version, java.release, maven.compiler.release,
+maven.compiler.source, and maven.compiler.target), and direct
+modules/module declarations. If an XML parse error occurs, the runner
+retains a record containing parse_error and continues instead of
+aborting the project analysis.
+
+Each build.gradle or build.gradle.kts produces one Gradle
+build-descriptor record. The extractor uses regular expressions to
+identify plugin identifiers declared through the id syntax and selected
+Java-version patterns. Packaging is labeled war only when the detected
+plugin list contains war; otherwise it is labeled jar. This is
+intentionally a lightweight descriptor inspection: it does not execute
+Gradle, resolve dynamic scripts, or establish a complete dependency
+graph.
+
+A Java file is associated with the deepest enclosing directory that
+contains a discovered build descriptor. This source-to-module mapping is
+a path-based organizational association, not a semantic module model.
+Consequently, build_files and declared_submodules are reported as
+build-structure measures and must not be interpreted as business-module
+counts, microservice counts, or deployment-unit counts.
+
+
+5. JAVA-SOURCE PROCESSING AND FILE-LEVEL MEASURES
+--------------------------------------------------
+
+For each eligible Java file other than package-info.java and
+module-info.java, the procedure creates one source record. Comments and
+string or character literals are removed with regular expressions before
+primary type detection, method counting, and main-method matching.
+Package declarations, import declarations, and annotations are
+extracted from the original text. This distinction reduces obvious false
+matches in comments and literals while retaining syntactic declarations
+as written in the source.
+
+The primary type detector recognizes class, interface, enum, record, and
+annotation-type declarations. If several declarations occur in a file,
+it favors a declaration whose name matches the filename; otherwise it
+retains the first match. If no declaration is found, the file is
+retained with type kind unknown and the file stem as its type name.
+Thus, the legacy artifact name classes.csv should be read as analyzed
+Java type files: entries can denote classes, interfaces, enums, records,
+annotation types, or unknown declarations. Additional or nested types
+are not independently represented.
+
+  Measure                | Construction rule                             | Interpretation and caveat
+  -----------------------+-----------------------------------------------+--------------------------------------------------------------
+  source_lines           | Physical number of lines in each analyzed     | A file-size measure; descriptors are excluded.
+                         | type file.                                    |
+  effective_source_lines | Nonblank lines after regex-based comment      | A lightweight eLOC approximation, not a compiler or AST LOC
+                         | removal.                                      | metric.
+  methods                | Regex-detected method bodies plus             | Approximate count; declaration-only, unusual, generated, or
+                         | constructors; an opening brace is required.   | modern syntax can be missed.
+  public_methods         | Detected method/constructor signatures that   | Uses the same signature heuristic and is not an API inventory.
+                         | contain public.                               |
+  source_set             | Path-derived label: main, test, ui-test, or   | A diagnostic path label, not build-tool metadata; every label is
+                         | other-java.                                   | included in the analysis.
+
+The source-root heuristic searches for a src/.../java path. Exact
+trailing src/main/java and src/test/java paths become main and test,
+paths containing /ui_tests/ become ui-test, and all remaining files
+become other-java. Since this is a path heuristic rather than Maven or
+Gradle metadata, main_classes and test_classes should not be treated as
+authoritative production-versus-test totals. All source-set categories
+can contribute imports and package edges.
+
+
+6. HEURISTIC ROLES AND ENTRYPOINT CANDIDATES
+---------------------------------------------
+
+The analysis attaches one mutually exclusive role label to each
+analyzed type file. These labels are deterministic heuristic cues, not
+verified architectural classifications. The matching order matters:
+test and UI-test source-set labels take precedence, followed by
+recognized annotations, package-name tokens, a type-name suffix, and an
+other fallback. A type can therefore receive only one role even when its
+code exhibits several cross-cutting characteristics.
+
+  Priority | Evidence                                                                        | Assigned role(s)
+  ---------+---------------------------------------------------------------------------------+-------------------------------------------------------------
+  1        | source_set is test or ui-test                                                   | test
+  2        | Annotations: Controller, RestController, Path, WebServlet; Service; Repository; | controller; service; repository; configuration; domain
+           | Configuration; Entity, Embeddable, MappedSuperclass, or Document                |
+  3        | Package-name cues such as .controller, .web, .service, .dao, .domain, .event,   | controller, service, repository, domain, event, aspect,
+           | .aspect, .exception, .persistence, .util, or .ui                                | exception, persistence, utility, or ui
+  4        | Type name ends in Application                                                    | bootstrap
+  5        | No prior rule matches                                                           | other
+
+Entrypoint candidates are stored when at least one cue is present: a
+public static void main method; SpringBootApplication or
+ApplicationPath; a controller-like annotation; or a type name ending in
+Application. The artifact preserves the reason or reasons. These
+candidates may include tests and do not establish routability,
+application startup success, endpoint completeness, or runtime
+reachability. They should be reported as heuristic entrypoint
+candidates.
+
+Recommended article wording:
+"Roles and entry points are heuristic labels derived from source paths,
+annotations, package names, and naming conventions; they are used as
+contextual evidence and not as ground-truth architectural
+classifications."
+
+
+7. IMPORT CLASSIFICATION AND PACKAGE-DEPENDENCY CONSTRUCTION
+------------------------------------------------------------
+
+The dependency layer is constructed from syntactic Java import
+declarations, including wildcard and static imports. Before classifying
+them, the analyzer completes a first pass over the project to collect
+one fully qualified primary type and one package name from every
+analyzed type file. An explicit import is internal when it exactly
+matches a known fully qualified primary type or when its inferred target
+package exactly matches a known project package. A wildcard import is
+internal when its imported package is equal to, or an ancestor of, a
+known project package. All other imports are classified as external.
+
+For each import declaration, the target package is obtained by removing
+the final type/member segment, or by removing the wildcard suffix. A
+directed package relation is emitted only when source and target
+packages differ. Formally, each emitted relation is
+e = (p_s, p_t, c), where p_s is the importing package, p_t is the
+inferred imported package, and c is internal or external. Its weight
+w(e) is the number of import declarations aggregated into that same
+directed relation and category across all analyzed files.
+
+  Output measure                            | Definition                                                    | Do not interpret as
+  ------------------------------------------+---------------------------------------------------------------+--------------------------------------------
+  internal_imports                          | All import declarations classified as internal, including     | Runtime invocations or a call count.
+                                            | same-package imports.                                         |
+  internal_package_dependencies             | Number of distinct emitted internal source-package to         | A global graph count across all projects, a
+                                            | target-package relations.                                     | message count, or a deployment dependency.
+  internal_package_dependency_occurrences   | Sum of the import-declaration weights over emitted internal   | Distinct package-neighbor degree.
+                                            | package relations.                                            |
+  incoming/outgoing_internal_dependencies   | Occurrence-weighted sums for each package.                    | Unweighted in-degree or out-degree.
+  external dependency root                  | First two segments for java, javax, and jakarta; first three  | Resolved library, artifact, or runtime
+                                            | segments otherwise.                                           | dependency.
+
+Same-package imports contribute to import totals but intentionally do
+not create package edges. Package relations may cross build-module
+boundaries because classification is based on the project-wide known
+type/package set. The classifier does not resolve fully qualified
+references without imports, inheritance, reflection, dependency
+injection, generated code, configuration-driven links, framework
+conventions, or runtime behavior. Static imports receive no special
+semantic resolution beyond the parsed target text.
+
+Recommended article wording:
+"Package relations represent aggregated static import declarations and
+are therefore interpreted as indicators of structural coupling, rather
+than as runtime calls, message exchanges, traffic volumes, or deployment
+dependencies."
+
+
+8. GENERATED ARTIFACTS AND AGGREGATE OUTPUTS
+---------------------------------------------
+
+The runner writes six canonical artifacts for every discovered project.
+Lists are serialized as pipe-delimited text in CSV files. summary.json
+contains complete counts and selected highlights; the full CSV artifacts
+retain the detailed records needed for later inspection.
+
+  Artifact                    | Granularity               | Main contents
+  ----------------------------+---------------------------+--------------------------------------------------------------
+  summary.json                | Project                   | Project path and timestamp; build tools; complete counts;
+                              |                           | role and type-kind counts; source roots; top package roots;
+                              |                           | top internal dependencies; frequent external roots.
+  modules.csv                 | Build descriptor          | Module path, tool, build file, artifact identifier, packaging,
+                              |                           | Java-version cue, plugins, declared submodules, parse_error.
+  classes.csv                 | Analyzed Java type file   | Source set/root, file, package, type, role, LOC/eLOC, method
+                              |                           | counts, import counts, entrypoint flags/reasons, annotations.
+  package_dependencies.csv    | Directed package relation | Source package, target package, internal/external category,
+                              |                           | aggregated import-declaration weight.
+  package_metrics.csv         | Package                   | Type-file count, method counts, occurrence-weighted
+                              |                           | incoming/outgoing internal dependencies, role histogram.
+  entrypoints.csv             | Heuristic candidate       | Module, package, type, source file, entrypoint-detection
+                              |                           | reason(s).
+
+At the analysis-results/static-analysis/ root, index.json records the
+projects analyzed and embeds their summaries; project_summaries.csv
+contains one aggregate-count row per project; and manifest.json declares
+the artifact layout. summary.json is concise but not exhaustive: its
+presentation highlights retain at most 10 package roots, 25 internal
+dependencies, and 20 external dependency roots. The detailed CSV files
+should be used whenever the full distribution is needed.
+
+
+9. USE OF STATIC EVIDENCE IN ARCHITECTURE-GENERATION PROMPTS
+-------------------------------------------------------------
+
+The static-analysis loader reads the named per-project JSON and CSV
+artifacts into a structured data object. The prompt builder then
+produces a bounded textual summary instead of sending raw source code or
+an unbounded artifact dump. It includes summary counts, build tools,
+role counts, highlighted package roots, top internal dependencies,
+frequent external roots, detected modules, package metrics sorted by
+class count, internal dependency edges sorted by their weight, and
+heuristic entrypoints.
+
+The default prompt limits are 20 rows per displayed category and 18,000
+characters for the static-evidence section. Standard classes.csv rows are
+retained in the loaded data for traceability but are not enumerated
+directly by the default static-evidence prompt builder. Other
+supplementary JSON, CSV, TXT, or Markdown artifacts can be previewed as
+extras, with additional limits. Therefore, architectural prompting
+consumes selected aggregate evidence while the static-analysis directory
+preserves the fuller source-derived record.
+
+Static evidence informs architectural reasoning; it does not prescribe
+service boundaries. Any generated decomposition must still be assessed
+against requirements and expert review criteria.
+
+
+10. CURRENT CORPUS PROFILE
+---------------------------
+
+The current project_summaries.csv snapshot, generated at
+2026-08-25T23:25:33.045868+00:00, covers 8 projects, 16 build
+descriptors, 5 declared submodules, 25 source roots, 1,156 Java files,
+and 17 descriptor files excluded from per-type records. It contains
+1,139 analyzed type files across 160 packages, 18,539 heuristic
+method/constructor matches, and 131,341 effective source lines.
+
+The aggregate of project-level counts contains 9,846 import
+declarations (3,571 internal and 6,275 external), 1,959 distinct
+emitted package relations (563 internal and 1,396 external), and 88
+heuristic entrypoint candidates. The weighted occurrence totals are
+3,565 internal and 6,275 external. These are sums of per-project
+measures, not counts on one globally deduplicated package graph.
+
+  Project       | Build files | Java files | Type files | Packages | Methods | eLOC    | Internal imports | Internal package edges | Entrypoint candidates
+  --------------+-------------+------------+------------+----------+---------+---------+------------------+------------------------+----------------------
+  7ep           | 3           | 119        | 109        | 14       | 670     | 7,826   | 112              | 13                     | 14
+  acmeair       | 1           | 32         | 32         | 10       | 151     | 2,398   | 38               | 13                     | 8
+  cargo-tracker | 1           | 109        | 109        | 28       | 617     | 6,343   | 355              | 110                    | 5
+  daytrader7    | 4           | 108        | 108        | 11       | 1,011   | 10,443  | 235              | 41                     | 45
+  Jokul         | 1           | 28         | 28         | 12       | 119     | 967     | 45               | 19                     | 5
+  jpetstore     | 1           | 43         | 43         | 6        | 366     | 3,141   | 61               | 5                      | 1
+  pet-clinic    | 2           | 57         | 50         | 7        | 204     | 2,438   | 34               | 6                      | 10
+  TNTConcept    | 3           | 660        | 660        | 72       | 15,401  | 97,785  | 2,691            | 356                    | 0
+
+Table interpretation: Type files denotes analyzed_type_files, which
+excludes Java descriptor files and is not restricted to class
+declarations. Internal package edges denotes the distinct internal
+source-package to target-package relations, not all package edges. For
+example, the current Cargo Tracker snapshot reports 110 internal package
+edges out of 313 total package edges, while TNTConcept reports 356
+internal edges out of 931 total package edges.
+
+
+11. REPRODUCIBILITY PROTOCOL FOR THE ARTICLE
+---------------------------------------------
+
+A replication package should preserve the source snapshot and record the
+exact conditions under which the analysis was generated. The runner
+itself records a generated_at_utc timestamp in each summary, but it does
+not capture all provenance needed for a standalone replication.
+
+  - Record the repository revision or source archive checksum, the
+    execution date, operating system, Python version, and the checksum
+    or exact copy of static analysis/analyze_systems.py.
+
+  - Archive the input systems/ snapshot and the resulting
+    analysis-results/static-analysis/ directory together. Do not rely
+    only on the current working tree.
+
+  - Run the stated command from the repository root, then retain
+    project_summaries.csv, index.json, manifest.json, and the six
+    per-project artifacts.
+
+  - Before regeneration, ensure that the output directory reflects the
+    intended corpus. The runner overwrites current project artifacts but
+    does not remove stale directories from a previous corpus.
+
+  - Report whether test and UI-test sources remain included, as they do
+    in the current implementation. If any later filtering is applied,
+    report it as a separate post-processing step.
+
+  - Use the terms source-based, import-derived, and heuristic
+    consistently in the manuscript, tables, figure captions, and
+    threats-to-validity discussion.
+
+
+12. LIMITATIONS AND INTERPRETATION BOUNDARIES
+---------------------------------------------
+
+The analysis is intentionally lightweight. Its validity is strongest as
+a consistent structural inventory and evidence source for the fixed
+repository snapshot, rather than as a full semantic program analysis.
+The following boundaries should be explicit in the article.
+
+  - The Java extractor is regex-based, not AST- or compiler-based. Type,
+    method, annotation, and entrypoint counts may have false positives or
+    false negatives, especially with unusual syntax, nested types,
+    multiline constructs, generated code, or declaration-only interface
+    and abstract methods.
+
+  - One primary type is recorded per Java file. Multiple top-level or
+    nested declarations in the same file are not independently
+    represented.
+
+  - Role labels and entrypoint candidates are inferred from paths,
+    annotations, package strings, and naming conventions. They are
+    contextual indicators, not validated layer assignments or exhaustive
+    interface inventories.
+
+  - Import-derived relations omit fully qualified references without
+    imports, reflection, dependency injection, configuration-driven
+    links, generated code, framework-managed interactions, data stores,
+    and runtime behavior.
+
+  - An import edge is not evidence of a method invocation, HTTP request,
+    asynchronous message, data-flow relation, traffic volume, deployment
+    dependency, or temporal execution order.
+
+  - Build descriptors are inspected without resolving parent POMs,
+    dependencies, Gradle scripts, or build execution. Build-file counts
+    must not be used as business-module or microservice counts.
+
+  - Source-set labels are path-based and include tests in the evidence.
+    They should not support strong production-code claims without
+    independent validation.
+
+  - No dedicated parser-accuracy test suite was identified for the
+    runner; repository tests exercise surrounding UI/data integration
+    rather than validating full Java-language coverage.
+
+
+APPENDIX A. ARTICLE-READY METHODOLOGY TEXT
+-------------------------------------------
+
+We implemented a lightweight, source-based static-analysis procedure to
+construct structural evidence for the architectural-decomposition task.
+The procedure processed each project directory under the study corpus
+and recursively inspected Java source files together with Maven and
+Gradle build descriptors. It was executed offline through a Python
+standard-library runner and did not compile or execute the systems,
+resolve dependencies through build tools, perform bytecode analysis, or
+collect runtime traces. Consequently, the resulting artifacts
+characterize source-level structure rather than dynamic behavior.
+
+For each eligible Java file, the analyzer extracted package
+declarations, import declarations, annotations, one primary type
+declaration, approximate method and public-method counts, physical and
+effective source-line counts, a path-derived source-set label, and
+heuristic role and entrypoint indicators. Comments and string literals
+were sanitized before selected pattern matches, while declarations were
+collected from the source text. Role labels were inferred from
+source-set, annotation, package-name, and naming cues, and entrypoint
+candidates were inferred from main-method, application, and
+controller-related cues. These labels were used as contextual evidence
+rather than as verified architectural facts.
+
+The dependency evidence was derived from explicit import declarations.
+After collecting the project-wide set of known source types and
+packages, imports were classified as internal or external and
+aggregated into directed source-package to target-package relations.
+The edge weight corresponds to the number of import declarations
+contributing to the relation. Accordingly, package relations were
+interpreted as indicators of static structural coupling, not as runtime
+calls, message exchanges, traffic volumes, deployment dependencies, or
+causal execution paths. The analysis produced project-level summaries,
+build-descriptor records, type-file records, package metrics, weighted
+package dependencies, and heuristic entrypoint records, along with a
+consolidated corpus summary.
+
+For architecture-generation prompts, the complete artifacts were
+retained for traceability, whereas a bounded summary of counts, build
+information, package metrics, prominent internal dependencies, external
+roots, and entrypoint candidates was provided as structural context.
+This separation ensured that static evidence informed architectural
+reasoning without being treated as a direct prescription of service
+boundaries. The study reports the procedure and its limitations
+explicitly because its regex-based extraction and import-derived
+relations are approximate by design.
+
+
+APPENDIX B. SUGGESTED FIGURE CAPTIONS
+--------------------------------------
+
+  - Static-analysis pipeline:
+    systems/ -> project and build discovery -> Java-file scan ->
+    per-file records -> package/import aggregation -> per-project
+    artifacts -> consolidated index -> bounded prompt evidence.
+
+  - Import-to-package aggregation:
+    several source files in one package may import types from another
+    package; their declarations are aggregated into one weighted
+    directed relation. The relation is not a runtime-call graph.
+
+  - Artifact lineage:
+    each project produces summary.json, modules.csv, classes.csv,
+    package_dependencies.csv, package_metrics.csv, and entrypoints.csv;
+    project_summaries.csv, index.json, and manifest.json consolidate the
+    corpus.

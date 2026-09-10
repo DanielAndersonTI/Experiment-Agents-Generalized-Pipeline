@@ -1,0 +1,174 @@
+ANALYSIS OF THE THREE C3 RUNS (WITHOUT COMMUNICATION SPECIALIST — AGENT 2 REMOVED)
+TEST 1 — Run ID 20260908_092439_766435
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Removing Agent 2 did not affect service identification in most systems. Only Cargo-Tracker and TNTConcept maintained limited recall, a pattern already observed in the other configurations.
+
+Interactions (F1-score)
+System	F1
+7ep	0.9524
+AcmeAir	0.5714
+Cargo-Tracker	0.0000
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.9412
+PetClinic	0.6667
+TNTConcept	0.6154
+Commentary:
+Significant drop compared to C1 and C2. Cargo-Tracker scored zero interactions, while AcmeAir and PetClinic fell to 0.5714 and 0.6667, respectively. Without the communication specialist, the pipeline loses the ability to recover implicit interactions, especially in systems with less explicit requirements.
+
+YAML
+YAML reflected the refined Proposal A, but with fragmentation in Cargo-Tracker, AcmeAir, PetClinic, and TNTConcept, caused by internal commas in Agent 1's CSV. For the other systems, generation was clean. Endpoints remain generic.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	6022	5391	11413
+AcmeAir	8676	7558	16234
+Cargo-Tracker	7128	6293	13421
+DayTrader7	5202	23592	28794
+Jokul	4905	2994	7899
+JPetStore	10162	6499	16661
+PetClinic	4467	2766	7233
+TNTConcept	12951	4653	17604
+Total	59513	59746	119259
+Total for Test 1: 119,259 tokens.
+
+Highlights:
+
+Low cost, similar to C0, because there is no Agent 2 or Agent 3.
+
+DayTrader7 had atypical consumption by Agent 4 (23,592 tokens), indicating that refinement can be heavy in some cases.
+
+Agent 4 consumed almost the same total as Agent 1, doubling the cost compared to C0.
+
+TEST 2 — Run ID 20260908_095437_245808
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.7692
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Cargo-Tracker was the only system with a significant drop in services (F1 0.7692). Agent 1 created the Location Management Service and Voyage Management Service, which are not in the reference, indicating over-decomposition of logistics capabilities without Agent 2 to balance it.
+
+Interactions (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.5600
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.4286
+PetClinic	1.0000
+TNTConcept	0.7302
+Commentary:
+Severe drops in JPetStore (0.4286) and Cargo-Tracker (0.5600). In JPetStore, Agent 1 generated only 3 correct interactions, missing most relationships with order and payment. AcmeAir and PetClinic recovered, but instability between executions is evident.
+
+YAML
+Occasional fragmentation, mainly in systems with Agent 1 CSV containing internal commas (e.g., Audit Service with "authentication", Order Service with "delivery addresses"). The absence of Agent 2 did not cause new problems, but also did not solve the known limitations.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	4176	7621	11797
+AcmeAir	6028	3285	9313
+Cargo-Tracker	16213	7882	24095
+DayTrader7	6509	14519	21028
+Jokul	4372	2990	7362
+JPetStore	5803	7011	12814
+PetClinic	5259	2834	8093
+TNTConcept	24037	16374	40411
+Total	72397	62516	134913
+Total for Test 2: 134,913 tokens.
+
+Highlights:
+
+TNTConcept had high consumption from Agent 1 (24,037 tokens) and Agent 4 (16,374), with a failed call and retry, increasing cost and duration.
+
+Cargo-Tracker also consumed a lot (16,213 tokens from Agent 1), reflecting the complexity of the requirements.
+
+Agent 4 continues to account for about 46% of the total cost.
+
+TEST 3 — Run ID 20260908_100500_566115
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Services returned to the stable pattern. Cargo-Tracker's drop in Test 2 was an isolated event.
+
+Interactions (F1-score)
+System	F1
+7ep	0.9524
+AcmeAir	1.0000
+Cargo-Tracker	0.8421
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.9412
+PetClinic	1.0000
+TNTConcept	0.7077
+Commentary:
+Recovery in Cargo-Tracker (0.8421) and JPetStore (0.9412), but TNTConcept dropped to 0.7077. Variability between executions is lower than in C0, but still present, showing that the refiner helps partially stabilize interactions.
+
+YAML
+YAML was clean in most systems, with occasional fragmentation in TNTConcept and Cargo-Tracker, mainly in fields with internal commas. The pattern is the same as the other C3 runs.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	5149	4624	9773
+AcmeAir	8053	3470	11523
+Cargo-Tracker	10263	14591	24854
+DayTrader7	8056	11761	19817
+Jokul	4281	2872	7153
+JPetStore	6988	7315	14303
+PetClinic	5077	2595	7672
+TNTConcept	8085	5562	13647
+Total	55952	52790	108742
+Total for Test 3: 108,742 tokens.
+
+Highlights:
+
+Total cost lower than Test 2, but still double that of C0.
+
+Cargo-Tracker and DayTrader7 had the highest consumption, both in Agent 1 and Agent 4.
+
+Agent 4 continues to have significant weight, although its contribution to quality is questionable in some systems.
+
+GENERAL SYNTHESIS OF THE THREE C3 RUNS
+Services robust, except in over-decomposition. Removing Agent 2 did not impact service identification in most cases. However, in Test 2, Agent 1 created extra services in Cargo-Tracker, showing that without the communication specialist, granularity can become uncontrolled.
+
+Interactions are the weak point of C3. Interaction F1 scores were, on average, lower than in C1 and C2. In Cargo-Tracker, JPetStore, and AcmeAir, the absence of Agent 2 resulted in severe losses in at least one execution. The refiner (Agent 4) does not compensate for the lack of specialized communication analysis.
+
+C3 cost is intermediate-low. The C3 runs ranged from 108k to 134k tokens, well below C1 and C2, but above C0 (47k to 65k). Agent 4 adds roughly the same cost as Agent 1.
+
+YAML remains fragile without consolidation. Without Agent 3 to clean and validate, the YAML directly reflects the problems of Agent 1's CSV. This was expected, since C3 has no selection/cleaning stage.
+
+C3 stability is similar to C1, but lower than C2. Variability between executions exists, especially in Cargo-Tracker and TNTConcept. The refiner helps reduce some of the noise, but does not eliminate the instability caused by the absence of Agent 2.
+
+Implications for the paper:
+
+Agent 2 (Communication Specialist) plays a critical role in recovering interactions. Its removal leads to significant drops in systems with less explicit requirements.
+
+Agent 4 (Refiner) contributes marginally to quality when Agent 2 is present, but is insufficient to compensate for its absence.
+
+C3's cost-benefit is unfavorable: it spends double the tokens of C0, but does not reach the quality of C1/C2 in interactions.
+
+Pipeline robustness depends strongly on the combination of Agent 1 + Agent 2 + Agent 3. Removing any of them degrades performance in complex scenarios.

@@ -1,0 +1,362 @@
+Data do FSE: 02/10/26
+
+1º RQ: O que levou a melhorar os resultados
+2º RQ
+3º RQ
+
+Feeedback do ISE que poderiam ser adicionados ou melhorados. Nao somos obrigado a inserir todos, apenas aqueles que sejam relevantes para o FSE:
+
+Dear Daniel Silva,
+
+Congratulations, your submission #33018 entitled "Designing and Evaluating an Agentic AI Pipeline for Microservice Architecture Generation from User Stories" for The Fifth Brazilian Workshop on Intelligent Software Engineering (ISE’26) (ISE 2026) has been accepted.
+
+The reviews are bellow or can be found at
+https://jems3.sbc.org.br/submissions/33018/
+
+Best regards,
+ISE 2026
+Technical Program Co-Chairs.
+
+
+
+Review 1
+
+*** [Relevance] How relevant is the paper to the workshop topics?
+   1: (Marginally Relevant) The topic is only loosely connected to the workshop’s focus; unlikely to contribute meaningfully to discussions.
+   2: (Somewhat Relevant) There is partial alignment with the workshop themes, but the core focus seems outside the main scope.
+   3: (Relevant) The paper addresses topics clearly within the workshop’s domain and contributes to its objectives.
+   4: (Highly Relevant) Directly addresses core workshop themes and is expected to stimulate valuable discussion and insight.
+
+  Evaluation = 4: (Highly Relevant) Directly addresses core workshop themes and is expected to stimulate valuable discussion and insight.
+
+*** [Novelty] How original or innovative are the ideas or contributions in the paper?
+   1: (Lacks Novelty) Ideas are well known or have been explored extensively in previous work.
+   2: (Limited Novelty) Introduces minor improvements or small variations on established ideas.
+   3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+   4: (Highly Novel) Introduces innovative concepts, methods, or results that represent a significant advance.
+
+  Evaluation = 3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+
+*** [Rigor] How rigorous and well-founded is the research methodology?
+   1: (Weak) The methodology is unclear, flawed, or inappropriate for the research questions.
+   2: (Acceptable) Methodology is generally sound but has notable limitations or lacks depth.
+   3: (Strong) Well-structured and appropriate methodology, with reasonable justification and execution.
+   4: (Excellent) Methodology is robust, clearly explained, and well-suited to the research problem.
+
+  Evaluation = 3: (Strong) Well-structured and appropriate methodology, with reasonable justification and execution.
+
+***  [Verifiability and Transparency] Are the results reproducible and clearly reported?
+   1: (Poor) Critical details are missing, making replication difficult or impossible.
+   2: (Fair) Some key information is present, but several gaps remain.
+   3: (Good) Most of the research can be verified or reproduced; documentation is mostly complete.
+   4: (Excellent) Full transparency; all necessary information is included for replication and validation.
+
+  Evaluation = 4: (Excellent) Full transparency; all necessary information is included for replication and validation.
+
+*** [Presentation] Is the paper well-written and clearly structured?
+   1: (Poor) The paper is difficult to follow due to poor writing, structure, or formatting.
+   2: (Needs Improvement) Writing is understandable but lacks clarity or coherence in places.
+   3: (Clear) The paper is mostly well-written and logically structured.
+   4: (Very Well Presented) Excellent writing, clear argumentation, and professional formatting.
+
+  Evaluation = 3: (Clear) The paper is mostly well-written and logically structured.
+
+*** [Position] What is your overall recommendation regarding the paper?
+   0: (Desk Reject) The paper is out of scope for the ISE Workshop
+   1: (Strong Reject) The paper has serious issues and should not be accepted under any circumstances.
+   2: (Weak Reject) The paper has some merit but does not meet the acceptance standards.
+   3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+   4: (Strong Accept) The paper makes a valuable contribution and should definitely be accepted.
+
+  Evaluation = 3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+
+*** [Familiarity] How familiar are you with the paper’s subject area?
+
+   1: (Low Familiarity) Not an expert; evaluation is from an informed outsider’s perspective.
+   2: (Moderate Familiarity) Some knowledge of the area; understands the key concepts.
+   3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+   4: (Expert) Deep and extensive knowledge; expert-level familiarity with the subject matter.
+
+  Evaluation = 3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+
+*** [Paper Summary] Briefly summarize the paper’s main contributions and ideas.
+
+
+  Evaluation = This paper designs and evaluates an Agentic AI pipeline that generates
+microservice architectures directly from user stories. The pipeline uses three
+LLM agents (built on CrewAI/LangChain with Gemini): a conservative DDD-oriented
+architect, an exploratory event-driven architect, and a validator that
+consolidates the two proposals under different policies (Pure Intersection,
+Fallback, and Asymmetric Consolidation). It is evaluated on two benchmark
+systems (Spring PetClinic and BookStore) against reference decompositions,
+using Precision/Recall/F1 for both service identification (RQ1) and
+inter-service communication recovery (RQ2), with five repeated runs to account
+for LLM non-determinism. The results show high service-identification accuracy
+(mean F1 ~0.95, up to 1.00) and lower, more variable interaction recovery
+(mean combined F1 ~0.74), with a tendency to overestimate dependencies. The
+exploratory second agent performed poorly and dragged down strict-consensus
+consolidation, whereas asymmetric consolidation preserved the primary agent&#x27;s
+quality. Crucially, the multi-agent pipeline did not consistently outperform a
+single-LLM few-shot baseline from prior work; the authors honestly reframe the
+contribution as a structured, transparent, extensible reasoning process rather
+than an accuracy gain, and conclude that consolidation strategy matters more
+than the number of agents. A full replication package is provided.
+
+*** [Comments to Authors] Elaborate on the reasoning behind the scores, considering the paper’s strengths and weaknesses, especially concerning RELEVANCE, NOVELTY, RIGOR, TRANSPARENCY, ORGANIZATION, and PRESENTATION. Provide suggestions on how the authors can improve the paper
+
+
+
+  Evaluation = I liked this paper, and I want to start with what I liked most: its honesty.
+It would have been easy to spin a multi-agent pipeline as a win, and instead
+you report clearly that it does not consistently beat a single-LLM baseline and
+then reframe the contribution around transparency and extensibility. That kind
+of intellectual honesty is exactly what this community needs, and it made the
+paper more convincing, not less. I am recommending weak accept, with a few
+things I think would strengthen it. Going dimension by dimension.
+
+Relevance. Strong fit for ISE. Agentic/multi-agent LLM pipelines for a core
+software engineering task (microservice architecture generation from
+requirements) sit squarely in AI4SE, and the paper is well positioned to
+generate discussion at the workshop.
+
+Novelty. Moderate. Multi-agent architecture generation is an emerging line
+(you position well against ArchiLLM and Pereira et al.), so the pipeline itself
+is not radically new. The genuinely fresh part is the comparison of
+consolidation policies and the finding that consolidation strategy matters more
+than the number of agents, together with the negative result on multi-agent vs
+single-LLM. Those are the contributions I would foreground, because they are
+what a reader could not have predicted.
+
+Rigor. Good overall, with one inconsistency I would fix. The core evaluation
+(RQ1/RQ2 over E1-E5, with five runs and mean/std to handle LLM non-determinism)
+is well designed, and the two-dimensional evaluation (service identification
+plus interaction recovery) is the right choice. My concern is that the headline
+consolidation conclusion, that asymmetric consolidation (E7) preserves quality
+while Pure Intersection loses services, rests on single runs of E6 and E7,
+while you carefully repeated E1-E5 precisely because LLM outputs vary. Basing
+the key policy claim on one run is at odds with your own rigor; please repeat
+E6/E7 the same way and report variability before concluding that asymmetric
+consolidation is best. Two related caveats: the reference architectures are
+tiny (7-9 services, 9-19 links), so F1 swings sharply with a few TP/FP and the
+metrics are coarse; and the name-normalization synonym dictionary can influence
+the identification metric, so please describe how it was built and whether it
+was fixed in advance or curated per system.
+
+The deeper tension I would like you to confront head-on: since the best
+configuration (asymmetric consolidation) essentially reduces to Agent 1 plus a
+few selectively added elements, and Agent 2 often performs poorly (F1 near 0
+for BookStore links), what does the multi-agent design actually buy over Agent
+1 alone on these systems? Your results suggest &quot;not much for accuracy,&quot; which
+is fine and honest, but the paper would be stronger if it stated this tension
+explicitly and then made the case for the second agent on other grounds
+(coverage of alternatives, inspectability), ideally with evidence.
+
+Transparency. Excellent, and a real strength. The Zenodo replication package
+(user stories, prompts, generated architectures, evaluation scripts) makes the
+study auditable and repeatable, and the model/version/temperature are stated.
+This is how empirical LLM work should be reported.
+
+Organization and Presentation. Clear and easy to follow. Figure 2 conveys the
+pipeline well and Figure 3 (reference vs generated architectures) is genuinely
+useful for seeing where the pipeline over-connects services. Tables 1-2 are
+readable.
+
+One larger suggestion for a future version: your central claimed benefit,
+&quot;structured, transparent, extensible reasoning,&quot; is argued but not evaluated.
+If the value of the pipeline is that architects can inspect and refine the
+intermediate proposals, a small study with practitioners (even a handful)
+judging whether the intermediate reasoning is useful would turn that claim from
+assertion into evidence and would be a strong contribution in its own right.
+
+Overall, this is an honest, well-instrumented workshop paper on a relevant topic,
+and I think it belongs in the program. Repeating the consolidation
+experiments, confronting the multi-agent-vs-Agent-1 tension directly, and (over
+time) evaluating the transparency claim would make it considerably stronger.
+
+
+Review 2
+
+*** [Relevance] How relevant is the paper to the workshop topics?
+   1: (Marginally Relevant) The topic is only loosely connected to the workshop’s focus; unlikely to contribute meaningfully to discussions.
+   2: (Somewhat Relevant) There is partial alignment with the workshop themes, but the core focus seems outside the main scope.
+   3: (Relevant) The paper addresses topics clearly within the workshop’s domain and contributes to its objectives.
+   4: (Highly Relevant) Directly addresses core workshop themes and is expected to stimulate valuable discussion and insight.
+
+  Evaluation = 3: (Relevant) The paper addresses topics clearly within the workshop’s domain and contributes to its objectives.
+
+*** [Novelty] How original or innovative are the ideas or contributions in the paper?
+   1: (Lacks Novelty) Ideas are well known or have been explored extensively in previous work.
+   2: (Limited Novelty) Introduces minor improvements or small variations on established ideas.
+   3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+   4: (Highly Novel) Introduces innovative concepts, methods, or results that represent a significant advance.
+
+  Evaluation = 3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+
+*** [Rigor] How rigorous and well-founded is the research methodology?
+   1: (Weak) The methodology is unclear, flawed, or inappropriate for the research questions.
+   2: (Acceptable) Methodology is generally sound but has notable limitations or lacks depth.
+   3: (Strong) Well-structured and appropriate methodology, with reasonable justification and execution.
+   4: (Excellent) Methodology is robust, clearly explained, and well-suited to the research problem.
+
+  Evaluation = 2: (Acceptable) Methodology is generally sound but has notable limitations or lacks depth.
+
+***  [Verifiability and Transparency] Are the results reproducible and clearly reported?
+   1: (Poor) Critical details are missing, making replication difficult or impossible.
+   2: (Fair) Some key information is present, but several gaps remain.
+   3: (Good) Most of the research can be verified or reproduced; documentation is mostly complete.
+   4: (Excellent) Full transparency; all necessary information is included for replication and validation.
+
+  Evaluation = 3: (Good) Most of the research can be verified or reproduced; documentation is mostly complete.
+
+*** [Presentation] Is the paper well-written and clearly structured?
+   1: (Poor) The paper is difficult to follow due to poor writing, structure, or formatting.
+   2: (Needs Improvement) Writing is understandable but lacks clarity or coherence in places.
+   3: (Clear) The paper is mostly well-written and logically structured.
+   4: (Very Well Presented) Excellent writing, clear argumentation, and professional formatting.
+
+  Evaluation = 3: (Clear) The paper is mostly well-written and logically structured.
+
+*** [Position] What is your overall recommendation regarding the paper?
+   0: (Desk Reject) The paper is out of scope for the ISE Workshop
+   1: (Strong Reject) The paper has serious issues and should not be accepted under any circumstances.
+   2: (Weak Reject) The paper has some merit but does not meet the acceptance standards.
+   3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+   4: (Strong Accept) The paper makes a valuable contribution and should definitely be accepted.
+
+  Evaluation = 3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+
+*** [Familiarity] How familiar are you with the paper’s subject area?
+
+   1: (Low Familiarity) Not an expert; evaluation is from an informed outsider’s perspective.
+   2: (Moderate Familiarity) Some knowledge of the area; understands the key concepts.
+   3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+   4: (Expert) Deep and extensive knowledge; expert-level familiarity with the subject matter.
+
+  Evaluation = 3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+
+*** [Paper Summary] Briefly summarize the paper’s main contributions and ideas.
+
+
+  Evaluation = The paper presents an investigation of an agent-based pipeline for generating microservice architectures from user stories. The proposed approach employs multiple specialized agents to derive architectural alternatives from user requirements, evaluate them according to design-driven or event-driven perspectives, validate the generated architectures, and consolidate the final solution through different architectural policies. The evaluation assesses three consolidation policies, with the policy based on pure intersection executed multiple times to account for the nature of the pipeline. The results indicate that the proposed approach is generally capable of identifying appropriate microservices for the application domain while also capturing communication links among the generated services. However, there are clear limitations, especially in identifying links among services.
+
+*** [Comments to Authors] Elaborate on the reasoning behind the scores, considering the paper’s strengths and weaknesses, especially concerning RELEVANCE, NOVELTY, RIGOR, TRANSPARENCY, ORGANIZATION, and PRESENTATION. Provide suggestions on how the authors can improve the paper
+
+
+
+  Evaluation = The paper addresses a relevant problem in intelligent software engineering by investigating the use of large language model-based agents to support early-stage microservice architecture design from user requirements. While most existing approaches focus on extracting microservices through reverse engineering of legacy systems, this work targets architecture generation before implementation, addressing an important stage of the software development lifecycle. Furthermore, the investigation of alternative validation and architectural consolidation strategies provides practical insights into the behavior of agent-based pipelines for architectural design.
+
+Regarding novelty, the main contribution does not primarily lie in the use of user stories for microservice generation, as the authors themselves acknowledge prior work addressing this problem. Instead, the paper&#x27;s originality stems from investigating multiple architectural validation and consolidation mechanisms within an agent-based generation pipeline. Nevertheless, the novelty would be more convincingly demonstrated through a clearer discussion of how the proposed approach differs from, extends, or improves upon the previous solution. A direct comparison with the earlier approach would substantially strengthen the argument for the paper&#x27;s contribution.
+
+The methodological design benefits from the reuse of an existing dataset, which contributes to the study&#x27;s rigor by enabling comparisons with previous work. The reported variability across multiple executions also highlights the non-deterministic behavior of the proposed pipeline and appropriately motivates repeated executions. However, the evaluation design presents important limitations. Only one of the consolidation policies is evaluated through multiple executions, whereas the remaining policies rely on a single execution despite the evident variability of the approach. This weakens the validity of comparisons among policies and limits the strength of the conclusions. Moreover, the paper would benefit from a more precise use of experimental terminology by clearly distinguishing the overall experimental study from the individual interventions or executions. Finally, including a direct empirical comparison with the previously published approach would provide stronger evidence on the effectiveness of the proposed pipeline and significantly reinforce the discussion of the reported results.
+
+Regarding verifiability and transparency, some methodological aspects require additional clarification. Although the authors reuse a dataset from a previous study, they mention that the original user stories underwent preprocessing without explaining the rationale or how these changes relate to the original work. Likewise, the paper provides only a high-level description of the employed policies without explaining how each policy operates or the motivation behind their selection. The relationship with the previous work from Calamo et al. is also insufficiently described. Since the prior work already investigates microservice generation from user stories, it remains unclear whether the current solution extends, reimplements, or was developed independently from that contribution.
+
+Regarding presentation, the paper is generally well organized, and the writing is clear and easy to follow. Given the complexity of the proposed multi-agent pipeline and the experimental design, the overview figure helps readers understand the workflow and the relationship between the different stages. The examples of generated microservices also contribute to illustrating the proposed approach. However, the presentation could be further improved by providing explicit references to these examples in the main text, supporting the discussion. In addition, the tables presenting the results have some bold highlights that are not explained.
+
+
+Review 3
+
+*** [Relevance] How relevant is the paper to the workshop topics?
+   1: (Marginally Relevant) The topic is only loosely connected to the workshop’s focus; unlikely to contribute meaningfully to discussions.
+   2: (Somewhat Relevant) There is partial alignment with the workshop themes, but the core focus seems outside the main scope.
+   3: (Relevant) The paper addresses topics clearly within the workshop’s domain and contributes to its objectives.
+   4: (Highly Relevant) Directly addresses core workshop themes and is expected to stimulate valuable discussion and insight.
+
+  Evaluation = 4: (Highly Relevant) Directly addresses core workshop themes and is expected to stimulate valuable discussion and insight.
+
+*** [Novelty] How original or innovative are the ideas or contributions in the paper?
+   1: (Lacks Novelty) Ideas are well known or have been explored extensively in previous work.
+   2: (Limited Novelty) Introduces minor improvements or small variations on established ideas.
+   3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+   4: (Highly Novel) Introduces innovative concepts, methods, or results that represent a significant advance.
+
+  Evaluation = 3: (Moderately Novel) Offers fresh perspectives or moderately new contributions to the field.
+
+*** [Rigor] How rigorous and well-founded is the research methodology?
+   1: (Weak) The methodology is unclear, flawed, or inappropriate for the research questions.
+   2: (Acceptable) Methodology is generally sound but has notable limitations or lacks depth.
+   3: (Strong) Well-structured and appropriate methodology, with reasonable justification and execution.
+   4: (Excellent) Methodology is robust, clearly explained, and well-suited to the research problem.
+
+  Evaluation = 3: (Strong) Well-structured and appropriate methodology, with reasonable justification and execution.
+
+***  [Verifiability and Transparency] Are the results reproducible and clearly reported?
+   1: (Poor) Critical details are missing, making replication difficult or impossible.
+   2: (Fair) Some key information is present, but several gaps remain.
+   3: (Good) Most of the research can be verified or reproduced; documentation is mostly complete.
+   4: (Excellent) Full transparency; all necessary information is included for replication and validation.
+
+  Evaluation = 2: (Fair) Some key information is present, but several gaps remain.
+
+*** [Presentation] Is the paper well-written and clearly structured?
+   1: (Poor) The paper is difficult to follow due to poor writing, structure, or formatting.
+   2: (Needs Improvement) Writing is understandable but lacks clarity or coherence in places.
+   3: (Clear) The paper is mostly well-written and logically structured.
+   4: (Very Well Presented) Excellent writing, clear argumentation, and professional formatting.
+
+  Evaluation = 4: (Very Well Presented) Excellent writing, clear argumentation, and professional formatting.
+
+*** [Position] What is your overall recommendation regarding the paper?
+   0: (Desk Reject) The paper is out of scope for the ISE Workshop
+   1: (Strong Reject) The paper has serious issues and should not be accepted under any circumstances.
+   2: (Weak Reject) The paper has some merit but does not meet the acceptance standards.
+   3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+   4: (Strong Accept) The paper makes a valuable contribution and should definitely be accepted.
+
+  Evaluation = 3: (Weak Accept) The paper is acceptable despite some limitations, but may not be a strong contribution.
+
+*** [Familiarity] How familiar are you with the paper’s subject area?
+
+   1: (Low Familiarity) Not an expert; evaluation is from an informed outsider’s perspective.
+   2: (Moderate Familiarity) Some knowledge of the area; understands the key concepts.
+   3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+   4: (Expert) Deep and extensive knowledge; expert-level familiarity with the subject matter.
+
+  Evaluation = 3: (Good Familiarity) Well-acquainted with the topic; actively follows developments in the area.
+
+*** [Paper Summary] Briefly summarize the paper’s main contributions and ideas.
+
+
+  Evaluation = This paper investigates the use of a collaborative multi-agent AI system for generating microservice architectures directly from user stories. The authors propose an &quot;Agentic AI pipeline&quot; comprising three agents: two &quot;architect&quot; agents that independently design architectures from different perspectives (Domain-Driven Design vs. event-driven) and a &quot;validator&quot; agent that consolidates these proposals. The primary goal is to determine if this collaborative, agent-based approach can improve upon single-Large Language Model (LLM) methods by introducing a more structured and explicit reasoning process. The proposed pipeline was evaluated on two well-known benchmark systems (BookStore and PetClinic). The core findings indicate that while the multi-agent pipeline achieves high accuracy (up to 1.00 F1-score for service identification), its performance is comparable to, and does not consistently outperform, a strong single-LLM baseline. The paper concludes that the main contribution of the agentic approach is not a definitive boost in accuracy but rather the creation of a more transparent, extensible, and auditable architectural design process that mimics human collaboration.
+
+*** [Comments to Authors] Elaborate on the reasoning behind the scores, considering the paper’s strengths and weaknesses, especially concerning RELEVANCE, NOVELTY, RIGOR, TRANSPARENCY, ORGANIZATION, and PRESENTATION. Provide suggestions on how the authors can improve the paper
+
+
+
+  Evaluation = Strengths
+
++Rigorous Evaluation Setup: The authors address the non-determinism of LLMs by conducting multiple independent runs (E1-E5) and reporting the mean and standard deviation, which is a best practice often overlooked in LLM-based SE research.
++Adherence to Open Science: The paper includes a link to a replication package (hosted on Zenodo) containing prompts, datasets, generated architectures, and evaluation scripts, ensuring the study&#x27;s reproducibility.
++Honest and Balanced Discussion: The authors do not attempt to oversell their approach. They clearly state that the multi-agent pipeline does not outperform the baseline and redirect the discussion to the qualitative benefits of the structured workflow.
++High-Quality Visualizations: Figure 3 provides a very clear comparison between the reference architectures and the generated ones, allowing the reader to visually inspect the types of errors (e.g., overestimation of links) made by the model.
+
+Weaknesses
+
+- Small Evaluation Dataset: The evaluation is limited to only two benchmark systems (BookStore and PetClinic), both of which are very small (7 services each). It is unclear whether these results and the observed agent behaviors would generalize to larger, more complex industrial systems.
+- Questionable Utility of the Multi-Agent Design: Agent 2 (Event-driven) consistently performs poorly, especially on interaction recovery (e.g., F1-score of 0.00 in several Bookstore runs). The &quot;Asymmetric Consolidation&quot; policy, which yields the best results, basically defaults to Agent 1&#x27;s proposal and filters out Agent 2&#x27;s contributions, raising the question of whether the complexity of the multi-agent setup is justified.
+- Lack of Empirical Evidence for the Main Claim: The authors conclude that the main benefit of the proposed pipeline is providing a &quot;structured, transparent, and extensible reasoning process.&quot; However, they do not evaluate this claim (e.g., via a developer/architect user study to check if human designers actually find these intermediate steps useful or trust them more). Nevertheless, I consider that acceptable for a workshop paper.
+- Indirect Baseline Comparison: The comparison with the state-of-the-art baseline (Pereira et al. [15]) is indirect. The authors compare their results (using Gemini Pro) against the numbers reported by Pereira et al. (using GPT-4). A direct head-to-head comparison on the same model would be much stronger.
+
+Alguns pontos discutidos e parciamente acertados:
+
+Definimos 8 sistemas para fortalecer a generalização, que já temos os primeiros resultados com eles.
+
+Relatarei os resultados osobtidos, como chagamos a eles e justificarei temperature=0.0 como decisão metodológica. Havia testado com temperatura 0.3, nao recordo se com outra, deve ter nos relatos. A importancia dos requisitos, pois apenas user histprys estão sendo usadas como input para a produção dos resultados.
+
+Inserir o calculo de custo de Tokens no artigo e no sistema. Avaliar aa viabilidade de usar Multiagentes. Incluirei análise de custo-benefício entre o esforço multiagente e o uso de uma única LLM.
+
+Comparar Few-Shot x Zero-Shot. Tive resultados com Zero-Shot antes de aperfeiçoar o sistema. Posso usá-los ou apenas mudar o prompt e gerar novos resultados para comparar, pois dos testes zero shot para aqui tivemos muito avanço no pipeline.
+
+***Focarei o artigo na comparação entre pipeline com um unico agente, no artigo de Danylo e no multiagente. Comparando os resultados de F1-Score e os outros.***
+
+**É feita automaticamente uma analize quantitativa e proponho uma analise qualitativa por especialistas. Mas falta definir qual a analise qualitativa será feita.** 
+
+Usar a avaliação quantitativa de serviços e interações com Precision, Recall e F1.
+
+Não implementarei geração de código completo, mas entregarei uma especificação arquitetural estruturada em YAML, derivada do CSV consolidado, contendo serviços, responsabilidades, interações e endpoints sugeridos, que servirá como base para futura geração de código ou pseudo-código. Isto será além de salvo no repositorio dos exerimentos, será impresso no PDF produzido pelo DAVINCI. Vamos apresentar esta contribuição e o DAVINCI, mas não será o foco do artigo, apenas será apresentado.
+
+Descreverei claramente o workflow completo do sistema, da entrada dos requisitos à entrega da arquitetura final. Preciso explicar como foi feita a análise estática para extrair os requisitos e isto preciso pegar com Renan, um documento contendo tal texto. Tenho que descrever bem como é feito o levantamento de requisitos e as referências da arquitetura usadas para criar as metricas
+
+Explicitarei os critérios de seleção e classificação usados pelos agentes para serviços e interações.
+
+Documentarei possíveis causas de falsos positivos e falsos negativos. Por que ocorreram e cmo foram mitigados.

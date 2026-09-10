@@ -1,0 +1,164 @@
+ANALYSIS OF THE THREE C1 TESTS (GEMINI + FEW-SHOT)
+TEST 1 — Run ID 20260902_234520_573591
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	1.0000	1.0000	1.0000
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+Services were very stable. Only Cargo-Tracker (recall 0.8333) and TNTConcept (recall 0.8571) did not reach 1.0, due to missing implicit services (e.g., Logistics Network). Consolidation did not change results, as A and B agreed.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	0.9524	0.9524	0.9524
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8421	0.8421	0.8421
+DayTrader7	0.9091	0.0000	0.9091
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7647	0.7761	0.7761
+Commentary:
+Interactions were more difficult. DayTrader7 B scored zero (F1 0.0000), but consolidation selected A and kept 0.9091. TNTConcept B was slightly better, and consolidation selected B. In this test, there was no need for combination, because in most cases one proposal was clearly superior.
+
+YAML
+Commentary:
+YAML was generated correctly for all systems, reflecting the services and interactions of the consolidated architecture. Generic endpoints (/api/<service>) limit practical usefulness. No serious errors observed.
+
+Tracer (token cost)
+Agent	7ep	AcmeAir	Cargo	DayTrader7	Jokul	JPetStore	PetClinic	TNTConcept	Total
+Agent 1	5147	4667	7119	5986	4165	7192	4775	11176	50227
+Agent 2	23479	21852	28787	23129	21331	23203	25695	22416	189892
+Agent 3	11241	5818	8256	5439	4728	7574	11453	9077	63586
+Agent 4	8723	6528	10548	16013	5781	12229	5466	14520	79808
+Agent 5 (unknown)	3939	3364	3778	4090	3225	4094	2863	3746	29099
+Total per system	52529	42229	58488	54657	39230	54292	50252	60935	412612
+Total for Test 1: 412,612 tokens.
+
+Highlights:
+
+Agent 2 is the largest consumer (46% of total), due to the reasoning pattern library.
+
+7ep had 9 calls and Agent 3 was called 4 times; this is an outlier that deserves investigation.
+
+YAML cost (Agent 5) is small but not negligible.
+
+TEST 2 — Run ID 20260903_165838_818171
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	1.0000	1.0000	1.0000
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+Same pattern as Test 1. Services consistent. Cargo-Tracker and TNTConcept remain with limited recall.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	0.9524	0.7500	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.0000	0.8421	0.8421
+DayTrader7	0.9091	0.1111	0.9091
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7879	0.8000	0.8000
+Commentary:
+Here consolidation was decisive, and in 7ep it involved combination of interactions. Proposal A had perfect recall but one extra interaction (precision 0.9091); Proposal B had perfect precision but missed interactions (recall 0.6000). Agent 3 used A's service base and incorporated correct interactions from B, eliminating the extra one and achieving F1 1.0000. This demonstrates that the combination policy can be beneficial when proposals have complementary qualities. In Cargo-Tracker, A scored zero, but B had 0.8421; the consolidator selected B entirely, preserving the result. DayTrader7 B was poor, but A was good. TNTConcept B was slightly better and was chosen.
+
+YAML
+Commentary:
+YAML correctly reflected the consolidated architecture in most cases. In Cargo-Tracker, the YAML came with some truncated text (metrics and instructions as service names), indicating that Agent 3's output was not clean. This is a bug that should be reported.
+
+Tracer (token cost)
+Agent	7ep	AcmeAir	Cargo	DayTrader7	Jokul	JPetStore	PetClinic	TNTConcept	Total
+Agent 1	4661	10178	5846	6203	4651	7680	4775	13923	57917
+Agent 2	27424	21247	24298	23200	21177	23035	25695	34634	200710
+Agent 3	69684	5089	6391	6314	5269	8467	11453	9438	122105
+Agent 4	7962	13114	9341	22880	5493	10001	5466	17669	91926
+Agent 5 (unknown)	4174	3439	3886	3877	3367	3887	2863	3627	29120
+Total per system	113905	53067	49762	62474	39957	53070	50252	79291	501778
+Total for Test 2: 501,778 tokens.
+
+Highlights:
+
+Cost increase of about 22% compared to Test 1.
+
+Agent 3 exploded in 7ep: 69,684 tokens (4 calls), almost 60% of the system total. This did not bring proportional gain.
+
+Agent 2 remains the largest overall consumer.
+
+TEST 3 — Run ID 20260903_171617_538480
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.7143
+DayTrader7	1.0000	1.0000	1.0000
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+For the first time, consolidation worsened also the service F1: Cargo-Tracker dropped from 0.9091 to 0.7143. This occurred because Agent 3, when trying to combine the interactions from the two proposals, produced an output with non-CSV text (metrics and instructions) that was interpreted as invalid services. The incorrect combination negatively affected both services and interactions.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.9524	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.2353	0.8421	0.7273
+DayTrader7	0.4762	0.6667	0.6667
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.5714	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.6230	0.8000	0.8000
+Commentary:
+Marked instability: DayTrader7 A dropped to 0.4762 (was 0.9091 in previous tests); JPetStore A dropped to 0.5714. B was superior in Cargo-Tracker, JPetStore, TNTConcept, and DayTrader7. Consolidation degraded Cargo-Tracker: A and B had identical service metrics (F1 0.9091), but interaction F1 was very different (A 0.2353, B 0.8421). According to the policy, since services were identical, the consolidator should have simply selected B. Instead, Agent 3 tried to combine interactions and produced a non-CSV output, resulting in F1 0.7273, worse than B. This shows that combination, when not strictly necessary, can introduce errors. In 7ep, consolidation maintained 1.0000, using A (which was perfect) and ignoring B.
+
+YAML
+Commentary:
+Cargo-Tracker's YAML came corrupted, with metric fragments and instructions as services. The other systems had YAML consistent with the consolidated architecture. This incident should be reported as a limitation of Agent 3 that propagates to Agent 5.
+
+Tracer (token cost)
+Agent	7ep	AcmeAir	Cargo	DayTrader7	Jokul	JPetStore	PetClinic	TNTConcept	Total
+Agent 1	5231	4385	7531	7341	4875	5791	5817	25839	66810
+Agent 2	26005	21538	24515	22995	21041	22447	24462	31641	198644
+Agent 3	5071	5766	7235	7658	5386	6586	3807	6471	47980
+Agent 4	13927	6690	11944	19795	5903	9157	5826	13196	86438
+Agent 5 (unknown)	3805	3203	4092	4086	3194	3649	2530	3565	28124
+Total per system	54039	41582	55317	61875	40399	47630	42442	80712	424096
+Total for Test 3: 424,096 tokens.
+
+Highlights:
+
+Intermediate cost between Tests 1 and 2.
+
+Agent 3 returned to normal cost (47,980 tokens), well below Test 2.
+
+Agent 1 in TNTConcept consumed 25,839 tokens, well above average; this may be linked to the size of the requirements.
+
+GENERAL SYNTHESIS FOR THE PAPER
+Services are robust and stable. In 6/8 systems, F1 = 1.0000 in all tests. The exception is systems whose requirements omit implicit capabilities (Cargo-Tracker, TNTConcept).
+
+Interactions are the Achilles' heel. Extreme variation between executions (e.g., DayTrader7 A from 0.9091 to 0.4762) and between agents (A vs B). This justifies stability analysis and the use of multiple executions.
+
+The Communication Specialist (Agent 2) has real value. In several cases, it was the only agent with high F1 in interactions. Without it, the pipeline would have much worse results in Cargo-Tracker, TNTConcept, JPetStore, and DayTrader7 (Test 3).
+
+Consolidation (Agent 3) is a double-edged sword. It can select the best proposal when there is clear dominance (Cargo-Tracker Test 2) or combine interactions when services and interactions come from different proposals (7ep Test 2). However, combination can also degrade the result, as in Cargo-Tracker Test 3, where Agent 3 incorrectly mixed outputs and produced an F1 worse than the best individual proposal. This suggests that the current policy needs refinement: combination should perhaps occur only when service metrics differ, not when only interactions differ.
+
+Cost is dominated by Agent 2. It consistently consumes about 45–50% of total tokens. Agent 3 may have spikes (Test 2, 7ep) without proportional benefit. YAML (Agent 5) has a small cost.
+
+Observability problems. The tracker does not separate prompt tokens, does not identify Agent 5 (appears as unknown), and recorded anomalous behavior in Agent 3. These limitations should be reported for transparency.
+
+YAML is useful but limited. Generic endpoints and inheritance of errors from the consolidated architecture reduce practical value. It should be presented as a secondary contribution, not as a substitute for an API specification.
+
+Requirements are still the dominant factor. The omission of services in Cargo-Tracker and TNTConcept persists in all tests, regardless of pipeline configuration. This reinforces the hypothesis that requirement clarity is more important than multi-agent architecture.

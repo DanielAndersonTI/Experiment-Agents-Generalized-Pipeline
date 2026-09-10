@@ -7,15 +7,15 @@ from agentes.agent1 import criar_agente1
 
 load_dotenv()
 
-api_key = os.getenv("OPENROUTER_API_KEY")
-model_name = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat-v3-0324:free")
+api_key = os.getenv("DEEPSEEK_API_KEY")
+model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 if not api_key:
-    raise Exception("OPENROUTER_API_KEY não encontrada")
+    raise Exception("DEEPSEEK_API_KEY não encontrada")
 
 
 llm = LLM(
-    model=f"openrouter/{model_name}",
+    model=f"deepseek/{model_name}",
     api_key=api_key,
     temperature=0.2
 )

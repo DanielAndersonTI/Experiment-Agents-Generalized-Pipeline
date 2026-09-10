@@ -18,12 +18,12 @@ from agentes.agent1_architect_a import criar_agente1, criar_task_arquitetura
 env_path = Path(__file__).parent / '.env'
 load_dotenv(env_path)
 
-api_key = os.getenv("OPENROUTER_API_KEY")
-model_name = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat-v3-0324:free")
+api_key = os.getenv("DEEPSEEK_API_KEY")
+model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
 
 if not api_key:
-    print("ERRO: OPENROUTER_API_KEY nao configurada!")
-    sys.exit(1)
+   print("ERRO: DEEPSEEK_API_KEY nao configurada!")
+   sys.exit(1)
 
 print("="*60)
 print("TESTE: AGENTE 1 - SOFTWARE ARCHITECT")
@@ -33,11 +33,11 @@ print("="*60)
 # Criar LLM
 print(f"\n[OK] Inicializando modelo: {model_name}")
 llm = LLM(
-    model=f"openrouter/{model_name}",
+   model=f"deepseek/{model_name}",
     api_key=api_key,
     temperature=0.3,
 )
-print("[OK] Modelo inicializado")
+print("[OK] Modelo DeepSeek inicializado")
 
 # Criar agente e task
 print("\n[OK] Criando Agente 1...")

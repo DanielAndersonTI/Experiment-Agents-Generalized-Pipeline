@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 import pandas as pd
 import json
 
-# LangChain + Google Gemini
-from langchain_google_genai import ChatGoogleGenerativeAI
+# Gemini configuration retained for historical experiments:
+# from langchain_google_genai import ChatGoogleGenerativeAI
 
 # CrewAI
 from crewai import Agent, Task, Crew
@@ -31,11 +31,14 @@ RESULTS_DIR.mkdir(exist_ok=True)
 # Timestamp para nomear arquivos
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-# Configurar LLM
-llm = ChatGoogleGenerativeAI(
-    model=os.getenv("GOOGLE_MODEL", "gemini-1.5-pro"),
+# Configurar LLM via DeepSeek
+from crewai import LLM
+
+llm = LLM(
+    model=f"deepseek/{os.getenv('DEEPSEEK_MODEL', 'deepseek-chat')}",
+    api_key=os.getenv("DEEPSEEK_API_KEY"),
     temperature=0.3,
-    max_output_tokens=2000,
+    max_tokens=int(os.getenv("DEEPSEEK_MAX_TOKENS", "512")),
 )
 
 # ============================================================

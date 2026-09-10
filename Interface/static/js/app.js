@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	const inputView = document.querySelector("#input-view");
 	const resultsView = document.querySelector("#results-view");
 	const newDecompositionButton = document.querySelector("#new-decomposition-button");
+	const rerunExperimentButton = document.querySelector("#rerun-experiment-button");
 	const downloadReportButton = document.querySelector("#download-report-button");
+	const downloadSpecificationButton = document.querySelector("#download-specification-button");
 	if (!template || !systemsContainer) return;
 
 	const showAlert = (message, type = "danger") => {
@@ -105,8 +107,38 @@ document.addEventListener("DOMContentLoaded", () => {
 	const collectSystems = () => [...systemsContainer.querySelectorAll("[data-system-block]")].map((block) => {
 		const system = {};
 		block.querySelectorAll("[data-field]").forEach((field) => { system[field.dataset.field] = field.value; });
+		system.mode = "c1";
 		return system;
 	});
+	let lastSystems = null;
+
+	const downloadPdf = async (url, filename) => {
+		try {
+			const response = await fetch(url, { cache: "no-store" });
+			if (!response.ok) {
+				let message = "The PDF could not be generated.";
+				try {
+					const errorPayload = await response.json();
+					message = errorPayload.message || message;
+				} catch (error) {
+					// Keep the generic message when the server does not return JSON.
+				}
+				throw new Error(message);
+			}
+			const contentType = response.headers.get("Content-Type") || "";
+			if (!contentType.includes("application/pdf")) throw new Error("The server returned an invalid PDF response.");
+			const blobUrl = URL.createObjectURL(await response.blob());
+			const link = document.createElement("a");
+			link.href = blobUrl;
+			link.download = filename;
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+			setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+		} catch (error) {
+			showAlert(error.message || "The PDF could not be downloaded.");
+		}
+	};
 
 	const updateProgress = (progress) => {
 		const percent = Math.max(0, Math.min(100, Number(progress.percent) || 0));
@@ -164,9 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		field.classList.remove("is-invalid");
 	});
 
-	runButton.addEventListener("click", async () => {
-		if (!validateSystems()) return;
+	const executePipeline = async (systems) => {
 		runButton.disabled = true;
+		rerunExperimentButton.disabled = true;
+		rerunExperimentButton.textContent = "RUNNING PIPELINE...";
 		runButton.textContent = "RUNNING PIPELINE...";
 		loadingAlert.classList.remove("d-none");
 		const progressWatcher = watchProgress();
@@ -175,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			const response = await fetch("/api/pipeline/run", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ systems: collectSystems() }),
+				body: JSON.stringify({ systems }),
 			});
 			const payload = await response.json();
 			if (!response.ok || !payload.ok) throw new Error(payload.message || "The pipeline run failed.");
@@ -187,8 +220,21 @@ document.addEventListener("DOMContentLoaded", () => {
 			updateProgress({ percent: 100, completed: systemsContainer.querySelectorAll("[data-system-block]").length, total: systemsContainer.querySelectorAll("[data-system-block]").length });
 			loadingAlert.classList.add("d-none");
 			runButton.disabled = false;
+			rerunExperimentButton.disabled = false;
+		rerunExperimentButton.textContent = "RUN AGAIN";
 			runButton.textContent = "RUN PIPELINE";
 		}
+	};
+
+	runButton.addEventListener("click", async () => {
+		if (!validateSystems()) return;
+		lastSystems = collectSystems();
+		await executePipeline(lastSystems);
+	});
+
+	rerunExperimentButton.addEventListener("click", async () => {
+		if (!lastSystems) return;
+		await executePipeline(lastSystems);
 	});
 
 	newDecompositionButton.addEventListener("click", () => {
@@ -197,13 +243,22 @@ document.addEventListener("DOMContentLoaded", () => {
 		appendBlock();
 		resultsView.classList.add("d-none");
 		inputView.classList.remove("d-none");
+		lastSystems = null;
 		clearAlert();
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	});
 
-	downloadReportButton.addEventListener("click", () => {
-		window.location.href = "/api/report/pdf";
-	});
+	if (downloadReportButton) {
+		downloadReportButton.addEventListener("click", () => {
+			downloadPdf("/api/report/pdf", "virtus-architecture-report.pdf");
+		});
+	}
+
+	if (downloadSpecificationButton) {
+		downloadSpecificationButton.addEventListener("click", () => {
+			downloadPdf("/api/report/specification-pdf", "virtus-architectural-specification.pdf");
+		});
+	}
 
 	appendBlock();
 });

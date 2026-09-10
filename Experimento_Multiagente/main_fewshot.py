@@ -29,6 +29,8 @@ from agentes.agent1_architect_a_fs import criar_agente1, criar_task_arquitetura
 from agentes.agent2_architect_b_fs import criar_agente2, criar_task_arquitetura_alternativa
 from agentes.agent3_validator_fs import criar_agente3, criar_task_consolidacao
 from agentes.agent4_refiner_fs import criar_agente4, criar_task_refinamento
+from agentes.agent5_architectural_spec_fs import gerar_especificacao_yaml
+from execution_tracker import track_execution
 
 
 RESULTS_ROOT = Path("result")
@@ -122,22 +124,27 @@ def criar_llm() -> LLM:
     else:
         load_dotenv()
 
-    api_key = os.getenv("GOOGLE_API_KEY")
-    model_name = os.getenv("GOOGLE_MODEL", "gemini/gemini-flash-latest")
+    # OpenRouter/Gemini configuration kept for historical experiments:
+    # api_key = os.getenv("OPENROUTER_API_KEY")
+    # model_name = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat-v3-0324:free")
+    # max_tokens = int(os.getenv("OPENROUTER_MAX_TOKENS", "512"))
+    api_key = os.getenv("DEEPSEEK_API_KEY")
+    model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+    max_tokens = int(os.getenv("DEEPSEEK_MAX_TOKENS", "512"))
 
     if not api_key:
-        raise RuntimeError("GOOGLE_API_KEY not configured. Please define it in the .env file.")
+        raise RuntimeError("DEEPSEEK_API_KEY not configured. Please define it in the .env file.")
 
-    print(f"\n🔧 Inicializando modelo Gemini: {model_name}")
+    print(f"\n🔧 Inicializando modelo via DeepSeek: {model_name}")
 
     llm = LLM(
-        model=model_name,
+        model=f"deepseek/{model_name}",
         api_key=api_key,
         temperature=0.0,
-        max_tokens=4096,
+        max_tokens=max_tokens,
     )
 
-    print(f"✓ Modelo {model_name} inicializado com sucesso")
+    print(f"✓ Modelo {model_name} inicializado com sucesso via DeepSeek")
     return llm
 
 
@@ -327,6 +334,20 @@ def parse_csv_architecture(csv_text: str):
     except Exception as e:
         print(f"  ⚠ Erro ao parsear CSV: {e}")
     return services
+
+
+def _is_valid_architecture_csv(csv_text: str) -> bool:
+    """Reject consolidated responses that contain prose or malformed rows."""
+    rows = list(csv.reader(str(csv_text).strip().splitlines()))
+    if not rows or [column.strip() for column in rows[0][:3]] != [
+        "Microservice", "Responsibilities", "Communicates With"
+    ]:
+        return False
+    data_rows = rows[1:]
+    return bool(data_rows) and all(
+        len(row) == 3 and row[0].strip() and not row[0].lstrip().startswith(("-", "Actually", "Note:"))
+        for row in data_rows
+    )
 
 
 def parse_csv_interactions(csv_text: str) -> set:
@@ -547,6 +568,7 @@ def _format_metrics_for_prompt(service_metrics, interaction_metrics):
     )
 
 
+@track_execution
 def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, example: str):
     system_name = config["name"]
     requirements = config["requirements"]
@@ -669,12 +691,12 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
             })
             output_c_limpo = extrair_csv_do_output(str(output_c))
 
-            linhas = [l for l in output_c_limpo.split('\n') if l.strip() and not l.startswith('===')]
-            if len(linhas) < 2:
-                output_c_limpo = resultados["proposta_a"]
-
-            resultados["consolidada"] = output_c_limpo
-            salvar_proposta(run_dir, "consolidada", output_c_limpo)
+            if _is_valid_architecture_csv(output_c_limpo):
+                resultados["consolidada"] = output_c_limpo
+            else:
+                print("⚠️ Consolidação inválida. Usando Proposta A como fallback.")
+                resultados["consolidada"] = resultados["proposta_a"]
+            salvar_proposta(run_dir, "consolidada", resultados["consolidada"])
         except Exception:
             resultados["consolidada"] = resultados["proposta_a"]
             salvar_proposta(run_dir, "consolidada", resultados["proposta_a"])
@@ -697,6 +719,10 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         else:
             metricas[f"{key}_inter"] = None
 
+    especificacao_yaml = gerar_especificacao_yaml(system_name, resultados.get("consolidada", ""))
+    (run_dir / "especificacao_arquitetural.yaml").write_text(especificacao_yaml, encoding="utf-8")
+    resultados["especificacao_yaml"] = especificacao_yaml
+
     salvar_metricas(run_dir, metricas)
     salvar_sumario_json(run_dir, metricas)
     salvar_relatorio_md(run_dir, system_name, metricas)
@@ -704,18 +730,292 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
     return resultados, metricas
 
 
+@track_execution
+def _executar_experimento_c0(llm, system_name: str, config: dict, timestamp: str, example: str):
+    """Execute the C0 baseline with only Agent 1 and deterministic YAML output."""
+    system_name = config["name"]
+    requirements = config["requirements"]
+    reference_services = config["reference_services"]
+    interaction_reference = config["interaction_reference"]
+    run_dir = criar_diretorio_run(system_name, timestamp)
+
+    agente1 = criar_agente1(llm)
+    task1 = criar_task_arquitetura(agente1)
+    resultados = {"proposta_a": None, "proposta_b": None, "consolidada": None}
+
+    try:
+        crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
+        output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
+        output_a_limpo = extrair_csv_do_output(str(output_a))
+        resultados["proposta_a"] = output_a_limpo
+        resultados["consolidada"] = output_a_limpo
+        salvar_proposta(run_dir, "proposta_a", output_a_limpo)
+        salvar_proposta(run_dir, "consolidada", output_a_limpo)
+    except Exception as error:
+        print(f"✗ Erro no Agente 1: {str(error)}")
+
+    metricas = {
+        "proposta_a": None,
+        "proposta_a_inter": None,
+    }
+    if resultados["proposta_a"]:
+        services = parse_csv_architecture(resultados["proposta_a"])
+        metricas["proposta_a"] = calculate_metrics(services, reference_services)
+        generated_interactions = parse_csv_interactions(resultados["proposta_a"])
+        metricas["proposta_a_inter"] = evaluate_interactions(
+            generated_interactions,
+            interaction_reference,
+        )
+
+    especificacao_yaml = gerar_especificacao_yaml(system_name, resultados["proposta_a"] or "")
+    (run_dir / "especificacao_arquitetural.yaml").write_text(especificacao_yaml, encoding="utf-8")
+    resultados["especificacao_yaml"] = especificacao_yaml
+
+    salvar_metricas(run_dir, metricas)
+    salvar_sumario_json(run_dir, metricas)
+    salvar_relatorio_md(run_dir, system_name, metricas)
+    return resultados, metricas
+
+
+@track_execution
+def _executar_experimento_c2(llm, system_name: str, config: dict, timestamp: str, example: str):
+    """Execute C2 with proposals A/B going directly to consolidation."""
+    system_name = config["name"]
+    requirements = config["requirements"]
+    reference_services = config["reference_services"]
+    interaction_reference = config["interaction_reference"]
+    run_dir = criar_diretorio_run(system_name, timestamp)
+
+    agente1 = criar_agente1(llm)
+    agente2 = criar_agente2(llm)
+    agente3 = criar_agente3(llm)
+
+    task1 = criar_task_arquitetura(agente1)
+    task2 = criar_task_arquitetura_alternativa(agente2)
+    task3 = criar_task_consolidacao(agente3)
+    resultados = {"proposta_a": None, "proposta_b": None, "consolidada": None}
+
+    # C2 intentionally skips the Agent 4 refinement blocks used by C1.
+    try:
+        crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
+        output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
+        resultados["proposta_a"] = extrair_csv_do_output(str(output_a))
+        salvar_proposta(run_dir, "proposta_a", resultados["proposta_a"])
+    except Exception as error:
+        print(f"✗ Erro no Agente 1: {str(error)}")
+
+    try:
+        crew2 = Crew(agents=[agente2], tasks=[task2], verbose=False)
+        output_b = silent_kickoff(crew2, {"example": example, "requirements": requirements})
+        resultados["proposta_b"] = extrair_csv_do_output(str(output_b))
+        salvar_proposta(run_dir, "proposta_b", resultados["proposta_b"])
+    except Exception as error:
+        print(f"✗ Erro no Agente 2: {str(error)}")
+
+    metricas_pre = {}
+    for key in ("proposta_a", "proposta_b"):
+        if resultados.get(key):
+            try:
+                services = parse_csv_architecture(resultados[key])
+                metricas_pre[key] = calculate_metrics(services, reference_services)
+            except Exception:
+                metricas_pre[key] = None
+            try:
+                interactions = parse_csv_interactions(resultados[key])
+                metricas_pre[f"{key}_inter"] = evaluate_interactions(
+                    interactions, interaction_reference
+                )
+            except Exception:
+                metricas_pre[f"{key}_inter"] = None
+        else:
+            metricas_pre[key] = None
+            metricas_pre[f"{key}_inter"] = None
+
+    if resultados["proposta_a"] and resultados["proposta_b"]:
+        try:
+            crew3 = Crew(agents=[agente3], tasks=[task3], verbose=False)
+            output_c = silent_kickoff(crew3, {
+                "architecture_a": resultados["proposta_a"],
+                "architecture_b": resultados["proposta_b"],
+                "metrics_a": _format_metrics_for_prompt(
+                    metricas_pre.get("proposta_a"), metricas_pre.get("proposta_a_inter")
+                ),
+                "metrics_b": _format_metrics_for_prompt(
+                    metricas_pre.get("proposta_b"), metricas_pre.get("proposta_b_inter")
+                ),
+                "requirements": requirements,
+            })
+            output_c_limpo = extrair_csv_do_output(str(output_c))
+            resultados["consolidada"] = (
+                output_c_limpo
+                if _is_valid_architecture_csv(output_c_limpo)
+                else resultados["proposta_a"]
+            )
+        except Exception:
+            resultados["consolidada"] = resultados["proposta_a"]
+        salvar_proposta(run_dir, "consolidada", resultados["consolidada"])
+
+    metricas = {}
+    for key in ("proposta_a", "proposta_b", "consolidada"):
+        if resultados.get(key):
+            try:
+                metricas[key] = calculate_metrics(
+                    parse_csv_architecture(resultados[key]), reference_services
+                )
+                metricas[f"{key}_inter"] = evaluate_interactions(
+                    parse_csv_interactions(resultados[key]), interaction_reference
+                )
+            except Exception:
+                metricas[key] = None
+                metricas[f"{key}_inter"] = None
+        else:
+            metricas[key] = None
+            metricas[f"{key}_inter"] = None
+
+    especificacao_yaml = gerar_especificacao_yaml(system_name, resultados.get("consolidada", ""))
+    (run_dir / "especificacao_arquitetural.yaml").write_text(especificacao_yaml, encoding="utf-8")
+    resultados["especificacao_yaml"] = especificacao_yaml
+    salvar_metricas(run_dir, metricas)
+    salvar_sumario_json(run_dir, metricas)
+    salvar_relatorio_md(run_dir, system_name, metricas)
+    return resultados, metricas
+
+
 def executar_pipeline(system_name: str,
                       requirements: str,
                       reference_services: list,
                       interaction_reference: set,
-                      example: str = EXAMPLE_GENERIC) -> tuple:
+                      example: str = EXAMPLE_GENERIC,
+                      tracer_run_id: str | None = None) -> tuple:
     llm = criar_llm()
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
     config = {
         "name": system_name,
         "requirements": requirements,
         "reference_services": reference_services,
         "interaction_reference": interaction_reference,
+        "tracer_run_id": tracer_run_id or timestamp,
     }
     resultados, metricas = _executar_experimento(llm, system_name, config, timestamp, example)
     return resultados, metricas
+
+
+def executar_pipeline_c0(system_name: str,
+                         requirements: str,
+                         reference_services: list,
+                         interaction_reference: set,
+                         example: str = EXAMPLE_GENERIC,
+                         tracer_run_id: str | None = None) -> tuple:
+    """Run the C0 single-agent baseline without changing the full pipeline."""
+    llm = criar_llm()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    config = {
+        "name": system_name,
+        "requirements": requirements,
+        "reference_services": reference_services,
+        "interaction_reference": interaction_reference,
+        "tracer_run_id": tracer_run_id or timestamp,
+    }
+    return _executar_experimento_c0(llm, system_name, config, timestamp, example)
+
+
+def executar_pipeline_c2(system_name: str,
+                         requirements: str,
+                         reference_services: list,
+                         interaction_reference: set,
+                         example: str = EXAMPLE_GENERIC,
+                         tracer_run_id: str | None = None) -> tuple:
+    """Run C2 without Agent 4 while preserving the full pipeline executor."""
+    llm = criar_llm()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    config = {
+        "name": system_name,
+        "requirements": requirements,
+        "reference_services": reference_services,
+        "interaction_reference": interaction_reference,
+        "tracer_run_id": tracer_run_id or timestamp,
+    }
+    return _executar_experimento_c2(llm, system_name, config, timestamp, example)
+
+
+@track_execution
+def _executar_experimento_c3(llm, system_name: str, config: dict, timestamp: str, example: str):
+    """Execute C3 with Agent 1, refinement by Agent 4, and YAML export."""
+    system_name = config["name"]
+    requirements = config["requirements"]
+    reference_services = config["reference_services"]
+    interaction_reference = config["interaction_reference"]
+    run_dir = criar_diretorio_run(system_name, timestamp)
+
+    agente1 = criar_agente1(llm)
+    agente4 = criar_agente4(llm)
+    task1 = criar_task_arquitetura(agente1)
+    task4 = criar_task_refinamento(agente4)
+    resultados = {"proposta_a": None, "proposta_b": None, "consolidada": None}
+
+    # C3 intentionally does not instantiate or call Agents 2 and 3.
+    try:
+        crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
+        output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
+        original_a = extrair_csv_do_output(str(output_a))
+        proposta_a_refinada = original_a
+
+        # C3 has no independent proposal B or consolidation step.
+        try:
+            crew4 = Crew(agents=[agente4], tasks=[task4], verbose=False)
+            refined_a = extrair_csv_do_output(str(silent_kickoff(crew4, {
+                "original_architecture": original_a,
+                "requirements": requirements,
+            })))
+            refined_services = parse_csv_architecture(refined_a)
+            original_services = parse_csv_architecture(original_a)
+            if refined_a.strip() and refined_services and len(refined_services) >= len(original_services):
+                proposta_a_refinada = refined_a
+        except Exception:
+            proposta_a_refinada = original_a
+
+        resultados["proposta_a"] = proposta_a_refinada
+        resultados["consolidada"] = proposta_a_refinada
+        salvar_proposta(run_dir, "proposta_a", proposta_a_refinada)
+        salvar_proposta(run_dir, "consolidada", proposta_a_refinada)
+    except Exception as error:
+        print(f"✗ Erro no Agente 1: {str(error)}")
+
+    metricas = {"proposta_a": None, "proposta_a_inter": None}
+    if resultados["proposta_a"]:
+        try:
+            metricas["proposta_a"] = calculate_metrics(
+                parse_csv_architecture(resultados["proposta_a"]), reference_services
+            )
+            metricas["proposta_a_inter"] = evaluate_interactions(
+                parse_csv_interactions(resultados["proposta_a"]), interaction_reference
+            )
+        except Exception:
+            pass
+
+    especificacao_yaml = gerar_especificacao_yaml(system_name, resultados["proposta_a"] or "")
+    (run_dir / "especificacao_arquitetural.yaml").write_text(especificacao_yaml, encoding="utf-8")
+    resultados["especificacao_yaml"] = especificacao_yaml
+    salvar_metricas(run_dir, metricas)
+    salvar_sumario_json(run_dir, metricas)
+    salvar_relatorio_md(run_dir, system_name, metricas)
+    return resultados, metricas
+
+
+def executar_pipeline_c3(system_name: str,
+                         requirements: str,
+                         reference_services: list,
+                         interaction_reference: set,
+                         example: str = EXAMPLE_GENERIC,
+                         tracer_run_id: str | None = None) -> tuple:
+    """Run C3 with only Agent 1, Agent 4, and Agent 5."""
+    llm = criar_llm()
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    config = {
+        "name": system_name,
+        "requirements": requirements,
+        "reference_services": reference_services,
+        "interaction_reference": interaction_reference,
+        "tracer_run_id": tracer_run_id or timestamp,
+    }
+    return _executar_experimento_c3(llm, system_name, config, timestamp, example)

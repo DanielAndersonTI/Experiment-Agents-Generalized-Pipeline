@@ -1,0 +1,194 @@
+[
+  {
+    "system": "7ep",
+    "execution_id": "20260903_205456_340115",
+    "execution": {
+      "started_at": "2026-09-03T23:54:56.340+00:00",
+      "finished_at": "2026-09-03T23:55:04.543+00:00",
+      "duration_ms": 8203.45
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 2464,
+      "total_tokens": 5033
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2464,
+        "total_tokens": 5033,
+        "duration_ms": 7911.037
+      }
+    }
+  },
+  {
+    "system": "AcmeAir",
+    "execution_id": "20260903_205507_557562",
+    "execution": {
+      "started_at": "2026-09-03T23:55:07.557+00:00",
+      "finished_at": "2026-09-03T23:56:09.718+00:00",
+      "duration_ms": 62160.483
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 20208,
+      "total_tokens": 22593
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 20208,
+        "total_tokens": 22593,
+        "duration_ms": 59847.699
+      }
+    }
+  },
+  {
+    "system": "Cargo-Tracker",
+    "execution_id": "20260903_205613_794223",
+    "execution": {
+      "started_at": "2026-09-03T23:56:13.794+00:00",
+      "finished_at": "2026-09-03T23:56:26.326+00:00",
+      "duration_ms": 12532.222
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 3330,
+      "total_tokens": 5923
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 3330,
+        "total_tokens": 5923,
+        "duration_ms": 11639.006
+      }
+    }
+  },
+  {
+    "system": "DayTrader7",
+    "execution_id": "20260903_205630_934210",
+    "execution": {
+      "started_at": "2026-09-03T23:56:30.935+00:00",
+      "finished_at": "2026-09-03T23:56:53.620+00:00",
+      "duration_ms": 22685.367
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 6765,
+      "total_tokens": 9516
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 6765,
+        "total_tokens": 9516,
+        "duration_ms": 22421.214
+      }
+    }
+  },
+  {
+    "system": "Jokul",
+    "execution_id": "20260903_205658_591372",
+    "execution": {
+      "started_at": "2026-09-03T23:56:58.591+00:00",
+      "finished_at": "2026-09-03T23:57:06.676+00:00",
+      "duration_ms": 8084.879
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 2351,
+      "total_tokens": 4854
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2351,
+        "total_tokens": 4854,
+        "duration_ms": 7605.602
+      }
+    }
+  },
+  {
+    "system": "JPetStore",
+    "execution_id": "20260903_205715_017100",
+    "execution": {
+      "started_at": "2026-09-03T23:57:15.018+00:00",
+      "finished_at": "2026-09-03T23:57:25.995+00:00",
+      "duration_ms": 10977.285
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 3251,
+      "total_tokens": 5989
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 3251,
+        "total_tokens": 5989,
+        "duration_ms": 10566.203
+      }
+    }
+  },
+  {
+    "system": "PetClinic",
+    "execution_id": "20260903_205729_391362",
+    "execution": {
+      "started_at": "2026-09-03T23:57:29.391+00:00",
+      "finished_at": "2026-09-03T23:57:45.957+00:00",
+      "duration_ms": 16566.482
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 4914,
+      "total_tokens": 7060
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 4914,
+        "total_tokens": 7060,
+        "duration_ms": 15679.297
+      }
+    }
+  },
+  {
+    "system": "TNTConcept",
+    "execution_id": "20260903_205751_389420",
+    "execution": {
+      "started_at": "2026-09-03T23:57:51.389+00:00",
+      "finished_at": "2026-09-03T23:57:58.766+00:00",
+      "duration_ms": 7377.179
+    },
+    "llm_usage": {
+      "total_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 2270,
+      "total_tokens": 4241
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2270,
+        "total_tokens": 4241,
+        "duration_ms": 7039.149
+      }
+    }
+  }
+]

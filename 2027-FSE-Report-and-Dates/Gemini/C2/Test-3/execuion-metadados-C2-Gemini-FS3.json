@@ -1,0 +1,786 @@
+[
+  {
+    "system": "7ep",
+    "execution_id": "20260907_231654_505656",
+    "execution": {
+      "started_at": "2026-09-08T02:16:54.505+00:00",
+      "finished_at": "2026-09-08T02:17:52.686+00:00",
+      "duration_ms": 58181.057
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 19882,
+      "total_tokens": 57390
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 1922,
+        "total_tokens": 4491,
+        "duration_ms": 6848.372
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 6448,
+        "total_tokens": 26022,
+        "duration_ms": 18637.174
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 11183,
+        "total_tokens": 14889,
+        "duration_ms": 29253.894
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 329,
+        "total_tokens": 11988,
+        "duration_ms": 2520.603
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:16:54.751+00:00",
+        "finished_at": "2026-09-08T02:17:01.602+00:00",
+        "duration_ms": 6848.372,
+        "prompt_tokens": null,
+        "completion_tokens": 1922,
+        "total_tokens": 4491,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:17:01.990+00:00",
+        "finished_at": "2026-09-08T02:17:20.631+00:00",
+        "duration_ms": 18637.174,
+        "prompt_tokens": null,
+        "completion_tokens": 6448,
+        "total_tokens": 26022,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:17:20.821+00:00",
+        "finished_at": "2026-09-08T02:17:50.081+00:00",
+        "duration_ms": 29253.894,
+        "prompt_tokens": null,
+        "completion_tokens": 11183,
+        "total_tokens": 14889,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:17:50.108+00:00",
+        "finished_at": "2026-09-08T02:17:52.631+00:00",
+        "duration_ms": 2520.603,
+        "prompt_tokens": null,
+        "completion_tokens": 329,
+        "total_tokens": 11988,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "AcmeAir",
+    "execution_id": "20260907_231756_095574",
+    "execution": {
+      "started_at": "2026-09-08T02:17:56.095+00:00",
+      "finished_at": "2026-09-08T02:18:28.326+00:00",
+      "duration_ms": 32231.036
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 8284,
+      "total_tokens": 36444
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 3131,
+        "total_tokens": 5516,
+        "duration_ms": 10429.591
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2141,
+        "total_tokens": 21531,
+        "duration_ms": 10189.342
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2680,
+        "total_tokens": 5993,
+        "duration_ms": 7552.959
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 332,
+        "total_tokens": 3404,
+        "duration_ms": 2745.758
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:17:56.251+00:00",
+        "finished_at": "2026-09-08T02:18:06.683+00:00",
+        "duration_ms": 10429.591,
+        "prompt_tokens": null,
+        "completion_tokens": 3131,
+        "total_tokens": 5516,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:18:07.372+00:00",
+        "finished_at": "2026-09-08T02:18:17.565+00:00",
+        "duration_ms": 10189.342,
+        "prompt_tokens": null,
+        "completion_tokens": 2141,
+        "total_tokens": 21531,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:18:17.942+00:00",
+        "finished_at": "2026-09-08T02:18:25.500+00:00",
+        "duration_ms": 7552.959,
+        "prompt_tokens": null,
+        "completion_tokens": 2680,
+        "total_tokens": 5993,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:18:25.527+00:00",
+        "finished_at": "2026-09-08T02:18:28.276+00:00",
+        "duration_ms": 2745.758,
+        "prompt_tokens": null,
+        "completion_tokens": 332,
+        "total_tokens": 3404,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "Cargo-Tracker",
+    "execution_id": "20260907_231831_853562",
+    "execution": {
+      "started_at": "2026-09-08T02:18:31.853+00:00",
+      "finished_at": "2026-09-08T02:19:22.440+00:00",
+      "duration_ms": 50587.366
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 15734,
+      "total_tokens": 44906
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 5903,
+        "total_tokens": 8496,
+        "duration_ms": 18943.807
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 6935,
+        "total_tokens": 26533,
+        "duration_ms": 19858.199
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2459,
+        "total_tokens": 6059,
+        "duration_ms": 6930.606
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 437,
+        "total_tokens": 3818,
+        "duration_ms": 3965.46
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:18:32.034+00:00",
+        "finished_at": "2026-09-08T02:18:50.980+00:00",
+        "duration_ms": 18943.807,
+        "prompt_tokens": null,
+        "completion_tokens": 5903,
+        "total_tokens": 8496,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:18:51.363+00:00",
+        "finished_at": "2026-09-08T02:19:11.223+00:00",
+        "duration_ms": 19858.199,
+        "prompt_tokens": null,
+        "completion_tokens": 6935,
+        "total_tokens": 26533,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:19:11.439+00:00",
+        "finished_at": "2026-09-08T02:19:18.375+00:00",
+        "duration_ms": 6930.606,
+        "prompt_tokens": null,
+        "completion_tokens": 2459,
+        "total_tokens": 6059,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:19:18.427+00:00",
+        "finished_at": "2026-09-08T02:19:22.398+00:00",
+        "duration_ms": 3965.46,
+        "prompt_tokens": null,
+        "completion_tokens": 437,
+        "total_tokens": 3818,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "DayTrader7",
+    "execution_id": "20260907_231926_924901",
+    "execution": {
+      "started_at": "2026-09-08T02:19:26.924+00:00",
+      "finished_at": "2026-09-08T02:20:02.555+00:00",
+      "duration_ms": 35630.713
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 10380,
+      "total_tokens": 40558
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 4138,
+        "total_tokens": 6889,
+        "duration_ms": 13495.263
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2922,
+        "total_tokens": 22678,
+        "duration_ms": 10006.955
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2949,
+        "total_tokens": 6893,
+        "duration_ms": 8930.375
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 371,
+        "total_tokens": 4098,
+        "duration_ms": 1948.883
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:19:27.178+00:00",
+        "finished_at": "2026-09-08T02:19:40.679+00:00",
+        "duration_ms": 13495.263,
+        "prompt_tokens": null,
+        "completion_tokens": 4138,
+        "total_tokens": 6889,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:19:41.114+00:00",
+        "finished_at": "2026-09-08T02:19:51.134+00:00",
+        "duration_ms": 10006.955,
+        "prompt_tokens": null,
+        "completion_tokens": 2922,
+        "total_tokens": 22678,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:19:51.552+00:00",
+        "finished_at": "2026-09-08T02:20:00.486+00:00",
+        "duration_ms": 8930.375,
+        "prompt_tokens": null,
+        "completion_tokens": 2949,
+        "total_tokens": 6893,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:00.528+00:00",
+        "finished_at": "2026-09-08T02:20:02.483+00:00",
+        "duration_ms": 1948.883,
+        "prompt_tokens": null,
+        "completion_tokens": 371,
+        "total_tokens": 4098,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "Jokul",
+    "execution_id": "20260907_232006_202832",
+    "execution": {
+      "started_at": "2026-09-08T02:20:06.202+00:00",
+      "finished_at": "2026-09-08T02:20:27.850+00:00",
+      "duration_ms": 21647.962
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 5469,
+      "total_tokens": 33388
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2062,
+        "total_tokens": 4565,
+        "duration_ms": 7273.088
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 1311,
+        "total_tokens": 20819,
+        "duration_ms": 5176.209
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 1499,
+        "total_tokens": 4697,
+        "duration_ms": 4808.548
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 597,
+        "total_tokens": 3307,
+        "duration_ms": 3534.416
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:06.436+00:00",
+        "finished_at": "2026-09-08T02:20:13.714+00:00",
+        "duration_ms": 7273.088,
+        "prompt_tokens": null,
+        "completion_tokens": 2062,
+        "total_tokens": 4565,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:14.098+00:00",
+        "finished_at": "2026-09-08T02:20:19.277+00:00",
+        "duration_ms": 5176.209,
+        "prompt_tokens": null,
+        "completion_tokens": 1311,
+        "total_tokens": 20819,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:19.429+00:00",
+        "finished_at": "2026-09-08T02:20:24.241+00:00",
+        "duration_ms": 4808.548,
+        "prompt_tokens": null,
+        "completion_tokens": 1499,
+        "total_tokens": 4697,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:24.270+00:00",
+        "finished_at": "2026-09-08T02:20:27.807+00:00",
+        "duration_ms": 3534.416,
+        "prompt_tokens": null,
+        "completion_tokens": 597,
+        "total_tokens": 3307,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "JPetStore",
+    "execution_id": "20260907_232030_013997",
+    "execution": {
+      "started_at": "2026-09-08T02:20:30.013+00:00",
+      "finished_at": "2026-09-08T02:21:34.019+00:00",
+      "duration_ms": 64005.552
+    },
+    "llm_usage": {
+      "total_calls": 5,
+      "prompt_tokens": 0,
+      "completion_tokens": 19840,
+      "total_tokens": 58964
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 4412,
+        "total_tokens": 7150,
+        "duration_ms": 13702.29
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 2620,
+        "total_tokens": 22363,
+        "duration_ms": 9055.451
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 12431,
+        "total_tokens": 19727,
+        "duration_ms": 38141.565
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 377,
+        "total_tokens": 9724,
+        "duration_ms": 2305.617
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:30.156+00:00",
+        "finished_at": "2026-09-08T02:20:43.859+00:00",
+        "duration_ms": 13702.29,
+        "prompt_tokens": null,
+        "completion_tokens": 4412,
+        "total_tokens": 7150,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:44.212+00:00",
+        "finished_at": "2026-09-08T02:20:53.270+00:00",
+        "duration_ms": 9055.451,
+        "prompt_tokens": null,
+        "completion_tokens": 2620,
+        "total_tokens": 22363,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:20:53.434+00:00",
+        "finished_at": "2026-09-08T02:21:05.165+00:00",
+        "duration_ms": 11727.905,
+        "prompt_tokens": null,
+        "completion_tokens": 2715,
+        "total_tokens": 6363,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:21:05.222+00:00",
+        "finished_at": "2026-09-08T02:21:31.637+00:00",
+        "duration_ms": 26413.66,
+        "prompt_tokens": null,
+        "completion_tokens": 9716,
+        "total_tokens": 13364,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:21:31.666+00:00",
+        "finished_at": "2026-09-08T02:21:33.975+00:00",
+        "duration_ms": 2305.617,
+        "prompt_tokens": null,
+        "completion_tokens": 377,
+        "total_tokens": 9724,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "PetClinic",
+    "execution_id": "20260907_232136_487944",
+    "execution": {
+      "started_at": "2026-09-08T02:21:36.487+00:00",
+      "finished_at": "2026-09-08T02:22:22.971+00:00",
+      "duration_ms": 46483.567
+    },
+    "llm_usage": {
+      "total_calls": 5,
+      "prompt_tokens": 0,
+      "completion_tokens": 13937,
+      "total_tokens": 44440
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 3481,
+        "total_tokens": 5627,
+        "duration_ms": 11084.793
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 5350,
+        "total_tokens": 24501,
+        "duration_ms": 17713.781
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 4565,
+        "total_tokens": 11318,
+        "duration_ms": 13982.504
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 541,
+        "total_tokens": 2994,
+        "duration_ms": 2347.128
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:21:36.619+00:00",
+        "finished_at": "2026-09-08T02:21:47.708+00:00",
+        "duration_ms": 11084.793,
+        "prompt_tokens": null,
+        "completion_tokens": 3481,
+        "total_tokens": 5627,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:21:48.180+00:00",
+        "finished_at": "2026-09-08T02:22:05.886+00:00",
+        "duration_ms": 17713.781,
+        "prompt_tokens": null,
+        "completion_tokens": 5350,
+        "total_tokens": 24501,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:22:06.287+00:00",
+        "finished_at": "2026-09-08T02:22:18.569+00:00",
+        "duration_ms": 12274.524,
+        "prompt_tokens": null,
+        "completion_tokens": 4207,
+        "total_tokens": 7158,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:22:18.688+00:00",
+        "finished_at": "2026-09-08T02:22:20.405+00:00",
+        "duration_ms": 1707.98,
+        "prompt_tokens": null,
+        "completion_tokens": 358,
+        "total_tokens": 4160,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:22:20.517+00:00",
+        "finished_at": "2026-09-08T02:22:22.867+00:00",
+        "duration_ms": 2347.128,
+        "prompt_tokens": null,
+        "completion_tokens": 541,
+        "total_tokens": 2994,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "TNTConcept",
+    "execution_id": "20260907_232226_089142",
+    "execution": {
+      "started_at": "2026-09-08T02:22:26.089+00:00",
+      "finished_at": "2026-09-08T02:23:33.838+00:00",
+      "duration_ms": 67749.327
+    },
+    "llm_usage": {
+      "total_calls": 4,
+      "prompt_tokens": 0,
+      "completion_tokens": 20001,
+      "total_tokens": 47810
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 7442,
+        "total_tokens": 9413,
+        "duration_ms": 22767.896
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 6482,
+        "total_tokens": 25458,
+        "duration_ms": 25458.509
+      },
+      "agent_3": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 5619,
+        "total_tokens": 9115,
+        "duration_ms": 15492.577
+      },
+      "unknown": {
+        "calls": 1,
+        "prompt_tokens": 0,
+        "completion_tokens": 458,
+        "total_tokens": 3824,
+        "duration_ms": 2883.668
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:22:26.421+00:00",
+        "finished_at": "2026-09-08T02:22:49.191+00:00",
+        "duration_ms": 22767.896,
+        "prompt_tokens": null,
+        "completion_tokens": 7442,
+        "total_tokens": 9413,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:22:49.538+00:00",
+        "finished_at": "2026-09-08T02:23:15.056+00:00",
+        "duration_ms": 25458.509,
+        "prompt_tokens": null,
+        "completion_tokens": 6482,
+        "total_tokens": 25458,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:23:15.285+00:00",
+        "finished_at": "2026-09-08T02:23:30.779+00:00",
+        "duration_ms": 15492.577,
+        "prompt_tokens": null,
+        "completion_tokens": 5619,
+        "total_tokens": 9115,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "gemini-flash-latest",
+        "provider": null,
+        "started_at": "2026-09-08T02:23:30.869+00:00",
+        "finished_at": "2026-09-08T02:23:33.756+00:00",
+        "duration_ms": 2883.668,
+        "prompt_tokens": null,
+        "completion_tokens": 458,
+        "total_tokens": 3824,
+        "status": "completed"
+      }
+    ]
+  }
+]

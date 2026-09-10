@@ -1,0 +1,10 @@
+# Arquivos gerados pela análise (não versionar)
+
+`_text_cache.json` é um cache de texto extraído dos PDFs, regenerável com
+`cache_texts.py`. `_cache.log`, `_cache.err` e `__pycache__/` são artefatos
+temporários de execução.
+
+_text_cache.json
+_cache.log
+_cache.err
+__pycache__/

@@ -1,0 +1,314 @@
+Implemente no DAVINCI Architect um sistema de **rastreamento de consumo e tempo de execução (observability/tracing)**, sem alterar o comportamento atual do experimento.
+
+### REGRA PRINCIPAL — NÃO ALTERAR O PIPELINE
+
+Esta implementação deve ser **não invasiva**. O pipeline experimental existente deve continuar funcionando exatamente como está hoje.
+
+NÃO alterar:
+
+* prompts existentes;
+* respostas esperadas;
+* agentes;
+* ordem de execução;
+* lógica dos agentes;
+* modelos;
+* provider;
+* temperatura ou demais parâmetros;
+* estratégias de consolidação;
+* cálculo das métricas;
+* geração dos artefatos;
+* interface existente;
+* comportamento de "Novo experimento";
+* comportamento de "Refazer experimento";
+* estrutura ou conteúdo dos resultados já existentes.
+
+O tracer deve apenas **observar e registrar** o que acontece.
+
+O fluxo atual deve permanecer:
+
+Usuário fornece inputs
+→ Agente 1
+→ Agente 2
+→ Agente 4
+→ cálculo das métricas
+→ Agente 3
+→ Agente 5
+→ salvamento dos resultados.
+
+---
+
+### 1. Criar um Execution Tracker centralizado
+
+Crie uma estrutura central, por exemplo:
+
+`ExecutionTracker`
+
+Ela deve acompanhar uma execução inteira através de um `execution_id` único.
+
+No início da execução:
+
+* gerar/receber o mesmo identificador usado pelo diretório da execução;
+* registrar timestamp de início.
+
+No final:
+
+* registrar timestamp de término;
+* calcular duração total da execução.
+
+O tracker não deve controlar o pipeline. Ele apenas coleta informações.
+
+---
+
+### 2. Rastrear TODAS as chamadas às LLMs
+
+Para cada chamada real realizada por qualquer agente, registrar:
+
+* execution_id;
+* agent;
+* model;
+* provider;
+* timestamp de início;
+* timestamp de término;
+* duração da chamada;
+* prompt/input tokens;
+* completion/output tokens;
+* total tokens.
+
+Não assumir que existe uma chamada por agente.
+
+Se um agente fizer duas ou mais chamadas, todas devem ser registradas individualmente.
+
+Preferir mecanismos nativos de callback/hook/middleware do framework atualmente utilizado, quando disponíveis, em vez de modificar a lógica interna dos agentes.
+
+---
+
+### 3. Usar tokens reais retornados pela API
+
+Quando a resposta da LLM fornecer informações de usage, utilizar os valores reais retornados pelo provider/framework.
+
+Registrar separadamente:
+
+`prompt_tokens`
+
+`completion_tokens`
+
+`total_tokens`
+
+NÃO substituir tokens reais por estimativas quando os valores reais estiverem disponíveis.
+
+Se determinado provider/modelo não retornar informação de tokens, o campo deve ser `null` e a execução deve continuar normalmente.
+
+O tracker nunca deve interromper uma execução por falta de informação de usage.
+
+---
+
+### 4. Registrar tempo
+
+Registrar:
+
+#### Tempo de cada chamada LLM
+
+Por exemplo:
+
+```text
+agent_1 → 8.420 ms
+agent_2 → 7.910 ms
+```
+
+#### Tempo total da execução
+
+Desde o início do pipeline até sua conclusão.
+
+Não confundir tempo de uma chamada LLM com tempo total do experimento.
+
+O tempo total deve incluir todo o processamento realizado pelo DAVINCI, inclusive processamento local e geração/salvamento de artefatos.
+
+---
+
+### 5. Salvar os dados sem modificar os artefatos atuais
+
+Cada execução atualmente cria seu próprio diretório.
+
+Mantenha exatamente esse comportamento.
+
+Adicione apenas um novo arquivo:
+
+`execution_metadata.json`
+
+Exemplo:
+
+```json
+{
+  "execution_id": "20260902_193015",
+
+  "execution": {
+    "started_at": "...",
+    "finished_at": "...",
+    "duration_ms": 93421
+  },
+
+  "llm_usage": {
+    "total_calls": 7,
+    "prompt_tokens": 18432,
+    "completion_tokens": 6421,
+    "total_tokens": 24853
+  },
+
+  "agents": {
+    "agent_1": {
+      "calls": 1,
+      "prompt_tokens": 3200,
+      "completion_tokens": 1100,
+      "total_tokens": 4300,
+      "duration_ms": 8420
+    },
+    "agent_2": {
+      "calls": 1,
+      "prompt_tokens": 2900,
+      "completion_tokens": 980,
+      "total_tokens": 3880,
+      "duration_ms": 7910
+    }
+  },
+
+  "calls": [
+    {
+      "agent": "agent_1",
+      "model": "gemini-...",
+      "provider": "google",
+      "prompt_tokens": 3200,
+      "completion_tokens": 1100,
+      "total_tokens": 4300,
+      "duration_ms": 8420
+    }
+  ]
+}
+```
+
+Os valores acima são apenas ilustrativos.
+
+O arquivo deve conter os dados reais da execução.
+
+---
+
+### 6. Agregações
+
+Além dos dados individuais das chamadas, calcular automaticamente:
+
+* número total de chamadas;
+* total de prompt tokens;
+* total de completion tokens;
+* total de tokens;
+* duração total da execução;
+* número de chamadas por agente;
+* tokens por agente;
+* duração por agente.
+
+Manter tanto os dados individuais quanto os agregados.
+
+Isso permitirá análises experimentais futuras.
+
+---
+
+### 7. Compatibilidade com Gemini e DeepSeek e OpenAI
+
+A implementação deve funcionar com os providers/modelos atualmente utilizados pelo DAVINCI, incluindo Gemini e DeepSeek e OpenAI.
+
+Não alterar a forma como esses modelos são configurados ou chamados apenas para implementar o tracker.
+
+Primeiro inspecione como o projeto atualmente realiza as chamadas LLM e identifique o ponto correto para interceptá-las.
+
+---
+
+### 8. Falha do tracker nunca pode quebrar o experimento
+
+Esta é uma exigência crítica.
+
+Qualquer erro relacionado exclusivamente ao tracing/observability deve ser tratado de forma isolada.
+
+Se o tracker falhar:
+
+* o agente deve continuar;
+* o pipeline deve continuar;
+* os resultados devem continuar sendo gerados;
+* o experimento não deve ser considerado falho por causa do tracker.
+
+Observabilidade é secundária à execução experimental.
+
+---
+
+### 9. Refazer experimento
+
+NÃO alterar a lógica atual do botão "Refazer experimento".
+
+Quando o usuário refizer um experimento:
+
+* os mesmos inputs devem continuar sendo reutilizados;
+* uma nova execução deve continuar recebendo um novo `execution_id`;
+* o tracker deve iniciar uma nova sessão;
+* os tokens e tempos devem ser registrados separadamente;
+* os dados da nova execução devem ser salvos no novo diretório.
+
+Não persistir ou alterar os inputs atuais apenas para implementar o tracing.
+
+---
+
+### 10. Interface
+
+Nesta primeira implementação, NÃO modificar a interface para exibir tokens ou tempo.
+
+A prioridade é:
+
+1. coletar;
+2. calcular;
+3. persistir corretamente.
+
+A visualização desses dados será implementada posteriormente.
+
+---
+
+### 11. Não fazer refatoração desnecessária
+
+Antes de modificar qualquer arquivo:
+
+1. inspecione a arquitetura atual;
+2. identifique onde as chamadas LLM são realizadas;
+3. identifique onde uma execução começa e termina;
+4. identifique onde o diretório de resultados é criado;
+5. identifique como Gemini e DeepSeek são utilizados;
+6. escolha o ponto de integração menos invasivo.
+
+Não refatore código existente apenas por questões de estilo.
+
+Faça somente as alterações necessárias para implementar o tracing.
+
+---
+
+### 12. Validação obrigatória
+
+Depois da implementação, execute um teste completo do DAVINCI e confirme:
+
+* o pipeline continua seguindo exatamente a ordem atual;
+* todos os agentes continuam funcionando;
+* os resultados existentes continuam sendo gerados;
+* os PDFs continuam sendo gerados;
+* o YAML continua sendo gerado;
+* o relatório Markdown continua sendo gerado;
+* o "Refazer experimento" continua funcionando;
+* um novo `execution_metadata.json` é criado;
+* o número de chamadas registradas corresponde às chamadas reais;
+* os tokens registrados correspondem aos dados retornados pelas LLMs;
+* o tempo total é registrado;
+* os tempos individuais das chamadas são registrados.
+
+Também faça um segundo "Refazer experimento" e confirme que ele gera outro `execution_id` e outro conjunto independente de dados de consumo.
+
+### Resultado esperado
+
+A implementação deve adicionar uma camada de observabilidade ao DAVINCI, mas o comportamento experimental deve permanecer funcionalmente idêntico ao existente.
+
+Em resumo:
+
+**DAVINCI executa → Tracker observa → DAVINCI termina → Tracker salva os dados.**
+
+O Tracker NÃO deve decidir, modificar, substituir ou interferir em nenhuma etapa do experimento.

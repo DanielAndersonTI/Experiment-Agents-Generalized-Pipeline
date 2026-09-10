@@ -6,6 +6,7 @@ import json
 import mimetypes
 import struct
 import textwrap
+import traceback
 import zlib
 from datetime import datetime
 from http import HTTPStatus
@@ -63,6 +64,7 @@ def _latest_persisted_proposals(system_name: str) -> dict[str, str]:
             ("agent_a", "proposta_a.csv"),
             ("agent_b", "proposta_b.csv"),
             ("consolidated", "consolidada.csv"),
+            ("specification", "especificacao_arquitetural.yaml"),
         ):
             file_path = run_dir / filename
             if file_path.is_file():
@@ -122,9 +124,10 @@ def _report_run() -> dict | None:
         saved = _latest_persisted_proposals(system_name)
         proposals.append({
             "system": system_name,
-            "agent_a": saved.get("agent_a", fallback.get("agent_a", "")),
-            "agent_b": saved.get("agent_b", fallback.get("agent_b", "")),
-            "consolidated": saved.get("consolidated", fallback.get("consolidated", "")),
+            "agent_a": saved.get("agent_a") or fallback.get("agent_a") or "",
+            "agent_b": saved.get("agent_b") or fallback.get("agent_b") or "",
+            "consolidated": saved.get("consolidated") or fallback.get("consolidated") or "",
+            "specification": saved.get("specification") or fallback.get("specification") or "",
         })
     report_run["proposals"] = proposals
     return report_run
@@ -153,6 +156,9 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
             return
         if path == "/api/report/pdf":
             self._serve_pdf_report()
+            return
+        if path == "/api/report/specification-pdf":
+            self._serve_specification_pdf()
             return
         if path == "/api/pipeline/progress":
             with PROGRESS_LOCK:
@@ -194,10 +200,34 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
                 {"ok": False, "code": "report_unavailable", "message": "Run a successful pipeline execution before downloading a report."},
             )
             return
-        content = build_pdf_report(report_run)
+        try:
+            content = build_pdf_report(report_run)
+        except Exception:
+            traceback.print_exc()
+            self._send_json(
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+                {"ok": False, "code": "report_generation_failed", "message": "The full report could not be generated."},
+            )
+            return
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "application/pdf")
         self.send_header("Content-Disposition", "attachment; filename=virtus-architecture-report.pdf")
+        self.send_header("Content-Length", str(len(content)))
+        self.end_headers()
+        self.wfile.write(content)
+
+    def _serve_specification_pdf(self) -> None:
+        report_run = _report_run()
+        if report_run is None or not any(item.get("specification") for item in report_run.get("proposals", [])):
+            self._send_json(
+                HTTPStatus.NOT_FOUND,
+                {"ok": False, "code": "specification_unavailable", "message": "Run a successful pipeline execution before downloading the specification."},
+            )
+            return
+        content = build_pdf_specification(report_run)
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "application/pdf")
+        self.send_header("Content-Disposition", "attachment; filename=virtus-architectural-specification.pdf")
         self.send_header("Content-Length", str(len(content)))
         self.end_headers()
         self.wfile.write(content)
@@ -287,7 +317,7 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
                 )
                 return
 
-        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         generated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with PROGRESS_LOCK:
             PIPELINE_PROGRESS.update({
@@ -304,7 +334,7 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
         errors = []
         warnings = []
         for index, system in enumerate(systems):
-            pipeline_result = run_real_pipeline(system)
+            pipeline_result = run_real_pipeline(system, tracer_run_id=run_id)
             if not pipeline_result.get("ok"):
                 errors.append({"system": system.get("system_name", ""), "message": pipeline_result.get("error", "The pipeline failed.")})
             else:
@@ -332,6 +362,7 @@ class VirtusRequestHandler(BaseHTTPRequestHandler):
                     "agent_a": results.get("proposta_a", ""),
                     "agent_b": results.get("proposta_b", ""),
                     "consolidated": results.get("consolidada", ""),
+                    "specification": results.get("especificacao_yaml", ""),
                 })
                 if pipeline_result.get("warning"):
                     warnings.append({"system": name, "message": pipeline_result["warning"]})
@@ -491,7 +522,7 @@ def build_pdf_report(run: dict) -> bytes:
             ("Agent B", "Agent B (Communication Specialist)", "agent_b"),
         ):
             add(subtitle, "proposal")
-            for csv_line in proposal_data.get(key, "").splitlines():
+            for csv_line in (proposal_data.get(key) or "").splitlines():
                 add(csv_line, "agent_csv_header" if csv_line.startswith("Microservice,") else "agent_csv")
             add("", "body")
 
@@ -499,7 +530,7 @@ def build_pdf_report(run: dict) -> bytes:
         add("Final Architecture Recommended by the Pipeline", "final_title")
         add("This consolidated architecture is the implementation recommendation produced after considering the intermediate agent proposals.", "final_explanation")
         add("Consolidated Architecture CSV", "final_csv_label")
-        for csv_line in proposal_data.get("consolidated", "").splitlines():
+        for csv_line in (proposal_data.get("consolidated") or "").splitlines():
             add(csv_line, "final_csv_header" if csv_line.startswith("Microservice,") else "final_csv")
         add("", "body")
 
@@ -592,6 +623,70 @@ def build_pdf_report(run: dict) -> bytes:
     xref_offset = len(pdf)
     pdf.extend(f"xref\n0 {len(objects) + 1}\n".encode())
     pdf.extend(b"0000000000 65535 f \n")
+    for offset in offsets[1:]:
+        pdf.extend(f"{offset:010d} 00000 n \n".encode())
+    pdf.extend(f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_offset}\n%%EOF\n".encode())
+    return bytes(pdf)
+
+
+def build_pdf_specification(run: dict) -> bytes:
+    """Build a standalone PDF containing only Agent 5 YAML specifications."""
+    navy = (0.039, 0.118, 0.361)
+    gold = (0.914, 0.769, 0.416)
+    pale_blue = (0.925, 0.949, 0.988)
+    entries = [("DAVINCI Architect", "title"), ("Architectural Specification", "subtitle")]
+    entries.append((f"Run ID / Test Number: {run.get('run_id', 'unknown')}", "metadata"))
+    entries.append((f"Generated: {run.get('generated_at', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}", "metadata"))
+    for proposal in run.get("proposals", []):
+        entries.append((f"SYSTEM: {proposal.get('system', '')}", "system"))
+        for line in (proposal.get("specification", "") or "").splitlines():
+            entries.append((line, "yaml"))
+        entries.append(("", "body"))
+
+    pages = [entries[index:index + 43] for index in range(0, len(entries), 43)] or [[("", "body")]]
+    objects = [
+        b"<< /Type /Catalog /Pages 2 0 R >>",
+        b"PLACEHOLDER_PAGES",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+        b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>",
+    ]
+    logo_width, logo_height, logo_data = _read_rgb_png(LOGO_PATH)
+    compressed_logo = zlib.compress(logo_data)
+    objects.append(
+        f"<< /Type /XObject /Subtype /Image /Width {logo_width} /Height {logo_height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length {len(compressed_logo)} >>\nstream\n".encode()
+        + compressed_logo + b"\nendstream"
+    )
+    page_numbers = []
+    for page_entries in pages:
+        page_number = len(objects) + 1
+        page_numbers.append(page_number)
+        content_number = page_number + 1
+        objects.append(f"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents {content_number} 0 R >>".encode())
+        content_lines = ["q", "1 1 1 rg", "0 0 612 792 re", "f", "Q"]
+        if page_entries is pages[0]:
+            content_lines.extend(["q", "72 0 0 72 480 690 cm", "/Im1 Do", "Q"])
+        y = 760
+        for text, style in page_entries:
+            if style == "system":
+                content_lines.extend([f"{pale_blue[0]} {pale_blue[1]} {pale_blue[2]} rg", f"45 {y - 10} 522 24 re", "f", f"{gold[0]} {gold[1]} {gold[2]} RG", "2 w", f"45 {y - 10} 522 24 re", "S"])
+            font, size, color = ("F2", 18, navy) if style == "title" else ("F2", 13, navy) if style == "system" else ("F1", 8, (0.12, 0.12, 0.12))
+            if style == "subtitle":
+                size = 11
+            if style == "metadata":
+                size, color = 8, navy
+            safe_line = text.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+            content_lines.extend([f"{color[0]} {color[1]} {color[2]} rg", "BT", f"/{font} {size} Tf", f"50 {y} Td", f"({safe_line[:112]}) Tj", "ET"])
+            y -= 16 if style not in {"title", "system"} else 22
+        stream = "\n".join(content_lines).encode("latin-1", "replace")
+        objects.append(b"<< /Length " + str(len(stream)).encode() + b" >>\nstream\n" + stream + b"\nendstream")
+    objects[1] = f"<< /Type /Pages /Kids [{' '.join(f'{number} 0 R' for number in page_numbers)}] /Count {len(page_numbers)} >>".encode()
+    pdf = bytearray(b"%PDF-1.4\n%\xe2\xe3\xcf\xd3\n")
+    offsets = [0]
+    for number, obj in enumerate(objects, start=1):
+        offsets.append(len(pdf))
+        pdf.extend(f"{number} 0 obj\n".encode()); pdf.extend(obj); pdf.extend(b"\nendobj\n")
+    xref_offset = len(pdf)
+    pdf.extend(f"xref\n0 {len(objects) + 1}\n".encode()); pdf.extend(b"0000000000 65535 f \n")
     for offset in offsets[1:]:
         pdf.extend(f"{offset:010d} 00000 n \n".encode())
     pdf.extend(f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\nstartxref\n{xref_offset}\n%%EOF\n".encode())

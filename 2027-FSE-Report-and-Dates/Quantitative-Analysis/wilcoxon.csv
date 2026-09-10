@@ -1,0 +1,13 @@
+metric,comparison,llm,n_pairs,n_nonzero,statistic,p_value,cliffs_delta,effect
+f1_serv,C0 vs C1,Gemini,8,1,0.0,1.0,0.0156,negligible
+f1_inter,C0 vs C1,Gemini,8,5,2.0,0.1875,-0.1719,small
+f1_serv,C1 vs C2,Gemini,8,2,1.0,1.0,0.0781,negligible
+f1_inter,C1 vs C2,Gemini,8,4,3.0,0.625,-0.0312,negligible
+f1_serv,C1 vs C3,Gemini,8,1,0.0,1.0,-0.0156,negligible
+f1_inter,C1 vs C3,Gemini,8,7,2.0,0.0469,0.3906,medium
+f1_serv,C0 vs C1,DeepSeek,8,3,1.0,0.5,0.0156,negligible
+f1_inter,C0 vs C1,DeepSeek,8,6,8.0,0.6875,-0.1094,negligible
+f1_serv,C1 vs C2,DeepSeek,8,4,3.0,0.625,-0.0469,negligible
+f1_inter,C1 vs C2,DeepSeek,8,7,13.0,0.9375,0.0781,negligible
+f1_serv,C1 vs C3,DeepSeek,8,2,1.0,1.0,-0.0312,negligible
+f1_inter,C1 vs C3,DeepSeek,8,7,8.0,0.375,0.2656,small

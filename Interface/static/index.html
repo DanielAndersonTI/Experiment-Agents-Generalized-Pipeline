@@ -29,6 +29,11 @@
   </header>
 
   <main class="container py-5" id="app">
+    <div id="pipeline-loading" class="pipeline-loading d-none" role="status" aria-live="polite">
+      <div class="loading-heading"><span class="loading-pulse"></span><span>PIPELINE IN PROGRESS</span><strong id="pipeline-percent">0%</strong></div>
+      <div class="progress-track" role="progressbar" aria-label="Pipeline progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="pipeline-progress-bar" class="progress-bar"></div></div>
+      <div id="pipeline-status" class="loading-status">Preparing systems...</div>
+    </div>
     <section id="input-view" aria-labelledby="input-title">
       <div class="intro-row mb-4">
         <div>
@@ -42,11 +47,6 @@
       </div>
 
       <div id="global-alert" class="alert d-none" role="alert"></div>
-      <div id="pipeline-loading" class="pipeline-loading d-none" role="status" aria-live="polite">
-        <div class="loading-heading"><span class="loading-pulse"></span><span>PIPELINE IN PROGRESS</span><strong id="pipeline-percent">0%</strong></div>
-        <div class="progress-track" role="progressbar" aria-label="Pipeline progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="pipeline-progress-bar" class="progress-bar"></div></div>
-        <div id="pipeline-status" class="loading-status">Preparing systems...</div>
-      </div>
       <form id="decomposition-form" novalidate>
         <div id="systems-container"></div>
         <div class="action-bar mt-4">
@@ -62,7 +62,9 @@
       <div id="results-alert" class="alert d-none" role="alert"></div>
       <div class="results-actions mb-4">
         <button type="button" class="btn btn-outline-primary" id="new-decomposition-button">NEW DECOMPOSITION</button>
+        <button type="button" class="btn btn-outline-primary" id="rerun-experiment-button">RUN AGAIN</button>
         <button type="button" class="btn btn-gold" id="download-report-button">DOWNLOAD FULL REPORT (PDF)</button>
+        <button type="button" class="btn btn-gold" id="download-specification-button">DOWNLOAD YAML SPECIFICATION (PDF)</button>
       </div>
 
       <section class="results-section mb-5" aria-labelledby="services-heading">

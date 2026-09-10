@@ -1,0 +1,32 @@
+Serviços
+Sistema	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8333	0.8333	0.8333
+DayTrader7	0.8333	0.8333	0.8333
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+
+Interações
+Sistema	Precision	Recall	F1
+7ep	0.8182	0.9000	0.8571
+AcmeAir	0.8889	1.0000	0.9412
+Cargo-Tracker	0.6667	0.7273	0.6957
+DayTrader7	0.7500	0.5000	0.6000
+Jokul	0.7500	1.0000	0.8571
+JPetStore	1.0000	0.8889	0.9412
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7879	0.7429	0.7647
+
+Best Results 
+Sistema	Best Services (F1)	Best Interactions (F1)
+7ep	Proposal A (1.0000)	Proposal A (0.8571)
+AcmeAir	Proposal A (1.0000)	Proposal A (0.9412)
+Cargo-Tracker	Proposal A (0.8333)	Proposal A (0.6957)
+DayTrader7	Proposal A (0.8333)	Proposal A (0.6000)
+Jokul	Proposal A (1.0000)	Proposal A (0.8571)
+JPetStore	Proposal A (1.0000)	Proposal A (0.9412)
+PetClinic	Proposal A (1.0000)	Proposal A (0.8571)
+TNTConcept	Proposal A (0.9231)	Proposal A (0.7647)

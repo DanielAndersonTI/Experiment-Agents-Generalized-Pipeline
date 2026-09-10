@@ -1,0 +1,946 @@
+[
+  {
+    "execution_id": "20260908_225951_345790",
+    "execution": {
+      "started_at": "2026-09-09T01:59:51.346+00:00",
+      "finished_at": "2026-09-09T02:00:08.113+00:00",
+      "duration_ms": 16767.017
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 26640,
+      "completion_tokens": 1236,
+      "total_tokens": 27876
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2490,
+        "completion_tokens": 331,
+        "total_tokens": 2821,
+        "duration_ms": 3637.762
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 17013,
+        "completion_tokens": 325,
+        "total_tokens": 17338,
+        "duration_ms": 4182.258
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 7137,
+        "completion_tokens": 580,
+        "total_tokens": 7717,
+        "duration_ms": 6961.628
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 642.574
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T01:59:51.931+00:00",
+        "finished_at": "2026-09-09T01:59:55.567+00:00",
+        "duration_ms": 3637.762,
+        "prompt_tokens": 2490,
+        "completion_tokens": 331,
+        "total_tokens": 2821,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T01:59:55.972+00:00",
+        "finished_at": "2026-09-09T02:00:00.168+00:00",
+        "duration_ms": 4182.258,
+        "prompt_tokens": 17013,
+        "completion_tokens": 325,
+        "total_tokens": 17338,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:00.356+00:00",
+        "finished_at": "2026-09-09T02:00:02.261+00:00",
+        "duration_ms": 1909.708,
+        "prompt_tokens": 3469,
+        "completion_tokens": 68,
+        "total_tokens": 3537,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:02.307+00:00",
+        "finished_at": "2026-09-09T02:00:07.364+00:00",
+        "duration_ms": 5051.92,
+        "prompt_tokens": 3668,
+        "completion_tokens": 512,
+        "total_tokens": 4180,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:07.426+00:00",
+        "finished_at": "2026-09-09T02:00:08.051+00:00",
+        "duration_ms": 642.573,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:08.051+00:00",
+        "finished_at": "2026-09-09T02:00:08.051+00:00",
+        "duration_ms": 0.001,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230009_757835",
+    "execution": {
+      "started_at": "2026-09-09T02:00:09.757+00:00",
+      "finished_at": "2026-09-09T02:00:26.032+00:00",
+      "duration_ms": 16274.937
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 26156,
+      "completion_tokens": 1331,
+      "total_tokens": 27487
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2318,
+        "completion_tokens": 386,
+        "total_tokens": 2704,
+        "duration_ms": 4030.744
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 16841,
+        "completion_tokens": 375,
+        "total_tokens": 17216,
+        "duration_ms": 4147.95
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 6997,
+        "completion_tokens": 570,
+        "total_tokens": 7567,
+        "duration_ms": 6591.303
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 626.737
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:09.899+00:00",
+        "finished_at": "2026-09-09T02:00:13.924+00:00",
+        "duration_ms": 4030.744,
+        "prompt_tokens": 2318,
+        "completion_tokens": 386,
+        "total_tokens": 2704,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:14.330+00:00",
+        "finished_at": "2026-09-09T02:00:18.488+00:00",
+        "duration_ms": 4147.95,
+        "prompt_tokens": 16841,
+        "completion_tokens": 375,
+        "total_tokens": 17216,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:18.660+00:00",
+        "finished_at": "2026-09-09T02:00:20.767+00:00",
+        "duration_ms": 2100.314,
+        "prompt_tokens": 3404,
+        "completion_tokens": 58,
+        "total_tokens": 3462,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:20.798+00:00",
+        "finished_at": "2026-09-09T02:00:25.283+00:00",
+        "duration_ms": 4490.989,
+        "prompt_tokens": 3593,
+        "completion_tokens": 512,
+        "total_tokens": 4105,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:25.360+00:00",
+        "finished_at": "2026-09-09T02:00:25.985+00:00",
+        "duration_ms": 626.736,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:25.985+00:00",
+        "finished_at": "2026-09-09T02:00:25.985+00:00",
+        "duration_ms": 0.001,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230027_688351",
+    "execution": {
+      "started_at": "2026-09-09T02:00:27.688+00:00",
+      "finished_at": "2026-09-09T02:00:44.853+00:00",
+      "duration_ms": 17165.467
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 26982,
+      "completion_tokens": 1308,
+      "total_tokens": 28290
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2537,
+        "completion_tokens": 337,
+        "total_tokens": 2874,
+        "duration_ms": 4546.491
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 17060,
+        "completion_tokens": 397,
+        "total_tokens": 17457,
+        "duration_ms": 5258.857
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 7385,
+        "completion_tokens": 574,
+        "total_tokens": 7959,
+        "duration_ms": 5839.44
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 617.068
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:27.843+00:00",
+        "finished_at": "2026-09-09T02:00:32.389+00:00",
+        "duration_ms": 4546.491,
+        "prompt_tokens": 2537,
+        "completion_tokens": 337,
+        "total_tokens": 2874,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:32.779+00:00",
+        "finished_at": "2026-09-09T02:00:38.039+00:00",
+        "duration_ms": 5258.857,
+        "prompt_tokens": 17060,
+        "completion_tokens": 397,
+        "total_tokens": 17457,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:38.226+00:00",
+        "finished_at": "2026-09-09T02:00:40.135+00:00",
+        "duration_ms": 1917.291,
+        "prompt_tokens": 3596,
+        "completion_tokens": 62,
+        "total_tokens": 3658,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:40.182+00:00",
+        "finished_at": "2026-09-09T02:00:44.103+00:00",
+        "duration_ms": 3922.149,
+        "prompt_tokens": 3789,
+        "completion_tokens": 512,
+        "total_tokens": 4301,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:44.150+00:00",
+        "finished_at": "2026-09-09T02:00:44.760+00:00",
+        "duration_ms": 617.066,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:44.775+00:00",
+        "finished_at": "2026-09-09T02:00:44.775+00:00",
+        "duration_ms": 0.002,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230046_450588",
+    "execution": {
+      "started_at": "2026-09-09T02:00:46.450+00:00",
+      "finished_at": "2026-09-09T02:01:03.295+00:00",
+      "duration_ms": 16844.665
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 28120,
+      "completion_tokens": 1604,
+      "total_tokens": 29724
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2675,
+        "completion_tokens": 512,
+        "total_tokens": 3187,
+        "duration_ms": 4142.69
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 17198,
+        "completion_tokens": 512,
+        "total_tokens": 17710,
+        "duration_ms": 4858.955
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 8247,
+        "completion_tokens": 580,
+        "total_tokens": 8827,
+        "duration_ms": 6351.631
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 640.61
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:46.614+00:00",
+        "finished_at": "2026-09-09T02:00:50.758+00:00",
+        "duration_ms": 4142.69,
+        "prompt_tokens": 2675,
+        "completion_tokens": 512,
+        "total_tokens": 3187,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:51.132+00:00",
+        "finished_at": "2026-09-09T02:00:56.005+00:00",
+        "duration_ms": 4858.955,
+        "prompt_tokens": 17198,
+        "completion_tokens": 512,
+        "total_tokens": 17710,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:56.161+00:00",
+        "finished_at": "2026-09-09T02:00:57.855+00:00",
+        "duration_ms": 1684.641,
+        "prompt_tokens": 4024,
+        "completion_tokens": 68,
+        "total_tokens": 4092,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:00:57.870+00:00",
+        "finished_at": "2026-09-09T02:01:02.545+00:00",
+        "duration_ms": 4666.99,
+        "prompt_tokens": 4223,
+        "completion_tokens": 512,
+        "total_tokens": 4735,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:02.576+00:00",
+        "finished_at": "2026-09-09T02:01:03.217+00:00",
+        "duration_ms": 640.543,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:03.217+00:00",
+        "finished_at": "2026-09-09T02:01:03.217+00:00",
+        "duration_ms": 0.067,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230105_067795",
+    "execution": {
+      "started_at": "2026-09-09T02:01:05.067+00:00",
+      "finished_at": "2026-09-09T02:01:19.479+00:00",
+      "duration_ms": 14411.621
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 25703,
+      "completion_tokens": 874,
+      "total_tokens": 26577
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2434,
+        "completion_tokens": 184,
+        "total_tokens": 2618,
+        "duration_ms": 3186.618
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 16957,
+        "completion_tokens": 117,
+        "total_tokens": 17074,
+        "duration_ms": 3076.918
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 6312,
+        "completion_tokens": 573,
+        "total_tokens": 6885,
+        "duration_ms": 6469.853
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 618.016
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:05.256+00:00",
+        "finished_at": "2026-09-09T02:01:08.430+00:00",
+        "duration_ms": 3186.618,
+        "prompt_tokens": 2434,
+        "completion_tokens": 184,
+        "total_tokens": 2618,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:08.919+00:00",
+        "finished_at": "2026-09-09T02:01:12.020+00:00",
+        "duration_ms": 3076.918,
+        "prompt_tokens": 16957,
+        "completion_tokens": 117,
+        "total_tokens": 17074,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:12.250+00:00",
+        "finished_at": "2026-09-09T02:01:14.200+00:00",
+        "duration_ms": 1948.055,
+        "prompt_tokens": 3060,
+        "completion_tokens": 61,
+        "total_tokens": 3121,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:14.218+00:00",
+        "finished_at": "2026-09-09T02:01:18.747+00:00",
+        "duration_ms": 4521.798,
+        "prompt_tokens": 3252,
+        "completion_tokens": 512,
+        "total_tokens": 3764,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:18.829+00:00",
+        "finished_at": "2026-09-09T02:01:19.445+00:00",
+        "duration_ms": 618.015,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:19.445+00:00",
+        "finished_at": "2026-09-09T02:01:19.445+00:00",
+        "duration_ms": 0.001,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230121_494240",
+    "execution": {
+      "started_at": "2026-09-09T02:01:21.494+00:00",
+      "finished_at": "2026-09-09T02:01:40.364+00:00",
+      "duration_ms": 18870.724
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 27867,
+      "completion_tokens": 1510,
+      "total_tokens": 29377
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2657,
+        "completion_tokens": 432,
+        "total_tokens": 3089,
+        "duration_ms": 4663.95
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 17180,
+        "completion_tokens": 505,
+        "total_tokens": 17685,
+        "duration_ms": 5663.175
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 8030,
+        "completion_tokens": 573,
+        "total_tokens": 8603,
+        "duration_ms": 6796.784
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 638.685
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:21.681+00:00",
+        "finished_at": "2026-09-09T02:01:26.325+00:00",
+        "duration_ms": 4663.95,
+        "prompt_tokens": 2657,
+        "completion_tokens": 432,
+        "total_tokens": 3089,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:26.874+00:00",
+        "finished_at": "2026-09-09T02:01:32.568+00:00",
+        "duration_ms": 5663.175,
+        "prompt_tokens": 17180,
+        "completion_tokens": 505,
+        "total_tokens": 17685,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:32.803+00:00",
+        "finished_at": "2026-09-09T02:01:34.601+00:00",
+        "duration_ms": 1792.743,
+        "prompt_tokens": 3919,
+        "completion_tokens": 61,
+        "total_tokens": 3980,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:34.617+00:00",
+        "finished_at": "2026-09-09T02:01:39.618+00:00",
+        "duration_ms": 5004.041,
+        "prompt_tokens": 4111,
+        "completion_tokens": 512,
+        "total_tokens": 4623,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:39.664+00:00",
+        "finished_at": "2026-09-09T02:01:40.301+00:00",
+        "duration_ms": 638.683,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:40.301+00:00",
+        "finished_at": "2026-09-09T02:01:40.301+00:00",
+        "duration_ms": 0.002,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230142_383217",
+    "execution": {
+      "started_at": "2026-09-09T02:01:42.383+00:00",
+      "finished_at": "2026-09-09T02:01:55.955+00:00",
+      "duration_ms": 13571.817
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 24477,
+      "completion_tokens": 949,
+      "total_tokens": 25426
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2093,
+        "completion_tokens": 195,
+        "total_tokens": 2288,
+        "duration_ms": 2866.357
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 16616,
+        "completion_tokens": 169,
+        "total_tokens": 16785,
+        "duration_ms": 2852.042
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 5768,
+        "completion_tokens": 585,
+        "total_tokens": 6353,
+        "duration_ms": 6023.353
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 841.529
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:42.563+00:00",
+        "finished_at": "2026-09-09T02:01:45.412+00:00",
+        "duration_ms": 2866.357,
+        "prompt_tokens": 2093,
+        "completion_tokens": 195,
+        "total_tokens": 2288,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:45.895+00:00",
+        "finished_at": "2026-09-09T02:01:48.759+00:00",
+        "duration_ms": 2852.042,
+        "prompt_tokens": 16616,
+        "completion_tokens": 169,
+        "total_tokens": 16785,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:48.942+00:00",
+        "finished_at": "2026-09-09T02:01:50.842+00:00",
+        "duration_ms": 1897.496,
+        "prompt_tokens": 2782,
+        "completion_tokens": 73,
+        "total_tokens": 2855,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:50.892+00:00",
+        "finished_at": "2026-09-09T02:01:55.025+00:00",
+        "duration_ms": 4125.857,
+        "prompt_tokens": 2986,
+        "completion_tokens": 512,
+        "total_tokens": 3498,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:55.072+00:00",
+        "finished_at": "2026-09-09T02:01:55.922+00:00",
+        "duration_ms": 841.528,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:55.922+00:00",
+        "finished_at": "2026-09-09T02:01:55.922+00:00",
+        "duration_ms": 0.001,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260908_230157_804307",
+    "execution": {
+      "started_at": "2026-09-09T02:01:57.804+00:00",
+      "finished_at": "2026-09-09T02:02:13.793+00:00",
+      "duration_ms": 15989.046
+    },
+    "llm_usage": {
+      "total_calls": 6,
+      "prompt_tokens": 24786,
+      "completion_tokens": 1450,
+      "total_tokens": 26236
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 1918,
+        "completion_tokens": 415,
+        "total_tokens": 2333,
+        "duration_ms": 3916.962
+      },
+      "agent_2": {
+        "calls": 1,
+        "prompt_tokens": 16441,
+        "completion_tokens": 457,
+        "total_tokens": 16898,
+        "duration_ms": 4585.388
+      },
+      "agent_3": {
+        "calls": 2,
+        "prompt_tokens": 6427,
+        "completion_tokens": 578,
+        "total_tokens": 7005,
+        "duration_ms": 5872.095
+      },
+      "unknown": {
+        "calls": 2,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "duration_ms": 649.359
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:01:57.953+00:00",
+        "finished_at": "2026-09-09T02:02:01.884+00:00",
+        "duration_ms": 3916.962,
+        "prompt_tokens": 1918,
+        "completion_tokens": 415,
+        "total_tokens": 2333,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_2",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:02:02.300+00:00",
+        "finished_at": "2026-09-09T02:02:06.882+00:00",
+        "duration_ms": 4585.388,
+        "prompt_tokens": 16441,
+        "completion_tokens": 457,
+        "total_tokens": 16898,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:02:07.098+00:00",
+        "finished_at": "2026-09-09T02:02:08.630+00:00",
+        "duration_ms": 1528.44,
+        "prompt_tokens": 3115,
+        "completion_tokens": 66,
+        "total_tokens": 3181,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_3",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:02:08.647+00:00",
+        "finished_at": "2026-09-09T02:02:12.994+00:00",
+        "duration_ms": 4343.655,
+        "prompt_tokens": 3312,
+        "completion_tokens": 512,
+        "total_tokens": 3824,
+        "status": "completed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:02:13.027+00:00",
+        "finished_at": "2026-09-09T02:02:13.677+00:00",
+        "duration_ms": 649.358,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      },
+      {
+        "agent": "unknown",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-09T02:02:13.677+00:00",
+        "finished_at": "2026-09-09T02:02:13.677+00:00",
+        "duration_ms": 0.001,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "status": "failed"
+      }
+    ]
+  }
+]

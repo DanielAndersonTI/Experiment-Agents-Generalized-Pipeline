@@ -1,0 +1,4 @@
+Valor do Tokens para uso via api em 02/09/2026:
+Gemini:
+DeedSeek:
+OpenAI:

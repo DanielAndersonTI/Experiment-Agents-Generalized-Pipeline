@@ -1,0 +1,16 @@
+x,y,scope,n,rho,p_value
+total_tokens,f1_serv,Global,192,0.0118,0.8715
+total_tokens,f1_serv,C0,48,0.1056,0.475
+total_tokens,f1_serv,C1,48,-0.0879,0.5525
+total_tokens,f1_serv,C2,48,-0.0619,0.6761
+total_tokens,f1_serv,C3,48,-0.1123,0.4471
+total_tokens,f1_inter,Global,192,0.184,0.0106
+total_tokens,f1_inter,C0,48,0.2773,0.0564
+total_tokens,f1_inter,C1,48,0.0765,0.6054
+total_tokens,f1_inter,C2,48,0.3113,0.0313
+total_tokens,f1_inter,C3,48,-0.0471,0.7505
+total_tokens,yaml_valid,Global,192,-0.1354,0.0611
+total_tokens,yaml_valid,C0,48,-0.2264,0.1218
+total_tokens,yaml_valid,C1,48,-0.301,0.0376
+total_tokens,yaml_valid,C2,48,-0.1632,0.2677
+total_tokens,yaml_valid,C3,48,-0.2159,0.1406

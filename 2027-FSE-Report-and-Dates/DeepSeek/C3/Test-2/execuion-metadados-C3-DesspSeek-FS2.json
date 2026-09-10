@@ -1,0 +1,458 @@
+[
+  {
+    "system": "7ep",
+    "execution_id": "20260908_154127_309666",
+    "execution": {
+      "started_at": "2026-09-08T18:41:27.309+00:00",
+      "finished_at": "2026-09-08T18:41:37.994+00:00",
+      "duration_ms": 10684.392
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4823,
+      "completion_tokens": 680,
+      "total_tokens": 5503
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2490,
+        "completion_tokens": 340,
+        "total_tokens": 2830,
+        "duration_ms": 7481.776
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2333,
+        "completion_tokens": 340,
+        "total_tokens": 2673,
+        "duration_ms": 2241.932
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:28.006+00:00",
+        "finished_at": "2026-09-08T18:41:35.479+00:00",
+        "duration_ms": 7481.776,
+        "prompt_tokens": 2490,
+        "completion_tokens": 340,
+        "total_tokens": 2830,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:35.680+00:00",
+        "finished_at": "2026-09-08T18:41:37.923+00:00",
+        "duration_ms": 2241.932,
+        "prompt_tokens": 2333,
+        "completion_tokens": 340,
+        "total_tokens": 2673,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "AcmeAir",
+    "execution_id": "20260908_154139_891665",
+    "execution": {
+      "started_at": "2026-09-08T18:41:39.891+00:00",
+      "finished_at": "2026-09-08T18:41:46.055+00:00",
+      "duration_ms": 6163.707
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4483,
+      "completion_tokens": 686,
+      "total_tokens": 5169
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2318,
+        "completion_tokens": 343,
+        "total_tokens": 2661,
+        "duration_ms": 3312.096
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2165,
+        "completion_tokens": 343,
+        "total_tokens": 2508,
+        "duration_ms": 2419.288
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:40.042+00:00",
+        "finished_at": "2026-09-08T18:41:43.362+00:00",
+        "duration_ms": 3312.096,
+        "prompt_tokens": 2318,
+        "completion_tokens": 343,
+        "total_tokens": 2661,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:43.557+00:00",
+        "finished_at": "2026-09-08T18:41:45.974+00:00",
+        "duration_ms": 2419.288,
+        "prompt_tokens": 2165,
+        "completion_tokens": 343,
+        "total_tokens": 2508,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "Cargo-Tracker",
+    "execution_id": "20260908_154147_937161",
+    "execution": {
+      "started_at": "2026-09-08T18:41:47.937+00:00",
+      "finished_at": "2026-09-08T18:41:55.947+00:00",
+      "duration_ms": 8010.565
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5040,
+      "completion_tokens": 923,
+      "total_tokens": 5963
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2537,
+        "completion_tokens": 462,
+        "total_tokens": 2999,
+        "duration_ms": 4403.713
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2503,
+        "completion_tokens": 461,
+        "total_tokens": 2964,
+        "duration_ms": 3086.898
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:48.122+00:00",
+        "finished_at": "2026-09-08T18:41:52.519+00:00",
+        "duration_ms": 4403.713,
+        "prompt_tokens": 2537,
+        "completion_tokens": 462,
+        "total_tokens": 2999,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:52.766+00:00",
+        "finished_at": "2026-09-08T18:41:55.866+00:00",
+        "duration_ms": 3086.898,
+        "prompt_tokens": 2503,
+        "completion_tokens": 461,
+        "total_tokens": 2964,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "DayTrader7",
+    "execution_id": "20260908_154157_846059",
+    "execution": {
+      "started_at": "2026-09-08T18:41:57.846+00:00",
+      "finished_at": "2026-09-08T18:42:04.857+00:00",
+      "duration_ms": 7011.249
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5279,
+      "completion_tokens": 850,
+      "total_tokens": 6129
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2675,
+        "completion_tokens": 425,
+        "total_tokens": 3100,
+        "duration_ms": 3743.089
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2604,
+        "completion_tokens": 425,
+        "total_tokens": 3029,
+        "duration_ms": 2780.711
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:41:58.053+00:00",
+        "finished_at": "2026-09-08T18:42:01.795+00:00",
+        "duration_ms": 3743.089,
+        "prompt_tokens": 2675,
+        "completion_tokens": 425,
+        "total_tokens": 3100,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:01.992+00:00",
+        "finished_at": "2026-09-08T18:42:04.775+00:00",
+        "duration_ms": 2780.711,
+        "prompt_tokens": 2604,
+        "completion_tokens": 425,
+        "total_tokens": 3029,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "Jokul",
+    "execution_id": "20260908_154206_755935",
+    "execution": {
+      "started_at": "2026-09-08T18:42:06.755+00:00",
+      "finished_at": "2026-09-08T18:42:11.085+00:00",
+      "duration_ms": 4329.929
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4538,
+      "completion_tokens": 332,
+      "total_tokens": 4870
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2434,
+        "completion_tokens": 166,
+        "total_tokens": 2600,
+        "duration_ms": 2462.383
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2104,
+        "completion_tokens": 166,
+        "total_tokens": 2270,
+        "duration_ms": 1410.521
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:06.955+00:00",
+        "finished_at": "2026-09-08T18:42:09.419+00:00",
+        "duration_ms": 2462.383,
+        "prompt_tokens": 2434,
+        "completion_tokens": 166,
+        "total_tokens": 2600,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:09.603+00:00",
+        "finished_at": "2026-09-08T18:42:11.021+00:00",
+        "duration_ms": 1410.521,
+        "prompt_tokens": 2104,
+        "completion_tokens": 166,
+        "total_tokens": 2270,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "JPetStore",
+    "execution_id": "20260908_154213_003417",
+    "execution": {
+      "started_at": "2026-09-08T18:42:13.003+00:00",
+      "finished_at": "2026-09-08T18:42:20.815+00:00",
+      "duration_ms": 7812.305
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5236,
+      "completion_tokens": 836,
+      "total_tokens": 6072
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2657,
+        "completion_tokens": 418,
+        "total_tokens": 3075,
+        "duration_ms": 4458.654
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2579,
+        "completion_tokens": 418,
+        "total_tokens": 2997,
+        "duration_ms": 2852.768
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:13.173+00:00",
+        "finished_at": "2026-09-08T18:42:17.629+00:00",
+        "duration_ms": 4458.654,
+        "prompt_tokens": 2657,
+        "completion_tokens": 418,
+        "total_tokens": 3075,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:17.863+00:00",
+        "finished_at": "2026-09-08T18:42:20.713+00:00",
+        "duration_ms": 2852.768,
+        "prompt_tokens": 2579,
+        "completion_tokens": 418,
+        "total_tokens": 2997,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "PetClinic",
+    "execution_id": "20260908_154222_693658",
+    "execution": {
+      "started_at": "2026-09-08T18:42:22.693+00:00",
+      "finished_at": "2026-09-08T18:42:27.240+00:00",
+      "duration_ms": 4546.508
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 3891,
+      "completion_tokens": 402,
+      "total_tokens": 4293
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2093,
+        "completion_tokens": 201,
+        "total_tokens": 2294,
+        "duration_ms": 2390.878
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 1798,
+        "completion_tokens": 201,
+        "total_tokens": 1999,
+        "duration_ms": 1736.84
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:22.859+00:00",
+        "finished_at": "2026-09-08T18:42:25.258+00:00",
+        "duration_ms": 2390.878,
+        "prompt_tokens": 2093,
+        "completion_tokens": 201,
+        "total_tokens": 2294,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:25.424+00:00",
+        "finished_at": "2026-09-08T18:42:27.174+00:00",
+        "duration_ms": 1736.84,
+        "prompt_tokens": 1798,
+        "completion_tokens": 201,
+        "total_tokens": 1999,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "system": "TNTConcept",
+    "execution_id": "20260908_154229_121660",
+    "execution": {
+      "started_at": "2026-09-08T18:42:29.121+00:00",
+      "finished_at": "2026-09-08T18:42:36.099+00:00",
+      "duration_ms": 6978.063
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 3747,
+      "completion_tokens": 814,
+      "total_tokens": 4561
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 1918,
+        "completion_tokens": 407,
+        "total_tokens": 2325,
+        "duration_ms": 3491.338
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 1829,
+        "completion_tokens": 407,
+        "total_tokens": 2236,
+        "duration_ms": 2858.712
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:29.488+00:00",
+        "finished_at": "2026-09-08T18:42:32.987+00:00",
+        "duration_ms": 3491.338,
+        "prompt_tokens": 1918,
+        "completion_tokens": 407,
+        "total_tokens": 2325,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "deepseek-chat",
+        "provider": null,
+        "started_at": "2026-09-08T18:42:33.168+00:00",
+        "finished_at": "2026-09-08T18:42:36.032+00:00",
+        "duration_ms": 2858.712,
+        "prompt_tokens": 1829,
+        "completion_tokens": 407,
+        "total_tokens": 2236,
+        "status": "completed"
+      }
+    ]
+  }
+]

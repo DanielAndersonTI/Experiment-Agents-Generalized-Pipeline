@@ -1,0 +1,160 @@
+ANALYSIS OF THE THREE C3 TESTS (CLAUDE SONNET 4.5 + FEW-SHOT)
+TEST 1 — Run ID 20260919_002145_238371
+Services (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	1.0000
+JpetStore	1.0000
+Pet-Clinic	1.0000
+TNTConcept	0.9231
+Average	0.9327
+Interactions (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3636
+DayTrader7	0.8333
+Jokul	1.0000
+JpetStore	0.8750
+Pet-Clinic	1.0000
+TNTConcept	0.7879
+Average	0.8575
+Commentary:
+C3 removes Agent 2 (Communication Specialist) and Agent 3 (Consolidator), keeping only Agent 1 (DDD Architect) and Agent 4 (Refiner) — a refined single-agent baseline. Interestingly, C3 outperforms C1 in services (0.9327 vs. 0.9336 — practically tied) and outperforms C2 in interactions (0.8575 vs. 0.8254). Jokul achieved 1.0000/1.0000 for the first time — the Agent 1 alone resolved the movie catalog correctly, without the interference of the malformed Agent 2. Cargo-Tracker remained the worst case (0.6154/0.3636) due to Claude's persistent granularity issue (splitting the Logistics Network into Location and Voyage). Pet-Clinic also reached 1.0000/1.0000 — without the consolidation step, the Agent 4 refiner kept the architecture clean.
+
+YAML
+YAML reflected the refined architecture. Truncation of long fields persisted in Cargo-Tracker and TNTConcept. Generic endpoints (/api/<service-name>) limit practical value. No parse failures reported.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,378
+Agent 4	23,148
+Total	47,526
+Highlights:
+
+Total cost: 47,526 tokens — 86% less than C1 (~342k) and 85% less than C2 (~294k).
+
+2 calls per system (8 systems): Agent 1 ×1 + Agent 4 ×1.
+
+Agent 1 (DDD Architect) and Agent 4 (Refiner) consume nearly equal shares (~51% / ~49%).
+
+Average cost per execution: ~5,941 tokens.
+
+Average duration: ~20,013 ms per execution.
+
+TEST 2 — Run ID 20260919_002635_542391
+Services (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	1.0000
+JpetStore	1.0000
+Pet-Clinic	0.8889
+TNTConcept	0.9231
+Average	0.9192
+Interactions (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3636
+DayTrader7	0.8696
+Jokul	1.0000
+JpetStore	0.9412
+Pet-Clinic	0.6000
+TNTConcept	0.7813
+Average	0.8195
+Commentary:
+Services fell slightly to 0.9192 (−1.35 points vs. Test 1). The decline came from Pet-Clinic, which dropped from 1.0000 to 0.8889 because Claude created an extra UI Service (precision 0.8000) — treating the user interface as a microservice, which does not exist in the reference. This is a recurring Claude bias that only manifests in C3 (without Agent 3 to filter it out). Jokul again reached 1.0000/1.0000 — the DDD Architect consistently resolves the movie catalog correctly. Interactions fell to 0.8195 (−3.8 points vs. Test 1), driven by Pet-Clinic (0.6000, precision 0.4286) where the artificial UI Service generated spurious interactions. Cargo-Tracker remained stable at 0.6154/0.3636.
+
+YAML
+Similar to Test 1. Truncation in Cargo-Tracker and TNTConcept. The UI Service in Pet-Clinic propagated into the YAML, adding an artificial component not present in the reference.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,338
+Agent 4	23,071
+Total	47,409
+Highlights:
+
+Total cost: 47,409 tokens — practically identical to Test 1 (−0.25%).
+
+Agent 1 and Agent 4 remain balanced (~51% / ~49%).
+
+Average cost per execution: ~5,926 tokens.
+
+Average duration: ~19,220 ms per execution.
+
+TEST 3 — Run ID 20260919_003325_852231
+Services (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	1.0000
+JpetStore	1.0000
+Pet-Clinic	0.8889
+TNTConcept	0.9231
+Average	0.9188
+Interactions (F1-score)
+System	A (Refined)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3636
+DayTrader7	0.8333
+Jokul	1.0000
+JpetStore	0.8750
+Pet-Clinic	0.6000
+TNTConcept	0.7692
+Average	0.8051
+Commentary:
+Services remained stable at 0.9188 (practically identical to Test 2). The UI Service bias in Pet-Clinic persisted (0.8889/0.6000), confirming it is a stable Claude behavior, not noise. Cargo-Tracker remained at 0.6154/0.3636 — the worst case across all Claude configurations. Jokul again reached 1.0000/1.0000 — the third consecutive C3 test with perfect scores, confirming that without the interference of Agent 2, the Agent 1 resolves the movie catalog correctly. Interactions fell to 0.8051 — the worst C3 result, with DayTrader7 dropping to 0.8333 and TNTConcept to 0.7692.
+
+YAML
+Same pattern. Truncation persists in Cargo-Tracker and TNTConcept. Pet-Clinic's YAML again includes the artificial UI Service, propagating a component that does not exist in the reference.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,448
+Agent 4	23,278
+Total	47,726
+Highlights:
+
+Total cost: 47,726 tokens — practically identical to Tests 1 and 2 (+0.4%).
+
+Agent 1 and Agent 4 remain balanced (~51% / ~49%).
+
+Average cost per execution: ~5,966 tokens.
+
+Average duration: ~20,055 ms per execution.
+
+GENERAL SYNTHESIS FOR THE PAPER (CLAUDE C3)
+Services are the most stable dimension across all Claude configurations. The consolidated average ranged between 0.9188 and 0.9327 across the three tests. Test 1 reached 0.9327 (best result), driven by clean outputs in Jokul and Pet-Clinic. Tests 2 and 3 stabilized at 0.9192 and 0.9188 after Claude began creating an extra UI Service in Pet-Clinic — a recurrent bias that only surfaces in C3 because Agent 3 (Consolidator) is absent and cannot filter it. Cargo-Tracker remains the recurring problem (0.6154 in all three tests), unchanged from C1 and C2.
+
+Interactions are the weak point. The average varied between 0.8051 and 0.8575. Cargo-Tracker remained at 0.3636 in all three tests — worse than C2 (0.2963–0.6087) and much worse than Gemini and DeepSeek. Jokul achieved 1.0000/1.0000 in all three tests — the best possible result, confirming that the DDD Architect alone handles this system correctly. Pet-Clinic oscillated between 0.6000 and 1.0000 depending on whether Claude created the artificial UI Service.
+
+Without consolidation, the pipeline is more predictable but less robust. The variance between tests is smaller in services (0.9188–0.9327) than in C1 (0.9327–0.9341) and C2 (0.9327–0.9519). However, the absence of Agent 3 means there is no mechanism to filter out bad proposals or combine partial ones — the UI Service bias in Pet-Clinic goes unchecked and propagates to the final YAML.
+
+Cost is drastically lower. Claude C3 consumes ~47.4k–47.7k tokens per test (8 systems), with 2 calls per system: Agent 1 ×1 and Agent 4 ×1. Compared to C1 (~342k tokens), C3 is ~86% cheaper. Compared to C2 (~294k tokens), C3 is ~84% cheaper. Compared to C0 (~24.5k tokens), C3 is ~2x more expensive due to the extra refinement call, but delivers ~1.5 more points in services and ~3 more points in interactions. C3 is the second-cheapest configuration among all Claude tests and the most stable in cost (~47.5k tokens in all three tests).
+
+Agent 4 (Refiner) is cheaper than Agent 2 (Communication Specialist). In C3, Agent 4 consumes ~23k tokens — about 14% of what Agent 2 consumes in C1 (~169k) and 15% of what Agent 2 consumes in C2 (~165k). This confirms that Agent 2 is by far the most expensive component of the pipeline and the main driver of cost in C1 and C2.
+
+Comparison with Gemini and DeepSeek (C3):
+
+Model	F1 Services (avg 3 tests)	F1 Interactions (avg 3 tests)	Tokens/test (average)
+Gemini	~0.9732	~0.8182	~15,121
+DeepSeek	~0.9608	~0.7725	~5,350
+Claude	~0.9236	~0.8274	~47,554
+Claude C3 is below Gemini in services and below DeepSeek in services, but above both in interactions (0.8274 vs. ~0.8182 and ~0.7725). In cost, Claude C3 is ~3x more expensive than Gemini and ~9x more expensive than DeepSeek. This suggests that C3 is not the best cost-benefit configuration for Claude either — the refinements delivered by Agent 4 do not compensate for the cost relative to the simpler baselines of Gemini and DeepSeek.
+
+Claude Configuration Comparison — C0 vs. C1 vs. C2 vs. C3
+Metric	C0 (avg 3 tests)	C1 (avg 3 tests)	C2 (avg 3 tests)	C3 (avg 3 tests)
+F1 Services	0.9208	0.9336	0.9391	0.9236
+F1 Interactions	0.8265	0.8559	0.8254	0.8274
+Tokens/test	~24,545	~342,000	~293,639	~47,554
+C3 is ~86% cheaper than C1 and ~84% cheaper than C2, at the cost of ~1 point in services and ~2.9 points in interactions relative to C1, and ~1.5 points in services and roughly tied in interactions relative to C2. But when compared to C0, C3 is ~2x more expensive for a gain of only +0.28 points in services and +0.09 points in interactions — a marginal return on the added refinement call. C1 remains the best configuration for interactions (0.8559), C2 for services (0.9391), and C0 for cost (24.5k tokens). The trade-off is clear: C3 is dramatically cheaper than C1/C2 and comparable to C2 in interactions, but delivers barely more than the C0 baseline in services, at twice the cost. For the paper's RQ3, this suggests that (i) the Agent 3 (Consolidator) is the main driver of service quality in Claude, and its removal exposes the granularity bias (UI Service) that C1 and C2 partially filtered; (ii) the Agent 4 (Refiner) contributes marginally relative to its cost (~23k tokens for +0.28 services / +0.09 interactions over C0); and (iii) even the single-agent baseline (C0) is already ~3.6x more expensive than Gemini's equivalent, indicating a structural cost inefficiency that is independent of the pipeline design. The recommendation is to keep Agent 3 in the pipeline (it is the main quality enabler), reformulate or remove Agent 4 (its marginal contribution does not justify the cost), and evaluate whether Agent 2 can be replaced with a cheaper communication-specific prompt to reduce cost without losing interaction quality.

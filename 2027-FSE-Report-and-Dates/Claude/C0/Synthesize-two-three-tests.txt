@@ -1,0 +1,168 @@
+ANALYSIS OF THE THREE C0 TESTS (CLAUDE SONNET 4.5 + FEW-SHOT)
+TEST 1 — Run ID 20260916_223626_292417
+Services (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	0.8571
+JpetStore	1.0000
+Pet-Clinic	1.0000
+TNTConcept	0.9231
+Average: 0.9148
+
+Commentary:
+C0 uses only Agent 1 (DDD Architect), without Agent 2, without refinement, without consolidation. Services were stable in 6 of 8 systems (F1 ≥ 0.9231). Cargo-Tracker is the outlier (0.6154) because Claude insists on splitting the Logistics Network into Location and Voyage, generating low precision (0.5714). Jokul scores 0.8571 (4 services vs. 3 reference, due to including a separate Movie Management). DayTrader7 and TNTConcept stable at 0.9231.
+
+Interactions (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3478
+DayTrader7	0.8696
+Jokul	0.7500
+JpetStore	0.9412
+Pet-Clinic	0.8571
+TNTConcept	0.7879
+Average: 0.8192
+
+Commentary:
+Interactions are the baseline's weak point. Cargo-Tracker collapses to 0.3478 (worst result among all systems and tests). Jokul scores 0.7500 — the DDD Architect alone omitted relevant interactions. Pet-Clinic at 0.8571 (precision 0.75 due to including interactions not present in the reference). TNTConcept moderate at 0.7879.
+
+YAML
+Commentary:
+YAML reflects Proposal A's architecture. Truncation of long fields persists in Cargo-Tracker and Jokul. Generic endpoints (/api/<service-name>) limit practical value. No parse failures reported.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,494
+Total	24,494
+Highlights:
+
+Only 1 call per system (8 calls total).
+
+Total cost: 24,494 tokens — ~14x less than C1 (~342k).
+
+Average cost per execution: ~3,062 tokens.
+
+Average duration: ~9,946 ms per execution.
+
+TEST 2 — Run ID 20260916_224738_875461
+Services (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	0.8571
+JpetStore	1.0000
+Pet-Clinic	1.0000
+TNTConcept	0.9231
+Average: 0.9148
+
+Commentary:
+Services identical to Test 1 — all 8 systems produced exactly the same F1. This suggests low variability of Claude's Agent 1 in services, unlike C1 where consolidation introduced noise. Cargo-Tracker remains at 0.6154 (splitting the Logistics Network). Jokul at 0.8571 (same granularity pattern).
+
+Interactions (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3478
+DayTrader7	0.8333
+Jokul	0.7500
+JpetStore	0.9412
+Pet-Clinic	0.8571
+TNTConcept	0.8000
+Average: 0.8162
+
+Commentary:
+Interactions practically identical to Test 1, with two variations: DayTrader7 fell from 0.8696 to 0.8333 and TNTConcept rose from 0.7879 to 0.8000. Cargo-Tracker remains at the worst level (0.3478). Jokul stable at 0.7500. The trivial systems (7ep, acmeair, JpetStore) maintain high F1.
+
+YAML
+Commentary:
+Pattern identical to Test 1. Truncation of long fields in Cargo-Tracker and TNTConcept. Generic endpoints persist.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,500
+Total	24,500
+Highlights:
+
+Total cost: 24,500 tokens — practically identical to Test 1 (+6 tokens, +0.02%).
+
+Average cost per execution: ~3,063 tokens.
+
+Average duration: ~10,064 ms per execution.
+
+TEST 3 — Run ID 20260916_230746_252887
+Services (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.6154
+DayTrader7	0.9231
+Jokul	1.0000
+JpetStore	1.0000
+Pet-Clinic	1.0000
+TNTConcept	0.9231
+Average: 0.9327
+
+Commentary:
+Services improved slightly (+1.8 points) compared to Tests 1 and 2. Jokul reached 1.0000 — this time Claude grouped correctly the services, without creating the extra Movie Management Service. Cargo-Tracker remains at the same pattern (0.6154). All other systems stable.
+
+Interactions (F1-score)
+System	A (Consolidated)
+7ep	1.0000
+acmeair	1.0000
+Cargo-Tracker	0.3478
+DayTrader7	0.8182
+Jokul	1.0000
+JpetStore	0.9412
+Pet-Clinic	0.8571
+TNTConcept	0.7879
+Average: 0.8440
+
+Commentary:
+Interactions reached the best result among the three tests (0.8440), driven by Jokul at 1.0000 — the DDD Architect alone got all interactions right. Cargo-Tracker remains at 0.3478 (stable across all three tests). DayTrader7 fell marginally to 0.8182. TNTConcept stable at 0.7879.
+
+YAML
+Commentary:
+Similar pattern. Jokul this time produced cleaner YAML (well-grouped services). Cargo-Tracker and TNTConcept continue with truncation.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,641
+Total	24,641
+Highlights:
+
+Total cost: 24,641 tokens — slightly higher than Tests 1 and 2 (+0.6%).
+
+Average cost per execution: ~3,080 tokens.
+
+Average duration: ~10,166 ms per execution.
+
+GENERAL SYNTHESIS FOR THE PAPER (CLAUDE C0)
+Services are stable but with a granularity bias. The average ranged between 0.9148 and 0.9327 across the three tests. Cargo-Tracker is the recurring problematic point (0.6154 in all three tests) because Claude insists on splitting the Logistics Network into Location and Voyage. Jokul oscillated between 0.8571 (T1/T2) and 1.0000 (T3) depending on how Claude grouped services. DayTrader7, TNTConcept, and the trivial systems (7ep, acmeair, JpetStore, Pet-Clinic) were stable.
+
+Interactions are the baseline's weak point. The average varied between 0.8162 and 0.8440. Cargo-Tracker collapses to 0.3478 in all three tests — worst result among all systems. Jokul oscillated between 0.7500 (T1/T2) and 1.0000 (T3). Pet-Clinic stable at 0.8571. The trivial systems maintain F1 ≥ 0.9412.
+
+Without consolidation, variability is lower. Unlike C1, where Agent 3 introduced noise and fallback, C0 is more predictable — the F1 for services are identical in Tests 1 and 2, and interactions vary little. Claude's Agent 1 is consistent when there is no interference from other agents.
+
+Cost is drastically lower. Claude C0 consumes ~24.5k tokens per test (8 systems), with 1 call per system to Agent 1. Compared to C1 (~340k–343k tokens), C0 is ~14x cheaper. Compared to DeepSeek C1 (~255k–263k tokens), C0 is ~10x cheaper.
+
+Comparison with Gemini and DeepSeek (C0):
+
+Model	F1 Services (avg 3 tests)	F1 Interactions (avg 3 tests)	Tokens/test (average)
+Gemini	~0.9790	~0.8270	~6,785
+DeepSeek	~0.9526	~0.8422	~2,735
+Claude	~0.9208	~0.8265	~24,545
+Curiosity: in the original protocol data, Gemini C0 consumed ~6,785 tokens and DeepSeek C0 ~2,735 tokens — both far below Claude C0 (~24,545 tokens). This indicates that Claude spends ~3.6x more tokens than Gemini and ~9x more than DeepSeek in the single-agent baseline, but delivers inferior quality in services (~0.9208 vs. ~0.9790 and ~0.9526) and similar in interactions.
+
+C0 vs. C1 Comparison (Claude):
+
+Metric	C0 (avg 3 tests)	C1 (avg 3 tests)	Δ
+F1 Services	0.9208	0.9336	+0.0128
+F1 Interactions	0.8265	0.8559	+0.0294
+Tokens/test	~24,545	~342,000	+1,293%
+The full pipeline (C1) improves quality by ~1.3 points in services and ~2.9 points in interactions, but at a cost ~14x higher. The gain is concentrated in Cargo-Tracker (where C1 reaches 0.7692/0.6087 vs. 0.6154/0.3478 for C0) and in Jokul when Agent 2 works. In trivial systems, the difference is practically nil.

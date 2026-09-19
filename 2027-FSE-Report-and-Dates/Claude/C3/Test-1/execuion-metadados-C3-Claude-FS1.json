@@ -1,0 +1,450 @@
+[
+  {
+    "execution_id": "20260919_002149_858658",
+    "execution": {
+      "started_at": "2026-09-19T03:21:49.858+00:00",
+      "finished_at": "2026-09-19T03:22:08.971+00:00",
+      "duration_ms": 19113.221
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5339,
+      "completion_tokens": 778,
+      "total_tokens": 6117
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2754,
+        "completion_tokens": 389,
+        "total_tokens": 3143,
+        "duration_ms": 9277.634
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2585,
+        "completion_tokens": 389,
+        "total_tokens": 2974,
+        "duration_ms": 9050.569
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:21:50.314+00:00",
+        "finished_at": "2026-09-19T03:21:59.599+00:00",
+        "duration_ms": 9277.634,
+        "prompt_tokens": 2754,
+        "completion_tokens": 389,
+        "total_tokens": 3143,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:21:59.849+00:00",
+        "finished_at": "2026-09-19T03:22:08.902+00:00",
+        "duration_ms": 9050.569,
+        "prompt_tokens": 2585,
+        "completion_tokens": 389,
+        "total_tokens": 2974,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002211_165797",
+    "execution": {
+      "started_at": "2026-09-19T03:22:11.165+00:00",
+      "finished_at": "2026-09-19T03:22:24.373+00:00",
+      "duration_ms": 13207.91
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4971,
+      "completion_tokens": 785,
+      "total_tokens": 5756
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2567,
+        "completion_tokens": 390,
+        "total_tokens": 2957,
+        "duration_ms": 8192.086
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2404,
+        "completion_tokens": 395,
+        "total_tokens": 2799,
+        "duration_ms": 4195.223
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:22:11.633+00:00",
+        "finished_at": "2026-09-19T03:22:19.835+00:00",
+        "duration_ms": 8192.086,
+        "prompt_tokens": 2567,
+        "completion_tokens": 390,
+        "total_tokens": 2957,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:22:20.093+00:00",
+        "finished_at": "2026-09-19T03:22:24.307+00:00",
+        "duration_ms": 4195.223,
+        "prompt_tokens": 2404,
+        "completion_tokens": 395,
+        "total_tokens": 2799,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002226_721323",
+    "execution": {
+      "started_at": "2026-09-19T03:22:26.721+00:00",
+      "finished_at": "2026-09-19T03:22:58.303+00:00",
+      "duration_ms": 31582.428
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5625,
+      "completion_tokens": 1116,
+      "total_tokens": 6741
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2812,
+        "completion_tokens": 559,
+        "total_tokens": 3371,
+        "duration_ms": 15750.192
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2813,
+        "completion_tokens": 557,
+        "total_tokens": 3370,
+        "duration_ms": 15320.467
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:22:26.915+00:00",
+        "finished_at": "2026-09-19T03:22:42.675+00:00",
+        "duration_ms": 15750.192,
+        "prompt_tokens": 2812,
+        "completion_tokens": 559,
+        "total_tokens": 3371,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:22:42.910+00:00",
+        "finished_at": "2026-09-19T03:22:58.228+00:00",
+        "duration_ms": 15320.467,
+        "prompt_tokens": 2813,
+        "completion_tokens": 557,
+        "total_tokens": 3370,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002300_225124",
+    "execution": {
+      "started_at": "2026-09-19T03:23:00.225+00:00",
+      "finished_at": "2026-09-19T03:23:25.902+00:00",
+      "duration_ms": 25676.926
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5735,
+      "completion_tokens": 841,
+      "total_tokens": 6576
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2935,
+        "completion_tokens": 418,
+        "total_tokens": 3353,
+        "duration_ms": 12448.688
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2800,
+        "completion_tokens": 423,
+        "total_tokens": 3223,
+        "duration_ms": 12692.219
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:00.441+00:00",
+        "finished_at": "2026-09-19T03:23:12.898+00:00",
+        "duration_ms": 12448.688,
+        "prompt_tokens": 2935,
+        "completion_tokens": 418,
+        "total_tokens": 3353,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:13.131+00:00",
+        "finished_at": "2026-09-19T03:23:25.819+00:00",
+        "duration_ms": 12692.219,
+        "prompt_tokens": 2800,
+        "completion_tokens": 423,
+        "total_tokens": 3223,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002328_017041",
+    "execution": {
+      "started_at": "2026-09-19T03:23:28.017+00:00",
+      "finished_at": "2026-09-19T03:23:42.187+00:00",
+      "duration_ms": 14170.775
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5013,
+      "completion_tokens": 438,
+      "total_tokens": 5451
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2676,
+        "completion_tokens": 219,
+        "total_tokens": 2895,
+        "duration_ms": 7086.657
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2337,
+        "completion_tokens": 219,
+        "total_tokens": 2556,
+        "duration_ms": 6566.947
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:28.250+00:00",
+        "finished_at": "2026-09-19T03:23:35.344+00:00",
+        "duration_ms": 7086.657,
+        "prompt_tokens": 2676,
+        "completion_tokens": 219,
+        "total_tokens": 2895,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:35.560+00:00",
+        "finished_at": "2026-09-19T03:23:42.138+00:00",
+        "duration_ms": 6566.947,
+        "prompt_tokens": 2337,
+        "completion_tokens": 219,
+        "total_tokens": 2556,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002344_285942",
+    "execution": {
+      "started_at": "2026-09-19T03:23:44.285+00:00",
+      "finished_at": "2026-09-19T03:24:09.422+00:00",
+      "duration_ms": 25137.032
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 5656,
+      "completion_tokens": 780,
+      "total_tokens": 6436
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2910,
+        "completion_tokens": 394,
+        "total_tokens": 3304,
+        "duration_ms": 12194.138
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2746,
+        "completion_tokens": 386,
+        "total_tokens": 3132,
+        "duration_ms": 12223.458
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:44.639+00:00",
+        "finished_at": "2026-09-19T03:23:56.846+00:00",
+        "duration_ms": 12194.138,
+        "prompt_tokens": 2910,
+        "completion_tokens": 394,
+        "total_tokens": 3304,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:23:57.122+00:00",
+        "finished_at": "2026-09-19T03:24:09.349+00:00",
+        "duration_ms": 12223.458,
+        "prompt_tokens": 2746,
+        "completion_tokens": 386,
+        "total_tokens": 3132,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002411_088656",
+    "execution": {
+      "started_at": "2026-09-19T03:24:11.088+00:00",
+      "finished_at": "2026-09-19T03:24:22.966+00:00",
+      "duration_ms": 11877.515
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4421,
+      "completion_tokens": 534,
+      "total_tokens": 4955
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2354,
+        "completion_tokens": 271,
+        "total_tokens": 2625,
+        "duration_ms": 6027.38
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2067,
+        "completion_tokens": 263,
+        "total_tokens": 2330,
+        "duration_ms": 5328.858
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:24:11.308+00:00",
+        "finished_at": "2026-09-19T03:24:17.338+00:00",
+        "duration_ms": 6027.38,
+        "prompt_tokens": 2354,
+        "completion_tokens": 271,
+        "total_tokens": 2625,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:24:17.574+00:00",
+        "finished_at": "2026-09-19T03:24:22.901+00:00",
+        "duration_ms": 5328.858,
+        "prompt_tokens": 2067,
+        "completion_tokens": 263,
+        "total_tokens": 2330,
+        "status": "completed"
+      }
+    ]
+  },
+  {
+    "execution_id": "20260919_002424_943213",
+    "execution": {
+      "started_at": "2026-09-19T03:24:24.943+00:00",
+      "finished_at": "2026-09-19T03:24:44.283+00:00",
+      "duration_ms": 19340.211
+    },
+    "llm_usage": {
+      "total_calls": 2,
+      "prompt_tokens": 4310,
+      "completion_tokens": 1184,
+      "total_tokens": 5494
+    },
+    "agents": {
+      "agent_1": {
+        "calls": 1,
+        "prompt_tokens": 2138,
+        "completion_tokens": 592,
+        "total_tokens": 2730,
+        "duration_ms": 9894.269
+      },
+      "agent_4": {
+        "calls": 1,
+        "prompt_tokens": 2172,
+        "completion_tokens": 592,
+        "total_tokens": 2764,
+        "duration_ms": 8946.17
+      }
+    },
+    "calls": [
+      {
+        "agent": "agent_1",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:24:25.149+00:00",
+        "finished_at": "2026-09-19T03:24:35.041+00:00",
+        "duration_ms": 9894.269,
+        "prompt_tokens": 2138,
+        "completion_tokens": 592,
+        "total_tokens": 2730,
+        "status": "completed"
+      },
+      {
+        "agent": "agent_4",
+        "model": "claude-sonnet-4-5-20250929",
+        "provider": null,
+        "started_at": "2026-09-19T03:24:35.240+00:00",
+        "finished_at": "2026-09-19T03:24:44.198+00:00",
+        "duration_ms": 8946.17,
+        "prompt_tokens": 2172,
+        "completion_tokens": 592,
+        "total_tokens": 2764,
+        "status": "completed"
+      }
+    ]
+  }
+]

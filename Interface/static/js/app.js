@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const collectSystems = () => [...systemsContainer.querySelectorAll("[data-system-block]")].map((block) => {
 		const system = {};
 		block.querySelectorAll("[data-field]").forEach((field) => { system[field.dataset.field] = field.value; });
-		system.mode = "c1";
+		system.mode = "c3";
 		return system;
 	});
 	let lastSystems = null;

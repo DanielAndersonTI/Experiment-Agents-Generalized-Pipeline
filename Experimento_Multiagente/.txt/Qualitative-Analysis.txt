@@ -1,0 +1,43 @@
+Avaliação qualitativa
+
+Princípios do design:
+
+Comparação cega: o avaliador não sabe qual arquitetura veio de qual configuração.
+
+Pareamento por sistema: cada sistema é avaliado com duas arquiteturas geradas por configurações diferentes.
+
+Controle de complexidade: 3 sistemas (simples, médio, complexo) para cobrir o espectro.
+
+Requisitos disponíveis: o avaliador recebe as user stories do sistema, senão não consegue julgar cobertura de funcionalidades nem serviços faltantes.
+
+Critérios observáveis: em vez de coesão e acoplamento (conceitos técnicos que geram resistência), os critérios são fatos verificáveis na arquitetura.
+
+Sistemas
+Complexidade	
+Simples	Jokul	
+Médio	AcmeAir	
+Complexo	TNTConcept	
+
+Comparações
+Para cada sistema, o avaliador vê duas arquiteturas finais anonimizadas: Arquitetura 1 e Arquitetura 2. A ordem de apresentação é sorteada por avaliador.
+
+Sistema		Arquitetura 1	Arquitetura 2
+Jokul		C0		C1
+AcmeAir		C1		C2
+TNTConcept	C1		C3
+
+Critérios de avaliação
+Escala: 1 — Muito ruim | 2 — Ruim | 3 — Regular | 4 — Bom | 5 — Muito bom
+
+Em 3 sistemas, são cobertos os três contrastes principais do estudo — o que dá material para discutir cada achado quantitativo com evidência qualitativa.
+
+O conjunto de pares foi escolhido para cobrir, em três níveis crescentes de complexidade, os três contrastes que estruturam o estudo de ablação. No sistema mais simples (Jokul), comparam-se o agente único (C0) e o pipeline completo (C1), o que permite observar o efeito global da orquestração multiagente quando as dependências são explícitas e o espaço arquitetural é pequeno. No sistema de complexidade intermediária (AcmeAir), comparam-se o pipeline completo (C1) e sua variante sem refinamento (C2), isolando a contribuição do Refinador em um cenário com maior número de interações implícitas. No sistema mais complexo (TNTConcept), comparam-se o pipeline completo (C1) e a variante sem o Especialista em Comunicação e sem consolidação (C3), o que expõe o efeito combinado da remoção desses dois estágios no cenário mais desafiador do corpus. Essa configuração cobre os três pares de contraste centrais do experimento quantitativo — C0 vs C1, C1 vs C2 e C1 vs C3 — distribuídos em complexidades distintas, permitindo que a avaliação qualitativa dialogue diretamente com os achados quantitativos de cada contraste, em vez de concentrar todas as comparações em um único perfil de sistema.
+
+A avaliação qualitativa foi conduzida apenas sobre as arquiteturas geradas pelo Gemini porque o Gemini foi o modelo configurado como principal no protocolo experimental e usado em toda a análise de ablação; o DeepSeek entrou como replicação parcial, com o objetivo específico de testar se os padrões observados se mantinham sob um modelo alternativo, não de gerar um segundo conjunto completo de arquiteturas para avaliação humana. Incluir o DeepSeek na avaliação qualitativa dobraria o número de arquiteturas por avaliador (de 6 para 12) sem trazer ganho proporcional: o efeito do modelo já foi discutido quantitativamente, onde as conclusões foram consistentes entre os dois LLMs. Além disso, o DeepSeek apresentou instabilidade recorrente na etapa de consolidação, com fallback frequente para a Proposta A, o que reduz a diversidade real entre as arquiteturas finais e enfraqueceria a premissa de comparar configurações distintas. Manter a avaliação qualitativa restrita ao Gemini preserva o cegamento, mantém a carga do avaliador em um nível factível e mantém o foco do estudo na pergunta central — quais mecanismos de orquestração importam — em vez de transformar a análise qualitativa em uma comparação secundária entre modelos.
+
+
+
+
+
+
+

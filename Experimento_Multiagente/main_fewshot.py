@@ -15,11 +15,26 @@ import re
 import sys
 import csv
 import json
+import traceback
 import contextlib
 import io
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
+
+# Windows terminals, redirected streams and the web interface may expose a
+# non-UTF-8 stdout (e.g. cp1252). The informational prints below use symbols
+# such as the wrench and the check mark, and an unencodable character would
+# raise UnicodeEncodeError and abort the whole run. Force an UTF-8 stream with
+# replacement as a fallback so the pipeline never fails while logging.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        try:
+            _stream.reconfigure(errors="replace")
+        except Exception:
+            pass
 
 from crewai import LLM, Crew
 
@@ -128,23 +143,35 @@ def criar_llm() -> LLM:
     # api_key = os.getenv("OPENROUTER_API_KEY")
     # model_name = os.getenv("OPENROUTER_MODEL", "deepseek/deepseek-chat-v3-0324:free")
     # max_tokens = int(os.getenv("OPENROUTER_MAX_TOKENS", "512"))
-    api_key = os.getenv("DEEPSEEK_API_KEY")
-    model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
-    max_tokens = int(os.getenv("DEEPSEEK_MAX_TOKENS", "512"))
+
+    # Google Gemini configuration kept for historical experiments:
+    # api_key = os.getenv("GOOGLE_API_KEY")
+    # model_name = os.getenv("GOOGLE_MODEL", "gemini/gemini-flash-latest")
+    # max_tokens = 4096
+
+    # DeepSeek configuration kept for historical experiments:
+    # api_key = os.getenv("DEEPSEEK_API_KEY")
+    # model_name = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
+    # max_tokens = int(os.getenv("DEEPSEEK_MAX_TOKENS", "512"))
+
+    # Anthropic Claude configuration used by the current experiments:
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    model_name = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-5-20250929")
+    max_tokens = int(os.getenv("CLAUDE_MAX_TOKENS", "4096"))
 
     if not api_key:
-        raise RuntimeError("DEEPSEEK_API_KEY not configured. Please define it in the .env file.")
+        raise RuntimeError("ANTHROPIC_API_KEY not configured. Please define it in the .env file.")
 
-    print(f"\n🔧 Inicializando modelo via DeepSeek: {model_name}")
+    print(f"\n🔧 Inicializando modelo via Anthropic (Claude): {model_name}")
 
     llm = LLM(
-        model=f"deepseek/{model_name}",
+        model=f"anthropic/{model_name}",
         api_key=api_key,
         temperature=0.0,
         max_tokens=max_tokens,
     )
 
-    print(f"✓ Modelo {model_name} inicializado com sucesso via DeepSeek")
+    print(f"✓ Modelo {model_name} inicializado com sucesso via Anthropic (Claude)")
     return llm
 
 
@@ -221,6 +248,39 @@ def salvar_sumario_json(run_dir: Path, metricas: dict):
     filepath = run_dir / "sumario.json"
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(resumo, f, indent=2, ensure_ascii=False)
+
+
+def normalizar_output_llm(texto: str) -> str:
+    """Converte saída em markdown (cercas, negrito, tabelas) para CSV puro."""
+    # Remove cercas de código
+    texto = re.sub(r"```(?:csv|CSV)?\s*\n?", "", texto)
+    texto = texto.replace("```", "")
+    # Remove negrito
+    texto = texto.replace("**", "")
+    # Converte tabelas markdown (| a | b | c |) em CSV
+    linhas_saida = []
+    for linha in texto.split("\n"):
+        if "|" in linha:
+            cols = [c.strip() for c in linha.strip().strip("|").split("|")]
+            if len(cols) >= 3 and not all(set(c) <= {"-", ":", " "} for c in cols):
+                linhas_saida.append(",".join(cols[:3]))
+        else:
+            linhas_saida.append(linha)
+    return "\n".join(linhas_saida)
+
+
+# Temporary diagnostic switch: prints the raw text returned by the LLM before
+# the CSV extraction, so the console shows whether the model answered with
+# markdown (fences, bold, tables) or with plain CSV. Set it to False to silence.
+DEBUG_RAW_OUTPUT = True
+
+
+def _debug_raw_output(label: str, texto: str) -> None:
+    if not DEBUG_RAW_OUTPUT:
+        return
+    print(f"=== RAW OUTPUT [{label}] ===")
+    print(str(texto)[:2000])
+    print(f"=== FIM RAW [{label}] ===")
 
 
 def extrair_csv_do_output(texto: str) -> str:
@@ -593,7 +653,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
     try:
         crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
         output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
-        output_a_limpo = extrair_csv_do_output(str(output_a))
+        _debug_raw_output("agent_1/proposta_a", str(output_a))
+        output_a_limpo = extrair_csv_do_output(normalizar_output_llm(str(output_a)))
         original_a = output_a_limpo
 
         try:
@@ -602,7 +663,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
                 "original_architecture": output_a_limpo,
                 "requirements": requirements
             })
-            output_a_limpo = extrair_csv_do_output(str(refined_a))
+            _debug_raw_output("agent_4/refined_a", str(refined_a))
+            output_a_limpo = extrair_csv_do_output(normalizar_output_llm(str(refined_a)))
 
             refined_services = set(parse_csv_architecture(output_a_limpo))
             original_services = set(parse_csv_architecture(original_a))
@@ -615,14 +677,16 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         resultados["proposta_a"] = output_a_limpo
         salvar_proposta(run_dir, "proposta_a", output_a_limpo)
     except Exception as e:
-        print(f"✗ Erro no Agente 1: {str(e)}")
+        print(f"✗ Erro no Agente 1: {type(e).__name__}: {e}")
+        traceback.print_exc()
         resultados["proposta_a"] = None
 
     # --- Agente 2 + Refinamento ---
     try:
         crew2 = Crew(agents=[agente2], tasks=[task2], verbose=False)
         output_b = silent_kickoff(crew2, {"example": example, "requirements": requirements})
-        output_b_limpo = extrair_csv_do_output(str(output_b))
+        _debug_raw_output("agent_2/proposta_b", str(output_b))
+        output_b_limpo = extrair_csv_do_output(normalizar_output_llm(str(output_b)))
         original_b = output_b_limpo
 
         try:
@@ -631,7 +695,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
                 "original_architecture": output_b_limpo,
                 "requirements": requirements
             })
-            output_b_limpo = extrair_csv_do_output(str(refined_b))
+            _debug_raw_output("agent_4/refined_b", str(refined_b))
+            output_b_limpo = extrair_csv_do_output(normalizar_output_llm(str(refined_b)))
 
             refined_services = set(parse_csv_architecture(output_b_limpo))
             original_services = set(parse_csv_architecture(original_b))
@@ -644,7 +709,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
         resultados["proposta_b"] = output_b_limpo
         salvar_proposta(run_dir, "proposta_b", output_b_limpo)
     except Exception as e:
-        print(f"✗ Erro no Agente 2: {str(e)}")
+        print(f"✗ Erro no Agente 2: {type(e).__name__}: {e}")
+        traceback.print_exc()
         resultados["proposta_b"] = None
 
     # --- Métricas preliminares ---
@@ -689,7 +755,8 @@ def _executar_experimento(llm, system_name: str, config: dict, timestamp: str, e
                 "metrics_b": metrics_b_text,
                 "requirements": requirements,
             })
-            output_c_limpo = extrair_csv_do_output(str(output_c))
+            _debug_raw_output("agent_3/consolidada", str(output_c))
+            output_c_limpo = extrair_csv_do_output(normalizar_output_llm(str(output_c)))
 
             if _is_valid_architecture_csv(output_c_limpo):
                 resultados["consolidada"] = output_c_limpo
@@ -746,13 +813,15 @@ def _executar_experimento_c0(llm, system_name: str, config: dict, timestamp: str
     try:
         crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
         output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
-        output_a_limpo = extrair_csv_do_output(str(output_a))
+        _debug_raw_output("c0/agent_1/proposta_a", str(output_a))
+        output_a_limpo = extrair_csv_do_output(normalizar_output_llm(str(output_a)))
         resultados["proposta_a"] = output_a_limpo
         resultados["consolidada"] = output_a_limpo
         salvar_proposta(run_dir, "proposta_a", output_a_limpo)
         salvar_proposta(run_dir, "consolidada", output_a_limpo)
     except Exception as error:
-        print(f"✗ Erro no Agente 1: {str(error)}")
+        print(f"✗ Erro no Agente 1: {type(error).__name__}: {error}")
+        traceback.print_exc()
 
     metricas = {
         "proposta_a": None,
@@ -799,18 +868,22 @@ def _executar_experimento_c2(llm, system_name: str, config: dict, timestamp: str
     try:
         crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
         output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
-        resultados["proposta_a"] = extrair_csv_do_output(str(output_a))
+        _debug_raw_output("c2/agent_1/proposta_a", str(output_a))
+        resultados["proposta_a"] = extrair_csv_do_output(normalizar_output_llm(str(output_a)))
         salvar_proposta(run_dir, "proposta_a", resultados["proposta_a"])
     except Exception as error:
-        print(f"✗ Erro no Agente 1: {str(error)}")
+        print(f"✗ Erro no Agente 1: {type(error).__name__}: {error}")
+        traceback.print_exc()
 
     try:
         crew2 = Crew(agents=[agente2], tasks=[task2], verbose=False)
         output_b = silent_kickoff(crew2, {"example": example, "requirements": requirements})
-        resultados["proposta_b"] = extrair_csv_do_output(str(output_b))
+        _debug_raw_output("c2/agent_2/proposta_b", str(output_b))
+        resultados["proposta_b"] = extrair_csv_do_output(normalizar_output_llm(str(output_b)))
         salvar_proposta(run_dir, "proposta_b", resultados["proposta_b"])
     except Exception as error:
-        print(f"✗ Erro no Agente 2: {str(error)}")
+        print(f"✗ Erro no Agente 2: {type(error).__name__}: {error}")
+        traceback.print_exc()
 
     metricas_pre = {}
     for key in ("proposta_a", "proposta_b"):
@@ -845,7 +918,8 @@ def _executar_experimento_c2(llm, system_name: str, config: dict, timestamp: str
                 ),
                 "requirements": requirements,
             })
-            output_c_limpo = extrair_csv_do_output(str(output_c))
+            _debug_raw_output("c2/agent_3/consolidada", str(output_c))
+            output_c_limpo = extrair_csv_do_output(normalizar_output_llm(str(output_c)))
             resultados["consolidada"] = (
                 output_c_limpo
                 if _is_valid_architecture_csv(output_c_limpo)
@@ -957,16 +1031,19 @@ def _executar_experimento_c3(llm, system_name: str, config: dict, timestamp: str
     try:
         crew1 = Crew(agents=[agente1], tasks=[task1], verbose=True)
         output_a = silent_kickoff(crew1, {"example": example, "requirements": requirements})
-        original_a = extrair_csv_do_output(str(output_a))
+        _debug_raw_output("c3/agent_1/proposta_a", str(output_a))
+        original_a = extrair_csv_do_output(normalizar_output_llm(str(output_a)))
         proposta_a_refinada = original_a
 
         # C3 has no independent proposal B or consolidation step.
         try:
             crew4 = Crew(agents=[agente4], tasks=[task4], verbose=False)
-            refined_a = extrair_csv_do_output(str(silent_kickoff(crew4, {
+            _raw_refined_a = silent_kickoff(crew4, {
                 "original_architecture": original_a,
                 "requirements": requirements,
-            })))
+            })
+            _debug_raw_output("c3/agent_4/refined_a", str(_raw_refined_a))
+            refined_a = extrair_csv_do_output(normalizar_output_llm(str(_raw_refined_a)))
             refined_services = parse_csv_architecture(refined_a)
             original_services = parse_csv_architecture(original_a)
             if refined_a.strip() and refined_services and len(refined_services) >= len(original_services):
@@ -979,7 +1056,8 @@ def _executar_experimento_c3(llm, system_name: str, config: dict, timestamp: str
         salvar_proposta(run_dir, "proposta_a", proposta_a_refinada)
         salvar_proposta(run_dir, "consolidada", proposta_a_refinada)
     except Exception as error:
-        print(f"✗ Erro no Agente 1: {str(error)}")
+        print(f"✗ Erro no Agente 1: {type(error).__name__}: {error}")
+        traceback.print_exc()
 
     metricas = {"proposta_a": None, "proposta_a_inter": None}
     if resultados["proposta_a"]:

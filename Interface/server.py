@@ -47,6 +47,22 @@ REQUIRED_SYSTEM_FIELDS = (
     "reference_interactions",
 )
 
+# The second proposal comes from Agent 2 in C1/C2 and from Agent 2.1 in C4, so the
+# report label follows the configuration sent by the interface. Runs restored from
+# disk (no mode available) keep the default label used by C1/C2.
+AGENT_B_LABELS = {
+    "c1": "Agent B (Communication Specialist)",
+    "c2": "Agent B (Communication Specialist)",
+    "c4": "Agent B (Software Architect 2.1)",
+}
+DEFAULT_AGENT_B_LABEL = "Agent B (Communication Specialist)"
+
+
+def _agent_b_label(system: dict) -> str:
+    """Return the Agent B label for the configuration of one system."""
+    mode = str(system.get("mode") or "").strip().lower()
+    return AGENT_B_LABELS.get(mode, DEFAULT_AGENT_B_LABEL)
+
 
 def _latest_persisted_proposals(system_name: str) -> dict[str, str]:
     """Return the newest saved agent proposals for one system, when available."""
@@ -519,7 +535,7 @@ def build_pdf_report(run: dict) -> bytes:
         add("Agent Proposals", "subsection")
         for proposal_name, subtitle, key in (
             ("Agent A", "Agent A (Software Architect)", "agent_a"),
-            ("Agent B", "Agent B (Communication Specialist)", "agent_b"),
+            ("Agent B", _agent_b_label(system), "agent_b"),
         ):
             add(subtitle, "proposal")
             for csv_line in (proposal_data.get(key) or "").splitlines():

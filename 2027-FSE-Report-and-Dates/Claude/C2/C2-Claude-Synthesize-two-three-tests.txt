@@ -1,0 +1,175 @@
+ANALYSIS OF THE THREE C2 TESTS (CLAUDE SONNET 4.5 + FEW-SHOT)
+TEST 1 — Run ID 20260916_235054_973187
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.6364	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.6154	0.7692	0.7692
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	0.8571	1.0000	1.0000
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9148	0.9065	0.9519
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.9091	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.3478	0.6087	0.6087
+DayTrader7	0.8182	0.8000	0.8182
+Jokul	0.6667	0.6667	0.6667
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	0.8571	1.0000	1.0000
+TNTConcept	0.7879	0.6769	0.7879
+Average	0.8024	0.8253	0.8528
+Commentary:
+C2 removes Agent 4 (refiner) and consolidated services achieved 0.9519 — the highest among all Claude configurations, outperforming C1 (~0.9336). The improvement came from two cases: Jokul (B selected correctly, reaching 1.0000) and Pet-Clinic (B selected correctly in interactions, reaching 1.0000). Cargo-Tracker maintained the recurring granularity issue (A = 0.6154 due to splitting the Logistics Network), but consolidation correctly selected B (0.7692). In interactions, consolidation improved to 0.8528 — practically tied with C1 (0.8559). Jokul remained at 0.6667 (A and B tied, consolidation kept A).
+
+YAML
+YAML reflected the consolidated architecture. Truncation of long fields persisted in Cargo-Tracker and TNTConcept. Generic endpoints (/api/<service-name>) limit practical value. No parse failures reported.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	21,979
+Agent 2	168,705
+Agent 3	76,398
+Unknown (Ag. 5)	44,240
+Total	311,322
+Highlights:
+
+Total cost: 311,322 tokens — ~9% less than C1 (~342k).
+
+5 calls per system (8 systems): Agent 1 ×1, Agent 2 ×1, Agent 3 ×2, Agent 5 ×1.
+
+Agent 2 dominates (~54%), consuming 168k tokens.
+
+Agent 3 consumed 76k tokens — the highest among C2 tests, with double calls in all systems.
+
+Average cost per execution: ~38,915 tokens.
+
+Average duration: ~51,321 ms per execution.
+
+TEST 2 — Run ID 20260917_000355_192870
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.8235	1.0000
+acmeair	1.0000	0.9231	1.0000
+Cargo-Tracker	0.6154	0.5000	0.6154
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	0.8571	1.0000	1.0000
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9148	0.8985	0.9327
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.8696	1.0000
+acmeair	1.0000	0.9412	1.0000
+Cargo-Tracker	0.3478	0.5517	0.3478
+DayTrader7	0.8182	0.8000	0.8182
+Jokul	0.7500	0.6667	0.6667
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	0.8571	1.0000	0.8571
+TNTConcept	0.7692	0.7813	0.7692
+Average	0.8024	0.8190	0.7990
+Commentary:
+Services fell to 0.9327 (−1.9 points vs. Test 1). The decline came from Cargo-Tracker, where B dropped from 0.7692 to 0.5000, forcing consolidation to keep A (0.6154). Jokul again reached 1.0000 in B — this time consolidation correctly selected B. Interactions fell to 0.7990 — the worst C2 result. Two critical cases: Jokul (A = 0.7500 superior to B = 0.6667, but consolidation kept B = 0.6667) and Pet-Clinic (B = 1.0000 superior to A = 0.8571, but consolidation kept A = 0.8571). This shows that C2's consolidation is inconsistent — sometimes chooses B correctly (services), sometimes keeps A despite B being superior (interactions).
+
+YAML
+Similar to Test 1. Truncation in Cargo-Tracker and TNTConcept. Endpoints remain generic.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	20,276
+Agent 2	147,960
+Agent 3	67,565
+Unknown (Ag. 5)	36,078
+Total	271,879
+Highlights:
+
+Total cost: 271,879 tokens — the lowest among all Claude tests.
+
+7 unique executions (one was a duplicate of 20260917_000704_833284).
+
+Agent 3 dropped to 67,565 tokens — consolidation was simpler, likely because B was often inferior.
+
+Average cost per execution: ~38,840 tokens.
+
+Average duration: ~56,910 ms per execution.
+
+TEST 3 — Run ID 20260917_001829_433304
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.6364	1.0000
+acmeair	1.0000	0.8571	1.0000
+Cargo-Tracker	0.6154	0.4706	0.6154
+DayTrader7	0.9231	0.8000	0.9231
+Jokul	0.8571	1.0000	1.0000
+JpetStore	1.0000	0.9231	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9148	0.8263	0.9327
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	0.9091	1.0000
+acmeair	1.0000	0.8889	1.0000
+Cargo-Tracker	0.3478	0.2963	0.3478
+DayTrader7	0.8696	0.7692	0.8696
+Jokul	0.7500	0.6667	0.6667
+JpetStore	0.9412	0.8421	0.9412
+Pet-Clinic	0.8571	1.0000	1.0000
+TNTConcept	0.7692	0.6769	0.7692
+Average	0.8169	0.7562	0.8243
+Commentary:
+Services remained at 0.9327 (identical to Test 2). Cargo-Tracker again problematic: A = 0.6154, B = 0.4706 (worst B among C2 tests), consolidation kept A. Jokul reached 1.0000 in B and consolidation correctly selected B. Interactions recovered to 0.8243 (+2.5 points vs. Test 2), driven by Pet-Clinic where B (1.0000) was correctly selected. Cargo-Tracker collapsed further in interactions: B = 0.2963, A = 0.3478, consolidation kept A. Jokul repeated the Test 2 problem — B = 0.6667 selected over A = 0.7500, losing 8 points.
+
+YAML
+Same pattern. Truncation persists in Cargo-Tracker and TNTConcept. Jokul produced cleaner YAML in Test 3 (well-grouped services).
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	22,855
+Agent 2	175,832
+Agent 3	74,076
+Unknown (Ag. 5)	24,954
+Total	297,717
+Highlights:
+
+Total cost: 297,717 tokens — intermediate between Tests 1 and 2.
+
+Agent 2 dominates (~59%), consuming 175k tokens.
+
+Agent 3 consumed 74k tokens — higher than Test 2.
+
+Agent 5 (YAML exporter) dropped to 24,954 tokens — the lowest among C2 tests.
+
+Average cost per execution: ~37,215 tokens.
+
+Average duration: ~49,825 ms per execution.
+
+GENERAL SYNTHESIS FOR THE PAPER (CLAUDE C2)
+Services are the strongest dimension. The consolidated average ranged between 0.9327 and 0.9519 across the three tests — the highest among all Claude configurations. Test 1 reached 0.9519 (best result among all Claude tests), driven by correctly selecting B for Jokul and Cargo-Tracker. Tests 2 and 3 stabilized at 0.9327. Cargo-Tracker remains the recurring problem (0.6154–0.7692) due to Claude's insistence on splitting the Logistics Network into Location and Voyage. Jokul consistently reached 1.0000 in B across all three tests, and consolidation correctly selected it.
+
+Interactions are the weak point. The average varied between 0.7990 and 0.8528. Cargo-Tracker oscillated between 0.3478 and 0.6087 — worse than DeepSeek (0.7826–0.9565) and much worse than Gemini (~0.84–0.92). Jokul showed inconsistency: Test 1 chose A (0.6667), Test 2 chose B (0.6667), Test 3 chose B (0.6667) — losing against A in Tests 2 and 3. Pet-Clinic oscillated between 0.8571 and 1.0000 depending on which proposal was selected.
+
+Consolidation is inconsistent. Unlike C1 (which showed strong fallback bias toward A), C2 shows mixed selection: sometimes chooses B (Cargo-Tracker T1, Jokul T1/T2/T3, Pet-Clinic T1/T3), sometimes keeps A (Cargo-Tracker T2/T3, Jokul T1, Pet-Clinic T2). This inconsistency prevents C2 from consistently exploiting the diversity of proposals. The best consolidation result (Test 1, 0.9519/0.8528) came when B was correctly selected for Jokul and Pet-Clinic.
+
+Cost is intermediate. Claude C2 consumes ~272k–311k tokens per test (8 systems), with 5 calls per system: Agent 1 ×1, Agent 2 ×1, Agent 3 ×2, Agent 5 ×1. Compared to C1 (~340k–343k tokens), C2 is ~14% cheaper. Compared to C0 (~24.5k tokens), C2 is ~12x more expensive. Agent 2 dominates cost (~54–59%), followed by Agent 3 (~22–26%).
+
+Agent 2 remains the bottleneck. Besides dominating cost, Agent 2 (Communication Specialist) still produces malformed output in multiple systems — markdown, Evidence:, Reasoning:, Bounded Context: mixed with CSV — contaminating Proposal B. This explains why B frequently has low F1 (0.29–0.77) and why consolidation sometimes prefers A.
+
+Comparison with Gemini and DeepSeek (C2):
+
+Model	F1 Services (avg 3 tests)	F1 Interactions (avg 3 tests)	Tokens/test (average)
+Gemini	~0.9758	~0.9318	~46,343
+DeepSeek	~0.9602	~0.8469	~28,058
+Claude	~0.9391	~0.8254	~293,639
+Claude C2 is below Gemini in both metrics and below DeepSeek in services but slightly above DeepSeek in interactions (0.8254 vs. 0.8469 — actually below). In cost, Claude C2 is dramatically more expensive than both: ~6.3x more tokens than Gemini and ~10.5x more than DeepSeek.
+
+C1 vs. C2 Comparison (Claude):
+
+Metric	C1 (avg 3 tests)	C2 (avg 3 tests)	Δ
+F1 Services	0.9336	0.9391	+0.0055
+F1 Interactions	0.8559	0.8254	−0.0305
+Tokens/test	~342,000	~293,639	−14.1%
+C2 improves services slightly (+0.55 point) but degrades interactions (−3.05 points), at 14% lower cost. The trade-off is: C2 is cheaper and better at services, but worse at interactions. For the paper's RQ3, this suggests that removing Agent 4 (refiner) hurts interaction recovery more than it helps cost — a counter-intuitive finding worth reporting.

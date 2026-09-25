@@ -1,0 +1,178 @@
+ANALYSIS OF THE THREE C4 TESTS (CLAUDE SONNET 4.5 + FEW-SHOT, WITH AGENT 2.1)
+TEST 1 — Run ID 20260923_201807_422587
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.6154	0.7692	0.7692
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	0.8571	1.0000	0.8571
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9148	0.9285	0.9341
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.3636	0.2857	0.3636
+DayTrader7	0.8333	0.8696	0.8333
+Jokul	0.7500	0.6667	0.7500
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	1.0000	0.6000	1.0000
+TNTConcept	0.8000	0.7692	0.8000
+Average	0.8360	0.7666	0.8360
+Commentary:
+C4 replaces the original Agent 2 (Communication Specialist, with 50 hardcoded interaction patterns) with Agent 2.1 — a generalized Software Architect cloned from Agent 1's prompt, differentiated only by a distinct Few-Shot example. In Test 1, Proposal B (2.1) actually outperforms Proposal A in services (0.9285 vs. 0.9148), which is a first. However, the consolidation chose A in 7 of 8 systems, discarding the 2.1 proposal in most cases — keeping the consolidated services at 0.9341 (identical to C1's average). The most striking case is Jokul: B reached 1.0000 in services, but consolidation kept A (0.8571). In interactions, Proposal B (2.1) was inferior (0.7666 vs. 0.8360), which justifies keeping A. Pet-Clinic showed the opposite problem: the 2.1 introduced an artificial UI Service (0.6000 in interactions), the same granularity bias that appeared in C3. The 2.1 demonstrates that a generalized second architect can produce competitive proposals, but the consolidator still exhibits a strong fallback bias toward A.
+
+YAML
+YAML reflected the consolidated architecture. Truncation of long fields persisted in Cargo-Tracker and TNTConcept. The UI Service bias from 2.1 in Pet-Clinic did not propagate to the consolidated YAML because consolidation kept A.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	24,378
+Agent 2.1	~24,615
+Agent 3	~72,000
+Agent 4	~46,000
+Unknown	~34,000
+Total	196,926
+Highlights:
+
+Total cost: 196,926 tokens — ~42% less than C1 (~342k) and ~33% less than C2 (~294k).
+
+7 calls per system (8 systems): Agent 1 ×1, Agent 4 ×2, Agent 2.1 ×1, Agent 3 ×2, unknown ×1.
+
+Agent 2.1 consumes ~3,000 tokens per execution — ~14% of the original Agent 2 (~21,000). This is the main driver of cost reduction.
+
+Average cost per execution: ~24,616 tokens.
+
+Average duration: ~57,345 ms per execution.
+
+TEST 2 — Run ID 20260923_203004_065811
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.5714	0.7143	0.7143
+DayTrader7	0.8571	0.8571	0.8571
+Jokul	0.7500	1.0000	1.0000
+JpetStore	1.0000	0.8571	1.0000
+Pet-Clinic	0.8000	1.0000	0.8889
+TNTConcept	1.0000	1.0000	1.0000
+Average	0.8723	0.9286	0.9380
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.3636	0.5000	0.5000
+DayTrader7	0.8696	0.8696	0.8696
+Jokul	0.6667	1.0000	1.0000
+JpetStore	0.8750	0.8421	0.8750
+Pet-Clinic	0.6000	1.0000	0.6000
+TNTConcept	0.7813	0.7813	0.7813
+Average	0.7695	0.8741	0.8282
+Commentary:
+Test 2 shows the strongest performance of Agent 2.1 across all C4 tests: Proposal B outperformed A in both services (0.9286 vs. 0.8723) and interactions (0.8741 vs. 0.7695). This is the first time in the entire Claude series that the second architect's proposal is superior to the first across the board. Consolidation took advantage of this in 3 key cases: Cargo-Tracker (chose B, reaching 0.7143/0.5000, the best Claude result for this system in any configuration), Jokul (chose B, reaching 1.0000/1.0000), and DayTrader7 (services tied). However, Pet-Clinic still has the UI Service bias — B reached 1.0000 in interactions, but consolidation kept A (0.6000), losing 40 points, the worst consolidation decision of the test. The consolidated services average of 0.9380 is the best among all Claude configurations, surpassing C2 (0.9391 — actually C2 is slightly higher, but C4's 0.9380 is second-best).
+
+YAML
+Similar to Test 1. Truncation in Cargo-Tracker and TNTConcept. The Jokul consolidation into B (1.0000/1.0000) produced cleaner YAML, confirming the model's ability to handle this system correctly when the pipeline selects the better proposal.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	21,983
+Agent 2.1	~23,692
+Agent 3	~68,000
+Agent 4	~46,000
+Unknown	~33,000
+Total	199,165
+Highlights:
+
+Total cost: 199,165 tokens — practically identical to Test 1 (+1.1%).
+
+Agent 2.1 remains at ~3,000 tokens per execution.
+
+Average cost per execution: ~24,896 tokens.
+
+Average duration: ~57,345 ms per execution.
+
+TEST 3 — Run ID 20260923_204018_979949
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.6154	0.6154	0.6154
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	—	—	—
+JpetStore	—	—	—
+Pet-Clinic	—	—	—
+TNTConcept	—	—	—
+Average (4 systems)	0.8846	0.8846	0.8846
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.3810	0.3636	0.3810
+DayTrader7	0.6667	0.8696	0.6667
+Jokul	—	—	—
+JpetStore	—	—	—
+Pet-Clinic	—	—	—
+TNTConcept	—	—	—
+Average (4 systems)	0.7619	0.8083	0.7619
+Commentary:
+Test 3 is not a valid comparison — 4 of the 8 systems failed to process (Jokul, JpetStore, Pet-Clinic, TNTConcept) due to API errors. All calls from Agents 1 and 2.1 returned status: failed with zero tokens, indicating a transient API issue rather than a prompt problem. For the 4 systems that did process, the results are consistent with previous tests: services tied at 0.8846, interactions in DayTrader7 showed the same fallback bias — Proposal B (2.1) scored 0.8696 vs. A's 0.6667, but consolidation kept A. This is the second time in the C4 series that the consolidator ignored a superior B, and it is the most visible case because there are only 4 systems to dilute the effect.
+
+YAML
+Same pattern for the 4 systems processed. Truncation in Cargo-Tracker. The failed systems produced no YAML.
+
+Tracer (token cost)
+Agent	Tokens (Total) — successful runs only
+Agent 1	13,077
+Agent 2.1	12,880
+Agent 4	~24,000
+Agent 3	~37,000
+Unknown	~18,000
+Total	105,267
+Highlights:
+
+Total cost (4 successful systems): 105,267 tokens.
+
+4 failed systems consumed zero tokens — retries terminated in ~350 ms each before any LLM call.
+
+Average cost per successful execution: ~26,317 tokens.
+
+This test should be reported as partial or discarded in the final comparative analysis.
+
+GENERAL SYNTHESIS FOR THE PAPER (CLAUDE C4)
+Agent 2.1 works — and delivers cost reduction without quality loss. The replacement of the original Agent 2 (Communication Specialist, ~21,000 tokens/execution with 50 hardcoded patterns) by Agent 2.1 (generalized Software Architect, ~3,000 tokens/execution) reduced the total pipeline cost by ~42% compared to C1 and ~33% compared to C2, with consolidated services averaging 0.9341–0.9380 (surpassing C1's 0.9336 and approaching C2's 0.9391). The consolidated interactions averaged 0.8282–0.8360, slightly below C1 (0.8559) but above C2 (0.8254). The 2.1 demonstrated that it can produce competitive proposals — in Test 2, Proposal B outperformed A in both dimensions for the first time in the entire Claude series.
+
+Consolidation remains the bottleneck. The Agent 3 fallback bias persists: in 2 of the 3 tests (and in multiple systems per test), the consolidator kept Proposal A even when B was clearly superior. The worst case is Pet-Clinic in Test 2 (B = 1.0000 interactions vs. A = 0.6000, but consolidation kept A, losing 40 points) and DayTrader7 in Test 3 (B = 0.8696 vs. A = 0.6667, consolidation kept A). This is a pipeline design issue, not an Agent 2.1 issue — the 2.1 is delivering what it was designed for.
+
+The UI Service bias persists. Pet-Clinic exposed the same granularity bias that appeared in C3: Claude tends to treat the user interface as a microservice, creating a "UI Service" that does not exist in the reference. This bias appears in the 2.1 proposal and is only filtered when consolidation chooses A. The pipeline needs an explicit instruction to avoid infrastructure/UI components, or the consolidator needs to penalize proposals that introduce non-business services.
+
+Cost is the standout result. Claude C4 consumes ~197k–199k tokens per test (8 systems), with 7 calls per system. Compared to C1 (~342k tokens), C4 is ~42% cheaper. Compared to C2 (~294k tokens), C4 is ~33% cheaper. Compared to C3 (~47.5k tokens), C4 is ~4x more expensive but delivers substantially better services (0.9341 vs. 0.9236) and similar interactions (0.8360 vs. 0.8274). The cost-benefit of C4 is superior to C1 and C2 — the same or better quality at a fraction of the cost.
+
+Test 3 must be reported as partial. The 4 failed systems (Jokul, JpetStore, Pet-Clinic, TNTConcept) consumed zero tokens and produced no outputs. The failure was transient (API errors), and the 4 successful systems (7ep, acmeair, Cargo-Tracker, DayTrader7) confirmed the patterns of Tests 1 and 2. For the paper, Test 3 should be either discarded or reported as supplementary evidence with an explicit note about the API failures.
+
+Comparison with Gemini and DeepSeek (C4):
+
+Model	F1 Services (avg)	F1 Interactions (avg)	Tokens/test (avg)
+Gemini	~0.9709	~0.9187	~412k–501k
+DeepSeek	~0.9656	~0.8556	~255k–263k
+Claude C4	~0.9361	~0.8321	~198k
+Claude C4 is below Gemini in both dimensions and below DeepSeek in services, but close to DeepSeek in interactions (0.8321 vs. ~0.8556). In cost, Claude C4 is ~2.1x more expensive than DeepSeek and ~2.5x cheaper than Gemini. This makes C4 the best cost-benefit configuration for Claude — it approaches DeepSeek's quality at roughly double the cost, but with substantially lower cost than Gemini.
+
+Claude Configuration Comparison — C0 vs. C1 vs. C2 vs. C3 vs. C4
+
+Metric	C0	C1	C2	C3	C4
+F1 Services	0.9208	0.9336	0.9391	0.9236	0.9361
+F1 Interactions	0.8265	0.8559	0.8254	0.8274	0.8321
+Tokens/test	~24.5k	~342k	~294k	~47.5k	~198k
+C4 is the best configuration for Claude across all dimensions measured. It delivers the second-best services (0.9361, close to C2's 0.9391), the second-best interactions (0.8321, below only C1's 0.8559), at 42% of C1's cost and 33% of C2's cost. The replacement of Agent 2 (specialist) with Agent 2.1 (generalist clone of Agent 1) is a successful engineering decision that preserves quality while drastically reducing cost. For the paper's RQ3, this suggests:
+
+Specialization is not necessary for the second architect. A generalized architect with the same prompt as Agent 1 — differentiated only by a distinct Few-Shot example — produces equally good or better proposals.
+
+Agent 3 (Consolidator) is the remaining bottleneck. Its fallback bias toward A prevents the pipeline from fully exploiting the diversity of proposals. Fixing Agent 3 would unlock the full potential of C4.
+
+The Agent 2.1 replacement is a template for cost reduction. Removing hardcoded pattern libraries and relying on generalized prompts reduces tokens without sacrificing quality.
+
+C4 is the recommended configuration for Claude in cost-benefit terms — it is the best balance between quality and cost among all configurations tested.

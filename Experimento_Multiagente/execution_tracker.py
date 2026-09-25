@@ -24,6 +24,30 @@ except Exception:  # pragma: no cover - keeps the experiment usable without Crew
 _CURRENT_TRACKER: contextvars.ContextVar["ExecutionTracker | None"] = contextvars.ContextVar(
     "davinci_execution_tracker", default=None
 )
+
+# C4 (Agent 1 + Agent 2.1) uses two agents whose CrewAI role is the same
+# ("Software Architect"), so the role alone cannot separate them in the
+# per-agent cost report. The pipeline may therefore label the calls of one
+# agent explicitly; the label lives in a ContextVar, following the same
+# pattern already used for the tracker itself.
+_CURRENT_AGENT_LABEL: contextvars.ContextVar["str | None"] = contextvars.ContextVar(
+    "davinci_agent_label", default=None
+)
+
+
+def set_agent_label(label: str):
+    """Label the LLM calls executed next; returns a token for reset_agent_label."""
+    return _CURRENT_AGENT_LABEL.set(label)
+
+
+def reset_agent_label(token) -> None:
+    """Remove a label created by set_agent_label (best effort, never raises)."""
+    try:
+        _CURRENT_AGENT_LABEL.reset(token)
+    except Exception:
+        pass
+
+
 _REGISTER_LOCK = threading.Lock()
 _REGISTERED = False
 
@@ -113,7 +137,8 @@ class ExecutionTracker:
             duration_ms = round((time.perf_counter() - started_clock) * 1000, 3)
             usage = getattr(event, "usage", None)
             model = getattr(event, "model", None) or getattr(source, "model", None)
-            agent = _agent_name(getattr(event, "agent_role", None) or getattr(source, "agent_role", None))
+            agent_role = getattr(event, "agent_role", None) or getattr(source, "agent_role", None)
+            agent = _CURRENT_AGENT_LABEL.get() or _agent_name(agent_role)
             prompt_tokens = _usage_value(usage, "prompt_tokens", "input_tokens")
             completion_tokens = _usage_value(usage, "completion_tokens", "output_tokens")
             total_tokens = _usage_value(usage, "total_tokens")
@@ -211,7 +236,10 @@ register_event_handlers()
 def track_execution(function):
     """Decorate one pipeline execution while preserving its existing behavior."""
     @functools.wraps(function)
-    def wrapped(llm, system_name, config, timestamp, example):
+    def wrapped(llm, system_name, config, timestamp, example, *extra_args, **extra_kwargs):
+        # C0-C3 call the decorated executor with five positional arguments; C4
+        # adds the second few-shot (example_b) as a sixth one. The wrapper
+        # forwards whatever it receives so it stays configuration-agnostic.
         tracker = None
         try:
             tracker = ExecutionTracker(timestamp)
@@ -223,7 +251,7 @@ def track_execution(function):
         run_dir = Path(results_root) / f"results-tracer-{tracer_run_id}" / config["name"].lower()
         run_dir.mkdir(parents=True, exist_ok=True)
         try:
-            return function(llm, system_name, config, timestamp, example)
+            return function(llm, system_name, config, timestamp, example, *extra_args, **extra_kwargs)
         finally:
             if tracker is not None:
                 try:

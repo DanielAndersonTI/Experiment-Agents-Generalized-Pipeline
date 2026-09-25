@@ -1,0 +1,163 @@
+ANALYSIS OF THE THREE C1 TESTS (DEEPSEEK + FEW-SHOT)
+TEST 1 — Run ID 20260909_103412_580444
+Services (F1-score)
+System	A	B	Consolidated
+7ed	1.0000	1.0000	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9231	0.9091	0.9231
+DayTrader7	0.8571	0.0000	0.8571
+Jokul	1.0000	1.0000	1.0000
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.8800	0.9231
+Commentary:
+Services were stable across systems. DayTrader7 Proposal B scored zero in services, but the consolidated result selected Proposal A, maintaining 0.8571. Cargo-Tracker and TNTConcept showed limited recall due to missing implicit services. Consolidation did not degrade services.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ed	0.9091	1.0000	0.9091
+acmeair	0.9412	0.9412	0.9412
+Cargo-Tracker	0.7826	0.8421	0.7826
+DayTrader7	0.7200	0.0000	0.7200
+Jokul	1.0000	1.0000	1.0000
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	0.8571	0.8571	0.8571
+TNTConcept	0.7647	0.7647	0.7647
+Commentary:
+Interactions revealed weaknesses. DayTrader7 B scored zero, and consolidation selected A (0.7200). Cargo-Tracker A was lower than B, but consolidation still used A, indicating possible fallback or selection bias. Jokul achieved perfect F1. TNTConcept remained moderate.
+
+YAML
+Commentary:
+YAML reflected the consolidated architecture. Some fragmentation and truncated fields persisted, especially in complex systems like Cargo-Tracker and DayTrader7. Generic endpoints limit practical value.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	21,866
+Agent 2	138,036
+Agent 3	53,241
+Agent 4	41,345
+Total	254,488
+Highlights:
+
+Total cost: 254,488 tokens.
+
+Agent 2 dominates consumption (~54%), due to extensive reasoning patterns.
+
+Agent 3 had variable cost; some systems required multiple calls.
+
+Agent 4 contributed significant cost, refining both proposals.
+
+TEST 2 — Run ID 20260909_105106_474360
+Services (F1-score)
+System	A	B	Consolidated
+7ed	0.9333	0.9333	0.9333
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	0.9091	1.0000
+DayTrader7	0.8571	0.9091	0.8571
+Jokul	1.0000	1.0000	1.0000
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+7ed had slightly lower F1 (0.9333) due to an extra service in both A and B. Cargo-Tracker improved to 1.0000 in A, while B remained 0.9091. Consolidation selected A for Cargo-Tracker. DayTrader7 B was better (0.9091) but consolidated still used A (0.8571), suggesting fallback.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ed	0.7826	0.8333	0.7826
+acmeair	0.9412	0.9412	0.9412
+Cargo-Tracker	0.9091	0.8421	0.9091
+DayTrader7	0.7692	0.7273	0.7692
+Jokul	1.0000	1.0000	1.0000
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	0.8571	0.8571	0.8571
+TNTConcept	0.7714	0.7714	0.7714
+Commentary:
+Results similar to Test 1. Cargo-Tracker A improved to 0.9091. DayTrader7 still low (0.7692). Consolidation often mirrored A, indicating either dominance or fallback. No significant combination benefit observed.
+
+YAML
+Commentary:
+YAML quality varied. Some systems produced clean YAML (acmeair, Jokul), while others showed truncated or fragmented content (DayTrader7, Cargo-Tracker). The fallback mechanism may have propagated Proposal A directly to YAML generation.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	21,974
+Agent 2	138,026
+Agent 3	57,116
+Agent 4	41,449
+Total	258,565
+Highlights:
+
+Total cost: 258,565 tokens, slightly higher than Test 1.
+
+Agent 3 cost increased significantly (57,116 vs 53,241), due to more multi-call consolidations.
+
+Agent 2 and Agent 1 remained stable.
+
+TEST 3 — Run ID 20260909_110054_753877
+Services (F1-score)
+System	A	B	Consolidated
+7ed	1.0000	0.9333	1.0000
+acmeair	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	0.9091	1.0000
+DayTrader7	0.8333	0.9091	0.8333
+Jokul	1.0000	1.0000	1.0000
+JpetStore	1.0000	1.0000	1.0000
+Pet-Clinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+Services generally stable. 7ed B dropped to 0.9333 due to extra service, but consolidated used A (1.0000). DayTrader7 A was lower than B, but consolidated still used A (0.8333), again suggesting fallback. Cargo-Tracker A perfect (1.0000), B lower (0.9091), consolidated used A.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ed	0.8696	0.8696	0.8696
+acmeair	0.9412	0.9412	0.9412
+Cargo-Tracker	0.9565	0.8421	0.9565
+DayTrader7	0.3158	0.7273	0.3158
+Jokul	1.0000	1.0000	1.0000
+JpetStore	0.9412	0.9412	0.9412
+Pet-Clinic	0.8571	0.8571	0.8571
+TNTConcept	0.7647	0.7714	0.7647
+Commentary:
+Cargo-Tracker achieved best interaction F1 (0.9565) among all DeepSeek tests. DayTrader7 A collapsed to 0.3158, but B was 0.7273; consolidated selected A, severely degrading the result. This strongly indicates fallback to Proposal A, ignoring the superior Proposal B. TNTConcept B slightly better, but consolidated used A.
+
+YAML
+Commentary:
+YAML continued to reflect the consolidated architecture. In DayTrader7, YAML likely inherited the poor interaction set from Proposal A, showing fragmentation and erroneous dependencies. Systems with high F1 (Jokul, acmeair) produced cleaner YAML.
+
+Tracer (token cost)
+Agent	Tokens (Total)
+Agent 1	21,879
+Agent 2	138,267
+Agent 3	60,997
+Agent 4	41,738
+Total	262,881
+Highlights:
+
+Total cost: 262,881 tokens, highest among the three tests.
+
+Agent 3 cost increased again (60,997), likely due to more complex consolidation attempts.
+
+Agent 2 and Agent 1 remained consistent.
+
+The overall cost is still far below Gemini C1 (~400–500k tokens).
+
+GENERAL SYNTHESIS FOR THE PAPER (DEEPSEEK C1)
+Services are robust but with quirks. Most systems achieved F1 1.0000, except DayTrader7 and TNTConcept, which showed variability. The fallback mechanism often masked the true consolidation result by defaulting to Proposal A.
+
+Interactions remain the weak point. Performance varied widely between tests and systems. DayTrader7 showed extreme instability (0.3158 in Test 3), and Cargo-Tracker fluctuated between 0.7826 and 0.9565. The consolidation did not consistently select the best proposal, frequently defaulting to A even when B was superior.
+
+Consolidation is problematic. In many cases, the consolidated metrics mirrored Proposal A exactly, indicating fallback. This prevented the pipeline from exploiting the diversity of proposals. The strict validation (_is_valid_architecture_csv) contributed to rejecting valid DeepSeek outputs, but even after relaxing it, the issue persisted because the DeepSeek’s Agent 3 often produced invalid CSV. Thus, the fallback was used extensively.
+
+Cost is dominated by Agent 2. DeepSeek C1 costs around 255k–263k tokens per test, significantly less than Gemini C1 (412k–501k). Agent 2 remains the largest consumer (~53%). Agent 3 cost increased over the tests, but without proportional benefit.
+
+Comparison with Gemini C1: Gemini achieved better consolidation outcomes, often selecting or combining proposals effectively. DeepSeek struggled with CSV format, leading to frequent fallback and missed opportunities. However, DeepSeek's overall cost is lower.
+
+Recommendations:
+
+Re-evaluate the consolidation policy to select the best proposal based on metrics when services are identical, rather than attempting complex combinations.
+
+Improve DeepSeek's prompt or output post-processing to ensure valid CSV.
+
+Consider using the strict validation only for C2/C3, while C1 may use a more tolerant approach to avoid excessive fallback.
+
+Document DeepSeek's limitations in structured output generation.

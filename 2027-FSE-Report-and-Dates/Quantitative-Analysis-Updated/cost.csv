@@ -1,0 +1,16 @@
+cell,config,llm,agents,purpose,n_executions,n_budget,n_zero,mean_tokens,median_tokens,min_tokens,max_tokens,total_tokens,mean_duration_ms,mean_calls
+Gemini|C0,C0,Gemini,1,single-agent baseline (Agent 1 alone),24,24,0,6784.5417,5877.5,4241.0,22593.0,162829.0,14581.1888,1.0
+DeepSeek|C0,C0,DeepSeek,1,single-agent baseline (Agent 1 alone),24,24,0,2734.9583,2761.0,2281.0,3187.0,65639.0,4159.9121,1.0
+Claude|C0,C0,Claude,1,single-agent baseline (Agent 1 alone),24,24,0,3068.125,3052.5,2621.0,3471.0,73635.0,9893.8571,1.0
+Gemini|C1,C1,Gemini,"1, 2, 3, 4, 5",complete pipeline,24,24,0,55581.9167,53068.5,39230.0,113905.0,1333966.0,69899.5705,6.1667
+DeepSeek|C1,C1,DeepSeek,"1, 2, 3, 4, 5",complete pipeline,24,24,0,32332.5,32481.0,27640.0,36136.0,775980.0,20760.8297,7.875
+Claude|C1,C1,Claude,"1, 2, 3, 4, 5",complete pipeline,24,24,0,42747.0,43079.5,38553.0,48652.0,1025928.0,62110.5987,6.875
+Gemini|C2,C2,Gemini,"1, 2, 3, 5",Refiner ablated,24,24,0,46343.2917,44117.5,33388.0,83930.0,1112239.0,51543.3886,4.125
+DeepSeek|C2,C2,DeepSeek,"1, 2, 3, 5",Refiner ablated,24,24,0,28057.75,27681.5,22377.0,37236.0,673386.0,17646.9869,6.0833
+Claude|C2,C2,Claude,"1, 2, 3, 5",Refiner ablated,24,23,1,37906.1739,38083.0,33690.0,41672.0,871842.0,51240.7161,5.0
+Gemini|C3,C3,Gemini,"1, 4, 5",Communication Specialist and Consolidator ablated,24,24,0,15121.4167,13117.5,7153.0,40411.0,362914.0,40541.1343,2.0417
+DeepSeek|C3,C3,DeepSeek,"1, 4, 5",Communication Specialist and Consolidator ablated,24,24,0,5350.0,5427.5,4248.0,6389.0,128400.0,6698.76,2.0
+Claude|C3,C3,Claude,"1, 4, 5",Communication Specialist and Consolidator ablated,24,24,0,5944.2083,5909.5,4955.0,6768.0,142661.0,20137.8467,2.0
+Gemini|C4,C4,Gemini,"1, 2.1, 3, 4, 5",Communication Specialist replaced by a generalist architect,24,24,0,44014.8333,37739.5,25442.0,93606.0,1056356.0,98810.773,6.1667
+DeepSeek|C4,C4,DeepSeek,"1, 2.1, 3, 4, 5",Communication Specialist replaced by a generalist architect,24,24,0,19915.4583,20239.5,17211.0,23796.0,477971.0,17031.808,8.0
+Claude|C4,C4,Claude,"1, 2.1, 3, 4, 5",Communication Specialist replaced by a generalist architect,24,20,4,25162.9,25687.0,21255.0,28956.0,503258.0,57619.5923,6.95

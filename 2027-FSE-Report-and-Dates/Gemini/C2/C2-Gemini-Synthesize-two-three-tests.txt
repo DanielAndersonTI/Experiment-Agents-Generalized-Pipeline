@@ -1,0 +1,176 @@
+ANALYSIS OF THE THREE C2 RUNS (WITHOUT REFINEMENT — AGENT 4 REMOVED)
+TEST 1 — Run ID 20260907_225207_498519
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	1.0000	1.0000	1.0000
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+Removing the refiner did not affect service identification. Only Cargo-Tracker and TNTConcept kept limited recall, as in the other configurations.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	0.9524	1.0000	1.0000
+AcmeAir	1.0000	0.5714	1.0000
+Cargo-Tracker	0.8421	0.8421	0.8421
+DayTrader7	0.9091	0.9091	0.9091
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.4286	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7879	0.6032	0.7879
+Commentary:
+Consolidation was decisive for 7ep, AcmeAir, and JPetStore, selecting the best proposal and avoiding drops. In Cargo-Tracker, A and B tied. In TNTConcept, consolidation chose A (0.7879), discarding the weaker B.
+
+YAML
+YAML was generated correctly for most systems, reflecting the consolidated architecture. For 7ep, AcmeAir, Cargo-Tracker, DayTrader7, Jokul, JPetStore, and PetClinic, the YAML was clean. TNTConcept still showed some fragmentation in responsibilities and dependencies, but less severe than in C0. Endpoints remain generic.
+
+Tracer (token cost)
+System	Agent 1	Agent 2	Agent 3	Agent 5	Total
+7ep	4866	24047	5909	4167	38989
+AcmeAir	4473	21152	4836	3150	33611
+Cargo-Tracker	7042	28121	7835	6066	49064
+DayTrader7	5591	23556	15765	4508	49420
+Jokul	4623	21721	4710	3205	34259
+JPetStore	12885	21772	5502	4102	44261
+PetClinic	4811	23635	3564	2586	34596
+TNTConcept	5381	23223	7212	3749	39565
+Total	49672	187227	55333	31533	323765
+Total for Test 1: 323,765 tokens.
+
+Highlights:
+
+Agent 2 remains the largest consumer, accounting for about 58% of the total.
+
+Total cost for this run was between C0 and C1.
+
+JPetStore and DayTrader7 had the highest consumption by Agent 1 and Agent 3, respectively.
+
+TEST 2 — Run ID 20260907_230413_170014
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	1.0000	1.0000	1.0000
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+Services remained stable, with no impact from the absence of the refiner.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	0.9524	0.7500	0.9524
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8000	0.8421	0.8421
+DayTrader7	0.9091	0.9167	0.9565
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7647	0.8000	0.8000
+Commentary:
+Consolidation improved DayTrader7 (0.9565) by combining A and B. In Cargo-Tracker, consolidation selected B, which was better. In the others, it maintained the best proposal. No significant degradation.
+
+YAML
+YAML was clean for most systems. Minor fragmentation appeared in TNTConcept and 7ep (dependency "authentication" in Audit Service), but nothing critical.
+
+Tracer (token cost)
+System	Agent 1	Agent 2	Agent 3	Agent 5	Total
+7ep	5569	27173	7473	3759	43974
+AcmeAir	5517	21922	5477	4406	37322
+Cargo-Tracker	12578	27679	7840	3907	52004
+DayTrader7	6654	31404	41597	4275	83930
+Jokul	4026	21127	4786	4004	33943
+JPetStore	9016	21918	20485	15440	66859
+PetClinic	4529	23964	7658	2876	39027
+TNTConcept	30022	25938	7955	3600	67515
+Total	77891	201125	103271	42267	424574
+Total for Test 2: 424,574 tokens.
+
+Highlights:
+
+Cost increased compared to Test 1, especially for Agent 3 (DayTrader7 and JPetStore had duplicate calls).
+
+TNTConcept had high Agent 1 consumption (30,022 tokens) due to requirement complexity.
+
+Agent 2 remained dominant.
+
+TEST 3 — Run ID 20260907_231650_113441
+Services (F1-score)
+System	A	B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	1.0000	1.0000	0.9231
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.9231	0.9231	0.9231
+Commentary:
+For the first time in C2, consolidation worsened DayTrader7 services (F1 dropped to 0.9231) by including an invalid line ("Output must be pure CSV...") that was interpreted as a service.
+
+Interactions (F1-score)
+System	A	B	Consolidated
+7ep	0.9524	0.9524	0.9524
+AcmeAir	0.9412	1.0000	1.0000
+Cargo-Tracker	0.8421	0.0000	0.8421
+DayTrader7	0.9167	0.2222	0.8800
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7536	0.7761	0.7761
+Commentary:
+Consolidation reduced DayTrader7 (0.8800) by mixing proposals, but still remained above B. In Cargo-Tracker, B scored zero, but consolidation used A. In the others, it maintained good results.
+
+YAML
+DayTrader7's YAML came corrupted, with the invalid line transformed into a service. The other systems showed coherent YAML, with generic endpoints.
+
+Tracer (token cost)
+System	Agent 1	Agent 2	Agent 3	Agent 5	Total
+7ep	4491	26022	14889	11988	57390
+AcmeAir	5516	21531	5993	3404	36444
+Cargo-Tracker	8496	26533	6059	3818	44906
+DayTrader7	6889	22678	6893	4098	40558
+Jokul	4565	20819	4697	3307	33388
+JPetStore	7150	22363	19727	9724	58964
+PetClinic	5627	24501	11318	2994	44440
+TNTConcept	9413	25458	9115	3824	47810
+Total	52147	189905	78691	43157	363900
+Total for Test 3: 363,900 tokens.
+
+Highlights:
+
+Intermediate cost, close to Test 1.
+
+JPetStore and 7ep had duplicate Agent 3 calls, increasing cost.
+
+Agent 2 continued to be the main consumer.
+
+GENERAL SYNTHESIS OF THE THREE C2 RUNS
+Services remain robust without the refiner. Only Cargo-Tracker and TNTConcept maintained limited recall, as in the other configurations. Removing Agent 4 did not affect service identification.
+
+Interactions: consolidation remains essential. Agent 3 usually selected the best proposal and, in some systems (7ep, AcmeAir, DayTrader7 in Test 2), even improved F1 by combining interactions. However, when an agent's output contains noise (DayTrader7 in Test 3), consolidation may propagate errors.
+
+The refiner played a limited role in the tested systems. Compared to C1, C2 without refinement showed no significant degradation; in some cases, the consolidated result was even better. This suggests that when Agents 1 and 2 already produce reasonably clean proposals, the refiner may be dispensable.
+
+C2 cost is intermediate. The C2 runs ranged from 323k to 424k tokens, well below C1 (412k to 501k) and above C0 (47k to 65k). Agent 2 remained the largest consumer.
+
+YAML inherits consolidation problems. When Agent 3 generates invalid output, the YAML reflects that error. This reinforces the need for CSV validation before YAML generation.
+
+C2 stability is comparable to C1. Run-to-run variability still exists (e.g., DayTrader7 consolidated F1 ranged from 0.9091 to 0.9565), but within acceptable limits. C2 did not show greater instability than C1.
+
+Implications for the paper:
+
+The refiner (Agent 4) appears to have only marginal contribution when proposals A and B are already well formed.
+
+Consolidation (Agent 3) is the critical component for ensuring final quality.
+
+The trade-off between cost and quality indicates that C2 may be a viable configuration, saving resources compared to C1 without relevant performance loss.
+
+Pipeline robustness depends more on requirement clarity and consolidation quality than on refinement.

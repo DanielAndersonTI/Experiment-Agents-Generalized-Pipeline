@@ -1,0 +1,179 @@
+ANALYSIS OF THE THREE C0 ROUNDS — DEEPSEEK
+TEST 1 — Run IDs: 20260909_000015_985111, 20260909_000024_135959, 20260909_000031_916769, 20260909_000040_069614, 20260909_000048_614440, 20260909_000056_214794, 20260909_000105_073448, 20260909_000111_118651
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	0.8333	0.9091
+DayTrader7	0.8000	0.6667	0.7273
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+In the first C0 test, isolated DeepSeek (Agent 1) performed well for most services. The exceptions were Cargo-Tracker (F1 0.9091, recall 0.8333), DayTrader7 (F1 0.7273, the worst) and TNTConcept (F1 0.9231, recall 0.8571). DayTrader7 suffered from both missing and extra services; Cargo-Tracker likely omitted a reference service (Logistics Network) and TNTConcept also failed to generate an expected service.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.9091	1.0000	0.9524
+AcmeAir	0.6000	0.7500	0.6667
+Cargo-Tracker	0.8889	0.7273	0.8000
+DayTrader7	0.6364	0.5833	0.6087
+Jokul	0.7500	1.0000	0.8571
+JPetStore	1.0000	0.8889	0.9412
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7714	0.7714	0.7714
+Comment:
+Interactions were significantly affected by the absence of any refinement or consolidation. AcmeAir reached F1 0.6667, far from ideal, mainly due to incorrect dependencies (e.g., “destination airport” treated as a service). DayTrader7 had the worst result (0.6087), with low precision and recall. Jokul and PetClinic reached 0.8571, while 7ep and JPetStore maintained good scores. Without the other agents, Agent 1 tends to miss implicit dependencies.
+
+YAML
+The YAML faithfully reflected Proposal A, but with the same limitations observed in more complex systems. In AcmeAir, some responsibilities and dependencies were incorrectly split (e.g., “destination airport”, “phone type” and “customers” appeared as separate dependencies). In Jokul, “rating” was treated as a dependency. The lack of validation and refinement left the specification vulnerable to such distortions.
+
+Tracer (token cost)
+System	Agent 1	Total
+7ep	2848	2848
+AcmeAir	2703	2703
+Cargo-Tracker	2896	2896
+DayTrader7	3187	3187
+Jokul	2661	2661
+JPetStore	3096	3096
+PetClinic	2288	2288
+TNTConcept	2332	2332
+Total	22011	22011
+Round total: 22,011 tokens.
+
+Highlights:
+
+Extremely low cost, as expected for a single agent.
+
+Only Agent 1 participated; there are no additional refinement or consolidation costs.
+
+DayTrader7 and JPetStore had the highest consumption, while PetClinic and TNTConcept were among the lowest.
+
+TEST 2 — Run IDs: 20260909_000859_000025, 20260909_000906_277427, 20260909_000913_324142, 20260909_000919_667318, 20260909_000926_245315, 20260909_000931_840527, 20260909_000938_653009, 20260909_000943_408088
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	0.8333	0.9091
+DayTrader7	0.7500	1.0000	0.8571
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+In this round, Cargo-Tracker kept recall at 0.8333, indicating that the missing service (probably Logistics Network) persisted. DayTrader7 improved to 0.8571, but still with precision 0.7500 (generated extra services). TNTConcept remained with recall 0.8571. The other systems continued with F1 1.0000.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.7692	1.0000	0.8696
+AcmeAir	0.8889	1.0000	0.9412
+Cargo-Tracker	0.8889	0.7273	0.8000
+DayTrader7	0.6923	0.7500	0.7200
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	0.8889	0.9412
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7879	0.7429	0.7647
+Comment:
+AcmeAir showed a strong improvement (0.9412) compared to Test 1. However, 7ep fell to 0.8696, with lower precision (0.7692). Jokul achieved F1 1.0000, the only perfect score among all systems in the three C0 tests. DayTrader7 (0.7200), Cargo-Tracker (0.8000) and TNTConcept (0.7647) remained below expectations.
+
+YAML
+The YAML specification continued to be generated directly from Proposal A, without refinement. In some systems, such as 7ep and Jokul, the structure remained reasonable; however, in Cargo-Tracker, DayTrader7 and TNTConcept, omitted interactions or malformed dependencies were observed. Agent 5 received noisy inputs, which compromised the final quality.
+
+Tracer (token cost)
+System	Agent 1	Total
+7ep	2819	2819
+AcmeAir	2702	2702
+Cargo-Tracker	2884	2884
+DayTrader7	3094	3094
+Jokul	2606	2606
+JPetStore	3082	3082
+PetClinic	2288	2288
+TNTConcept	2328	2328
+Total	21803	21803
+Round total: 21,803 tokens.
+
+Highlights:
+
+Cost practically equal to Test 1, confirming the stability of Agent 1's consumption.
+
+Variation between systems is small (low standard deviation).
+
+No additional cost from other agents.
+
+TEST 3 — Run IDs: 20260909_001652_547770, 20260909_001700_790342, 20260909_001706_711573, 20260909_001713_061057, 20260909_001722_534070, 20260909_001728_483426, 20260909_001737_139594, 20260909_001741_805940
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8333	0.8333	0.8333
+DayTrader7	0.7500	1.0000	0.8571
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+Cargo-Tracker worsened to F1 0.8333, with recall 0.8333, indicating that the Logistics Network service remained absent. DayTrader7 maintained F1 0.8571, but now with recall 1.0000 and precision 0.7500, suggesting an excess of generated services. TNTConcept remained stable at 0.9231. The other systems continued with F1 1.0000.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.8333	1.0000	0.9091
+AcmeAir	0.8000	1.0000	0.8889
+Cargo-Tracker	0.7273	0.7273	0.7273
+DayTrader7	0.7143	0.8333	0.7692
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	0.8889	0.9412
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7714	0.7714	0.7714
+Comment:
+Cargo-Tracker had the worst performance among the three tests (0.7273), with declines in both precision and recall. DayTrader7 improved to 0.7692, but still far from ideal. Jokul maintained F1 1.0000 again, confirming it is the simplest system for Agent 1. The other systems remained similar to previous tests.
+
+YAML
+The YAML continued to be generated without any validation or refinement step. In systems such as Jokul and PetClinic, the specification was acceptable, but in Cargo-Tracker, DayTrader7 and TNTConcept, omissions and incorrect dependencies were observed. The absence of a consolidator also prevented merging different perspectives, limiting architectural quality.
+
+Tracer (token cost)
+System	Agent 1	Total
+7ep	2840	2840
+AcmeAir	2693	2693
+Cargo-Tracker	2889	2889
+DayTrader7	3093	3093
+Jokul	2595	2595
+JPetStore	3098	3098
+PetClinic	2281	2281
+TNTConcept	2336	2336
+Total	21825	21825
+Round total: 21,825 tokens.
+
+Highlights:
+
+Total cost practically equal to previous tests (~22k tokens).
+
+Variability between systems is low, with DayTrader7 and JPetStore consuming more.
+
+Cost is dominated exclusively by Agent 1.
+
+GENERAL SYNTHESIS OF THE THREE C0 ROUNDS (DEEPSEEK)
+Services:
+Isolated DeepSeek (Agent 1) maintained high service F1 in most systems. The consistent exceptions were Cargo-Tracker (average ≈ 0.884, with recall varying between 0.8333 and 1.0000) and DayTrader7 (average ≈ 0.814). TNTConcept presented stable recall of 0.8571 across the three rounds. Variability was particularly high in Cargo-Tracker (1.0000 → 0.9091 → 0.8333) and DayTrader7 (0.7273 → 0.8571 → 0.8571).
+
+Interactions:
+Performance in interactions was lower than services. The worst cases were DayTrader7 (average ≈ 0.699) and Cargo-Tracker (average ≈ 0.776). Jokul was the only system with F1 1.0000 in two rounds. AcmeAir varied widely (0.6667 → 0.9412 → 0.8889). The absence of refinement and consolidation directly affected the recovery of implicit dependencies, with errors such as “rating”, “destination airport” and “phone type” treated as services.
+
+Cost:
+The cost per round was around 21.8 thousand tokens, extremely low and much lower than C2 (~224 thousand) and C3 (~43 thousand). Since only Agent 1 participates, consumption is minimal and highly predictable. This result is expected for a single-agent configuration.
+
+Comparison with C0 Gemini:
+C0 Gemini presented equally robust services, but with even more extreme interaction variations: Cargo-Tracker oscillated from 0.0000 to 0.8421, while in DeepSeek it stayed between 0.7273 and 0.8000. DeepSeek did not score zero interactions, but also did not reach the same peaks as Gemini in Cargo-Tracker. In AcmeAir, DeepSeek had similar oscillation (0.6667 → 0.9412 → 0.8889), against Gemini (0.6154 → 1.0000 → 1.0000). DayTrader7 was consistently worse in DeepSeek (0.6087 → 0.7200 → 0.7692) than in Gemini (0.9091 in all three rounds). Overall, isolated DeepSeek was more stable, but with a lower ceiling in some systems, while Gemini had greater variability and higher peaks.
+
+Implications for the paper:
+
+C0 demonstrates that a single agent is insufficient to capture all implicit dependencies, regardless of the LLM.
+
+DeepSeek, without the other agents, struggles in complex systems but performs well in simple systems like Jokul and 7ep.
+
+Variability between rounds is high, especially in Cargo-Tracker and DayTrader7, reinforcing the need for repetitions.
+
+The low cost of C0 is a clear advantage, but it does not compensate for the loss of quality in interactions.
+
+Recommendation:
+Include C0 DeepSeek as a single-agent baseline, highlighting the importance of the other agents (especially the Communication Specialist and the Refiner) for architecture quality. DeepSeek serves as external validation that the problems observed in C0 are not exclusive to Gemini.

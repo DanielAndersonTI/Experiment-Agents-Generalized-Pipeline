@@ -1,0 +1,16 @@
+cell,n_executions,n_valid_normalised,n_valid_raw,n_labeled,n_metrics
+Gemini|C0,24,23,0,24,24
+DeepSeek|C0,24,24,0,24,24
+Claude|C0,24,17,0,24,24
+Gemini|C1,24,22,0,24,24
+DeepSeek|C1,24,24,0,24,24
+Claude|C1,24,18,0,24,24
+Gemini|C2,24,23,0,24,24
+DeepSeek|C2,24,24,0,24,24
+Claude|C2,24,17,0,24,24
+Gemini|C3,24,23,0,24,24
+DeepSeek|C3,24,24,0,24,24
+Claude|C3,24,18,0,24,24
+Gemini|C4,24,22,0,24,24
+DeepSeek|C4,24,6,0,24,24
+Claude|C4,24,19,4,24,20

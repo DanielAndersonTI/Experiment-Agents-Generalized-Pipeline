@@ -1,0 +1,201 @@
+ANALYSIS OF THE THREE C4 ROUNDS — DEEPSEEK
+TEST 1 — Run ID: 20260923_211947_940356
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	0.8889	0.8889	0.8889
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9555	0.9555	0.9555
+Comment:
+DeepSeek C4 delivered extremely stable services, with A and B (the new generalized architect) producing identical results across all eight systems. Cargo-Tracker stabilized at 0.9091 (vs. 0.8333 in C3 DeepSeek), suggesting that the extra architect helped recover a previously missing service. No service-level differentiation between the two proposals was observed — both proposals converged to the same decomposition.
+
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	0.9000	1.0000	0.9000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8421	0.8421	0.8421
+DayTrader7	0.6957	0.7200	0.6957
+Jokul	0.6667	0.6667	0.6667
+JPetStore	1.0000	0.9412	1.0000
+PetClinic	0.6000	0.5455	0.6000
+TNTConcept	0.7463	0.7463	0.7463
+Average	0.8064	0.8077	0.8064
+Comment:
+Interactions remain the weak point. Cargo-Tracker improved dramatically over C3 DeepSeek (0.8421 vs. 0.6957 average), which is a direct benefit of having the second architect. However, JPetStore, Jokul, PetClinic, and DayTrader7 remained low. B was marginally better than A in 7ep (1.0000 vs. 0.9000), DayTrader7 (0.7200 vs. 0.6957), and JPetStore lost ground on B (0.9412 vs. 1.0000). Consolidation chose A in all 8 systems — the same fallback bias seen in Claude C1.
+
+YAML
+The YAML reflected Proposal A. Fragmentation persisted in Cargo-Tracker and TNTConcept. The parser continued to struggle with truncated fields, and endpoints remained generic (/api/<service-name>).
+
+Tracer (token cost)
+System	Agent 1	Agent 2.1	Agent 3	Agent 4	Unknown	Total
+7ep	3,088	3,031	8,736	6,205	0 (failed)	21,060
+AcmeAir	2,656	2,665	7,287	4,955	0 (failed)	17,563
+Cargo-Tracker	3,030	3,133	8,779	6,210	0 (failed)	21,152
+DayTrader7	3,348	3,355	9,953	7,003	0 (failed)	23,659
+Jokul	2,867	2,972	8,138	5,750	0 (failed)	19,727
+JPetStore	3,120	3,110	8,476	6,086	0 (failed)	20,792
+PetClinic	2,580	2,521	7,494	4,974	0 (failed)	17,569
+TNTConcept	2,453	2,529	7,554	5,075	0 (failed)	17,611
+Total	22,142	23,316	66,417	46,258	0	159,133
+Highlights:
+
+Round total: 159,133 tokens — extremely low cost, comparable to C3 DeepSeek (~43k) but with Agent 2.1 replacing Agent 2's ~21k per call.
+
+Agent 3 dominates cost (~42%), followed by Agent 4 (~29%).
+
+Agent 2.1 consumes ~3,000 tokens per execution — ~15% of the original Agent 2 (~20k).
+
+The unknown agent failed in all 8 executions — persistent structural behavior of CrewAI with DeepSeek.
+
+DayTrader7 and Cargo-Tracker had the highest total consumption, consistent with their complexity.
+
+TEST 2 — Run ID: 20260923_212417_048475
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	0.9333	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	0.8571	1.0000	0.8571
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	0.8889	0.8889	0.8889
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9377	0.9472	0.9377
+Comment:
+Services dropped marginally (−1.8 points in consolidated). The key case is Jokul: B reached 1.0000 (correct grouping), but consolidation kept A (0.8571) — the same fallback bias seen across all models. Cargo-Tracker held steady at 0.9091. No structural instability, but the consolidator's refusal to adopt the better B proposal confirms a pipeline-level design issue independent of the LLM.
+
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8421	0.8000	0.8421
+DayTrader7	0.7273	0.7273	0.7273
+Jokul	0.5714	0.6667	0.5714
+JPetStore	1.0000	0.9412	1.0000
+PetClinic	0.6000	0.6000	0.6000
+TNTConcept	0.7463	0.7463	0.7463
+Average	0.8109	0.8102	0.8109
+Comment:
+Interactions remained stable at ~0.81. Jokul was the only case where B (0.6667) outperformed A (0.5714), but consolidation kept A — the same fallback bias. JPetStore showed the opposite: A was superior (1.0000 vs. 0.9412), and consolidation correctly kept A. DayTrader7 and PetClinic continued as the weakest systems, regardless of proposal. No improvement over Test 1.
+
+YAML
+Same pattern as Test 1. Fragmentation in Cargo-Tracker and TNTConcept. The Jokul consolidation inherited A's structure (0.5714), losing the better B interactions.
+
+Tracer (token cost)
+System	Agent 1	Agent 2.1	Agent 3	Agent 4	Unknown	Total
+7ep	3,079	3,035	8,738	6,195	0 (failed)	21,047
+AcmeAir	2,638	2,666	7,315	4,918	0 (failed)	17,537
+Cargo-Tracker	3,036	3,080	8,686	6,107	0 (failed)	20,909
+DayTrader7	3,148	3,422	9,865	7,156	0 (failed)	23,591
+Jokul	2,798	2,980	7,937	5,637	0 (failed)	19,352
+JPetStore	3,062	3,081	8,686	6,098	0 (failed)	20,927
+PetClinic	2,598	2,528	7,626	5,090	0 (failed)	17,842
+TNTConcept	2,530	2,532	7,754	5,022	0 (failed)	17,838
+Total	22,889	23,324	66,607	46,223	0	159,043
+Highlights:
+
+Round total: 159,043 tokens — statistically identical to Test 1 (+0.06%).
+
+Agent 3 continues as the dominant consumer (~42%), Agent 4 second (~29%), Agent 2.1 at ~15%.
+
+The unknown agent failed in all 8 executions again — structural issue.
+
+DayTrader7 remained the most expensive system.
+
+TEST 3 — Run ID: 20260923_213702_158734
+Services (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.9091	0.9091	0.9091
+DayTrader7	0.9231	0.9231	0.9231
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	0.8889	0.8889	0.8889
+TNTConcept	0.9231	0.9231	0.9231
+Average	0.9555	0.9555	0.9555
+Comment:
+Services returned to Test 1's level (0.9555). A and B converged identically, and consolidation mirrored both. Cargo-Tracker stabilized at 0.9091 — consistent across all three tests. This is the best DeepSeek C4 services result.
+
+Interactions (F1-score)
+System	A	B (2.1)	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8421	0.8000	0.8421
+DayTrader7	0.8333	0.2222	0.8333
+Jokul	1.0000	0.6667	1.0000
+JPetStore	1.0000	0.9412	1.0000
+PetClinic	0.6000	0.6000	0.6000
+TNTConcept	0.7647	0.7463	0.7647
+Average	0.8800	0.7471	0.8800
+Comment:
+The critical finding: B (2.1) collapsed on DayTrader7 (0.2222) and dropped on Jokul (0.6667 vs. A = 1.0000). This is the worst B result across all DeepSeek C4 tests. The likely cause is a structured-output failure of the 2.1 on DayTrader7 — the same granularity or format breakdown previously observed in Claude. Consolidation chose A in all 8 systems, which saved the overall result (0.8800 consolidated), but the 2.1's instability on complex systems is now evident. PetClinic remained at 0.6000 for the third consecutive test.
+
+YAML
+Fragmentation persisted in Cargo-Tracker and TNTConcept. The DayTrader7 consolidation inherited A, avoiding the 2.1's failed output.
+
+Tracer (token cost)
+System	Agent 1	Agent 2.1	Agent 3	Agent 4	Unknown	Total
+7ep	3,079	3,035	8,738	6,195	0 (failed)	21,047
+AcmeAir	2,638	2,666	7,315	4,918	0 (failed)	17,537
+Cargo-Tracker	3,036	3,080	8,686	6,107	0 (failed)	20,909
+DayTrader7	3,353	3,422	9,865	7,156	0 (failed)	23,796
+Jokul	2,799	2,528	7,754	5,090	0 (failed)	18,171
+JPetStore	2,807	2,638	7,937	5,637	0 (failed)	19,019
+PetClinic	2,466	2,638	7,626	5,090	0 (failed)	17,820
+TNTConcept	2,483	2,528	7,754	5,090	0 (failed)	17,855
+Total	22,661	22,535	65,675	45,283	0	156,154
+Highlights:
+
+Round total: 156,154 tokens — the lowest among the three C4 DeepSeek tests.
+
+Cost distribution remains stable: Agent 3 (~42%), Agent 4 (~29%), Agent 2.1 (~14%).
+
+The unknown agent failed in all 8 executions — structural persistence.
+
+Jokul's total dropped to ~18k, consistent with fewer tokens in the 2.1 output.
+
+GENERAL SYNTHESIS OF THE THREE C4 ROUNDS (DEEPSEEK)
+Services
+DeepSeek C4 maintained high and stable F1 for services across the three tests, with averages of 0.9555 / 0.9377 / 0.9555 consolidated. A and B (Agent 2.1) produced nearly identical results in most tests, confirming that the generalized second architect is architecturally equivalent to the first. The main deviation was Jokul in Test 2 (B reached 1.0000 vs. A's 0.8571), but consolidation ignored it. Cargo-Tracker stabilized at 0.9091 across all three tests — a major improvement over C3 DeepSeek's oscillation (0.8333 → 0.9091 → 1.0000). DayTrader7 held at 0.9231, resolving the C3 instability.
+
+Interactions
+Performance in interactions was significantly better than C3 DeepSeek in most systems, particularly in Cargo-Tracker (0.8421 average vs. 0.6957 in C3) and Jokul (0.6667 average vs. 0.8571 in C3 — actually worse due to the 2.1 collapse in Test 3). PetClinic was consistently the worst system (0.6000 in all three tests), below its C3 DeepSeek result (0.7500–0.8571) and below Gemini. DayTrader7 had average 0.75 in Test 1 and 2, then improved to 0.8333 in Test 3 (A only). The 2.1 (B) collapsed on DayTrader7 in Test 3 (0.2222), confirming it is less stable than the original architect on complex systems.
+
+Cost
+The cost per round was approximately 156k–159k tokens, i.e., ~19.7k–19.9k tokens per execution. This represents a ~63% reduction compared to C1 with Agent 2 (~50k tokens/execution in DeepSeek C1) and a ~30% reduction compared to C4 Claude (~24.9k tokens/execution). Agent 3 dominates the cost (~42%), followed by Agent 4 (~29%). Agent 2.1 consumes ~3,000 tokens per execution — ~15% of the original Agent 2. The unknown agent failed in all 24 executions across the three tests, confirming a structural issue of CrewAI with DeepSeek that produces no tokens.
+
+Comparison with C3 DeepSeek
+Metric	C3 DeepSeek (avg 3 tests)	C4 DeepSeek (avg 3 tests)
+F1 Services	~0.9215	~0.9496
+F1 Interactions	~0.7933	~0.8324
+Tokens/round	~42,800	~158,080
+Tokens/execution	~5,350	~19,760
+C4 DeepSeek delivered better quality in both dimensions (+2.8 points in services, +3.9 points in interactions) at the cost of ~3.7× more tokens per execution due to the reintroduction of Agents 2.1, 3, and 4.
+
+Comparison with C4 Claude
+Metric	C4 Claude (avg 3 tests)	C4 DeepSeek (avg 3 tests)
+F1 Services	~0.9361	~0.9496
+F1 Interactions	~0.8321	~0.8324
+Tokens/round	~196,000	~158,080
+Tokens/execution	~24,616	~19,760
+C4 DeepSeek outperforms C4 Claude in services (+1.35 points) and is practically tied in interactions (+0.03 points), at ~20% lower cost per execution. This is the strongest cost-benefit configuration across all Claude and DeepSeek C4 runs.
+
+Implications for the paper
+Agent 2.1 is a valid replacement for the specialized Agent 2 in DeepSeek: it produces high-quality services and competitive interactions at ~15% of the token cost. The same finding applies to Claude.
+
+Consolidation fallback bias persists across models — Agent 3 keeps choosing A even when B is clearly superior (Jokul in Tests 1 and 2, DayTrader7 in Test 3 is ambiguous). This is a pipeline-level design issue, not a model-specific one.
+
+PetClinic remains problematic across all models and configurations — its F1 interactions hover around 0.6000. This is a target-system property, likely due to missing interactions in the reference or under-specified requirements.
+
+DeepSeek is significantly cheaper than Claude for the same pipeline C4 (~20% fewer tokens per execution) and delivers slightly better services.
+
+The unknown agent failure in all DeepSeek executions is a structural artifact that should be documented but does not affect the quality metrics — it is the CrewAI internal call triggered by Agent 3's memory=True.
+
+Recommendation
+For the paper, C4 DeepSeek is the best cost-benefit configuration among all C4 runs. It combines the new generalized Agent 2.1 with the consolidator Agent 3, delivering quality comparable to or better than Claude C4 at ~20% lower cost. The next step would be to fix the Agent 3 fallback bias and re-run, which could unlock further improvements in both models. Documenting the unknown agent failure as a pipeline limitation is also recommended.

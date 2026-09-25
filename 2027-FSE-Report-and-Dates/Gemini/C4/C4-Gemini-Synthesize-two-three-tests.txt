@@ -1,0 +1,184 @@
+ANALYSIS OF THE THREE C4 RUNS (FULL PIPELINE WITH AGENT 2.1 REPLACING AGENT 2)
+LLM: Gemini (gemini-flash-latest)
+Configuration: C4 — Agent 1 + Agent 2.1 + Agent 3 + Agent 4
+Note: Agent 2.1 is a generalized clone of Agent 1 with a different few-shot example, replacing the original Communication Specialist (Agent 2).
+
+TEST 1 — Run ID 20260923_235942_319060
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Service identification was stable and matched the pattern observed across all configurations. Only Cargo-Tracker (0.9091) and TNTConcept (0.9231) showed limited recall, reflecting the same structural gap already seen in C0–C3. Agent 2.1 did not harm service granularity in this run.
+
+Interactions (F1-score)
+System	Proposal A	Proposal B	Consolidated
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	0.4286	1.0000
+Cargo-Tracker	0.0000	0.0000	0.0000
+DayTrader7	0.7826	0.9091	0.9091
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.1538	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7761	0.6866	0.7761
+Commentary:
+This run was the weakest of the three for interactions. Cargo-Tracker collapsed to 0.0000 in all proposals — a total failure to recover implicit logistics relationships. JPetStore Proposal A reached only 0.1538, and AcmeAir Proposal B fell to 0.4286. The Consolidated architecture recovered AcmeAir and JPetStore but could not recover Cargo-Tracker. This confirms that Agent 2.1 alone does not guarantee interaction recovery when Agent 1's CSV is fragmented.
+
+YAML
+YAML reflected the Consolidated CSV but inherited the collapse in Cargo-Tracker: only 5 services were emitted, with malformed interactions such as to: "destination" and to: "load points". AcmeAir and JPetStore showed partial fragmentation. The remaining systems were clean. No new problems were introduced by Agent 2.1, but the known fragility of Agent 1's CSV was not corrected.
+
+Tracer (token cost)
+System	Total Tokens
+7ep	32,402
+AcmeAir	30,792
+Cargo-Tracker	42,430
+DayTrader7	63,875
+Jokul	27,313
+JPetStore	39,368
+PetClinic	28,139
+TNTConcept	40,377
+Total	304,696
+Highlights:
+
+Total cost for Test 1: 304,696 tokens.
+
+DayTrader7 was the most expensive execution (63,875 tokens), driven by heavy Agent 2.1 and Agent 4 activity.
+
+Agent 4 remained the dominant cost center, consistent with C1–C3.
+
+The unknown (CrewAI internal call) completed successfully in all 8 executions, unlike DeepSeek.
+
+TEST 2 — Run ID 20260924_001919_847152
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Identical to Test 1. Services remained robust and stable across the run. No over-decomposition events were observed, unlike C3 Test 2 where Agent 1 created Location and Voyage Management Services without Agent 2 to balance granularity. Agent 2.1 appears to stabilize service identification.
+
+Interactions (F1-score)
+System	Proposal A	Proposal B	Consolidated
+7ep	0.9524	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.0000	0.8421	0.8421
+DayTrader7	0.9167	0.9167	0.9167
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.9412	0.8235	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7647	0.7647	0.7647
+Commentary:
+Recovery in Cargo-Tracker (Consolidated 0.8421) and AcmeAir (1.0000). JPetStore Proposal A improved from 0.1538 in Test 1 to 0.9412, while Proposal B dropped to 0.8235. DayTrader7 slightly improved to 0.9167. TNTConcept remained stagnant at 0.7647. The gap between Proposal A and Proposal B in Cargo-Tracker (0.0000 vs 0.8421) shows that Agent 2.1 produced a usable proposal in this run but Agent 3 still favored the malformed Proposal A.
+
+YAML
+YAML was cleaner than Test 1. Cargo-Tracker recovered its full 5-service structure with 12 interactions. AcmeAir and JPetStore were clean. TNTConcept and DayTrader7 showed minor fragmentation. The Consolidated output reflected Agent 2.1's Proposal B in Cargo-Tracker, a rare case where the Consolidator did not default to Proposal A.
+
+Tracer (token cost)
+System	Total Tokens
+7ep	27,892
+AcmeAir	30,121
+Cargo-Tracker	47,223
+DayTrader7	93,606
+Jokul	31,032
+JPetStore	35,004
+PetClinic	40,115
+TNTConcept	66,642
+Total	371,635
+Highlights:
+
+Total cost for Test 2: 371,635 tokens, ~22% higher than Test 1.
+
+DayTrader7 was again the most expensive (93,606 tokens), with Agent 4 consuming 48,444 tokens alone.
+
+Cargo-Tracker consumed 47,223 tokens — expected given the complexity of the domain.
+
+Test 2 is the most expensive of the three C4 Gemini runs.
+
+TEST 3 — Run ID 20260924_003547_932770
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Services returned to the stable pattern. The same two systems (Cargo-Tracker and TNTConcept) remained below 1.0000, confirming that the recall gap is structural to the reference architecture, not to the pipeline configuration.
+
+Interactions (F1-score)
+System	Proposal A	Proposal B	Consolidated
+7ep	0.9000	1.0000	1.0000
+AcmeAir	0.8235	1.0000	0.8235
+Cargo-Tracker	0.8421	0.8421	0.8421
+DayTrader7	0.9091	0.9091	0.9091
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.4286	0.9412	0.9412
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	0.7647	0.7647	0.7647
+Commentary:
+Best-balanced run of the three. Cargo-Tracker fully recovered (0.8421 across all proposals), eliminating the 0.0000 collapse seen in Tests 1 and 2. AcmeAir Proposal A dropped slightly to 0.8235 but Proposal B reached 1.0000. JPetStore Proposal A fell back to 0.4286, though Proposal B and Consolidated held at 0.9412. TNTConcept remained stuck at 0.7647 across all three tests — the most persistent weak point of C4 Gemini.
+
+YAML
+YAML was the cleanest of the three runs. Cargo-Tracker, AcmeAir, and JPetStore were fully structured. TNTConcept still showed missing interactions (File Storage ↔ Administration only one-way, Reporting dependencies incomplete). The Consolidated architecture matched Proposal B in Cargo-Tracker and JPetStore, and Proposal A in AcmeAir.
+
+Tracer (token cost)
+System	Total Tokens
+7ep	27,664
+AcmeAir	57,477
+Cargo-Tracker	75,276
+DayTrader7	54,426
+Jokul	25,442
+JPetStore	36,111
+PetClinic	32,678
+TNTConcept	70,951
+Total	380,025
+Highlights:
+
+Total cost for Test 3: 380,025 tokens, the highest of the three runs.
+
+Cargo-Tracker (75,276) and TNTConcept (70,951) had the highest consumption, driven by Agent 4 refinement of complex domains.
+
+AcmeAir jumped to 57,477 tokens — Agent 2.1 alone consumed 25,324 tokens in this execution, the highest single Agent 2.1 call across all C4 Gemini runs.
+
+Agent 4 remained the dominant cost across all three tests.
+
+GENERAL SYNTHESIS OF THE THREE C4 RUNS (GEMINI)
+Services are stable and model-agnostic. Across the three runs, the service F1 profile was identical: 7ep, AcmeAir, DayTrader7, Jokul, JPetStore, and PetClinic at 1.0000; Cargo-Tracker at 0.9091; TNTConcept at 0.9231. The C4 configuration with Agent 2.1 did not introduce over-decomposition, unlike C3 Test 2 where Agent 1 alone created spurious Location and Voyage Management Services. Agent 2.1 appears to stabilize service granularity.
+
+Interactions are the main source of variability. The three runs diverged sharply on interactions. Test 1 was the weakest (Cargo-Tracker 0.0000, JPetStore Proposal A 0.1538, AcmeAir Proposal B 0.4286). Test 2 recovered Cargo-Tracker (0.8421) and AcmeAir (1.0000). Test 3 was the most balanced, with Cargo-Tracker stable at 0.8421 and no total collapses. The Consolidated output followed Proposal A in most systems, confirming the Agent 3 fallback bias already observed in Claude and DeepSeek.
+
+TNTConcept is the persistent weak point. Its interaction F1 remained at 0.7647 in Test 2 and Test 3, and 0.7761 (Proposal A) in Test 1. No C4 Gemini run exceeded 0.78 for TNTConcept. This mirrors the pattern in C1–C3 and suggests the reference architecture for TNTConcept is only partially recoverable from the requirements text.
+
+YAML is fragile without correct CSV structure. In Test 1, Cargo-Tracker's CSV fragmentation produced a malformed YAML with only 5 services and invalid interaction targets. In Tests 2 and 3, the YAML recovered fully. This confirms that YAML quality is a function of Agent 1's CSV formatting, not of Agent 2.1 or Agent 4.
+
+Token cost is the highest among the three LLMs in C4. The three C4 Gemini runs consumed 304,696 / 371,635 / 380,025 tokens — averaging ~352,119 tokens per run. This is significantly above DeepSeek C4 (~19,760 tokens) and Claude C4 (~24,900 tokens). The cost is driven by Agent 4 (Refiner), which consumed 107,265 / 146,701 / 165,585 tokens across the three runs, and by Agent 2.1's verbose output on complex systems.
+
+C4 Gemini is stable but expensive. The configuration delivers consistent service quality and reasonable interaction quality (best run: Test 3), but at a token cost 15–20× higher than DeepSeek C4 and Claude C4. The quality gap does not justify the cost difference. For the FSE 2026 study, C4 Gemini should be reported as the highest-cost configuration with intermediate quality, reinforcing the conclusion that DeepSeek C4 offers the best cost-benefit ratio.
+
+Agent 2.1 partially substitutes Agent 2 but does not fully replace it. In Cargo-Tracker, Agent 2.1 produced a usable Proposal B in Tests 2 and 3, which the Consolidator adopted. In Test 1, it failed to produce a valid proposal, and the entire Cargo-Tracker pipeline collapsed. This shows that Agent 2.1 is capable of recovering implicit interactions when the domain is well-structured, but its generalized prompt lacks the targeted pattern library of the original Agent 2, making it less reliable in complex logistics domains.
+
+Implications for the paper:
+
+Agent 2.1 is a valid low-cost replacement for Agent 2 in terms of service identification, but less reliable for interaction recovery in complex domains.
+
+The C4 Gemini configuration is the most expensive of the three LLMs, with no quality advantage over DeepSeek C4 or Claude C4.
+
+Interaction F1 remains the discriminating metric across all configurations and LLMs; services are saturated at ~0.95+ in most systems.
+
+TNTConcept and Cargo-Tracker are the two systems that consistently differentiate pipeline configurations and should be highlighted in the analysis.
+
+The Agent 3 fallback bias (favoring Proposal A) persists across all three LLMs and all C4 runs, confirming it is a pipeline design issue, not a model-specific artifact.

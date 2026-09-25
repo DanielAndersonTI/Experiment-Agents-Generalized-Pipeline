@@ -1,0 +1,171 @@
+ANALYSIS OF THE THREE C3 ROUNDS — DEEPSEEK
+TEST 1 — Run IDs: 20260908_151742_978495, 20260908_151752_027618, 20260908_151759_733798, 20260908_151810_176511, 20260908_151820_469565, 20260908_151828_330929, 20260908_151838_723822, 20260908_151845_086203
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	0.8333	0.8333	0.8333
+DayTrader7	0.8333	0.8333	0.8333
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+DeepSeek in C3 performed worse than Gemini in services, especially in Cargo-Tracker and DayTrader7 (0.8333 vs. 0.9091/1.0000 from Gemini). This indicates that, without Agent 2, DeepSeek tends to over-decompose or omit services in these domains.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.8182	0.9000	0.8571
+AcmeAir	0.8889	1.0000	0.9412
+Cargo-Tracker	0.6667	0.7273	0.6957
+DayTrader7	0.7500	0.5000	0.6000
+Jokul	0.7500	1.0000	0.8571
+JPetStore	1.0000	0.8889	0.9412
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7879	0.7429	0.7647
+Comment:
+Interactions were the weakest point. DayTrader7 reached 0.6000, Jokul dropped to 0.8571 (was 1.0000 in Gemini), and Cargo-Tracker reached 0.6957, well below C3 Gemini (0.8421). DeepSeek was unable to recover implicit dependencies as effectively as Gemini.
+
+YAML
+The YAML reflected the refined Proposal A, but with fragmentation in several systems, caused by internal commas and truncated outputs. The parser had difficulty separating responsibilities and dependencies when the CSV contained line breaks or commas within a field. Endpoints remain generic.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	2890	2786	5676
+AcmeAir	2635	2456	5091
+Cargo-Tracker	3015	2997	6012
+DayTrader7	3187	3202	6389
+Jokul	2661	2392	5053
+JPetStore	3091	3029	6120
+PetClinic	2279	1969	4248
+TNTConcept	2338	2262	4600
+Total	22096	21093	43189
+Round total: 43,189 tokens.
+
+Highlights:
+
+Extremely low cost, similar to C0 Gemini (~50k).
+
+Agent 4 consumed practically the same total as Agent 1, doubling the cost compared to C0.
+
+DayTrader7 and JPetStore had the highest total consumption.
+
+TEST 2 — Run IDs: 20260908_154127_309666, 20260908_154139_891665, 20260908_154147_937161, 20260908_154157_846059, 20260908_154206_755935, 20260908_154213_003417, 20260908_154222_693658, 20260908_154229_121660
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	0.8333	0.9091
+DayTrader7	0.7500	1.0000	0.8571
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+Cargo-Tracker recovered the missing service, but DayTrader7 dropped to 0.8571 (precision 0.75), indicating that DeepSeek created unexpected extra services. Instability between rounds is evident.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.9091	1.0000	0.9524
+AcmeAir	0.8000	1.0000	0.8889
+Cargo-Tracker	0.8889	0.7273	0.8000
+DayTrader7	0.7143	0.8333	0.7692
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.0000	0.0000	0.0000
+PetClinic	0.6000	1.0000	0.7500
+TNTConcept	0.7714	0.7714	0.7714
+Comment:
+Dramatic drop in JPetStore (0.0000) and PetClinic (0.7500). DeepSeek failed to generate correct interactions for JPetStore, probably due to format errors or confusion in identifying services. AcmeAir and 7ep maintained good results.
+
+YAML
+YAML fragmented in several systems, especially JPetStore (where interactions failed completely) and PetClinic. The absence of the refiner did not help, and the parser continued to suffer from truncated fields.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	2830	2673	5503
+AcmeAir	2661	2508	5169
+Cargo-Tracker	2999	2964	5963
+DayTrader7	3100	3029	6129
+Jokul	2600	2270	4870
+JPetStore	3075	2997	6072
+PetClinic	2294	1999	4293
+TNTConcept	2325	2236	4561
+Total	21884	20676	42560
+Round total: 42,560 tokens.
+
+Highlights:
+
+Cost similar to Test 1.
+
+Agent 4 continues with weight equivalent to Agent 1.
+
+JPetStore and DayTrader7 had higher consumption, but with poor results.
+
+TEST 3 — Run ID: 20260908_160633_288296
+Services (F1-score)
+System	Precision	Recall	F1
+7ep	1.0000	1.0000	1.0000
+AcmeAir	1.0000	1.0000	1.0000
+Cargo-Tracker	1.0000	1.0000	1.0000
+DayTrader7	0.7500	1.0000	0.8571
+Jokul	1.0000	1.0000	1.0000
+JPetStore	1.0000	1.0000	1.0000
+PetClinic	1.0000	1.0000	1.0000
+TNTConcept	1.0000	0.8571	0.9231
+Comment:
+Cargo-Tracker finally achieved F1 1.0000, showing that DeepSeek can succeed when conditions are favorable. DayTrader7 remains problematic (0.8571), with extra services.
+
+Interactions (F1-score)
+System	Precision	Recall	F1
+7ep	0.8182	0.9000	0.8571
+AcmeAir	0.8000	1.0000	0.8889
+Cargo-Tracker	0.9167	1.0000	0.9565
+DayTrader7	0.7143	0.8333	0.7692
+Jokul	1.0000	1.0000	1.0000
+JPetStore	0.0000	0.0000	0.0000
+PetClinic	0.7500	1.0000	0.8571
+TNTConcept	0.7879	0.7429	0.7647
+Comment:
+Cargo-Tracker had the best interaction result among all C3 DeepSeek tests (0.9565). However, JPetStore remains at zero, and DayTrader7 remains unstable. The absence of the Communication Specialist significantly affects interaction recovery, regardless of the model.
+
+YAML
+The YAML reflected Proposal A, but with the same limitations observed in the other tests. In simpler systems (7ep, Jokul), the YAML was reasonably intact; in complex systems, there was fragmentation and loss of information.
+
+Tracer (token cost)
+System	Agent 1	Agent 4	Total
+7ep	2857	2727	5584
+AcmeAir	2722	2630	5352
+Cargo-Tracker	2923	2813	5736
+DayTrader7	3098	3025	6123
+Jokul	2599	2268	4867
+JPetStore	3096	3039	6135
+PetClinic	2281	1973	4254
+TNTConcept	2338	2262	4600
+Total	21914	20737	42651
+Round total: 42,651 tokens.
+
+GENERAL SYNTHESIS OF THE THREE C3 ROUNDS (DEEPSEEK)
+Services:
+DeepSeek maintained a reasonable F1 for services, with the exception of DayTrader7 (average 0.8571) and, to a lesser extent, TNTConcept. Instability between rounds was notable in Cargo-Tracker (0.8333 → 0.9091 → 1.0000) and DayTrader7 (0.8333 → 0.8571 → 0.8571).
+
+Interactions:
+Performance in interactions was significantly worse than C3 Gemini. JPetStore scored zero in two of the three rounds, and DayTrader7, PetClinic, and TNTConcept fell below expectations. Only Jokul maintained F1 1.0000 in all executions. This reinforces that DeepSeek, without Agent 2, has difficulty capturing implicit dependencies.
+
+Cost:
+The cost per round was around 42–43 thousand tokens, similar to C0 Gemini and much lower than C1/C2. Agent 4 added approximately the same cost as Agent 1, but could not compensate for the lack of the Communication Specialist.
+
+Comparison with C3 Gemini:
+C3 Gemini achieved better results in services and interactions in most systems. DeepSeek was particularly worse in JPetStore, DayTrader7, and PetClinic. However, in Cargo-Tracker, DeepSeek had an excellent result in the third round (0.9565), showing that it can outperform Gemini in specific cases, but with high variability.
+
+Implications for the paper:
+
+The choice of LLM model directly impacts generation quality, especially in interaction inference tasks.
+
+The Communication Specialist (Agent 2) is the most critical component to compensate for the limitations of the base model.
+
+DeepSeek, although cheaper, offers lower stability and precision compared to Gemini in the C3 scenario.
+
+Variability between executions is greater in DeepSeek, requiring more repetitions to obtain reliable results.
+
+Recommendation:
+For the paper, it is valid to include DeepSeek as a partial replication study, evidencing that the findings are not exclusive to Gemini, but that quality strongly depends on the model and the presence of specialization agents. However, the main focus should remain on the ablation of components, with DeepSeek serving as external validation.

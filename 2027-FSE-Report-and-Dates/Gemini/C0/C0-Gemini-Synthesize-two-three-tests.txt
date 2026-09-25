@@ -1,0 +1,152 @@
+ANALYSIS OF THE THREE C0 RUNS (AGENT 1 ISOLATED, GEMINI + FEW-SHOT)
+TEST 1 — Run ID 20260903_205000_569716
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Services were stable, following the same patterns observed in the complete pipeline. Only Cargo-Tracker and TNTConcept showed limited recall due to the omission of implicit services in the requirements.
+
+Interactions (F1-score)
+System	F1
+7ep	0.9524
+AcmeAir	0.6154
+Cargo-Tracker	0.0000
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.9412
+PetClinic	1.0000
+TNTConcept	0.6129
+Commentary:
+Isolated Agent 1 completely failed in Cargo-Tracker (F1 0.0000) and performed much worse than C1 in AcmeAir and TNTConcept. This highlights the fragility of a single agent in recovering interactions when requirements are not fully explicit.
+
+YAML
+Commentary:
+YAML was generated from Proposal A but showed issues in Cargo-Tracker, AcmeAir, and TNTConcept: fragmented responsibilities and misinterpreted dependencies. For the other systems, the YAML correctly reflected the architecture. Endpoints remain generic.
+
+Tracer (token cost — Agent 1 only)
+System	Tokens	Duration (ms)
+7ep	4944	8249
+AcmeAir	4440	7030
+Cargo-Tracker	6072	11604
+DayTrader7	6125	11599
+Jokul	6057	12143
+JPetStore	6750	14515
+PetClinic	8013	19510
+TNTConcept	4884	8454
+Total	47285	93104
+Highlights:
+Cost was much lower than any C1 run: only 47,285 tokens in total, compared to 412,612 in C1 Test 1. Total duration was also drastically reduced (93 seconds vs. several minutes). PetClinic consumed the most tokens, followed by DayTrader7 and JPetStore.
+
+TEST 2 — Run ID 20260903_205452_366668
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Services were identical to Test 1. No relevant variation.
+
+Interactions (F1-score)
+System	F1
+7ep	0.9524
+AcmeAir	1.0000
+Cargo-Tracker	0.8421
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.9412
+PetClinic	1.0000
+TNTConcept	0.6154
+Commentary:
+Significant improvement in AcmeAir (1.0000) and Cargo-Tracker (0.8421) compared to Test 1, showing that Agent 1 can oscillate strongly between executions. TNTConcept remained low (0.6154), indicating recurring difficulty.
+
+YAML
+Commentary:
+YAML was cleaner in this run, especially for Cargo-Tracker and AcmeAir, which came through intact. TNTConcept still showed fragmentation in responsibilities and dependencies. Endpoints remain generic.
+
+Tracer (token cost — Agent 1 only)
+System	Tokens	Duration (ms)
+7ep	5033	8203
+AcmeAir	22593	62160
+Cargo-Tracker	5923	12532
+DayTrader7	9516	22685
+Jokul	4854	8085
+JPetStore	5989	10977
+PetClinic	7060	16566
+TNTConcept	4241	7377
+Total	65209	148585
+Highlights:
+Cost was higher than Test 1 (65,209 tokens), mainly because AcmeAir consumed 22,593 tokens in a single execution — a very high value for Agent 1. This suggests variability also in output size.
+
+TEST 3 — Run ID 20260903_210334_080540
+Services (F1-score)
+System	F1
+7ep	1.0000
+AcmeAir	1.0000
+Cargo-Tracker	0.9091
+DayTrader7	1.0000
+Jokul	1.0000
+JPetStore	1.0000
+PetClinic	1.0000
+TNTConcept	0.9231
+Commentary:
+Services remained stable, reinforcing that C0's difficulty lies in interactions, not in service identification.
+
+Interactions (F1-score)
+System	F1
+7ep	0.9524
+AcmeAir	1.0000
+Cargo-Tracker	0.0000
+DayTrader7	0.9091
+Jokul	1.0000
+JPetStore	0.9412
+PetClinic	1.0000
+TNTConcept	0.7536
+Commentary:
+Cargo-Tracker again scored zero interactions, repeating Test 1. TNTConcept improved (0.7536). The oscillation between 0.0000 and 0.8421 in Cargo-Tracker is a strong indicator of single-agent instability.
+
+YAML
+Commentary:
+Cargo-Tracker's YAML was again fragmented, reflecting Agent 1's failure. TNTConcept came through more structured than in previous runs. The other systems maintained consistent quality, except for generic endpoints.
+
+Tracer (token cost — Agent 1 only)
+System	Tokens	Duration (ms)
+7ep	5721	11964
+AcmeAir	5312	12450
+Cargo-Tracker	5731	10956
+DayTrader7	6136	12363
+Jokul	4388	7347
+JPetStore	12266	29439
+PetClinic	5832	12880
+TNTConcept	4949	10855
+Total	50335	108254
+Highlights:
+Intermediate cost between Tests 1 and 2 (50,335 tokens). JPetStore had the highest consumption (12,266 tokens), possibly due to requirement complexity. Overall, C0 spends about 8 to 10 times fewer tokens than C1.
+
+GENERAL SYNTHESIS OF THE THREE C0 RUNS
+Services are robust even with a single agent. In 6/8 systems, F1 = 1.0000 across all runs. Only Cargo-Tracker and TNTConcept maintained limited recall, due to requirements, not the agent.
+
+Interactions are Agent 1's weak point. Variation is extreme in Cargo-Tracker (0.0000 → 0.8421 → 0.0000) and AcmeAir (0.6154 → 1.0000 → 1.0000). This shows that a single agent is unstable in domains with implicit dependencies.
+
+The multi-agent pipeline (C1) brings clear gains in interactions. In problematic systems (Cargo-Tracker, TNTConcept), C1 often achieved F1 ≥ 0.80, while C0 stayed between 0.0 and 0.75. Specialization and consolidation help mitigate Agent 1's failures.
+
+C0 cost is drastically lower. The most expensive C0 run (65,209 tokens) is about 6 times smaller than the cheapest C1 run (412,612 tokens). This makes the single agent attractive when quality requirements are lower or requirements are very clear.
+
+C0 YAML is more fragile. Without refinement and consolidation, Agent 1's output produces YAMLs with parsing errors and fragmentation, especially when the CSV contains internal commas or truncated fields. The complete pipeline tends to produce cleaner YAMLs.
+
+C0 stability is lower than C1. Although C0 saves tokens, its variability in interactions is greater, which may make it unfeasible in scenarios where consistency is critical.
+
+Practical recommendation: C0 may be sufficient for small systems with well-structured requirements (e.g., Jokul, PetClinic). For complex systems or ambiguous requirements (Cargo-Tracker, TNTConcept), the multi-agent pipeline is justified despite the higher cost.
+
+Agent 1 was chosen to operate in isolation because it is the most comprehensive and historically delivers the best results. We can initially highlight that using multiple agents provides the possibility of maintaining good results even when one agent fails, since in C0 cases where failures occurred we were left without results due to depending exclusively on a single agent. In addition to having more agents to deliver proposals and protecting us against a single agent's errors, we also benefit from being able to choose the best proposal when using a multi-agent approach.

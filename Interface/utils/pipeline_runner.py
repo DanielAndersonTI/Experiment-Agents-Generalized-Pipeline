@@ -19,12 +19,14 @@ try:
         executar_pipeline_c0,
         executar_pipeline_c2,
         executar_pipeline_c3,
+        executar_pipeline_c4,
     )
 except ModuleNotFoundError:
     executar_pipeline = None
     executar_pipeline_c0 = None
     executar_pipeline_c2 = None
     executar_pipeline_c3 = None
+    executar_pipeline_c4 = None
 
 from .parsers import (
     parse_reference_interactions,
@@ -51,7 +53,7 @@ def run_real_pipeline(system_data: dict, tracer_run_id: str | None = None) -> di
         interaction_reference = parse_reference_interactions(system_data["reference_interactions"])
 
        
-        global executar_pipeline, executar_pipeline_c0, executar_pipeline_c2, executar_pipeline_c3
+        global executar_pipeline, executar_pipeline_c0, executar_pipeline_c2, executar_pipeline_c3, executar_pipeline_c4
 
         mode = str(system_data.get("mode", "c0")).lower()
 
@@ -73,6 +75,12 @@ def run_real_pipeline(system_data: dict, tracer_run_id: str | None = None) -> di
                 from main_fewshot import executar_pipeline_c3 as pipeline_entrypoint
                 executar_pipeline_c3 = pipeline_entrypoint
             pipeline_entrypoint = executar_pipeline_c3
+
+        elif mode == "c4":
+            if executar_pipeline_c4 is None:
+                from main_fewshot import executar_pipeline_c4 as pipeline_entrypoint
+                executar_pipeline_c4 = pipeline_entrypoint
+            pipeline_entrypoint = executar_pipeline_c4
 
         else:
            

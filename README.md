@@ -199,11 +199,13 @@ Every round leaves three artifacts inside the model tree: a metrics report (PDF)
 ```text
 Experimento_Multiagente/Dates-FSE-2027/
 ├── systems/                  # source code of the 8 subject systems (monolithic versions)
-├── static analysis/          # SootUp-based static analysis of those systems
-├── static-analysis-systems/  # consolidated static-analysis outputs used as pipeline input
-├── ground true/              # reference microservice architectures (CSV) used for evaluation
-└── davinci_inputs/           # per-system bundle: requirements, reference_services, reference_interactions
+├── static analysis/          # source-based offline analyzer (analyze_systems.py); vendored SootUp tree is not used
+├── static-analysis-systems/  # frozen static-analysis snapshot (6 artifacts per system + consolidated index)
+├── ground true/              # reference microservice architectures (CSV) used for evaluation only
+└── davinci_inputs/           # per-system bundle: requirements, reference_services, reference_interactions, name map
 ```
+
+That directory has its own README with the per-system inventory, the artifact semantics, the scope limits of the source-based analysis and the known inconsistencies: [`Experimento_Multiagente/Dates-FSE-2027/README.md`](Experimento_Multiagente/Dates-FSE-2027/README.md).
 
 ### Analyses and reports
 

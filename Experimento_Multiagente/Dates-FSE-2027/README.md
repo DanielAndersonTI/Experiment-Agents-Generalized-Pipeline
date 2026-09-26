@@ -1,274 +1,368 @@
-# Microservice Decomposition Pipeline
+# Dates-FSE-2027 — Subject Systems, Static Evidence and Evaluation Inputs
 
-Este repositório agora contém um pipeline em Python para gerar propostas de decomposição de sistemas monolíticos em microsserviços usando LLMs via API.
+This directory is the **frozen research corpus** of the DAVINCI Architect study behind the
+FSE 2027 submission. It contains the eight monolithic subject systems, the structural
+(static) analysis of their source code, the reference microservice architectures used as
+ground truth, and the per-system input bundles that are fed to the pipeline.
 
-Para instalar o projeto em outra máquina e executar o fluxo completo, siga o guia
-[Instalação e execução local](docs/LOCAL_SETUP.md). Ele inclui ambiente virtual,
-configuração de chaves, modo seco, DeepSeek, comparação e interface gráfica.
+It is an **input snapshot, not a runnable pipeline**. Every artifact here is consumed
+(read-only) by the multiagent pipeline in `Experimento_Multiagente/` and by the analyses
+published in `2027-FSE-Report-and-Dates/`; no code in this directory is imported at
+runtime, and no file here is written to during an experiment.
 
-O pipeline combina:
+* Repository overview: [`../../README.md`](../../README.md)
+* Consolidated report of the study: [`../../2027-FSE-Report-and-Dates/DAVINCI-FSE2027-Consolidated-Report.md`](../../2027-FSE-Report-and-Dates/DAVINCI-FSE2027-Consolidated-Report.md)
+* Static-analysis methodology (authoritative): [`../.txt/Static_Analysis_Methodology.txt`](../.txt/Static_Analysis_Methodology.txt)
 
-- requisitos funcionais em CSV localizados dentro de `systems/`
-- resultados de análise estática localizados em `analysis-results/static-analysis/`
+---
 
-Para cada combinação de projeto, provedor/modelo e template de prompt, o pipeline solicita uma proposta de arquitetura e salva uma única saída final em CSV.
+## Contents at a Glance
 
-## Estrutura principal
+| Path | Contents | Role in the study | Tracked files |
+|---|---|---|---|
+| `systems/` | The eight upstream Java projects (monolithic), each with its own `LICENSE` plus the added requirements CSV `Requisitos - sistemas - <system>.csv` | Origin of the requirements and of the static evidence; never executed | 3,354 |
+| `static analysis/` | `analyze_systems.py` (the analyzer that was actually used), a vendored copy of the SootUp source tree and a short PT-BR README | Tooling that produced the structural evidence; the vendored SootUp copy is **not** invoked | 3,278 |
+| `static-analysis-systems/` | The frozen snapshot: six artifacts per system plus three consolidated files | Structural evidence used when the architectural prompts were built | 51 |
+| `ground true/` | Eight reference-architecture CSVs | Evaluation only (Precision, Recall, F1); never used for generation | 8 |
+| `davinci_inputs/` | Per-system bundle: requirements, reference services, reference interactions, name map, plus a README with per-system notes | Exactly what is pasted into the web interface to run a system | 33 |
 
-```text
-.
-├── systems/
-├── analysis-results/static-analysis/
-├── outputs/
-├── src/
-│   ├── main.py
-│   ├── config.py
-│   ├── project_loader.py
-│   ├── static_analysis_loader.py
-│   ├── requirements_loader.py
-│   ├── prompt_builder.py
-│   ├── agentic/
-│   │   ├── workflow.py
-│   │   └── trace.py
-│   ├── llm_clients/
-│   │   ├── openai_client.py
-│   │   ├── anthropic_client.py
-│   │   └── deepseek_client.py
-│   ├── response_parser.py
-│   ├── csv_writer.py
-│   └── metadata_writer.py
-├── config.yaml
-├── requirements.txt
-└── .env.example
-```
-
-## Configuração
-
-1. Crie e ative um ambiente virtual Python.
-2. Instale as dependências:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Crie um arquivo `.env` a partir de `.env.example`:
-
-```env
-OPENAI_API_KEY=...
-ANTHROPIC_API_KEY=...
-DEEPSEEK_API_KEY=...
-```
-
-O `.env.example` contém os nomes das variáveis sem segredos e o `.env` é ignorado pelo
-Git. Preencha somente as chaves dos provedores que você realmente utilizará.
-
-4. Ajuste os modelos em `config.yaml` se quiser trocar os defaults.
-
-Os nomes de modelo, número de runs, tentativas máximas e templates ficam configuráveis em `config.yaml` e também podem ser filtrados pela CLI. O padrão atual é `1` execução por combinação.
-
-Se algum modelo novo reclamar de parâmetros como `temperature`, você pode definir:
-
-```yaml
-temperature: null
-```
-
-O pipeline também tenta fazer retry automático sem `temperature` quando a API indicar que o parâmetro foi descontinuado para aquele modelo.
-Para modelos `gpt-5*`, o client já evita enviar `temperature` por padrão.
-
-## Como executar
-
-Executar todos os experimentos:
-
-```bash
-python -m src.main --systems-dir systems --static-analysis-dir analysis-results/static-analysis --output-dir outputs
-```
-
-Executar para todos os provedores habilitados no `config.yaml` e salvar os prompts:
-
-```bash
-python -m src.main --output-dir outputs --save-prompts
-```
-
-Executar apenas um projeto:
-
-```bash
-python -m src.main --project 7ep
-```
-
-Executar apenas um provedor/modelo/template:
-
-```bash
-python -m src.main --project pet-clinic --provider openai --model gpt-5.5-2026-04-23 --prompt-template zero_shot
-```
-
-Validar descoberta e construção dos prompts sem chamar API:
-
-```bash
-python -m src.main --project 7ep --provider openai --prompt-template zero_shot --runs 1 --dry-run
-```
-
-Ver os prompts no terminal sem chamar API:
-
-```bash
-python -m src.main --project 7ep --dry-run --print-prompts
-```
-
-Salvar os prompts em arquivo:
-
-```bash
-python -m src.main --project 7ep --provider openai --save-prompts
-```
-
-## Templates de prompt
-
-Atualmente o pipeline implementa:
-
-- `zero_shot`
-- `few_shot`
-
-O template `few_shot` adiciona três exemplos genéricos antes dos dados reais para orientar o modelo sem contaminar o domínio do sistema analisado.
-
-## Estratégia de saída
-
-Cada chamada ao modelo pede JSON estruturado neste formato:
-
-```json
-{
-  "microservices": [
-    {
-      "microservice_name": "Order Service",
-      "responsibility": "Manages order creation, order status, and order history.",
-      "communicates_with": ["Customer Service", "Payment Service"]
-    }
-  ]
-}
-```
-
-O pipeline:
-
-1. valida o JSON com Pydantic
-2. tenta reparar respostas quase válidas
-3. repete a chamada até o limite configurado se necessário
-4. converte a resposta validada para CSV
-
-O CSV final sempre tem exatamente 3 colunas:
-
-```csv
-microservice_name,responsibility,communicates_with
-Order Service,"Manages order creation, order status, and order history.","Customer Service;Payment Service"
-```
-
-## Onde os resultados ficam
-
-Os arquivos de saída ficam organizados em:
+Total: 6,725 tracked files (most of them source code of the subject systems and of the
+vendored SootUp tree).
 
 ```text
-outputs/{project_name}/{approach}/{provider}/{model_name}/{prompt_template}/run_{n}.csv
+Experimento_Multiagente/Dates-FSE-2027/
+├── README.md                      # this file
+├── systems/                       # 8 upstream projects (monolithic), unmodified except for the requirements CSV
+│   ├── 7ep/demo/
+│   ├── acmeair/acmeair-monolithic-java/
+│   ├── cargo-tracker/
+│   ├── daytrader7/sample.daytrader7/
+│   ├── Jokul/jokul/
+│   ├── jpetstore/jpetstore-6/
+│   ├── pet-clinic/spring-petclinic-modulith/
+│   └── TNTConcept/TNTConcept/
+├── static analysis/               # the analyzer + vendored SootUp tree
+│   ├── analyze_systems.py         # offline, source-based, standard-library runner (the one that was used)
+│   ├── README.md                  # short description of the artifacts (PT-BR, partially outdated)
+│   └── SootUp/                    # vendored upstream SootUp source tree — present for reference only
+├── static-analysis-systems/       # frozen snapshot of the analysis (regenerated by analyze_systems.py)
+│   ├── <system>/                  # summary.json, modules.csv, classes.csv,
+│   │                              # package_dependencies.csv, package_metrics.csv, entrypoints.csv
+│   ├── index.json                 # projects analyzed + embedded summaries
+│   ├── project_summaries.csv      # one aggregate-count row per project
+│   └── manifest.json              # artifact layout declaration
+├── ground true/                   # reference microservice architectures (evaluation ground truth)
+│   └── <system>/                  # reference_microservice(s)_architecture_<name>.csv (one CSV per system)
+└── davinci_inputs/                # ready-to-use per-system bundle for the web interface
+    ├── README.md                  # per-system notes about the conversions
+    └── <system>/                  # requirements.txt, reference_services.txt,
+                                   # reference_interactions.txt, name_normalization_map.txt
 ```
 
-Se `--save-prompts` for usado, o pipeline também salva:
+---
+
+## The Eight Subject Systems
+
+The corpus covers library management, airline booking, cargo tracking, Java EE trading,
+school administration, pet-clinic scheduling, an e-commerce storefront and an enterprise
+management suite, so the architectural reasoning is exercised over very different domain
+sizes.
+
+| System | Source tree | Build | Java files | Types analyzed | Packages | Classes | Ref. services | Ref. interactions |
+|---|---|---|---|---|---|---|---|---|
+| 7ep | `systems/7ep/demo` | Gradle | 119 | 109 | 14 | 109 | 7 | 10 |
+| AcmeAir | `systems/acmeair/acmeair-monolithic-java` | Maven | 32 | 32 | 10 | 32 | 6 | 8 |
+| Cargo Tracker | `systems/cargo-tracker` | Maven | 109 | 109 | 28 | 109 | 6 | 11 |
+| DayTrader7 | `systems/daytrader7/sample.daytrader7` | Maven | 108 | 108 | 11 | 108 | 6 | 12 |
+| Jokul | `systems/Jokul/jokul` | Maven | 28 | 28 | 12 | 28 | 3 | 3 |
+| JPetStore | `systems/jpetstore/jpetstore-6` | Maven | 43 | 43 | 6 | 43 | 6 | 9 |
+| PetClinic | `systems/pet-clinic/spring-petclinic-modulith` | Gradle + Maven | 57 | 50 | 7 | 50 | 4 | 3 |
+| TNTConcept | `systems/TNTConcept/TNTConcept` | Maven | 660 | 660 | 72 | 660 | 14 | 35 |
+| **Total** | 8 projects | — | **1,156** | **1,139** | **160** | **1,139** | **52** | **91** |
+
+The source-code and static-analysis columns come from
+[`static-analysis-systems/project_summaries.csv`](static-analysis-systems/project_summaries.csv);
+the service and interaction columns from
+[`davinci_inputs/README.md`](davinci_inputs/README.md), and they match the row counts of
+[`ground true/`](ground%20true) one-to-one.
+
+---
+
+## `systems/` — Monolithic Subject Systems
+
+One directory per system, holding the upstream project as published by its authors. The
+only study-specific addition is the requirements CSV
+`Requisitos - sistemas - <system>.csv`, placed inside the project
+(`systems/TNTConcept/TNTConcept/Requisitos - sistemas - TNTconcept.csv`, and so on).
+
+* **Requirements CSV format.** Header
+  `Requisitos - categorias,Identificação,Descrição` (Portuguese). The third column is the
+  requirement text actually used; the first column only marks the first row of each
+  category and is therefore mostly empty; a few systems carry a fourth column with the
+  source URL, which is ignored. Across the eight files there are **509 requirement rows**.
+* **`.git.bak` directories.** Every system keeps the renamed upstream VCS metadata
+  (`systems/<system>/…/.git.bak`). They are what made it possible to version the trees
+  inside this repository — do not delete them.
+* **Upstream leftovers.** `systems/cargo-tracker/` still keeps NetBeans/Travis files
+  (`nbactions.xml`, `nb-configuration.xml`, `.travis.yml`), and `jpetstore`, `pet-clinic`
+  and `TNTConcept` keep their upstream `.github/` workflows. They are irrelevant to the
+  study and were left untouched on purpose.
+* **Licensing.** Each project keeps its own license file:
+
+  | System | License file |
+  |---|---|
+  | 7ep | `systems/7ep/demo/LICENSE` |
+  | AcmeAir | `systems/acmeair/acmeair-monolithic-java/LICENSE` |
+  | Cargo Tracker | `systems/cargo-tracker/license.txt` |
+  | DayTrader7 | `systems/daytrader7/sample.daytrader7/LICENSE` |
+  | Jokul | `systems/Jokul/jokul/LICENSE` |
+  | JPetStore | `systems/jpetstore/jpetstore-6/LICENSE` |
+  | PetClinic | `systems/pet-clinic/spring-petclinic-modulith/LICENSE.txt` |
+  | TNTConcept | `systems/TNTConcept/TNTConcept/LICENSE.txt` |
+
+The systems are never compiled nor executed in this study, and no behavioral data was
+collected from them (methodology document, sections 2 and 12).
+
+---
+
+## `static analysis/` — The Analyzer
+
+`analyze_systems.py` is the analyzer that produced every artifact in
+`static-analysis-systems/`. It is deliberately lightweight:
+
+* Python 3 standard library only, offline and **regex-assisted**, working over Java source
+  files, build descriptors and explicit `import` declarations. It was written this way
+  because the original environment had neither `java` nor `maven` on the `PATH`.
+* For every project found under `systems/` it extracts: build modules detected through
+  `pom.xml` and `build.gradle`; Java type files; packages; package dependencies aggregated
+  from imports; inferred roles (`controller`, `service`, `repository`, `domain`, …) from
+  packages and annotations; heuristic entrypoints (`main`, `@SpringBootApplication`, HTTP
+  controllers); LOC/eLOC and heuristic method/constructor matches.
+* Reproduction command, run from this directory:
+
+  ```powershell
+  python "static analysis\analyze_systems.py"
+  ```
+
+* **Output root caveat.** The script writes to `analysis-results/static-analysis/`
+  (`analyze_systems.py`, `OUTPUT_ROOT`), but the committed snapshot lives in
+  [`static-analysis-systems/`](static-analysis-systems). Running it today therefore
+  creates a *new* `analysis-results/static-analysis/` next to this README; to refresh the
+  snapshot, either point `OUTPUT_ROOT` to `static-analysis-systems/` or move the generated
+  directory.
+* `SootUp/` is a vendored copy of the upstream SootUp source tree. It is **not** imported
+  or invoked by `analyze_systems.py`; it is kept only for reference and provenance. The
+  methodology document states this explicitly.
+* [`static analysis/README.md`](static%20analysis/README.md) lists the generated
+  artifacts, but it is partially outdated: it is in Portuguese and it mentions a button in
+  the web interface ("Projetos e análise estática") that does not exist in
+  `Interface/` any more.
+* The authoritative descriptions are
+  [`../.txt/Static_Analysis_Methodology.txt`](../.txt/Static_Analysis_Methodology.txt)
+  (English, per-artifact semantics, prompt-building limits, corpus profile) and
+  [`../../2027-FSE-Report-and-Dates/Requirements/Development-of-requirements.txt`](../../2027-FSE-Report-and-Dates/Requirements/Development-of-requirements.txt)
+  (how the requirements and the structural evidence were articulated).
+
+---
+
+## `static-analysis-systems/` — The Frozen Snapshot
+
+This is the structural evidence of the study: one directory per system with the same six
+artifact names, plus three consolidated files at the root.
+
+| Artifact | Granularity | Main contents |
+|---|---|---|
+| `summary.json` | project | Project path and timestamp; build tools; complete counts; role and type-kind counts; source roots; top package roots; top internal dependencies; frequent external roots |
+| `modules.csv` | build module | Module path, build tool and build file, artifact id, packaging, Java version, plugins, declared submodules, parse error |
+| `classes.csv` | analyzed Java type file | Source set/root, file, package, type, role, LOC/eLOC, method counts, import counts, entrypoint flags and reasons, annotations |
+| `package_dependencies.csv` | directed package relation | Source package, target package, internal/external classification, aggregated import-declaration weight |
+| `package_metrics.csv` | package | Type-file count, method counts, occurrence-weighted incoming/outgoing internal dependencies, role histogram |
+| `entrypoints.csv` | heuristic candidate entrypoint | Module, package, type, source file, detection reason |
+
+| Consolidated file | Contents |
+|---|---|
+| `index.json` | Projects analyzed with their summaries embedded, plus the methodology block (`"type": "source-static-analysis"`) |
+| `project_summaries.csv` | One aggregate-count row per project — the source of the table in the previous section |
+| `manifest.json` | Declares the artifact layout (`artifacts_per_project`, `consolidated_artifacts`) |
+
+Three details are worth knowing before quoting this snapshot:
+
+* The timestamps inside `index.json` and `summary.json` are `2026-06-25T17:58…Z`, while the
+  methodology document quotes `2026-08-25` for its corpus profile. The counts are
+  identical (1,156 Java files, 1,139 analyzed type files, 160 packages), so this is the
+  same corpus with a documentation date inconsistency, not two snapshots.
+* `manifest.json` still records `"output_root": "analysis-results/static-analysis"`, i.e.
+  the path used when the runner wrote the files, not the directory the files live in now.
+* Nothing in the repository reads these files at runtime. The prompt builder described in
+  the methodology document consumed *selected aggregate evidence* from this artifact
+  family; the detailed CSV files were kept for traceability and later inspection, and
+  `summary.json` retains at most 10 package roots, 25 internal dependencies and 20
+  external dependency roots.
+
+---
+
+## `ground true/` — Reference Architectures (Evaluation Only)
+
+One CSV per system, with the header `Microservice Name,Description,Communicate With`. The
+`Communicate With` cell is a semicolon-separated list of partner services, or `None` when
+the service is isolated. In total the eight files describe **52 services** and **91
+undirected interaction pairs**.
+
+* These files hold the *expected* decomposition taken from the reference architectures of
+  the original study; they were never produced by DAVINCI and are never shown to the
+  agents.
+* They are used at evaluation time only: the pipeline compares the generated architecture
+  with this reference through the semantic comparison implemented by
+  `are_services_equivalent` / `are_interactions_equivalent` in
+  `Experimento_Multiagente/main_fewshot.py` (normalization plus synonym and domain-token
+  rules, applied only when the metrics are computed).
+* The directory name keeps the space (`ground true`) because documents, prompts and the
+  bundle README refer to it literally.
+* A single reference set per system — and therefore the interpretation of Precision,
+  Recall and F1 — is one of the limitations listed in the threats to validity of the
+  consolidated report.
+
+---
+
+## `davinci_inputs/` — The Ready-To-Use Bundle
+
+The pipeline receives everything as text, so this directory holds the exact material that
+was pasted into the web interface for each system.
+[`davinci_inputs/README.md`](davinci_inputs/README.md) documents the conversion per system,
+including the sources and the small editorial decisions (ignored extra columns, omitted
+malformed identifiers and so on).
+
+| System | `requirements.txt` bullets | Reference services | Undirected interactions | `name_normalization_map.txt` entries |
+|---|---|---|---|---|
+| 7ep | 78 | 7 | 10 | 4 |
+| AcmeAir | 61 | 6 | 8 | 6 |
+| Cargo Tracker | 71 | 6 | 11 | 8 |
+| DayTrader7 | 76 | 6 | 12 | 10 |
+| Jokul | 66 | 3 | 3 | 5 |
+| JPetStore | 77 | 6 | 9 | 5 |
+| PetClinic | 52 | 4 | 3 | 4 |
+| TNTConcept | 45 | 14 | 35 | 10 |
+
+* `requirements.txt` — English rendering of the third column of the requirements CSVs. Most
+  systems are close to a verbatim translation, but TNTConcept is condensed and re-grouped
+  under `## <n>. <Category>` headings (12 headings for 83 source rows). The 509 source rows
+  became 526 bullet lines in total, so the two counts are *not* expected to match: the
+  bundle is the agreed text that was actually used, and no committed script reproduces the
+  conversion.
+* `reference_services.txt` — one service name per line; identical to the
+  `Microservice Name` column of the corresponding file in `ground true/` (the counts match
+  one-to-one for all eight systems).
+* `reference_interactions.txt` — one `A <-> B` line per unordered, deduplicated pair
+  (`Authentication Service <-> Audit Service`), obtained by expanding `Communicate With`.
+* `name_normalization_map.txt` — legacy alias map from the earlier normalization step, for
+  example `Book Service -> Book Catalog Service`. The current pipeline does **not** read
+  it: `main_fewshot.py` replaced the map with automatic semantic evaluation applied only to
+  the metrics. It is kept as provenance of the aliases that were once accepted.
+* Field mapping in the interface: `requirements.txt` → *Requirements*,
+  `reference_services.txt` → *Reference Services*, `reference_interactions.txt` →
+  *Reference Interactions*, then choose a configuration (C0–C4) and run the pipeline. The
+  parsers accept line breaks, commas, semicolons and pipes as separators
+  (`Interface/utils/parsers.py`).
+
+---
+
+## How the Pieces Fit Together
 
 ```text
-outputs/{project_name}/{approach}/{provider}/{model_name}/{prompt_template}/run_{n}.prompt.txt
+systems/<system>/…/Requisitos … .csv ──► davinci_inputs/<system>/requirements.txt ─┐
+                                                                                   │
+systems/<system>/**/*.java ──► static analysis/analyze_systems.py ──►               │
+                               static-analysis-systems/<system>/ (6 artifacts)      ├──► web interface / pipeline (C0–C4)
+                                                                                    │        └──► result/<system>/… → metrics
+ground true/<system>/*.csv ──► reference_services.txt + reference_interactions.txt ─┘             │
+                                                                                                 ▼
+                                                             2027-FSE-Report-and-Dates/ (analyses, report)
 ```
 
-Cada execução também gera `run_{n}.trace.jsonl`, com as chamadas e o resultado de cada etapa.
+---
 
-Também é criado:
+## Reproducing and Verifying
 
-```text
-outputs/metadata.csv
+```powershell
+# Re-run the structural analysis (creates analysis-results/static-analysis/ — see the caveat above)
+python "static analysis\analyze_systems.py"
 ```
 
-Esse arquivo registra:
+* The committed snapshot is a reproduction aid: its counts are what the published analyses
+  refer to, and `project_summaries.csv` is the quickest way to check the totals per system.
+* The bundles in `davinci_inputs/` were produced once, by hand, from the sources listed in
+  [`davinci_inputs/README.md`](davinci_inputs/README.md). Treat them as immutable: the
+  archived runs and the reports refer to this exact text, so a change should be recorded as
+  a new snapshot instead of an in-place edit.
+* Three independent counts of services must agree at all times: the number of rows in each
+  `ground true/` CSV, the number of lines in the matching `reference_services.txt`, and the
+  per-system numbers in `davinci_inputs/README.md`. The same holds for the 91 undirected
+  interaction pairs.
 
-- projeto
-- abordagem
-- provedor
-- modelo
-- template
-- run
-- caminho do arquivo
-- caminho do trace
-- timestamp
-- status
-- erro, se houver
+---
 
-## Observações
+## Scope and Fidelity Notes
 
-- As chaves de API não ficam hardcoded no código.
-- O loader de requisitos é tolerante a nomes de colunas diferentes.
-- O loader de análise estática aceita `.csv`, `.json`, `.txt` e `.md`.
-- O pipeline usa por padrão a análise estática já gerada em `analysis-results/static-analysis/`.
+Terminology matters when these artifacts are described in the paper, and the methodology
+document is explicit about it:
 
-## Abordagens de geração
+* The analysis is **source-based, regex-assisted static analysis**. Its dependencies come
+  from `import` declarations and describe *static relations between packages* — not calls,
+  messages, traffic, deployment or runtime behavior.
+* There is no Java compilation, no bytecode analysis, no call-graph reconstruction and no
+  build-tool dependency resolution anywhere in this directory.
+* `build_files` counts build descriptors (`pom.xml`, `build.gradle`), not business modules.
+* Entrypoints are heuristic candidates, not verified entrypoints.
+* Static evidence informs architectural reasoning; it does not prescribe service
+  boundaries, and any generated decomposition must still be assessed against the
+  requirements and the expert review criteria.
+* The requirements are entirely human-authored: the runner neither derives nor validates
+  them.
 
-O pipeline oferece duas formas de gerar a proposta:
+---
 
-- `direct` (padrão): uma chamada ao modelo com todos os requisitos e evidências estruturais.
-- `agent`: um fluxo estruturado com analistas de domínio e estrutura, um arquiteto, um crítico e um refinador. O crítico pode solicitar revisões até o limite `experiment.agent.max_refinement_rounds`.
+## Known Inconsistencies and Cleanup Candidates
 
-Para executar as duas abordagens para o mesmo caso:
+1. **This file replaced a stale README.** The previous content, "Microservice Decomposition
+   Pipeline", documented a legacy pipeline (`src/`, `config.yaml`, `outputs/`,
+   `docs/LOCAL_SETUP.md`, OpenAI/Anthropic/DeepSeek clients, a `--dry-run` CLI). None of
+   those paths exists in this directory nor in its Git history. The old text remains
+   recoverable with `git log -p -- Experimento_Multiagente/Dates-FSE-2027/README.md`.
+2. **Analyzer output root.** `analyze_systems.py` writes to
+   `analysis-results/static-analysis/`, while the committed snapshot is
+   `static-analysis-systems/`; `manifest.json` still records the old path in `output_root`.
+3. **Static-analysis README.** `static analysis/README.md` mentions refreshing the analysis
+   from a web-interface action that no longer exists in `Interface/`, and it is written in
+   Portuguese while the rest of the study documentation is in English.
+4. **Snapshot date.** The methodology document quotes `2026-08-25` for a corpus whose
+   artifacts are timestamped `2026-06-25` (identical counts).
+5. **Stale path in a helper script.** `Experimento_Multiagente/verificar_diversidade_c4.py`
+   still points to `Dates-FSE-2026/davinci_inputs`, the folder's previous name.
+6. **Unused name maps.** `davinci_inputs/*/name_normalization_map.txt` is not read by any
+   code in the repository; it is documentation only.
+7. **Path names with spaces** (`static analysis/`, `ground true/`,
+   `Requisitos - sistemas - …csv`) are referenced literally by documents and prompts, so
+   renaming any of them requires updating those references in the same change.
+8. **Untracked local leftovers.** `.github/` (a self-ignoring GitHub modernization folder),
+   `systems/**/.gradle/` and `systems/daytrader7/…/images/Thumbs.db` exist locally but are
+   not versioned; they are unrelated to the corpus and can be deleted safely.
 
-```bash
-python -m src.main --project pet-clinic --approach direct --approach agent --runs 3 --save-prompts
-```
+---
 
-Use `--dry-run` para conferir a descoberta dos arquivos e a construção dos prompts sem chamar um provedor de LLM.
+## See Also
 
-### Fluxo por agente
+* [`../../README.md`](../../README.md) — repository overview, configurations C0–C4 and
+  how to reproduce the experiment.
+* [`../../2027-FSE-Report-and-Dates/DAVINCI-FSE2027-Consolidated-Report.md`](../../2027-FSE-Report-and-Dates/DAVINCI-FSE2027-Consolidated-Report.md)
+  — consolidated report, metrics and threats to validity.
+* [`../.txt/Static_Analysis_Methodology.txt`](../.txt/Static_Analysis_Methodology.txt)
+  — what the analyzer does and does not do, per-artifact semantics and prompt limits.
+* [`../../2027-FSE-Report-and-Dates/Requirements/Development-of-requirements.txt`](../../2027-FSE-Report-and-Dates/Requirements/Development-of-requirements.txt)
+  — how the requirements were built and articulated with the structural evidence.
+* [`davinci_inputs/README.md`](davinci_inputs/README.md) — per-system conversion notes.
+* [`static analysis/README.md`](static%20analysis/README.md) — short artifact list (PT-BR,
+  partially outdated; see the inconsistencies above).
 
-Na abordagem `agent`, os papéis são chamadas especializadas ao modelo, coordenadas por
-`src/agentic/workflow.py`:
 
-```text
-analista de domínio + analista estrutural
-                ↓
-            arquiteto
-                ↓
-             crítico ── aprovado ──> proposta final
-                │
-                └── revisão necessária ──> refinador ──> crítico
-```
 
-O crítico recebe a proposta candidata, as duas análises e as evidências originais. Ele
-retorna `requires_revision` e uma lista estruturada de problemas. O refinador só é
-chamado quando `requires_revision=true`; ele recebe a crítica e deve preservar as
-decisões válidas. O ciclo termina quando o crítico aprova ou quando atinge
-`experiment.agent.max_refinement_rounds`. Com `R` rodadas máximas, o fluxo faz de 4
-a `3 + 2R` chamadas lógicas ao LLM, antes das tentativas de repetição por erro.
 
-## Comparação entre abordagens
-
-O módulo `src/comparison/` calcula métricas automáticas a partir dos CSVs finais e dos traces das execuções `direct` e `agent`.
-
-```bash
-python -m src.comparison.evaluate --outputs-dir outputs --comparison-dir comparison_outputs
-```
-
-Consulte [src/comparison/README.md](src/comparison/README.md) para as fórmulas, os relatórios gerados, o pareamento das execuções e as limitações das métricas.
-
-## Interface gráfica local
-
-A interface Streamlit reúne a exploração dos projetos, a análise estática, as prévias de prompt, o fluxo por agente, a execução de experimentos, os resultados e a comparação entre estratégias.
-
-```bash
-python -m pip install -r requirements.txt
-python -m streamlit run src/ui/app.py --server.address localhost
-```
-
-Por padrão, a configuração do repositório limita o servidor ao `localhost`. Consulte [src/ui/README.md](src/ui/README.md) para o roteiro de uso, os cuidados com chaves de API e os artefatos exibidos.
-
-## Fluxo recomendado com DeepSeek
-
-1. Configure `DEEPSEEK_API_KEY` no `.env` e mantenha `deepseek` habilitado em
-   `config.yaml`.
-2. Atualize a análise estática em **Projetos e análise estática** ou execute o runner
-   descrito em [static analysis/README.md](static%20analysis/README.md).
-3. Em **Executar experimentos**, escolha `deepseek` / `deepseek-chat`, as abordagens
-   `direct` e `agent`, os templates desejados e execute primeiro em **Modo seco**.
-4. Após conferir as prévias, execute a condição real. Ela pode gerar custo de API e
-   reexecutar uma condição substitui CSV, trace e prompt daquele caminho; o
-   `metadata.csv` mantém o histórico.
-5. Abra **Resultados gerados** para inspecionar o CSV, prompt e trace. Por fim, use
-   **Comparação** para calcular relatórios sem chamar o LLM novamente.

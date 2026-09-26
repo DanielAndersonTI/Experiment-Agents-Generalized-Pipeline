@@ -1,0 +1,69 @@
+- The system must allow customers to access their account using login and password.
+- The system must create a usage session after successful authentication.
+- The system must allow customers to end their session through logout.
+- The system must require an active session to access restricted areas, such as customer profile and bookings.
+- The system must restrict private functionalities to authenticated customers.
+- The customer session must have limited validity and expire automatically after the configured period.
+- Logout must invalidate the current session immediately.
+- Customer personal data must be protected against improper access by other customers.
+- The system must maintain authentication as a separate capability, responsible exclusively for login, session creation, active session validation, and logout.
+
+- The system must allow flight search by informing origin airport, destination airport, and travel date.
+- The system must allow one-way or round-trip searches.
+- The system must present the flight options found for each trip segment.
+- For each flight found, the system must show departure time, arrival time, and reference fare values.
+- The system must work with a set of previously registered airports.
+- Flight searches must prioritize fast response, as they represent a recurring customer journey flow.
+- The system must maintain flight search as an independent capability, responsible for airports, routes, schedules, and reference fares.
+
+- The system must allow an authenticated customer to create a booking for a one-way flight.
+- The system must allow an authenticated customer to create a booking for outbound and return flights in the same operation.
+- The system must generate an identifier for each created booking.
+- The system must record the booking date.
+- The system must inform the customer of the booking identifier after operation completion.
+- The system must allow customers to consult existing bookings.
+- The system must present the list of completed bookings.
+- The system must allow canceling a selected booking.
+- After cancellation, the booking must no longer appear as active in the customer listing.
+- The booking capability depends on customer authentication.
+- The booking capability depends on flight search to obtain available flights.
+
+- The system must allow customers to consult their own profile.
+- The profile must show customer contact data, including phone, phone type, and address.
+- The system must allow updating contact and address data.
+- The system must require the current password to confirm profile changes.
+- The system must prevent customers from viewing or changing another customer profile.
+- The system must maintain the customer profile as a separate capability from authentication, responsible only for registration and contact data.
+- The customer profile capability depends on authentication to validate customer access.
+
+- The system must show the customer loyalty program status.
+- The system must show the number of miles accumulated in the year.
+- The system must show the total accumulated miles.
+- Loyalty information must be presented as read-only data, not as editable fields.
+- The system must maintain loyalty as a separate capability from the customer profile, responsible exclusively for status and accumulated miles.
+- The loyalty capability depends on authentication to validate customer access.
+
+- The system must allow initial loading or reloading of the application database.
+- The loading process must allow defining the number of sample customers to be generated.
+- The database load must recreate the main operational data, including flights, customers, sessions, and test bookings.
+- The system must provide summarized operational information, such as numbers of customers, sessions, flights, segments, bookings, and registered airports.
+- The environment must offer simple ways to prepare and verify the database for tests, demonstrations, or operational reset.
+- The system must provide basic operational indicators without requiring direct database access.
+- The system must maintain environment administration as a separate capability, responsible for preparing, reloading, and supervising operational data.
+- The environment administration capability depends on authentication, flight search, booking, and customer profile to prepare and reset their data.
+
+- The application must support high call and query volume, especially in authentication, flight search, and booking flows.
+- The solution must be suitable for growth without manual support for main self-service operations.
+- The application must run in different environments, including local infrastructure, public cloud, and hybrid scenarios.
+- The solution must keep customer, flight, session, and booking data persisted between requests.
+- Each session and booking must have a unique identifier.
+- Booking and cancellation operations must maintain enough consistency to correctly reflect the current booking state.
+- The application must record minimal operational tracking data, such as booking date and operational record counts.
+
+- Navigation must support self-service, allowing customers to search flights, manage bookings, and update their profile without human intermediation.
+- The system must show schedules, dates, and values clearly.
+- Main journeys must be accessible through a simple web interface, with clear separation among flight search, bookings, profile, and support.
+
+- No public customer registration flow was identified. Customer accounts are generated by administrative data loading.
+- No payment flow, seat selection, or formal fare class selection was identified at booking time; the system shows prices, but the observed booking is simplified.
+- A Support interface with real-time chat appearance exists, but the corresponding backend was not found. Therefore, this item was not treated as a consolidated functional requirement.

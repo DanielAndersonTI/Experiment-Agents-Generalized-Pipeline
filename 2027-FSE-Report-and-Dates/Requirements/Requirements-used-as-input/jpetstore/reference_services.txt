@@ -1,0 +1,6 @@
+Authentication Service
+Customer Account Service
+Catalog Service
+Inventory Service
+Shopping Cart Service
+Order Service

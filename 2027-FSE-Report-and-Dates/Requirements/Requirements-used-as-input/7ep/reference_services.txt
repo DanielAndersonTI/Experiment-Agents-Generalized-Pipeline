@@ -1,0 +1,7 @@
+Authentication Service
+Book Catalog Service
+Reader Management Service
+Loan Management Service
+Environment Management Service
+Demo Utility Service
+Audit Service

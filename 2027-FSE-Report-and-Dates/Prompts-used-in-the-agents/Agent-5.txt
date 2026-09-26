@@ -1,0 +1,183 @@
+================================================================================
+AGENT 5 — YAML SPECIFICATION SERIALIZER
+Deterministic post-processing module (NOT an LLM agent)
+================================================================================
+
+Language note:
+Unlike Agents 1 through 4, Agent 5 is not a large-language-model agent. It is
+a deterministic Python module that runs after the consolidation stage and
+converts the consolidated architecture CSV into a YAML specification. It
+contains no prompt and consumes no tokens. Its output is a pure function of
+its input.
+
+In this document:
+
+  (A) NATURE AND ROLE — what the module is and where it sits in the pipeline.
+  (B) BEHAVIOR — what it does, step by step.
+  (C) OUTPUT SCHEMA — the structure of the emitted YAML.
+  (D) RELEVANCE FOR REPRODUCIBILITY — what reviewers should know.
+
+================================================================================
+(A) NATURE AND ROLE
+================================================================================
+
+Agent 5 is the final stage of the DAVINCI pipeline. It receives the
+consolidated architecture CSV produced by Agent 3 and emits a machine-readable
+YAML specification. Its role is purely structural: it serializes the
+architecture; it does not reason about the architecture, does not evaluate it,
+does not add or remove services or interactions, and does not introduce any
+architectural decision of its own.
+
+Because it is deterministic and rule-based, Agent 5 has three properties that
+matter for the study:
+
+  1. Zero token cost. It does not invoke any LLM, in any configuration
+     (C0, C1, C2, C3, or C4). Any token accounting for the pipeline should
+     not attribute cost to Agent 5.
+
+  2. Zero stochasticity. Given the same consolidated CSV and the same system
+     name, it always produces the same YAML byte-for-byte.
+
+  3. Zero architectural contribution. All architectural decisions are already
+     present in the consolidated CSV. Agent 5 only reformats them.
+
+The module is implemented in a single Python file using only the standard
+library (csv, json, io). It has no external dependencies.
+
+================================================================================
+(B) BEHAVIOR
+================================================================================
+
+The module exposes one function:
+
+    gerar_especificacao_yaml(system_name: str, consolidated_csv: str) -> str
+
+Execution proceeds in four steps.
+
+  Step 1 — Parse the consolidated CSV.
+    The function reads the consolidated CSV line by line. It skips the header
+    row (identified as the row whose first column equals "microservice",
+    case-insensitive) and skips any row with fewer than three columns.
+    For each valid row, it extracts:
+
+      - the service name (column 1);
+      - the responsibilities (column 2), split on semicolons;
+      - the outgoing communications (column 3), split on semicolons.
+
+    Empty items are discarded. The order of services is preserved as it
+    appears in the CSV.
+
+  Step 2 — Emit the system header and the services block.
+    The function writes:
+
+      system: "<system_name>"
+      services:
+
+    Then, for each service, in CSV order, it writes:
+
+      - name: "<service_name>"
+        responsibilities:
+          - "<responsibility>"
+          - ...
+        dependencies:
+          - "<communicates_with>"
+          - ...
+        suggested_endpoints:
+          - "/api/<service-slug>"
+
+    The service slug is derived deterministically: lower-cased, spaces
+    replaced with hyphens, underscores replaced with hyphens. Responsibilities
+    and dependencies are emitted exactly as they appeared in the CSV, with no
+    reordering and no normalization beyond whitespace trimming.
+
+  Step 3 — Emit the interactions block.
+    After the services block, the function writes:
+
+      interactions:
+
+    It then iterates over every service and every dependency declared for
+    that service, and emits:
+
+        - from: "<service_name>"
+          to: "<dependency_name>"
+
+    Duplicate (from, to) pairs are suppressed through an in-memory set, so
+    each directed edge appears exactly once. The order of emission follows
+    the order of services and dependencies in the CSV.
+
+  Step 4 — Join lines and return.
+    The function joins all emitted lines with newline characters and appends
+    a single trailing newline.
+
+================================================================================
+(C) OUTPUT SCHEMA
+================================================================================
+
+The emitted YAML document has the following shape:
+
+    system: "<name>"
+    services:
+      - name: "<service>"
+        responsibilities:
+          - "<responsibility 1>"
+          - "<responsibility 2>"
+        dependencies:
+          - "<target service 1>"
+          - "<target service 2>"
+        suggested_endpoints:
+          - "/api/<service-slug>"
+      - name: "<next service>"
+        ...
+    interactions:
+      - from: "<source service>"
+        to: "<target service>"
+      - from: "<source service>"
+        to: "<target service>"
+
+Notes on the schema:
+
+  - The "dependencies" field is a direct reflection of the "Communicates With"
+    column of the consolidated CSV, renamed for readability. It carries no
+    additional semantics beyond what the consolidator decided.
+
+  - The "suggested_endpoints" field is generated mechanically from the
+    service name. It is a naming convention, not an architectural
+    recommendation, and should be read as such.
+
+  - The "interactions" block is a flat list of directed edges, derived from
+    the dependencies declared per service. It is not a separately reasoned
+    graph; it is a re-projection of the same information already present in
+    the services block.
+
+  - All string values are emitted with JSON-style double-quote escaping,
+    which is valid YAML. Non-ASCII characters are preserved.
+
+================================================================================
+(D) RELEVANCE FOR REPRODUCIBILITY
+================================================================================
+
+Four points are worth stating explicitly for reviewers and for anyone
+replicating the study.
+
+  1. Agent 5 is not an LLM. Any reference to the pipeline's "agents" should
+     distinguish Agents 1 through 4 (LLM-based) from Agent 5 (deterministic).
+     Token counts, model names, and prompt documentation do not apply to it.
+
+  2. Agent 5 does not modify architecture. If a YAML specification contains
+     a service, an interaction, or a missing element that a reviewer considers
+     questionable, the issue originates upstream, in the consolidated CSV.
+     Agent 5 can only faithfully serialize what it receives.
+
+  3. Agent 5 is fully reproducible. Given the same inputs, it produces the
+     same output byte-for-byte. No seed, temperature, or model version
+     affects it.
+
+  4. Agent 5 is the interface between the DAVINCI pipeline and downstream
+     consumers. The YAML specification is the artifact that a downstream tool
+     (validator, code generator, or graph analyzer) would consume. Its
+     structural validity is therefore the practical gate between the
+     pipeline's output and any automated use of it.
+
+================================================================================
+End of document — Agent 5
+================================================================================

@@ -1,0 +1,81 @@
+- The system must allow registering a new cargo by providing origin, destination, and arrival deadline.
+- Each registered cargo must receive a unique tracking identifier.
+- The origin and destination of the cargo must be different.
+- The origin of the cargo must remain fixed throughout the logistics cycle.
+- Cargo registration may be completed even before the route is defined.
+- The arrival deadline must be required and must serve as a criterion for voyage planning.
+- The system must allow selecting origin and destination only among previously registered logistics locations.
+- The system must maintain cargo management as a separate capability, responsible for cargo registration and lifecycle.
+
+- The system must retrieve and present candidate routes compatible with the cargo needs.
+- A candidate route must be considered valid only when it respects the cargo origin, final destination, and arrival deadline.
+- The user must be able to choose one of the presented routes and assign it to the cargo.
+- When the cargo does not have a route yet, it must remain identified as "not routed".
+- When no route meets the informed criteria, the system must inform that there is no feasible option for the current specification.
+- The system must display the legs of the chosen route, including load points, unload points, voyages, and expected dates.
+- Route planning depends on origin, destination, and deadline information provided by cargo management.
+- The system must maintain route planning as an independent capability, responsible for selecting and validating route options.
+
+- The system must allow changing the destination of an already registered cargo.
+- The new destination cannot be equal to the origin or to the current destination.
+- When the destination changes, the system must reevaluate the current route.
+- When the current route no longer satisfies the new destination, the cargo must require new routing.
+- The system must allow replanning routes for cargos that are off the expected route or whose destination has changed.
+
+- The system must allow consulting a cargo by tracking identifier.
+- The consultation must show the current situation of the cargo.
+- The system must inform the last known location of the cargo.
+- The system must inform the estimated arrival when the cargo has a valid route and is progressing according to plan.
+- The system must maintain and display the history of logistics events associated with the cargo.
+- The history must distinguish expected events from unexpected events.
+- The system must signal when the cargo is off the expected route.
+- The system must allow viewing the cargo with geographic support, highlighting origin, final destination, and last known location.
+- Cargo tracking depends on information maintained by cargo management, route planning, and logistics events.
+- The system must maintain cargo tracking as a separate capability, responsible for consolidating operational status and history.
+
+- The system must allow registering logistics events of the following types: reception, load, unload, customs, and pickup.
+- Every logistics event must be associated with an existing cargo.
+- Every logistics event must inform the location where it occurred and the occurrence date.
+- Load and unload events must be associated with the corresponding voyage.
+- Events that are not load or unload must not require voyage identification.
+- The system must reject registration attempts with nonexistent cargo, location, or voyage.
+- A valid event registration must update the operational situation of the cargo.
+- After each valid event, the system must recalculate information such as transport status, last known location, next expected step, and plan adherence.
+- When an event indicates execution different from the planned route, the cargo must be marked as off route.
+- When the cargo is unloaded at the final destination, the system must mark it as arrived.
+- When pickup by the recipient is registered, the cargo must be considered complete from a logistics perspective.
+- Event registration depends on the existence of cargo and voyage maintained by other capabilities.
+- The system must maintain logistics event registration as a separate capability, responsible for processing and validating received events.
+
+- The system must allow logistics event registration through more than one operational channel.
+- Supported channels must include at least an operational interface, an integration service, and input file processing.
+- The system must provide a consolidated view of cargos for monitoring channels.
+- Integration channels depend on logistics events and cargo tracking.
+- The system must maintain integration as a separate capability, responsible for receiving events and providing standardized information.
+
+- The system must preserve consistency among cargo registration, planned route, and executed events.
+- No invalid event may change the cargo state.
+- Origin, destination, deadline, and route compatibility rules must be applied uniformly across all operational channels.
+- Cargo status must be recalculated whenever there is a relevant planning or execution change.
+
+- The system must maintain enough history to reconstruct the cargo logistics cycle.
+- Each event must keep at least the moment it occurred and the moment it was registered.
+- Rejected registration attempts must be identifiable for later operational analysis.
+- The system must allow distinguishing correctly delivered cargos, cargos still in transit, and cargos with operational deviation.
+
+- Cargo status updates must occur in a timely manner for operational tracking.
+- Event reception must continue even when detailed status recalculation occurs in the background.
+- File inputs must be processed periodically, without depending on constant manual action.
+- Monitoring channels must reflect the most recent available information about the cargo.
+
+- Information presented to the user must be organized by business situation, not only by technical structure.
+- Operational navigation must facilitate frequent tasks such as locating cargo, consulting details, choosing a route, and registering an event.
+- The system must reduce operation errors through controlled lists of locations, voyages, event types, and cargo identifiers.
+- Error messages and missing route alerts must be understandable for administrative and logistics use.
+
+- Failures in an isolated registration attempt must not compromise the processing of other cargos.
+- Invalid input records must be separated for later handling without interrupting the rest of the workload.
+- The system must treat off-route cargos as visible operational exceptions to allow fast corrective action.
+- The system must maintain consistency among data presented in the administrative interface, tracking, mobile channels, and integrations.
+- Main cargo information must be exchangeable in standardized formats to facilitate integration with other systems.
+- The tracking model must be unique regardless of the channel used to register or consult the cargo.

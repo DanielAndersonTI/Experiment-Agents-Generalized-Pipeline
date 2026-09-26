@@ -1,0 +1,35 @@
+Identity and Access Service <-> Administration and Configuration Service
+Identity and Access Service <-> Notification Service
+Workforce Service <-> Administration and Configuration Service
+Workforce Service <-> Identity and Access Service
+Workforce Service <-> Content Management Service
+Workforce Service <-> Notification Service
+CRM Service <-> Administration and Configuration Service
+CRM Service <-> Proposal Service
+CRM Service <-> Project Service
+Proposal Service <-> Billing Service
+Work Tracking Service <-> Project Service
+Work Tracking Service <-> Workforce Service
+Work Tracking Service <-> File Storage Service
+Work Tracking Service <-> Notification Service
+Billing Service <-> CRM Service
+Billing Service <-> Project Service
+Billing Service <-> Work Tracking Service
+Billing Service <-> Financial Management Service
+Billing Service <-> File Storage Service
+Content Management Service <-> File Storage Service
+Commissioning Service <-> Project Service
+Commissioning Service <-> Workforce Service
+Commissioning Service <-> File Storage Service
+Commissioning Service <-> Notification Service
+Reporting Service <-> Workforce Service
+Reporting Service <-> CRM Service
+Reporting Service <-> Proposal Service
+Reporting Service <-> Project Service
+Reporting Service <-> Work Tracking Service
+Reporting Service <-> Billing Service
+Reporting Service <-> Financial Management Service
+Reporting Service <-> Commissioning Service
+Reporting Service <-> File Storage Service
+Notification Service <-> Administration and Configuration Service
+File Storage Service <-> Administration and Configuration Service

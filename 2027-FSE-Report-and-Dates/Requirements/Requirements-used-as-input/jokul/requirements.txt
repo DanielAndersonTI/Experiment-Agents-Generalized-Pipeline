@@ -1,0 +1,72 @@
+- The system must allow user registration with username and password.
+- The system must allow login for already registered users.
+- The system must differentiate at least two usage profiles: regular user and administrator.
+- The system must deny access when the user does not exist, when the password is incorrect, or when the informed profile does not match the registration.
+- The system must maintain the logged user identification during browser navigation.
+- The system must show the resource management area only to users identified as administrators.
+- The system must allow the user to end the session.
+- The system must operate with separation between regular user and administrator profiles.
+- Collection management functions must be restricted to the administrator profile.
+- The user session must remain identified in the browser until logout or local data clearing.
+- The system must prevent duplicate user registration with the same username.
+- The system must maintain authentication as a separate capability, responsible exclusively for registration, login, session, and profile control.
+
+- The system must display a home page with the list of available movies.
+- Each listed movie must show at least title, poster, and rating.
+- The system must organize the movie listing into pages.
+- The system must allow consulting the total number of registered movies to support paginated navigation.
+- The system must allow opening the movie details page from the listing.
+- The system must present a details page for each movie.
+- The details page must show at least title, rating, alternative name, release date, duration, direction, screenplay, cast, synopsis, poster, and categories.
+- The system must allow viewing the full movie cast.
+- The system must prevent consulting details of nonexistent movies, returning an appropriate error message.
+- The system must provide a navigation area for movie categories.
+- The system must allow viewing all registered categories.
+- The system must allow listing only movies belonging to a selected category.
+- A movie must be able to belong to more than one category.
+- The system must allow returning from the category view to the general catalog view.
+- The system must maintain the movie catalog as a separate capability, responsible for listing, details, and categories.
+- The catalog capability depends on authentication to validate user access and restrict management operations.
+
+- The system must allow starting movie playback from the details page.
+- The system must provide a download link for the movie file when the resource is ready for consumption.
+- Before playback, the system must ensure that the video file is available in the area used by the application for content delivery.
+- If the file is not yet available in the delivery area, the system must try to obtain it from the configured local repository.
+- The standard playback process assumes that the physical movie file corresponds to the registered title.
+- Video file upload and movie registration are related but independent steps.
+- Automatic playback depends on the existence of an MP4 file corresponding to the registered title.
+- The source movie filename must follow the expected pattern configured in the environment for automatic loading to work.
+- The system must support large video file uploads, up to 2 GB per file.
+- The operational process must consider MP4 as the standard video format.
+- The application environment must have a local area to temporarily store or serve the video files used during playback.
+- The application environment must have a configured local repository from which movies can be loaded on demand.
+- The system must maintain media as a separate capability from the catalog, responsible for upload, storage, and video delivery.
+- The media capability depends on the catalog to identify the registered movie corresponding to each video file.
+- The media capability depends on authentication to validate access before playback and download.
+
+- The administrator must be able to register a new movie in the catalog.
+- Movie registration must include at least title, rating, alternative name, release date, duration, direction, screenplay, cast, categories, synopsis, and poster.
+- The system must prevent duplicate movie registration with the same title.
+- The administrator must be able to upload the movie video file to the application.
+- The administrator must be able to delete a movie from the catalog.
+- The system must allow batch deletion of more than one movie.
+- The system must inform the administrator which movies were selected before batch deletion.
+- The system must prevent deleting nonexistent movies.
+- The movie title must be treated as the unique identifier in the catalog registration.
+
+- The application must be accessible through a web interface.
+- Catalog navigation must be simple and direct, with visible access to the home page, categories, details, and playback.
+- The application must present clear success, warning, and failure messages for main operations such as login, registration, inclusion, deletion, upload, and playback.
+- Catalog display must be paginated in blocks of up to 12 movies per page, supporting visual organization and perceived performance.
+- The system must maintain a single response pattern for operations, indicating status, message, and returned data.
+
+- User, movie, and category information must be durably persisted.
+- The system must preserve user and movie uniqueness to avoid duplicates in the collection and access.
+- Error handling must return controlled messages to the user whenever possible.
+- User, movie, and category data must be stored in a structured database that supports catalog relationships.
+- The solution must allow the user interface and application services to evolve separately.
+- The user interface must be able to consume application services even when published in a different environment.
+
+- The intention to restrict resource management to the administrator is clear in the interface, but this restriction is not completely validated in the backend.
+- The current system is more oriented to a local movie collection than to remote storage or an external streaming service.
+- Playback availability depends on both movie registration and the existence of the corresponding physical file.

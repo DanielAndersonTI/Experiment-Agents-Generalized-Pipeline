@@ -1,0 +1,98 @@
+================================================================================
+REPRODUCIBILITY SUPPORT DOCUMENT
+Construction of the requirements (user stories) used as input in DAVINCI
+================================================================================
+
+Version: 1.0
+Language: English
+Scope: To describe exclusively how the requirements (user stories) were
+        constructed, validated, structured and articulated with the
+        structural evidence produced by static analysis.
+
+
+--------------------------------------------------------------------------------
+1. REQUIREMENTS ELICITATION
+--------------------------------------------------------------------------------
+
+The requirements that feed the pipeline were obtained by manual elicitation
+conducted by a human researcher. The procedure adopted was to run the
+application in a controlled environment and inspect its source code, and from
+that dual observation to write the requirements that describe the business
+capabilities, the domain entities and the relevant functional constraints.
+There was no automatic extraction: the supplementary document confirms that
+the static-analysis runner does not run the application, does not compile the
+code, does not generate runtime traces and does not produce requirements, so
+the origin of the requirements is entirely human and independent of the
+static-analysis pipeline. These requirements are the user stories that
+describe what each system must do from the domain point of view, and they
+serve both to guide architectural generation and to allow human evaluators to
+judge functional coverage and identify missing services in the proposed
+architectures — without access to them, the evaluator cannot issue that
+judgement.
+
+--------------------------------------------------------------------------------
+2. REVIEW AND VALIDATION
+--------------------------------------------------------------------------------
+
+After elicitation, a second software professional reviewed and validated the
+requirement sets. The available documents do not detail the exact number of
+reviewers beyond that second professional, the agreement rate between the
+elicitor and the reviewer, the formal criteria for inclusion, exclusion or
+merging of requirements, nor the procedure adopted to resolve disagreements.
+These gaps are recorded in section 6 of this document.
+
+--------------------------------------------------------------------------------
+3. STRUCTURING INTO CSV
+--------------------------------------------------------------------------------
+
+The validated requirements were stored in CSV files. Each record contains, at
+minimum, a category, an identifier and a textual description. These CSVs are
+the authoritative artifacts of the study: they preserve the original order of
+the requirements and are the source against which any derived version must be
+checked.
+
+--------------------------------------------------------------------------------
+4. ENGLISH OVERLAYS
+--------------------------------------------------------------------------------
+
+Since the original requirements were in a language other than English,
+versioned English overlays were prepared for use in generation and automated
+analysis. These overlays preserve the identifiers and the ordering of the
+original requirements, have their completeness verified against the source
+CSVs, do not replace the original CSVs, which remain authoritative, and exist
+to offer a common language for prompting and auditing.
+
+--------------------------------------------------------------------------------
+5. ARTICULATION WITH STATIC ANALYSIS
+--------------------------------------------------------------------------------
+
+In parallel with the preparation of the requirements, the static-analysis
+runner was executed, and its execution produced the snapshot dated
+25 August 2026. This runner is a standard-library, offline, regex-based
+Python script that traverses each subdirectory of "systems/", discovers Java
+files and build descriptors, extracts package, imports, annotations, primary
+type, line and method counts, source-set label, heuristic role and entrypoint
+candidates, classifies imports as internal or external based on the set of
+known types and packages of the project, aggregates imports between packages
+into weighted directed relations and writes six artifacts per project
+(summary.json, modules.csv, classes.csv, package_dependencies.csv,
+package_metrics.csv, entrypoints.csv) plus a consolidated index (index.json,
+project_summaries.csv, manifest.json). The runner does not compile, does not
+execute, does not perform bytecode analysis, does not reconstruct a call
+graph and does not resolve dependencies via build tools. The structural
+evidence it produces is therefore complementary to the requirements and not a
+substitute for them: it provides indicators of code organization, static
+coupling and package structure that enter the prompt as additional context,
+while the requirements remain the primary semantic input. The two inputs are
+combined in the prompt respecting fixed limits: up to 80 requirements in
+source order, up to 20 entries per static-evidence category and 18,000
+characters per section. For TNTConcept, which has 83 requirements, the last
+three non-functional requirements (RNF-81 to RNF-83, concerning export and
+visualization, multilingual interface messages and international text and
+file encoding) were left out of the prompt, so the proposals generated for
+that system reflect a narrower set than the full dossier.
+
+
+================================================================================
+End of document.
+================================================================================

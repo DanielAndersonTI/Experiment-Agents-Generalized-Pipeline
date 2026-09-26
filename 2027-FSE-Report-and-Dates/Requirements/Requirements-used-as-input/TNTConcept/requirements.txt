@@ -1,0 +1,68 @@
+## 1. Administration and Configuration
+- The system must allow maintaining support records used by other areas.
+- These records include departments, contract types, user categories, organization types, interaction types, tax reasons, billing regimes, and frequencies.
+- The system must allow individual user configurations.
+- This capability provides basic parameters to identity, workforce, CRM, billing, and notification areas.
+
+## 2. Identity and Access
+- The system must allow registering and maintaining users with personal, contractual, department, category, access profile, and work agreement data.
+- The system must allow password change, administrative reset, and forced renewal.
+- The system must control access by user profile and scope.
+- This capability depends on administration to obtain user categories and general parameters.
+- It provides user validation to workforce, project tracking, content management, and other areas.
+
+## 3. Workforce Management
+- The system must allow maintaining work agreements and vacation requests.
+- It must control vacation request states and calculate balances.
+- This capability depends on identity to validate employees.
+- It depends on administration to obtain contract types and work rules.
+- It sends notifications for vacation approvals and contract expiration.
+
+## 4. Project and Work Tracking
+- The system must allow maintaining projects linked to clients.
+- It must register internal and external activities.
+- It must classify activities and calculate worked hours.
+- It must support evidence policies.
+- This capability depends on workforce to validate employees.
+- It depends on identity to validate access.
+- It depends on file storage to attach evidence.
+
+## 5. CRM and Proposals
+- The system must allow maintaining organizations, contacts, interactions, and proposals.
+- It must control proposal states and composition.
+- This capability depends on administration for organization and interaction types.
+- It depends on project tracking to link proposals to projects.
+
+## 6. Financial Management
+- The system must maintain accounts, entries, and financial indicators.
+- It depends on billing to obtain invoice data.
+- It depends on project tracking to import billable hours and costs.
+
+## 7. Billing
+- The system must detail invoices and calculate totals, taxes, and balances.
+- It depends on CRM for proposal conversion.
+- It depends on project tracking for billable hours.
+- It depends on financial management for entries and payments.
+- It depends on file storage for attachments.
+
+## 8. Content and Document Management
+- The system must organize documents by categories and versions.
+- It depends on file storage.
+- It depends on identity to associate documents with users and areas.
+
+## 9. Commissioning
+- The system must register and manage orders/commissions.
+- It depends on project tracking, workforce, file storage, and notification.
+
+## 10. Reporting
+- The system must consolidate and export reports.
+- It depends on all main business domains.
+
+## 11. Notification
+- The system must send email notifications.
+- It depends on administration for settings.
+- It is used by workforce, project tracking, commissioning, and other areas.
+
+## 12. File Storage
+- The system must store and retrieve files.
+- It depends on administration for storage settings.

@@ -1,0 +1,85 @@
+- The system must allow registering new investors.
+- Investor registration must include at least user identification, password, password confirmation, full name, address, email, card, and initial opening balance.
+- The system must validate that the password and password confirmation are identical.
+- The system must not allow registering an investor with an already existing identification.
+- The system must authenticate the investor using username and password.
+- The system must allow starting a session for authenticated investors.
+- The system must allow ending the investor session through logout.
+- The system must prevent access to account, portfolio, and trading resources when the investor is not authenticated.
+- The system must maintain authentication as a separate capability, responsible exclusively for login, session, and logout.
+
+- The system must maintain an individual account for each registered investor.
+- The investor account must record current balance, initial balance, creation date, last access date, total logins, and total logouts.
+- The system must allow consulting the investor registration and financial data.
+- The system must allow updating the investor profile.
+- The profile update must include at least password, full name, address, email, and registered card.
+- The system must require filling in the essential fields to complete the profile update.
+- The system must prevent profile updates when the password and password confirmation are different.
+- The system must maintain the investor account as a separate capability from authentication, responsible for registration and financial data.
+
+- The system must allow querying asset quotes by their codes.
+- The system must allow simultaneous queries for more than one asset.
+- For each queried asset, the system must show information such as company name, traded volume, price range, opening price, current price, and variation.
+- The system must provide a consolidated market summary.
+- The consolidated market summary must show at least overall performance index, opening index, traded volume, top gaining assets, and top losing assets.
+- The system must handle invalid asset codes without interrupting the investor navigation.
+- The system must maintain market data as an independent capability, responsible for quotes and the consolidated summary.
+
+- The system must allow buying assets by informing the asset code and desired quantity.
+- The system must allow selling assets already existing in the investor portfolio.
+- Every buy or sell operation must generate an individual trading order.
+- Every order must have its own identifier, type, quantity, price, opening date, completion date, status, and operation fee.
+- The system must apply a fixed operation fee to buy and sell orders.
+- For buy operations, the system must debit from the investor balance the amount corresponding to the traded asset plus the operation fee.
+- For sell operations, the system must credit the investor balance with the net value of the operation, considering the applicable fee discount.
+- The system must allow orders to be processed immediately or later, according to the simulation operational configuration.
+- The system must track order progress through business status, including at least open, processing, completed, and cancelled.
+- The system must not allow the same order to be completed more than once.
+- The system must cancel a sale when the informed position has already been traded or is no longer available.
+- The system must show the investor confirmation that the order was sent for processing.
+- The system must maintain trading as a separate capability, responsible for the lifecycle of buy and sell orders.
+
+- The system must maintain the investor portfolio with positions resulting from completed purchases.
+- When a buy order is completed, the system must register the new position in the investor portfolio.
+- When a sell order is completed, the system must remove the corresponding position from the portfolio.
+- The system must allow consulting the investor portfolio.
+- For each portfolio position, the system must show at least position identifier, purchase date, asset, quantity, purchase price, current price, invested amount, market value, and gain or loss.
+- The system must inform when the investor portfolio is empty.
+- The system must allow selling a position directly from the portfolio.
+- The system must calculate the total invested amount, current market value, and consolidated gain or loss.
+- The system must show the investor a consolidated financial position summary, including cash balance, number of positions, portfolio market value, and accumulated result compared to the initial balance.
+- The system must maintain the portfolio as a separate capability from trading, responsible for positions and consolidated results.
+
+- The system must maintain the history of orders associated with the investor.
+- The system must show a summarized view of the investor's most recent orders.
+- The system must allow an expanded consultation of order history.
+- The system must alert the investor about completed orders that have not yet been presented.
+- The alert must show at least order identifier, status, relevant dates, type, asset, quantity, and applied fee.
+
+- The system must update the traded volume and market indicators after buy and sell operations.
+- The system must reflect these updates in later quote queries and in the consolidated market summary.
+
+- The system must allow configuring simulation operational parameters.
+- The system must allow defining order processing mode, maximum number of simulated users, maximum number of simulated assets, and market summary refresh interval.
+- The system must allow enabling or disabling completed order alerts.
+- The system must allow preparing or rebuilding the simulation database.
+- The system must allow resetting the simulation operational data.
+- When resetting data, the system must provide summarized execution statistics, including users, assets, orders, cancellations, and existing positions.
+- The system must maintain simulation administration as a separate capability, responsible for configuration and environment reset.
+
+- The system must require prior authentication to access restricted investor resources.
+- The system must ensure that operations executed during the session are associated with the authenticated investor.
+- The system must properly end the investor session at logout, reducing the risk of later misuse.
+- The system must preserve consistency among balance, orders, quotes, and portfolio after each operation.
+- The system must maintain minimum order lifecycle traceability through identifiers, dates, and status.
+- The system must handle processing failures without compromising investor data integrity.
+- The system must prevent, whenever possible, duplicate completion or improper reuse of orders and positions.
+- The system must support immediate or later order processing to meet different simulation operational strategies.
+- The system must allow configurable market summary updates to balance information freshness and operational cost.
+- The system must support operation with high volumes of simulated users, assets, and orders.
+
+- The system must present business information clearly, objectively, and organized by usage context.
+- The system must offer understandable messages for situations such as login failure, registration error, password mismatch, missing required data, and invalid operations.
+- The system must allow simple navigation among the main views of home, account, portfolio, quotes, orders, and market summary.
+- The system must provide administrative mechanisms for preparation, configuration, and controlled reset of the simulation environment.
+- The system must provide summarized execution indicators to support operational monitoring of the simulation.

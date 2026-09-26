@@ -1,7 +1,0 @@
-Microservice,Responsibilities,Communicates With
-Product Service,Add product entries; update product entries; delete product entries; list products,Shopping Cart Service; Order Service
-Shopping Cart Service,Add products to cart; remove products from cart; view cart items,Product Service; Customer Service; Order Service
-Order Service,Create orders from cart items; view order history; view order details,Shopping Cart Service; Customer Service; Payment Service; Delivery Service; Product Service
-Payment Service,Process payments for orders,Order Service; Customer Service
-Delivery Service,Schedule deliveries; track delivery of orders,Order Service; Customer Service
-Customer Service,Register customer accounts; authenticate customers; update customer profiles; retrieve customer profiles,Shopping Cart Service; Order Service; Payment Service; Delivery Service
